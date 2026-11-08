@@ -20,7 +20,7 @@ it depends on.
 | Engine | vLLM `0.1.dev21830+g8244d1c44.d20261103` with `B12X` attention, `b12x` MoE/linear, `--load-format b12x` |
 | Kernels | FlashInfer `0.7.1` @ `91271757`, `b12x` registry inside it |
 | Parallelism | TP2 across the two Sparks, RoCEnante one-shot all-reduce/all-gather |
-| Speculation | MTP-5 (`moe_backend=humming`, `attention_backend=B12X`) |
+| Speculation | MTP-3 (`moe_backend=humming`, `attention_backend=B12X`) |
 | Context | 1,000,000 tokens; FP8 pool 2,350,210 tokens (2.35× the window by pool arithmetic; two simultaneous full-context requests are not exercised) |
 | Reasoning | requests that omit `reasoning_effort` render **Max** (see `docs/04-reasoning.md`) |
 
@@ -47,14 +47,15 @@ routed experts at high precision.
    deliberately covers **only deployments of `nvidia/GLM-5.3-Flash-FP4-Local`**;
    other checkpoints are listed in [docs/06](docs/06-alternatives.md).
 3. **It uses the hardware you paid for.** `sm_121a` NVFP4/MXFP8 tensor cores via
-   FlashInfer `b12x`, RoCEnante one-shot RoCE collectives, MTP-5 speculation —
+   FlashInfer `b12x`, RoCEnante one-shot RoCE collectives, MTP-3 speculation —
    no software trellis, no dequant on the hot path.
 4. **Capacity that matches the model.** 1M-token context with a **2.35M-token**
    FP8 KV pool: two full-context requests by pool arithmetic, four 500k requests.
    NVIDIA's own validation on this hardware is 2M tokens.
-5. **Proven on this exact pair.** 2.2–2.3k tok/s cache-cold prefill, 27.8 tok/s
-   decode at c=1 / 58.6 at c=8, MTP acceptance length 2.49–2.57, and 45 tok/s
-   observed interactively in the DeepSeek Harness ([receipts](receipts/)).
+5. **Proven on this exact pair.** 2.2–2.3k tok/s cache-cold prefill and, after
+   the MTP-3 window, **40.2 tok/s c1 / 79.4 c8** on a 3-rep code bench
+   (+8.5 % / +8.3 % over MTP-5), draft accept rate 0.63, answers unchanged
+   ([gate](docs/gates/2026-11-08-mtp3.md)).
 
 ### Same checkpoint, other kits
 
@@ -64,7 +65,7 @@ the table explains why they are not interchangeable.
 
 | Deployment | Engine | Context / KV | Decode tok/s (their harness) | Seats / speculation | Operations | Licence |
 |---|---|---|---|---|---|---|
-| **this kit** | vLLM B12X, pinned digest | **1M / 2.35M tok** | **27.8 c1 · 58.6 c8** (our matrix); 45 interactive peak | 4 / MTP-5 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
+| **this kit** | vLLM B12X, pinned digest | **1M / 2.35M tok** | **40.2 c1 · 79.4 c8** (3-rep code bench, MTP-3); 45 interactive peak | 4 / MTP-3 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
 | [myllmbox recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM 0.32 + `mbx` loader | 400k / 1.15M tok | **44.9 avg c1 · 214 peak c16** | **16** / MTP 1–9 dynamic | `run.sh`, optional host tuning | MIT |
 | [Flare guide](https://github.com/gpdev-Pilcothink/flare-spark) | Flare native | 1M / **3.4–4.8M tok** | **37–42** (llama-benchy tg) | **12** / MTP-5 | shell launcher, >1 h first preparation | Apache-2.0 |
 | [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas | 4 × 1M profile / ~2.66M | **37.0 prose · 67.9 code** (RigMark, low effort) | 4 / DFlash2 | `start.sh`, clock-cap required | **AGPL-3.0** + **CC BY-NC-ND** drafter |
@@ -72,7 +73,7 @@ the table explains why they are not interchangeable.
 | [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe | **33.94** (SPEED-Bench coding) | 4 / MTP-5 | manual or launcher | NVIDIA playbook |
 | [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 patches | 262k / 808k tok | **31.2** (512-token request) · 58–60 decode-only | 4 / adaptive MTP | Python launcher, no boot persistence | Apache-2.0 |
 
-Decode is not one measurement: this kit's 27.8/58.6 are cache-cold 200-token
+Decode is not one measurement: this kit's 40.2/79.4 are a 3-rep code bench
 requests at Max reasoning; myllmbox sustains 300 s streams; Flare reports
 llama-benchy `tg128`/`tg1024`; SparkGLM uses RigMark at low effort; eugr's 37.5
 is llama-benchy `tg128` on the same image; NVIDIA's 33.94 is SPEED-Bench;

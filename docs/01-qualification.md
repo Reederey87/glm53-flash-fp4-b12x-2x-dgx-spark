@@ -33,7 +33,7 @@ No re-quantisation happens anywhere in this kit.
 
 | Engine | Loads this checkpoint? | Evidence | Verdict |
 |---|---|---|---|
-| **vLLM (this image)** | **yes — observed serving on this pair** | 2.35M-token FP8 pool, `/health` 200, MTP-5 live, RoCEnante live in the boot log (incumbent observation, 2026-11-08) | **deployed by this kit** |
+| **vLLM (this image)** | **yes — observed serving on this pair** | 2.35M-token FP8 pool, `/health` 200, MTP-3 live, RoCEnante live in the boot log (incumbent observation, 2026-11-08) | **deployed by this kit** |
 | vLLM upstream HEAD (`b2093144`) | source-compatible: `B12X` attention backend, `b12x` MoE/linear kernels and `modelopt_block_quant` are in tree | `vllm/v1/attention/backends/b12x.py`, `.../fused_moe/b12x.py`, `.../kernels/linear/*/b12x.py` | rebuild lane, not this window |
 | Flare `flare-local-inference` (`0de3041c`) | yes: `ignition/recipes/glm53/recipe.py` pins `nvidia/GLM-5.3-Flash-FP4-Local@76348ddb` and the same revision in its chat-template asset | recipe source; the October "cannot load" finding is superseded upstream | qualified, not deployed |
 | standalone `b12x` wheel | n/a | b12x ships inside FlashInfer since 2026-10-07 | superseded |
@@ -89,7 +89,7 @@ package; `spec/TODO.md` tracks it.
 | `--quantization modelopt_mixed` | dense MLA/shared experts/router stay BF16/MXFP8; only experts are NVFP4 |
 | `--mamba-cache-mode align --block-size 256` | KDA state alignment; 256 is the LCM page |
 | `--kv-cache-dtype fp8 --kv-cache-memory-bytes 17G` | 2.35M tokens pinned, boot-to-boot deterministic |
-| `--speculative-config mtp/5` | MTP-5 draft with humming MoE; measured acceptance is in the speed receipt |
+| `--speculative-config mtp/3` | MTP-3 draft with humming MoE. Depth 3 is the measured optimum on this checkpoint (local A/B and two public sweeps); MTP-5 was +8.5 % slower. See `docs/gates/2026-11-08-mtp3.md`. |
 | `VLLM_ENABLE_ROCE_ALLREDUCE=1` + 2 MB/16 MB caps | RoCEnante replaces NCCL on the decode path; prefill keeps NCCL above the cap |
 | `--no-enable-flashinfer-autotune` | autotune warmup wedges GB10 on this stack |
 | `--max-num-batched-tokens 4096` | larger batches were reported to wedge MoE warmup; 4096 is the proven point |

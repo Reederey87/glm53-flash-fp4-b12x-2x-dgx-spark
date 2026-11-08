@@ -39,3 +39,15 @@
   missing shard, so `preflight` refused to start (the watchdog reset-failed and
   retried three times). The check is now `scripts/check_checkpoint.py`, fed to
   the worker over stdin; the failure is recorded in `spec/TODO.md` history.
+
+## 2026-11-08 — MTP-3 adopted on the b12x kit
+
+- Window 1 from `spec/TODO.md`. Independent variable: `num_speculative_tokens`
+  5 → 3. Matched control re-run on the deployed image (the Nov 3 trial used a
+  different build), 3 reps × c1/2/4/8, fixed code prompt.
+- Result: c1 37.08 → 40.21 (+8.46 %), c2 +9.18 %, c4 +8.00 %, c8 +8.34 %;
+  accept rate 0.47 → 0.63. Prefill 2,230–2,312 tok/s (no regression), KV pool
+  unchanged at 2,350,210, smoke 5/5, content and tool calls identical at T=0.
+- Watchdog disarmed for the window and re-armed; unit active, `/health` 200.
+  Gate: `docs/gates/2026-11-08-mtp3.md`; receipts `receipts/decode-mtp*`,
+  `receipts/parity-mtp*`, `receipts/speed-20261108T194204Z.*`.

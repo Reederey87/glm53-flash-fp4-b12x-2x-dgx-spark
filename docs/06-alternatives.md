@@ -9,7 +9,7 @@ quant and are listed at the end; they are not part of the comparison.
 
 | Kit | Engine | Context / KV | Decode tok/s (their harness) | Seats / speculation | Operations | Licence |
 |---|---|---|---|---|---|---|
-| **this kit (`b12x`)** | vLLM B12X, pinned digest `3b5da79c` | **1M / 2.35M tok** | **27.8 c1 · 58.6 c8** (200-token cache-cold, Max); 45 interactive peak | 4 / MTP-5 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
+| **this kit (`b12x`)** | vLLM B12X, pinned digest `3b5da79c` | **1M / 2.35M tok** | **40.2 c1 · 79.4 c8** (3-rep code bench, MTP-3); 45 interactive peak | 4 / MTP-3 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
 | [myllmbox recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM 0.32 + own `mbx` loader | 400k / 1.15M tok | **44.9 avg c1 · 214.2 peak c16** (300 s streams) | **16** / MTP 1–9 dynamic | `run.sh`, optional host tuning | MIT |
 | [Flare guide](https://github.com/gpdev-Pilcothink/flare-spark) | Flare native (Python prep → Rust serve) | 1M / **3.4–4.8M tok** | **37–42** (llama-benchy `tg128`/`tg1024`) | **12** / MTP-5 | shell launcher, >1 h first preparation | Apache-2.0 |
 | [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas (own engine) | 4 × 1M profile / ~2.66M | **37.0 prose · 67.9 code · 90.8 structured** (RigMark, low effort) | 4 / DFlash2 or native MTP | `start.sh`, clock-cap required, TP2/TP4 | **AGPL-3.0** + **CC BY-NC-ND** drafter |
@@ -75,8 +75,8 @@ over 512 tokens including TTFT, plus a separate decode-only long-context rate.
 - **Capacity and seats.** Flare holds 3.4–4.8M KV tokens and 12 seats; myllmbox
   holds 16 seats. This kit has 2.35M and 4.
 - **Single-stream speed.** myllmbox publishes 45 tok/s average at c=1; this kit's
-  own cache-cold matrix measures 27.8 (different harness, but the gap is large
-  enough to investigate).
+  own 3-rep code bench measures 40.2 (different harness, but myllmbox is still
+  ahead and worth investigating).
 - **Features.** No DFlash2, no disk KV tier, no display-carveout memory, no TP4.
 - **Freshness.** The image was built 2026-11-03; upstream nightlies move, and its
   FlashInfer is 140 commits behind the workspace clone (`91271757` vs `361e45fa`).

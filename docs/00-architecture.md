@@ -10,7 +10,7 @@ rank 0 head  ── vLLM TP2 ──┐   attention  B12X (fp8_ds_mla KV, block 2
 rank 1 worker ─────────────┘   MoE        b12x (W4A16 A4 prefill on)
                                linear     b12x per-quant kernels
                                collectives RoCEnante (≤2 MB AR, ≤16 MB AG)
-                               draft      MTP-5, humming MoE + B12X attention
+                               draft      MTP-3, humming MoE + B12X attention
         │
         ▼
 127.0.0.1:8000  ── tailscale_proxy.py ──► 100.125.23.98:8000

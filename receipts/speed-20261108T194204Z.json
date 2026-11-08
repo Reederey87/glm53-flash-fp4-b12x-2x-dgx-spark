@@ -1,0 +1,98 @@
+{
+  "stamp": "20261108T194204Z",
+  "model": "nvidia/GLM-5.3-Flash-FP4-Local",
+  "base": "http://127.0.0.1:8000",
+  "prefill": [
+    {
+      "requested": 8192,
+      "tokens": 7581,
+      "cached_tokens": 0,
+      "ttft_s": 3.3992,
+      "prefill_tok_s": 2230.2
+    },
+    {
+      "requested": 16384,
+      "tokens": 15152,
+      "cached_tokens": 0,
+      "ttft_s": 6.6694,
+      "prefill_tok_s": 2271.9
+    },
+    {
+      "requested": 32768,
+      "tokens": 30222,
+      "cached_tokens": 0,
+      "ttft_s": 13.1409,
+      "prefill_tok_s": 2299.8
+    },
+    {
+      "requested": 65536,
+      "tokens": 60489,
+      "cached_tokens": 0,
+      "ttft_s": 26.1577,
+      "prefill_tok_s": 2312.5
+    },
+    {
+      "requested": 131072,
+      "tokens": 121123,
+      "cached_tokens": 0,
+      "ttft_s": 52.8832,
+      "prefill_tok_s": 2290.4
+    }
+  ],
+  "decode": [
+    {
+      "concurrency": 1,
+      "requests_ok": 1,
+      "decode_length": 200,
+      "wall_s": 5.93,
+      "aggregate_tok_s": 33.7,
+      "mean_decode_tok_s": 35.29,
+      "accepted_tokens": 115.0,
+      "draft_tokens": 252.0,
+      "drafts": 84.0,
+      "acceptance_length": 2.369,
+      "draft_accept_rate": 0.456
+    },
+    {
+      "concurrency": 2,
+      "requests_ok": 2,
+      "decode_length": 400,
+      "wall_s": 7.84,
+      "aggregate_tok_s": 51.01,
+      "mean_decode_tok_s": 26.83,
+      "accepted_tokens": 239.0,
+      "draft_tokens": 477.0,
+      "drafts": 159.0,
+      "acceptance_length": 2.503,
+      "draft_accept_rate": 0.501
+    },
+    {
+      "concurrency": 4,
+      "requests_ok": 4,
+      "decode_length": 800,
+      "wall_s": 11.42,
+      "aggregate_tok_s": 70.08,
+      "mean_decode_tok_s": 18.04,
+      "accepted_tokens": 457.0,
+      "draft_tokens": 1017.0,
+      "drafts": 339.0,
+      "acceptance_length": 2.348,
+      "draft_accept_rate": 0.449
+    },
+    {
+      "concurrency": 8,
+      "requests_ok": 8,
+      "decode_length": 1600,
+      "wall_s": 22.64,
+      "aggregate_tok_s": 70.68,
+      "mean_decode_tok_s": 18.38,
+      "accepted_tokens": 944.0,
+      "draft_tokens": 1944.0,
+      "drafts": 648.0,
+      "acceptance_length": 2.457,
+      "draft_accept_rate": 0.486
+    }
+  ],
+  "errors": [],
+  "failed": false
+}

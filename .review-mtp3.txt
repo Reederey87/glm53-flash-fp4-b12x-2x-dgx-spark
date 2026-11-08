@@ -1,0 +1,15 @@
+Pre-deployment review of a one-flag production change. READ-ONLY: do not edit files. Be blunt, cite file:line.
+
+Context: this kit serves nvidia/GLM-5.3-Flash-FP4-Local on two DGX Sparks (vLLM B12X, image sha256:3b5da79c, 1M context, 17 GiB FP8 KV, MTP-5, 4 seats). We intend to change only num_speculative_tokens 5 -> 3 in recipes/glm-5.3-flash-fp4-local.yaml, after stopping the systemd unit, and then boot + smoke + the speed gate.
+
+Read: spec/TODO.md, docs/gates/2026-11-08-mtp3.md, recipes/glm-5.3-flash-fp4-local.yaml, launch.sh, scripts/preflight.sh, scripts/smoke.py, scripts/speed_smoke.py, systemd/vllm-b12x.service.
+
+Judge:
+1. Is the evidence in the gate strong enough to spend a production window, and is the local A/B (2026-11-03, +5.31 to +11.89% code decode) actually transferable to this tree? Name what could make it not transfer.
+2. Does changing the recipe default actually reach vLLM through launch.sh/run-recipe, or can a CLI override or the .env mask it? How do we prove the variable took effect?
+3. Does k=3 have any correctness, KV-capacity, graph-capture or acceptance risk the gate misses? Should the gate include an exact-output parity check against the current MTP-5 run at temperature 0?
+4. Is the gate's decision rule sound (baseline receipt speed-20261108T135615Z, +2% decode, -2% prefill, -5% acceptance)? Any threshold that will produce a false adopt or false revert given the known +-10-20% run-to-run noise on this stack?
+5. Rollback: is reverting the recipe to 5 and restarting through the unit sufficient, and does anything in the kit hold stale state across the restart?
+6. Anything in launch.sh/preflight/health that would fail specifically because speculative tokens changed?
+
+Output: GO or NO-GO, then findings ordered by severity with file:line and the minimal fix. Keep it under 50 lines.
