@@ -1,0 +1,35 @@
+# boot auto-start receipt — 20261108T151136Z
+uptime_s: 403
+boot_id: 66f3bbf3-4444-4b24-9494-3c49c4d60905
+
+## enablement
+vllm-b12x.service                    active=active     enabled=enabled
+vllm-b12x-watchdog.timer             active=active     enabled=enabled
+vllm-b12x-tailscale.service          active=active     enabled=enabled
+vllm-glm53fp4.service                active=inactive   enabled=disabled
+vllm-glm53fp4-watchdog.timer         active=inactive   enabled=disabled
+vllm-glm53fp4-tailscale.service      active=inactive   enabled=disabled
+linger: yes
+
+## unit start (journal, this boot)
+Nov 08 10:05:01 spark-a183 systemd[2134]: Starting vllm-b12x.service - GLM-5.3-Flash-FP4-Local (b12x kit) on 2x DGX Spark...
+Nov 08 10:05:18 spark-a183 launch.sh[4811]: Starting Head Node on 192.168.177.10...
+Nov 08 10:05:19 spark-a183 launch.sh[4811]: Starting Worker Node on 192.168.177.11...
+
+## service
+success active exited
+health: 200
+model=nvidia/GLM-5.3-Flash-FP4-Local max_model_len=1000000
+GPU KV cache size: 2,350,210 tokens
+
+## containers
+head   vllm_node vllm-node-b12x Up 6 minutes
+worker vllm_node vllm-node-b12x Up 6 minutes
+head image id:   sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed
+worker image id: sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed
+
+## watchdog + endpoint
+Sun 2026-11-08 10:11:53 EST 16s Sun 2026-11-08 10:10:53 EST 43s ago vllm-b12x-watchdog.timer vllm-b12x-watchdog.service
+LISTEN 0      2048                     127.0.0.1:8000       0.0.0.0:*          
+LISTEN 0      100                  100.125.23.98:8000       0.0.0.0:*          
+tailnet_health=200

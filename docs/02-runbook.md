@@ -36,6 +36,17 @@ GPU KV cache size: 2,350,210 tokens
 Anything materially below that means the KV pin, the block size, or the model
 length changed.
 
+## Boot persistence
+
+`vllm-b12x.service` is `WantedBy=default.target`, the user manager is kept alive
+by linger (`loginctl show-user nvidia -p Linger` → `yes`), and the watchdog
+timer starts 5 minutes after boot. A cluster power cycle needs no operator
+action; the head dispatches the worker when the rail and Docker are up. Verified
+by a real two-node reboot on 2026-11-08 (`receipts/boot-20261108-second.txt`).
+
+If the unit lands in `failed`, check `journalctl --user -u vllm-b12x.service -b`
+first: `preflight` fails closed, and its message names the node and check.
+
 ## Failure modes seen on this pair
 
 | Symptom | Cause | Action |

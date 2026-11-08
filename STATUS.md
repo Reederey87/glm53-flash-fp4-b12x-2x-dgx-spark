@@ -24,3 +24,18 @@
   (disabled, image and `.env` intact). Swap back = stop b12x, start old unit.
 - **Memory after boot:** MemFree ~3 GiB / available ~2 GiB per node — same
   posture as the incumbent; no co-located builds while serving.
+
+## 2026-11-08 10:11 — promoted to production; boot auto-start verified
+
+- `vllm-b12x.service`, `vllm-b12x-watchdog.timer`, `vllm-b12x-tailscale.service`
+  are enabled, linger is on, and the incumbent units are disabled.
+- **Boot proof (receipt `receipts/boot-20261108-second.txt`):** both nodes
+  rebooted; the head's unit started by itself at boot (10:05:01), dispatched
+  worker then head (10:05:18/19), and `/health` returned 200 at uptime 403 s
+  with `vllm_node` up on both nodes at the pinned digest. Tailnet endpoint 200;
+  watchdog timer re-armed.
+- **First boot failed and was fixed:** the new worker checkpoint check fed a
+  heredoc through `ssh`, never executed it, and treated the fallback `1` as a
+  missing shard, so `preflight` refused to start (the watchdog reset-failed and
+  retried three times). The check is now `scripts/check_checkpoint.py`, fed to
+  the worker over stdin; the failure is recorded in `spec/TODO.md` history.

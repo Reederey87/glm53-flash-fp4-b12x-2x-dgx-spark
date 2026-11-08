@@ -1,0 +1,7 @@
+# pre-reboot state — 20261108T144203Z
+enabled
+enabled
+enabled
+Linger=yes
+Sun 2026-11-08 09:42:22 EST 18s Sun 2026-11-08 09:41:22 EST 41s ago vllm-b12x-watchdog.timer vllm-b12x-watchdog.service
+{"object":"list","data":[{"id":"nvidia/GLM-5.3-Flash-FP4-Local","object":"model","created":1794148923,"owned_by":"vllm",

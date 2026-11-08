@@ -139,7 +139,8 @@ container_state() {  # $1 = head|worker
         docker inspect --format '{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null || echo absent
     else
         ssh -o BatchMode=yes -o ConnectTimeout=8 "$WORKER_IP" \
-            "docker inspect --format '{{.State.Status}}' $CONTAINER_NAME" 2>/dev/null || echo unreachable
+            "docker inspect --format '{{.State.Status}}' $CONTAINER_NAME 2>/dev/null || echo absent" \
+            2>/dev/null || echo unreachable
     fi
 }
 

@@ -85,15 +85,7 @@ checkpoint_ok() {  # $1 = label
         fail "$1: model.safetensors.index.json missing"; return
     fi
     local missing
-    missing="$(python3 - "$SNAP" <<'PY'
-import json, os, sys
-snap = sys.argv[1]
-idx = json.load(open(os.path.join(snap, "model.safetensors.index.json")))
-files = sorted(set(idx.get("weight_map", {}).values()))
-bad = [f for f in files if not os.path.exists(os.path.join(snap, f))]
-print(len(bad))
-PY
-)"
+    missing="$(python3 "$SCRIPT_DIR/scripts/check_checkpoint.py" "$SNAP" 2>/dev/null || echo 1)"
     if [ "${missing:-1}" = "0" ]; then
         ok "$1: revision $CHECKPOINT_REV complete ($(ls "$SNAP"/model-*.safetensors | wc -l | tr -d ' ') shards)"
     else
@@ -149,22 +141,16 @@ else
             [ "$MODE" = "--prepare" ] && warn "worker image missing (setup will copy it)" \
                 || fail "worker image $IMAGE_TAG missing"
         fi
-        wsnap="\$HOME/.cache/huggingface/hub/models--nvidia--GLM-5.3-Flash-FP4-Local/snapshots/$CHECKPOINT_REV"
+        wsnap="/home/nvidia/.cache/huggingface/hub/models--nvidia--GLM-5.3-Flash-FP4-Local/snapshots/$CHECKPOINT_REV"
         if ! ssh -o BatchMode=yes -o ConnectTimeout=8 "$WORKER_IP" \
               "test -f $wsnap/model.safetensors.index.json && test -f $wsnap/chat_template.jinja"; then
             [ "$MODE" = "--prepare" ] && warn "worker checkpoint missing (setup will copy it)" \
                 || fail "worker checkpoint revision $CHECKPOINT_REV incomplete"
         else
             wbad="$(ssh -o BatchMode=yes -o ConnectTimeout=8 "$WORKER_IP" \
-                "python3 - '$wsnap' <<'PY'
-import json, os, sys
-snap = sys.argv[1]
-idx = json.load(open(os.path.join(snap, 'model.safetensors.index.json')))
-files = sorted(set(idx.get('weight_map', {}).values()))
-print(sum(0 if os.path.exists(os.path.join(snap, f)) else 1 for f in files))
-PY" 2>/dev/null || echo 1)"
+                    "python3 - $wsnap" < "$SCRIPT_DIR/scripts/check_checkpoint.py" 2>/dev/null || echo 1)"
             [ "${wbad:-1}" = "0" ] && ok "worker checkpoint revision complete" \
-                || fail "worker checkpoint: $wbad indexed shard(s) missing"
+                || fail "worker checkpoint: ${wbad:-?} indexed shard(s) missing"
         fi
     else
         fail "cannot ssh to worker $WORKER_IP"
