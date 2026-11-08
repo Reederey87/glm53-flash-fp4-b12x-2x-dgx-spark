@@ -24,6 +24,11 @@ it depends on.
 | Context | 1,000,000 tokens; FP8 pool 2,350,210 tokens (2.35× the window by pool arithmetic; two simultaneous full-context requests are not exercised) |
 | Reasoning | requests that omit `reasoning_effort` render **Max** (see `docs/04-reasoning.md`) |
 
+Observed interactively: **45 tok/s** reported by the DeepSeek Harness on
+2026-11-08; vLLM's own 10 s windows over that session measure p50 29.0, p90 35.1
+and a 46.5 tok/s peak. The controlled cache-cold matrix lives in `receipts/` —
+see [`receipts/harness-throughput-20261108.md`](receipts/harness-throughput-20261108.md).
+
 ## Quick start (on the head Spark)
 
 ```bash
