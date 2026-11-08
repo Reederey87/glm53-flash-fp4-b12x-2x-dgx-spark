@@ -74,6 +74,9 @@ more than ~2.35M KV tokens, or you cannot spare ~166 GiB of unified memory. The
 claim here is fidelity-per-byte and kernel efficiency on GB10 — not that one
 model family is universally better than another.
 
+How the other FP4-Local kits on two Sparks compare (capacity, licensing,
+operations, and where this one is behind): [docs/06-alternatives.md](docs/06-alternatives.md).
+
 Sources: [model card](https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local),
 [NVIDIA Spark EXL3-vs-NVFP4 comparison](https://forums.developer.nvidia.com/t/spark-glm53-nvfp4-b12x-cuda-graph-dflash2-engine-for-glm-5-3-flash-on-2x-dgx-spark/386646),
 `docs/01-qualification.md`, and this kit's receipts.
