@@ -3,15 +3,15 @@
 # watchdog.sh — health canary and bounded auto-heal for the b12x serving unit
 # ============================================================================
 #
-# Run by vllm-glm53fp4-watchdog.timer. It does nothing when the serving unit is
+# Run by vllm-b12x-watchdog.timer. It does nothing when the serving unit is
 # disabled, inactive, activating, or was stopped manually. A healthy /health
 # clears the two-tick pending marker. If both ranks are running but /health is
 # down, it waits one tick (a long prefill can miss one probe), then restarts
 # the unit. Restarts are capped so a broken boot cannot thrash GB10 memory.
 #
-# The unit's ExecStartPre waits for Docker, the worker, and >=100 GiB
-# MemAvailable, so this script deliberately does not gate on free memory while
-# the old rank is still holding the pool.
+# The unit's ExecStartPre waits for Docker, the worker, and the two-node
+# 90 GiB MemFree / 100 GiB MemAvailable gate, so this script deliberately does
+# not gate on free memory while an old rank is still holding the pool.
 # ============================================================================
 set -u
 

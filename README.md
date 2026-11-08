@@ -27,7 +27,8 @@ it depends on.
 ## Quick start (on the head Spark)
 
 ```bash
-git clone <this kit> /home/nvidia/b12x && cd /home/nvidia/b12x
+git clone https://github.com/Reederey87/glm53-flash-fp4-b12x-2x-dgx-spark /home/nvidia/b12x
+cd /home/nvidia/b12x
 cp env.example .env                 # CLUSTER_NODES, WORKER_IP
 ./launch.sh preflight
 ./launch.sh                         # dispatch both ranks, wait for /health
@@ -70,6 +71,16 @@ deployment here: package preparation is a multi-hour, ~178 GB one-time step and
 its TP2 KV capacity is roughly half of this stack's. The full comparison and the
 reasons each alternative was rejected are in
 [`docs/01-qualification.md`](docs/01-qualification.md).
+
+## Credits and licenses
+
+This kit is Apache-2.0. It integrates work by NVIDIA (checkpoint, model card,
+chat template), the vLLM project, FlashInfer `b12x`, and Eugene Rakhmatulin's
+MIT-licensed `spark-vllm-docker`, and it derives its watchdog/proxy from the
+earlier `glm53-flash-exl3-2x-dgx-spark` kit. Per-component attribution, licenses
+and exactly how each is used: [CREDITS.md](CREDITS.md), [NOTICE](NOTICE).
+
+No weights, images, or upstream source are redistributed here.
 
 ## Operations
 
