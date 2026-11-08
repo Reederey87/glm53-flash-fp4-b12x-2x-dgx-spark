@@ -74,9 +74,6 @@ more than ~2.35M KV tokens, or you cannot spare ~166 GiB of unified memory. The
 claim here is fidelity-per-byte and kernel efficiency on GB10 — not that one
 model family is universally better than another.
 
-How the other FP4-Local kits on two Sparks compare (capacity, licensing,
-operations, and where this one is behind): [docs/06-alternatives.md](docs/06-alternatives.md).
-
 Sources: [model card](https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local),
 [NVIDIA Spark EXL3-vs-NVFP4 comparison](https://forums.developer.nvidia.com/t/spark-glm53-nvfp4-b12x-cuda-graph-dflash2-engine-for-glm-5-3-flash-on-2x-dgx-spark/386646),
 `docs/01-qualification.md`, and this kit's receipts.
@@ -85,6 +82,32 @@ Observed interactively: **45 tok/s** reported by the DeepSeek Harness on
 2026-11-08; vLLM's own 10 s windows over that session measure p50 29.0, p90 35.1
 and a 46.5 tok/s peak. The controlled cache-cold matrix lives in `receipts/` —
 see [`receipts/harness-throughput-20261108.md`](receipts/harness-throughput-20261108.md).
+
+## How it compares
+
+Six public kits serve this checkpoint on two Sparks. Full notes and sources:
+[`docs/06-alternatives.md`](docs/06-alternatives.md).
+
+| Kit | Engine | Context / KV | Operations | Licence |
+|---|---|---|---|---|
+| **this kit** | vLLM B12X, pinned digest | **1M / 17 GiB → 2.35M tok** | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
+| [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker) | vLLM B12X, moving nightly | 500k / 8 GiB | one-step launcher, no service | MIT |
+| [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe | manual or launcher | NVIDIA playbook |
+| [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas (own engine) | 4 × 1M profile, ~2.66M pool | `start.sh`, clock-cap, TP2/TP4 | **AGPL-3.0** + **CC BY-NC-ND** drafter |
+| [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 patches | 262k / 808k tok | Python launcher, no boot persistence | Apache-2.0 |
+| [NVIDIA Flare](https://github.com/NVIDIA/flare-local-inference) | Flare (Rust serve) | ~1.1M KV (Flare's figure) | multi-hour ~178 GB package | Apache-2.0 |
+
+- **Ahead:** the only kit here with a **boot-verified service** (systemd +
+  two-node memory gate + bounded watchdog), the largest pool at full window
+  (2.35M tokens at 1M context), a permissive licence with no non-commercial
+  drafter, and pinned image/checkpoint/launcher bytes checked on every start.
+- **Behind:** it does not carry DevelopingDad's **+23.4 %** short/concurrent
+  patchset, or SparkGLM's DFlash2 and disk/carveout KV tiering. Those are
+  separate, pre-registered windows (`spec/TODO.md`).
+- **Not comparable:** each project measured on its own harness. This kit uses
+  cache-cold unique prompts, a 200-token budget and Max reasoning; SparkGLM uses
+  RigMark at low effort; DevelopingDad 512-token requests; NVIDIA SPEED-Bench.
+  Cross-kit numbers point at what to test next — they do not rank the kits.
 
 ## Quick start (on the head Spark)
 
