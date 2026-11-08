@@ -45,13 +45,16 @@ No re-quantisation happens anywhere in this kit.
    would leave ~9 GB of headroom on a volume that also hosts the checkpoint and
    the images, which is below a safe reserve. Freeing the deposed EXL3 blob is a
    decision, not a script.
-2. **Capacity.** Flare's own TP2 measurement for this recipe is ~1.1M KV tokens;
-   this stack boots 2.35M on the same pair. For a 1M-context endpoint that is
-   the difference between 2× and 1× full-context requests. (2.35M is the
-   incumbent's boot figure and the number this kit reproduces; the 2× claim is
-   pool-only — no 1M-token request has been exercised yet, see `spec/TODO.md`.)
-3. **Maturity.** The vLLM path is the one NVIDIA's model card validates on
-   `2 x DGX Spark 128 GB with 2M tokens of FP8 KV Cache`.
+2. **Capacity is not the reason.** A community Flare guide reports 3.4–4.8M KV
+   tokens on this pair (16 GiB / 11.8 GiB cache), which is **more** than this
+   stack's 2.35M; NVIDIA's earlier TP2 figure for its own recipe was ~1.1M, so the
+   number is configuration-dependent. The remaining costs are preparation time
+   and prefill, below.
+3. **Maturity and prefill.** The vLLM path is the one NVIDIA's model card
+   validates on `2 x DGX Spark 128 GB with 2M tokens of FP8 KV Cache`, and its
+   measured prefill here (2.2–2.3k tok/s) is above Flare's published guide
+   numbers (~1.5k). The service in this kit was also already boot-verified end to
+   end, which a Flare window would have to re-establish.
 
 > Provenance: the Flare capacity, package size and preparation-time figures come
 > from Flare's own TP2 measurement for its `glm53` recipe and from its

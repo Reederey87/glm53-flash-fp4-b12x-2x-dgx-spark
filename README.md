@@ -39,17 +39,13 @@ routed experts at high precision.
    specifically to keep `kv_b_proj` out of the FP4 path. Measured against the
    real bytes, **94.9 % of stored bytes load exactly as NVIDIA shipped them**;
    this kit never re-quantizes anything ([docs/01](docs/01-qualification.md)).
-2. **Heavily quantized DeepSeek-V4.1-Flash EXL3 packs pay for their size
-   elsewhere.** The 2.0–2.9 bpw packs apply lossy 4-bit trellis to the dense
-   attention and MLP as well, and dequantize in software on the SMs. Published
-   Spark comparisons of that approach on this model family (GLM-5.3
-   EXL3-4bpw + `DENSE=q4`) measure roughly **+70 % cluster GPU power, 10–16 °C
-   hotter GPUs, and lower prefill** (~1.7k vs ~2.2k tok/s) than the native-FP4
-   stack, with structured-output and planning scores dropping on the dense-q4
-   variants. The DeepSeek-V4.1 EXL3 packs apply the same all-linear treatment;
-   their exact deltas are model-specific. For agent and tool use, that is the
-   wrong trade: you spend the accuracy where it is hardest to notice until a
-   tool call breaks.
+2. **Heavy re-quants are a different trade, not a different deployment of this
+   checkpoint.** Packs around 2–3 bpw push the dense attention and MLP to 4-bit
+   trellis as well and dequantize in software on the SMs; published Spark
+   comparisons of that approach on this family measure roughly **+70 % cluster
+   GPU power, 10–16 °C hotter GPUs, and lower prefill**. The comparison below
+   deliberately covers **only deployments of `nvidia/GLM-5.3-Flash-FP4-Local`**;
+   other checkpoints are listed in [docs/06](docs/06-alternatives.md).
 3. **It uses the hardware you paid for.** `sm_121a` NVFP4/MXFP8 tensor cores via
    FlashInfer `b12x`, RoCEnante one-shot RoCE collectives, MTP-5 speculation —
    no software trellis, no dequant on the hot path.
@@ -60,54 +56,70 @@ routed experts at high precision.
    decode at c=1 / 58.6 at c=8, MTP acceptance length 2.49–2.57, and 45 tok/s
    observed interactively in the DeepSeek Harness ([receipts](receipts/)).
 
-| | `nvidia/GLM-5.3-Flash-FP4-Local` (this kit) | Heavy EXL3 re-quants (2.0–2.9 bpw) |
-|---|---|---|
-| Who quantized | NVIDIA, QAD + Model Optimizer | community re-quantization |
-| 4-bit scope | routed experts only (~95 % of bytes) | experts **and** dense attention/MLP |
-| Dense path | BF16 / MXFP8 / block-FP8 with F32 scales | 4-bit trellis, software dequant |
-| Kernels | native Blackwell NVFP4/MXFP8 (`b12x`) | software EXL3 + Hadamard, SM-bound |
-| Context / KV | 1M / 2.35M FP8 tokens | typically ≤1M and a smaller pool |
-| Power & prefill | ~70 W cluster, ~2.2k tok/s | ~122 W cluster, ~1.7k tok/s (published) |
+### Same checkpoint, other kits
 
-**When not to pick it:** you specifically need DeepSeek-V4.1 behaviour, you need
-more than ~2.35M KV tokens, or you cannot spare ~166 GiB of unified memory. The
-claim here is fidelity-per-byte and kernel efficiency on GB10 — not that one
-model family is universally better than another.
+Seven public deployments serve **this exact checkpoint** on two Sparks. Context,
+pool and seat counts are each project's own; harnesses differ (last bullet).
+
+| Deployment | Engine | Context / KV | Seats / speculation | Operations | Licence |
+|---|---|---|---|---|---|
+| **this kit** | vLLM B12X, pinned digest | **1M / 2.35M tok** | 4 / MTP-5 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
+| [myllmbox recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM 0.32 + `mbx` loader | 400k / 1.15M tok | **16** / MTP 1–9 dynamic | `run.sh`, optional host tuning | MIT |
+| [Flare guide](https://github.com/gpdev-Pilcothink/flare-spark) | Flare native | 1M / **3.4–4.8M tok** | **12** / MTP-5 | shell launcher, >1 h first preparation | Apache-2.0 |
+| [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas | 4 × 1M profile / ~2.66M | 4 / DFlash2 | `start.sh`, clock-cap required | **AGPL-3.0** + **CC BY-NC-ND** drafter |
+| [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker) | vLLM B12X, moving nightly | 500k / 8 GiB | 4 / MTP-5 | launcher only | MIT |
+| [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe | 4 / MTP-5 | manual or launcher | NVIDIA playbook |
+| [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 patches | 262k / 808k tok | 4 / adaptive MTP | Python launcher, no boot persistence | Apache-2.0 |
+
+**What this kit does better than the others on this list**
+
+- **It is a service, not a launcher.** The only deployment here with a systemd
+  unit, a two-node 90 GiB MemFree / 100 GiB MemAvailable gate, a bounded
+  watchdog and a boot auto-start proven by a real two-node power cycle
+  (`receipts/boot-20261108-second.txt`). The rest start a container and stop
+  when the shell does.
+- **Pinned and checked bytes.** Image digest, checkpoint revision, launcher
+  commit and FlashInfer build are recorded and re-checked on every start;
+  `preflight` fails closed on a mismatch.
+- **1M context with 2.35M pooled tokens** — the largest pool among the vLLM
+  recipes on this list (500k/8 GiB for eugr and the NVIDIA playbook, 262k/808k
+  for the patched recipe). Flare's native cache is larger (see below).
+- **The reasoning contract is asserted, not assumed.** A request without
+  `reasoning_effort` renders `Reasoning Effort: Max`; `smoke` fails if the
+  checkpoint default drifts.
+- **Permissive and unencumbered.** Apache-2.0 kit, no AGPL engine and no
+  non-commercial drafter (SparkGLM's DFlash2 is CC BY-NC-ND).
+- **Least machinery to a running endpoint.** No custom loader image, no patch
+  tooling, no >1 h preparation, no GPU clock cap; the scripts are stdlib-only
+  and the whole path is `preflight → launch → health`.
+
+**Where others lead**
+
+- **Flare** — 3.4–4.8M KV tokens and 12 seats on the same pair, with comparable
+  decode (37–42 tok/s in its guide), at the cost of a >1 h first preparation and
+  a package on disk.
+- **myllmbox** — 45 tok/s average / 214 tok/s peak at 16 streams on its own
+  harness, 16 seats and a 1,836 tok/s 128k prefill, at 400k context.
+- **SparkGLM** — DFlash2, TP4 chain/ring and disk/carveout KV tiering; AGPL and
+  a non-commercial drafter.
+- **DevelopingDad** — +23.4 % short/concurrent throughput on the same image,
+  but at 262k context.
+- **eugr / NVIDIA** — newer recipes and images; this kit pins instead of
+  tracking.
+
+**Not comparable:** this kit measures cache-cold unique prompts with a
+200-token budget and Max reasoning; myllmbox and Flare publish their own
+harnesses; SparkGLM uses RigMark at low effort; DevelopingDad 512-token
+requests; NVIDIA SPEED-Bench. Cross-kit numbers point at what to test next, not
+at a ranking.
+
+**When not to pick it:** you need more than ~2.35M KV tokens or more than four
+seats (Flare, myllmbox), you want the highest single-stream number on 400k
+context (myllmbox), or you cannot spare ~166 GiB of unified memory.
 
 Sources: [model card](https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local),
-[NVIDIA Spark EXL3-vs-NVFP4 comparison](https://forums.developer.nvidia.com/t/spark-glm53-nvfp4-b12x-cuda-graph-dflash2-engine-for-glm-5-3-flash-on-2x-dgx-spark/386646),
-`docs/01-qualification.md`, and this kit's receipts.
-
-Observed interactively: **45 tok/s** reported by the DeepSeek Harness on
-2026-11-08; vLLM's own 10 s windows over that session measure p50 29.0, p90 35.1
-and a 46.5 tok/s peak. The controlled cache-cold matrix lives in `receipts/` —
-see [`receipts/harness-throughput-20261108.md`](receipts/harness-throughput-20261108.md).
-
-## How it compares
-
-Six public kits serve this checkpoint on two Sparks. Full notes and sources:
-[`docs/06-alternatives.md`](docs/06-alternatives.md).
-
-| Kit | Engine | Context / KV | Operations | Licence |
-|---|---|---|---|---|
-| **this kit** | vLLM B12X, pinned digest | **1M / 17 GiB → 2.35M tok** | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
-| [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker) | vLLM B12X, moving nightly | 500k / 8 GiB | one-step launcher, no service | MIT |
-| [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe | manual or launcher | NVIDIA playbook |
-| [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas (own engine) | 4 × 1M profile, ~2.66M pool | `start.sh`, clock-cap, TP2/TP4 | **AGPL-3.0** + **CC BY-NC-ND** drafter |
-| [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 patches | 262k / 808k tok | Python launcher, no boot persistence | Apache-2.0 |
-| [NVIDIA Flare](https://github.com/NVIDIA/flare-local-inference) | Flare (Rust serve) | ~1.1M KV (Flare's figure) | multi-hour ~178 GB package | Apache-2.0 |
-
-- **Ahead:** the only kit here with a **boot-verified service** (systemd +
-  two-node memory gate + bounded watchdog), the largest pool at full window
-  (2.35M tokens at 1M context), a permissive licence with no non-commercial
-  drafter, and pinned image/checkpoint/launcher bytes checked on every start.
-- **Behind:** it does not carry DevelopingDad's **+23.4 %** short/concurrent
-  patchset, or SparkGLM's DFlash2 and disk/carveout KV tiering. Those are
-  separate, pre-registered windows (`spec/TODO.md`).
-- **Not comparable:** each project measured on its own harness. This kit uses
-  cache-cold unique prompts, a 200-token budget and Max reasoning; SparkGLM uses
-  RigMark at low effort; DevelopingDad 512-token requests; NVIDIA SPEED-Bench.
-  Cross-kit numbers point at what to test next — they do not rank the kits.
+[Flare-vs-NVFP4 Spark comparison](https://forums.developer.nvidia.com/t/spark-glm53-nvfp4-b12x-cuda-graph-dflash2-engine-for-glm-5-3-flash-on-2x-dgx-spark/386646),
+[`docs/06-alternatives.md`](docs/06-alternatives.md), and this kit's receipts.
 
 ## Quick start (on the head Spark)
 
@@ -151,11 +163,13 @@ spec/                         CHANGELOG + TODO (repo delivery rules)
 ## Why vLLM and not Flare
 
 Flare (NVIDIA's `flare-local-inference`) is the other engine that targets this
-checkpoint; its `glm53` recipe now pins the same revision. It is not the
-deployment here: package preparation is a multi-hour, ~178 GB one-time step and
-its TP2 KV capacity is roughly half of this stack's. The full comparison and the
-reasons each alternative was rejected are in
-[`docs/01-qualification.md`](docs/01-qualification.md).
+checkpoint, and its `glm53` recipe pins the same revision. A community guide
+reports 3.4–4.8M KV tokens on the same pair — **more** than this stack's 2.35M —
+with 12 seats and similar decode, but lower prefill (~1.5k vs ~2.2k tok/s) and a
+first preparation that can take over an hour and leaves a ~178 GB package on
+disk. It is not the deployment here because this service was already
+boot-verified end to end; Flare is the first candidate for the next window. See
+[`docs/06-alternatives.md`](docs/06-alternatives.md).
 
 ## Credits and licenses
 

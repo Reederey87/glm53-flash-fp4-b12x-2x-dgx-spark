@@ -32,8 +32,9 @@ operator needs to touch.
   collectives. The image vendors it under
   `/usr/local/lib/python3.12/dist-packages/flashinfer/experimental/b12x`.
 - **Flare** is qualified but not deployed (see `01-qualification.md`). It would
-  replace the vLLM runtime with a prepared Rust package: smaller request path,
-  but a multi-hour ~178 GB preparation and roughly half the KV capacity.
+  replace the vLLM runtime with a prepared Rust package: smaller request path and
+  a larger native KV cache (a community guide reports 3.4–4.8M tokens), but a
+  multi-hour ~178 GB preparation and lower prefill in its published numbers.
 
 ## Image
 
