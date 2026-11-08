@@ -1,0 +1,29 @@
+# b12x deployment receipt — 20261108T134520Z
+host: spark-a183 aarch64 kernel=6.17.0-1031-nvidia driver=580.173.02
+
+## units
+vllm-b12x.service                      active=active     enabled=enabled
+vllm-b12x-watchdog.timer               active=active     enabled=enabled
+vllm-b12x-tailscale.service            active=active     enabled=enabled
+vllm-glm53fp4.service                  active=inactive   enabled=disabled
+vllm-glm53fp4-watchdog.timer           active=inactive   enabled=disabled
+
+## containers
+head   vllm_node vllm-node-b12x Up 9 minutes
+worker vllm_node vllm-node-b12x Up 9 minutes
+head image id:   sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed
+worker image id: sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed
+
+## endpoint
+id=nvidia/GLM-5.3-Flash-FP4-Local max_model_len=1000000
+health: 200
+GPU KV cache size: 2,350,210 tokens
+
+## network + memory
+LISTEN 0      100                  100.125.23.98:8000       0.0.0.0:*          
+LISTEN 0      2048                     127.0.0.1:8000       0.0.0.0:*          
+Mem:             121         118           3           0           2           2
+Mem:             121         119           3           0           2           2
+
+## watchdog
+Sun 2026-11-08 08:46:20 EST 58s Sun 2026-11-08 08:45:20 EST 1s ago vllm-b12x-watchdog.timer vllm-b12x-watchdog.service

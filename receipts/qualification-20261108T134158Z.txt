@@ -1,0 +1,27 @@
+b12x kit qualification — 20261108T134158Z
+host: spark-a183  aarch64  kernel 6.17.0-1031-nvidia  driver 580.173.02
+
+PASS  image vllm-node-b12x = sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed
+PASS  image digest matches pinned receipt
+engine vllm=0.1.dev21830+g8244d1c44.d20261103 torch=2.13.0+cu130
+kernel flashinfer=0.7.1 91271757f7746f3dfb58f7c2aeb44a663389de9e
+PASS  vLLM build is the pinned B12X build (dev21830)
+PASS  flashinfer is the build inside the pinned image (91271757)
+PASS  b12x registry exposes 40 ops
+PASS  checkpoint revision 76348ddb2be2e35e39ecfc00e75dc07703f4f3d5 (pinned)
+INFO  checkpoint shards=41
+checkpoint quant_method=modelopt arch=Glm5NextForConditionalGeneration
+PASS  import vllm.v1.attention.backends.b12x
+PASS  import vllm.model_executor.layers.fused_moe.b12x
+PASS  import vllm.model_executor.kernels.linear.nvfp4.b12x
+
+Alternatives qualified:
+  Flare (nvidia/flare-local-inference): upstream ignition/recipes/glm53 now pins
+    nvidia/GLM-5.3-Flash-FP4-Local@76348ddb, so the checkpoint is supported. Not
+    deployed: package preparation is hours, needs ~178 GB free (head has
+    186 GB) and its TP2 KV figure is ~1.1M tokens
+    against this stack's size: tokens.
+  Standalone b12x package: superseded; b12x ships inside FlashInfer since
+    2026-10-07 and this image uses that copy.
+
+VERDICT: qualified

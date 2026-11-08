@@ -1,0 +1,107 @@
+{
+  "stamp": "20261108T135615Z",
+  "model": "nvidia/GLM-5.3-Flash-FP4-Local",
+  "base": "http://127.0.0.1:8000",
+  "prefill": [
+    {
+      "requested": 8192,
+      "tokens": 7661,
+      "cached_tokens": 0,
+      "ttft_s": 3.4758,
+      "prefill_tok_s": 2204.1
+    },
+    {
+      "requested": 16384,
+      "tokens": 15138,
+      "cached_tokens": 0,
+      "ttft_s": 6.6269,
+      "prefill_tok_s": 2284.3
+    },
+    {
+      "requested": 32768,
+      "tokens": 30104,
+      "cached_tokens": 0,
+      "ttft_s": 13.1484,
+      "prefill_tok_s": 2289.6
+    },
+    {
+      "requested": 65536,
+      "tokens": 60530,
+      "cached_tokens": 0,
+      "ttft_s": 26.2171,
+      "prefill_tok_s": 2308.8
+    },
+    {
+      "requested": 131072,
+      "tokens": 120825,
+      "cached_tokens": 0,
+      "ttft_s": 53.4345,
+      "prefill_tok_s": 2261.2
+    }
+  ],
+  "decode": [
+    {
+      "concurrency": 1,
+      "requests_ok": 1,
+      "decode_length": 200,
+      "wall_s": 7.19,
+      "aggregate_tok_s": 27.8,
+      "mean_decode_tok_s": 27.94,
+      "accepted_tokens": 119.0,
+      "draft_tokens": 400.0,
+      "drafts": 80.0,
+      "acceptance_length": 2.487,
+      "draft_accept_rate": 0.297
+    },
+    {
+      "concurrency": 2,
+      "requests_ok": 2,
+      "decode_length": 400,
+      "wall_s": 9.58,
+      "aggregate_tok_s": 41.74,
+      "mean_decode_tok_s": 21.41,
+      "accepted_tokens": 243.0,
+      "draft_tokens": 775.0,
+      "drafts": 155.0,
+      "acceptance_length": 2.568,
+      "draft_accept_rate": 0.314
+    },
+    {
+      "concurrency": 4,
+      "requests_ok": 4,
+      "decode_length": 800,
+      "wall_s": 13.52,
+      "aggregate_tok_s": 59.18,
+      "mean_decode_tok_s": 15.36,
+      "accepted_tokens": 479.0,
+      "draft_tokens": 1585.0,
+      "drafts": 317.0,
+      "acceptance_length": 2.511,
+      "draft_accept_rate": 0.302
+    },
+    {
+      "concurrency": 8,
+      "requests_ok": 8,
+      "decode_length": 1600,
+      "wall_s": 27.28,
+      "aggregate_tok_s": 58.64,
+      "mean_decode_tok_s": 15.39,
+      "accepted_tokens": 972.0,
+      "draft_tokens": 3100.0,
+      "drafts": 620.0,
+      "acceptance_length": 2.568,
+      "draft_accept_rate": 0.314
+    }
+  ],
+  "errors": [],
+  "gate": {
+    "prefill ladder is exactly 8k..128k": true,
+    "prefill smallest point >= 1500": true,
+    "prefill largest point >= 1500": true,
+    "decode c1 >= 25": true,
+    "decode c8 >= 55": true,
+    "accept len >= 2.0": true,
+    "accept rate >= 0.25": true
+  },
+  "failed": false
+}

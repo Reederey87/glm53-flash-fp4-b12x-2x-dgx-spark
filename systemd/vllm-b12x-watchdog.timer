@@ -1,0 +1,9 @@
+[Unit]
+Description=Run the b12x health canary every minute
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1min
+AccuracySec=15s
+Unit=vllm-b12x-watchdog.service
+[Install]
+WantedBy=timers.target

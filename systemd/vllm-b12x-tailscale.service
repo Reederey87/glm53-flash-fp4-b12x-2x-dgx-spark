@@ -1,0 +1,19 @@
+[Unit]
+Description=Expose the b12x endpoint on the Tailscale IPv4
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=simple
+Environment=HOME=/home/nvidia
+Environment=XDG_RUNTIME_DIR=%t
+Environment=PATH=/home/nvidia/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+ExecStartPre=/bin/mkdir -p /home/nvidia/b12x/local
+ExecStart=/usr/bin/python3 /home/nvidia/b12x/scripts/tailscale_proxy.py
+Restart=always
+RestartSec=3
+TimeoutStopSec=10
+KillMode=process
+StandardOutput=append:/home/nvidia/b12x/local/tailscale-proxy.log
+StandardError=append:/home/nvidia/b12x/local/tailscale-proxy.log
+[Install]
+WantedBy=default.target

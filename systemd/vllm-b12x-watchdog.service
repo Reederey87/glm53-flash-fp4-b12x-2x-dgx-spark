@@ -1,0 +1,10 @@
+[Unit]
+Description=b12x serving unit health canary and auto-heal
+Documentation=file:///home/nvidia/b12x/docs/02-runbook.md
+[Service]
+Type=oneshot
+Environment=HOME=/home/nvidia
+Environment=XDG_RUNTIME_DIR=%t
+Environment=PATH=/home/nvidia/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+ExecStart=/home/nvidia/b12x/scripts/watchdog.sh
+TimeoutStartSec=1200

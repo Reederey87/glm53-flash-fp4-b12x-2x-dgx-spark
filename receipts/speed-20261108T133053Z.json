@@ -1,0 +1,88 @@
+{
+  "stamp": "20261108T133053Z",
+  "model": "nvidia/GLM-5.3-Flash-FP4-Local",
+  "base": "http://127.0.0.1:8000",
+  "prefill": [
+    {
+      "tokens": 7541,
+      "ttft_s": 0.0565,
+      "prefill_tok_s": 133533.2
+    },
+    {
+      "tokens": 15105,
+      "ttft_s": 0.0723,
+      "prefill_tok_s": 208807.7
+    },
+    {
+      "tokens": 30230,
+      "ttft_s": 0.0958,
+      "prefill_tok_s": 315479.5
+    },
+    {
+      "tokens": 60655,
+      "ttft_s": 0.1731,
+      "prefill_tok_s": 350408.8
+    },
+    {
+      "tokens": 121238,
+      "ttft_s": 0.2496,
+      "prefill_tok_s": 485641.4
+    }
+  ],
+  "decode": [
+    {
+      "concurrency": 1,
+      "requests_ok": 1,
+      "decode_length": 200,
+      "wall_s": 6.62,
+      "aggregate_tok_s": 30.21,
+      "mean_decode_tok_s": 30.35,
+      "accepted_tokens": 121.0,
+      "draft_tokens": 390.0,
+      "drafts": 78.0,
+      "acceptance_length": 2.551,
+      "draft_accept_rate": 0.31
+    },
+    {
+      "concurrency": 2,
+      "requests_ok": 2,
+      "decode_length": 400,
+      "wall_s": 9.56,
+      "aggregate_tok_s": 41.86,
+      "mean_decode_tok_s": 21.41,
+      "accepted_tokens": 240.0,
+      "draft_tokens": 790.0,
+      "drafts": 158.0,
+      "acceptance_length": 2.519,
+      "draft_accept_rate": 0.304
+    },
+    {
+      "concurrency": 4,
+      "requests_ok": 4,
+      "decode_length": 800,
+      "wall_s": 13.82,
+      "aggregate_tok_s": 57.89,
+      "mean_decode_tok_s": 15.18,
+      "accepted_tokens": 470.0,
+      "draft_tokens": 1630.0,
+      "drafts": 326.0,
+      "acceptance_length": 2.442,
+      "draft_accept_rate": 0.288
+    },
+    {
+      "concurrency": 8,
+      "requests_ok": 8,
+      "decode_length": 1600,
+      "wall_s": 27.05,
+      "aggregate_tok_s": 59.14,
+      "mean_decode_tok_s": 15.39,
+      "accepted_tokens": 956.0,
+      "draft_tokens": 3180.0,
+      "drafts": 636.0,
+      "acceptance_length": 2.503,
+      "draft_accept_rate": 0.301
+    }
+  ],
+  "errors": [],
+  "failed": false
+}

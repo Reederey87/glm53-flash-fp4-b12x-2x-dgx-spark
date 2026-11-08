@@ -1,0 +1,96 @@
+{
+  "stamp": "20261108T134216Z",
+  "model": "nvidia/GLM-5.3-Flash-FP4-Local",
+  "base": "http://127.0.0.1:8000",
+  "prefill": [
+    {
+      "tokens": 7584,
+      "ttft_s": 3.4048,
+      "prefill_tok_s": 2227.4
+    },
+    {
+      "tokens": 15220,
+      "ttft_s": 6.6811,
+      "prefill_tok_s": 2278.1
+    },
+    {
+      "tokens": 30232,
+      "ttft_s": 13.1711,
+      "prefill_tok_s": 2295.3
+    },
+    {
+      "tokens": 60560,
+      "ttft_s": 26.2966,
+      "prefill_tok_s": 2303.0
+    },
+    {
+      "tokens": 120699,
+      "ttft_s": 52.8699,
+      "prefill_tok_s": 2282.9
+    }
+  ],
+  "decode": [
+    {
+      "concurrency": 1,
+      "requests_ok": 1,
+      "decode_length": 200,
+      "wall_s": 7.03,
+      "aggregate_tok_s": 28.43,
+      "mean_decode_tok_s": 29.66,
+      "accepted_tokens": 120.0,
+      "draft_tokens": 395.0,
+      "drafts": 79.0,
+      "acceptance_length": 2.519,
+      "draft_accept_rate": 0.304
+    },
+    {
+      "concurrency": 2,
+      "requests_ok": 2,
+      "decode_length": 400,
+      "wall_s": 9.61,
+      "aggregate_tok_s": 41.61,
+      "mean_decode_tok_s": 22.6,
+      "accepted_tokens": 245.0,
+      "draft_tokens": 765.0,
+      "drafts": 153.0,
+      "acceptance_length": 2.601,
+      "draft_accept_rate": 0.32
+    },
+    {
+      "concurrency": 4,
+      "requests_ok": 4,
+      "decode_length": 800,
+      "wall_s": 13.93,
+      "aggregate_tok_s": 57.44,
+      "mean_decode_tok_s": 15.39,
+      "accepted_tokens": 482.0,
+      "draft_tokens": 1570.0,
+      "drafts": 314.0,
+      "acceptance_length": 2.535,
+      "draft_accept_rate": 0.307
+    },
+    {
+      "concurrency": 8,
+      "requests_ok": 8,
+      "decode_length": 1600,
+      "wall_s": 25.88,
+      "aggregate_tok_s": 61.82,
+      "mean_decode_tok_s": 15.86,
+      "accepted_tokens": 971.0,
+      "draft_tokens": 3105.0,
+      "drafts": 621.0,
+      "acceptance_length": 2.564,
+      "draft_accept_rate": 0.313
+    }
+  ],
+  "errors": [],
+  "gate": {
+    "prefill smallest point >= 1500": true,
+    "prefill largest point >= 1500": true,
+    "decode c1 >= 25": true,
+    "decode c8 >= 60": true,
+    "accept len >= 2.0": true,
+    "accept rate >= 0.25": true
+  },
+  "failed": false
+}

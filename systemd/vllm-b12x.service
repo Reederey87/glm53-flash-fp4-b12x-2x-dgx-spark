@@ -1,0 +1,34 @@
+# ============================================================================
+# vllm-b12x.service — production entry point for the b12x kit
+# ============================================================================
+# oneshot + RemainAfterExit: ExecStart dispatches both ranks in daemon mode and
+# returns; ExecStartPost holds the unit in "activating" until /health is 200.
+# ExecStartPre gates on Docker, the worker, and >=90 GiB MemFree AND >=100 GiB
+# MemAvailable on both nodes: GB10 has no OOM killer and CUDA-free excludes
+# page cache, so the free-memory floor is the one that matters.
+[Unit]
+Description=GLM-5.3-Flash-FP4-Local (b12x kit) on 2x DGX Spark
+StartLimitIntervalSec=3600
+StartLimitBurst=3
+Documentation=file:///home/nvidia/b12x/README.md
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=HOME=/home/nvidia
+Environment=XDG_RUNTIME_DIR=%t
+Environment=PATH=/home/nvidia/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+TimeoutStartSec=7200
+TimeoutStopSec=600
+KillMode=process
+ExecStartPre=/bin/bash -c 'for i in $(seq 1 60); do docker info >/dev/null 2>&1 && exit 0; sleep 5; done; echo "docker not ready after 300s" >&2; exit 1'
+ExecStartPre=/bin/bash -c 'for i in $(seq 1 120); do ssh -o BatchMode=yes -o ConnectTimeout=5 nvidia@192.168.177.11 docker info >/dev/null 2>&1 && exit 0; sleep 5; done; echo "worker unreachable after 600s" >&2; exit 1'
+ExecStartPre=-/home/nvidia/b12x/launch.sh down
+ExecStartPre=/home/nvidia/b12x/scripts/wait_memory.sh 900
+ExecStart=/home/nvidia/b12x/launch.sh up
+ExecStartPost=/home/nvidia/b12x/scripts/wait_health.sh 900
+ExecStop=/home/nvidia/b12x/launch.sh down
+ExecStopPost=-/home/nvidia/b12x/launch.sh down --if-owned
+
+[Install]
+WantedBy=default.target
