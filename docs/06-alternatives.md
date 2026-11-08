@@ -7,15 +7,23 @@ quant and are listed at the end; they are not part of the comparison.
 
 ## At a glance
 
-| Kit | Engine | Context / KV | Seats / speculation | Operations | Licence |
-|---|---|---|---|---|---|
-| **this kit (`b12x`)** | vLLM B12X, pinned digest `3b5da79c` | **1M / 2.35M tok** | 4 / MTP-5 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
-| [myllmbox recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM 0.32 + own `mbx` loader | 400k / 1.15M tok | **16** / MTP 1–9 dynamic | `run.sh`, optional host tuning | MIT |
-| [Flare guide](https://github.com/gpdev-Pilcothink/flare-spark) | Flare native (Python prep → Rust serve) | 1M / **3.4–4.8M tok** | **12** / MTP-5 | shell launcher, >1 h first preparation | Apache-2.0 |
-| [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas (own engine) | 4 × 1M profile / ~2.66M | 4 / DFlash2 or native MTP | `start.sh`, clock-cap required, TP2/TP4 | **AGPL-3.0** + **CC BY-NC-ND** drafter |
-| [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker) | vLLM B12X, moving nightly | 500k / 8 GiB | 4 / MTP-5 | one-step launcher, no service | MIT |
-| [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe default | 4 / MTP-5 | manual two-rank launch or launcher | NVIDIA playbook |
-| [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 engine patches | 262k / 808k tok | 4 / adaptive MTP | Python launcher, 8 GiB guard, **no boot persistence** | Apache-2.0 |
+| Kit | Engine | Context / KV | Decode tok/s (their harness) | Seats / speculation | Operations | Licence |
+|---|---|---|---|---|---|---|
+| **this kit (`b12x`)** | vLLM B12X, pinned digest `3b5da79c` | **1M / 2.35M tok** | **27.8 c1 · 58.6 c8** (200-token cache-cold, Max); 45 interactive peak | 4 / MTP-5 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
+| [myllmbox recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM 0.32 + own `mbx` loader | 400k / 1.15M tok | **44.9 avg c1 · 214.2 peak c16** (300 s streams) | **16** / MTP 1–9 dynamic | `run.sh`, optional host tuning | MIT |
+| [Flare guide](https://github.com/gpdev-Pilcothink/flare-spark) | Flare native (Python prep → Rust serve) | 1M / **3.4–4.8M tok** | **37–42** (llama-benchy `tg128`/`tg1024`) | **12** / MTP-5 | shell launcher, >1 h first preparation | Apache-2.0 |
+| [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas (own engine) | 4 × 1M profile / ~2.66M | **37.0 prose · 67.9 code · 90.8 structured** (RigMark, low effort) | 4 / DFlash2 or native MTP | `start.sh`, clock-cap required, TP2/TP4 | **AGPL-3.0** + **CC BY-NC-ND** drafter |
+| [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker) | vLLM B12X, moving nightly | 500k / 8 GiB | **37.5** (llama-benchy `tg128`, c1) | 4 / MTP-5 | one-step launcher, no service | MIT |
+| [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe default | **33.94** (SPEED-Bench qualitative coding) | 4 / MTP-5 | manual two-rank launch or launcher | NVIDIA playbook |
+| [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 engine patches | 262k / 808k tok | **31.2** (512-token request incl. TTFT) · **58–60 decode-only** on long context | 4 / adaptive MTP | Python launcher, 8 GiB guard, **no boot persistence** | Apache-2.0 |
+
+Decode denominators differ and are not interchangeable: this kit uses
+cache-cold 200-token requests at Max reasoning; myllmbox sustains 300 s streams
+kept busy and reports averages plus best-10 s peaks; Flare reports llama-benchy
+`tg128`/`tg1024`; SparkGLM uses RigMark at low effort; eugr's 37.5 is
+llama-benchy `tg128` measured on the same image and recipe in the NVIDIA forum
+thread; NVIDIA's figure is SPEED-Bench; DevelopingDad reports request wall time
+over 512 tokens including TTFT, plus a separate decode-only long-context rate.
 
 ## What each is better at
 

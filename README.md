@@ -59,17 +59,25 @@ routed experts at high precision.
 ### Same checkpoint, other kits
 
 Seven public deployments serve **this exact checkpoint** on two Sparks. Context,
-pool and seat counts are each project's own; harnesses differ (last bullet).
+pool, seat and decode figures are each project's own; the harness note below
+the table explains why they are not interchangeable.
 
-| Deployment | Engine | Context / KV | Seats / speculation | Operations | Licence |
-|---|---|---|---|---|---|
-| **this kit** | vLLM B12X, pinned digest | **1M / 2.35M tok** | 4 / MTP-5 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
-| [myllmbox recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM 0.32 + `mbx` loader | 400k / 1.15M tok | **16** / MTP 1–9 dynamic | `run.sh`, optional host tuning | MIT |
-| [Flare guide](https://github.com/gpdev-Pilcothink/flare-spark) | Flare native | 1M / **3.4–4.8M tok** | **12** / MTP-5 | shell launcher, >1 h first preparation | Apache-2.0 |
-| [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas | 4 × 1M profile / ~2.66M | 4 / DFlash2 | `start.sh`, clock-cap required | **AGPL-3.0** + **CC BY-NC-ND** drafter |
-| [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker) | vLLM B12X, moving nightly | 500k / 8 GiB | 4 / MTP-5 | launcher only | MIT |
-| [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe | 4 / MTP-5 | manual or launcher | NVIDIA playbook |
-| [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 patches | 262k / 808k tok | 4 / adaptive MTP | Python launcher, no boot persistence | Apache-2.0 |
+| Deployment | Engine | Context / KV | Decode tok/s (their harness) | Seats / speculation | Operations | Licence |
+|---|---|---|---|---|---|---|
+| **this kit** | vLLM B12X, pinned digest | **1M / 2.35M tok** | **27.8 c1 · 58.6 c8** (our matrix); 45 interactive peak | 4 / MTP-5 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
+| [myllmbox recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM 0.32 + `mbx` loader | 400k / 1.15M tok | **44.9 avg c1 · 214 peak c16** | **16** / MTP 1–9 dynamic | `run.sh`, optional host tuning | MIT |
+| [Flare guide](https://github.com/gpdev-Pilcothink/flare-spark) | Flare native | 1M / **3.4–4.8M tok** | **37–42** (llama-benchy tg) | **12** / MTP-5 | shell launcher, >1 h first preparation | Apache-2.0 |
+| [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas | 4 × 1M profile / ~2.66M | **37.0 prose · 67.9 code** (RigMark, low effort) | 4 / DFlash2 | `start.sh`, clock-cap required | **AGPL-3.0** + **CC BY-NC-ND** drafter |
+| [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker) | vLLM B12X, moving nightly | 500k / 8 GiB | **37.5** (llama-benchy tg128, c1) | 4 / MTP-5 | launcher only | MIT |
+| [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe | **33.94** (SPEED-Bench coding) | 4 / MTP-5 | manual or launcher | NVIDIA playbook |
+| [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 patches | 262k / 808k tok | **31.2** (512-token request) · 58–60 decode-only | 4 / adaptive MTP | Python launcher, no boot persistence | Apache-2.0 |
+
+Decode is not one measurement: this kit's 27.8/58.6 are cache-cold 200-token
+requests at Max reasoning; myllmbox sustains 300 s streams; Flare reports
+llama-benchy `tg128`/`tg1024`; SparkGLM uses RigMark at low effort; eugr's 37.5
+is llama-benchy `tg128` on the same image; NVIDIA's 33.94 is SPEED-Bench;
+DevelopingDad's 31.2 includes TTFT over a 512-token request, and 58–60 is
+decode-only on long context.
 
 **What this kit does better than the others on this list**
 
@@ -106,12 +114,6 @@ pool and seat counts are each project's own; harnesses differ (last bullet).
   but at 262k context.
 - **eugr / NVIDIA** — newer recipes and images; this kit pins instead of
   tracking.
-
-**Not comparable:** this kit measures cache-cold unique prompts with a
-200-token budget and Max reasoning; myllmbox and Flare publish their own
-harnesses; SparkGLM uses RigMark at low effort; DevelopingDad 512-token
-requests; NVIDIA SPEED-Bench. Cross-kit numbers point at what to test next, not
-at a ranking.
 
 **When not to pick it:** you need more than ~2.35M KV tokens or more than four
 seats (Flare, myllmbox), you want the highest single-stream number on 400k
