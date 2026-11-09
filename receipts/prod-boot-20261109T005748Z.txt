@@ -1,0 +1,19 @@
+# production boot receipt — 20261109T005748Z
+uptime_s: 383
+unit: active / enabled
+watchdog: active / enabled
+linger: yes
+recipe: 32:  num_speculative_tokens: 3
+
+## journal (this boot)
+Nov 08 19:51:34 spark-a183 systemd[2159]: Starting vllm-b12x.service - GLM-5.3-Flash-FP4-Local (b12x kit) on 2x DGX Spark...
+Nov 08 19:51:51 spark-a183 launch.sh[5006]: Starting Head Node on 192.168.177.10...
+Nov 08 19:51:52 spark-a183 launch.sh[5006]: Starting Worker Node on 192.168.177.11...
+
+## both ranks argv
+speculative-config {"method":"mtp","num_speculative_tokens":3,"moe_backend":"humming","attention_backend":"B12X"}
+speculative-config {"method":"mtp","num_speculative_tokens":3,"moe_backend":"humming","attention_backend":"B12X"}
+resolved: speculative_config=SpeculativeConfig(method='mtp', model='nvidia/GLM-5.3-Flash-FP4-Local', num_spec_tokens=3)
+kv: GPU KV cache size: 2,350,210 tokens
+health: 200
+containers: 1 head / 1 worker

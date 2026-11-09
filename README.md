@@ -11,6 +11,27 @@ Since 2026-10-07 it ships **inside FlashInfer**; the separate `b12x` wheel is
 superseded. This kit runs the image that vendors that copy and pins every byte
 it depends on.
 
+## Production status
+
+**In production since 2026-11-08.** `vllm-b12x.service` is enabled with linger,
+so a cluster power cycle starts it with no operator action: it dispatches the
+worker, then the head, and holds the unit until `/health` is 200 (about 6–7
+minutes on this pair). The service renders
+`recipes/glm-5.3-flash-fp4-local.yaml` from this tree on **every** start, so the
+committed recipe — including **MTP-3** — is exactly what runs after a restart.
+
+Verified by a real two-node reboot (2026-11-08 19:51, receipt
+`receipts/prod-boot-20261109T005748Z.txt`): the unit self-started at boot, both
+ranks reported `num_spec_tokens=3`, KV pool 2,350,210, `/health` 200, watchdog
+timer re-armed.
+
+## Recent windows
+
+| Date | Change | Result |
+|---|---|---|
+| 2026-11-08 | MTP draft depth 5 → 3 | decode **+8.46 %** c1 / **+8.34 %** c8; prefill and KV unchanged; answers identical ([gate](docs/gates/2026-11-08-mtp3.md)) |
+| 2026-11-08 | kit promoted, boot auto-start | two-node power cycle, service started by itself, health at 403 s ([receipt](receipts/boot-20261108-second.txt)) |
+
 ## What is deployed
 
 | Piece | Value |
@@ -187,8 +208,12 @@ No weights, images, or upstream source are redistributed here.
 ## Operations
 
 - **Stop:** `systemctl --user stop vllm-b12x.service` (tears down both ranks).
+- **Restart / power cycle:** nothing to do. Linger is on and the unit is enabled;
+  it starts at boot and renders the committed recipe. To change what boots, edit
+  the recipe, commit it, `./launch.sh down`, then `systemctl --user start
+  vllm-b12x.service`.
 - **Rollback:** the deposed kit stays at `/home/nvidia/glm53-fp4-local` with its
   image and `.env`; re-enable `vllm-glm53fp4.service` after stopping this one.
-- **Never** start on the teardown transient: the unit gates on ≥100 GiB
-  `MemAvailable` on both nodes. GB10 has no OOM killer.
+- **Never** start on the teardown transient: the unit gates on ≥90 GiB
+  `MemFree` **and** ≥100 GiB `MemAvailable` on both nodes. GB10 has no OOM killer.
 - **One treatment per window.** `docs/03-gate.md` is the pre-registered gate.

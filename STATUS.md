@@ -51,3 +51,13 @@
 - Watchdog disarmed for the window and re-armed; unit active, `/health` 200.
   Gate: `docs/gates/2026-11-08-mtp3.md`; receipts `receipts/decode-mtp*`,
   `receipts/parity-mtp*`, `receipts/speed-20261108T194204Z.*`.
+
+## 2026-11-08 19:57 — MTP-3 promoted to production; boot path verified
+
+- Production unit restarted from a real two-node power cycle: `vllm-b12x.service`
+  (enabled, linger on) started by itself at 19:51:34, dispatched worker then
+  head, and reached `/health` 200 at uptime 383 s.
+- The recipe is rendered from `/home/nvidia/b12x/recipes/glm-5.3-flash-fp4-local.yaml`
+  on every start; both ranks' argv and the resolved `SpeculativeConfig` report
+  `num_spec_tokens=3`. KV pool 2,350,210; watchdog timer re-armed.
+- Receipt: `receipts/prod-boot-20261109T005748Z.txt`.
