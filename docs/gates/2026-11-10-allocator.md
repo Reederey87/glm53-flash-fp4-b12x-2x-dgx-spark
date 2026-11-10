@@ -1,5 +1,27 @@
 # Candidate 2 — allocator headroom (pre-registered 2026-11-10)
 
+## Frontend integration repair before retry
+
+The first B dispatch never booted an engine: the pinned upstream validator
+rejects duplicate env keys, including the required appended rollback. A scoped
+runtime ENV_FILE override restores the hash-verified original control backup.
+The ledger remains unchanged. Code `90c92da` derives an atomic mode0600
+last-wins upstream config, preserving the original assignments and ledger;
+it also discards failed Docker-inspect stdout when confirming absent ranks.
+Exa checked the primary [upstream launcher](https://github.com/eugr/spark-vllm-docker/blob/main/launch-cluster.sh)
+and [Docker inspect contract](https://docs.docker.com/reference/cli/docker/inspect/).
+No upstream checkout was patched. Literal, single-line assignments are the
+supported ledger format, matching the pinned upstream validator.
+
+Astra review cleared this next B experiment conditionally: run actual pinned
+validator and full frontend dry-runs for B and appended rollback A; remove the
+temporary ENV_FILE override and verify effective config; clear the start-limit
+counter once before the retry; refresh hashes including `render_env.sh`;
+serialize render/start calls sharing `local/upstream.env`; verify both ranks'
+image, argv and allocator environment before measurement. No adoption approval.
+This repairs configuration handoff only; the experimental variable remains the
+allocator, with the same image/checkpoint, 17G KV and scheduler controls.
+
 Additional user requirement (2026-11-10, before B was started): an Astra
 sub-agent performs final code review before deploying the next candidate.
 The waiting switch driver was stopped/cancelled before any B env append;

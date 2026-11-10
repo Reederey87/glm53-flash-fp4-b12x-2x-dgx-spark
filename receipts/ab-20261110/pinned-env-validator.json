@@ -1,0 +1,19 @@
+{
+  "pinned_upstream": "0bdc9c94",
+  "ledger_unchanged": true,
+  "ledger_sha256": "7312d2f75649c4d9c78d112a630e0bcdcf0c2080076d9e9534ae5e8a7c9a6873",
+  "results": [
+    {
+      "arm": "rollback",
+      "original_duplicate_validator_exit": 1,
+      "derived_validator_exit": 0,
+      "mode": "0o600"
+    },
+    {
+      "arm": "candidate",
+      "original_duplicate_validator_exit": 1,
+      "derived_validator_exit": 0,
+      "mode": "0o600"
+    }
+  ]
+}

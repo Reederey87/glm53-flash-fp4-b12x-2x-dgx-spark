@@ -2,6 +2,16 @@
 
 ## 2026-11-10 — ordered optimization windows in progress
 
+- First allocator-B dispatch failed before model launch: pinned upstream rejects
+  duplicate env keys, including appended rollback lines; recovery hit the same
+  parser and start limit. Restoring the hash-verified original env through a
+  temporary runtime `ENV_FILE` unit override. No allocator speed result exists.
+- Fix at `90c92da`: atomic private last-wins projection for upstream while
+  retaining `.env` history; normalize failed Docker-inspect output so absent
+  ranks confirm teardown. Two regression tests pass; pinned validator accepts
+  derived B/rollback configs and rejects original duplicate ledgers as expected.
+  Review cleared the retry subject to frontend/override/hash preflight checks.
+
 - Runtime `/home/nvidia/b12x`: saved rollback env/recipe/launcher and image
   identity, stopped both ranks through the unit, restarted the unchanged
   17 GiB/MTP-3 control. Watchdog and external proxy stopped for measurement;
