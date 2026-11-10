@@ -8,11 +8,12 @@ OUT="$ROOT/local/ab-20261110"
 UV=/home/nvidia/.local/bin/uv
 UNIT=vllm-b12x.service
 EXPECTED=sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed
-armed=0
+armed=1
 cleanup() {
   rc=$?
   trap - EXIT
   if [ "$armed" = 1 ]; then
+    systemctl --user stop b12x-ab-a.service || true
     systemctl --user stop b12x-ab-memory-a.service b12x-ab-memory-b.service || true
     systemctl --user stop "$UNIT" || true
     printf '\n# --- allocator rollback %s ---\n# Restore tested image allocator default; IMAGE and recipe unchanged\nB12X_ALLOCATOR_CONF=\n' "$(date -u +%FT%TZ)" >> .env
@@ -21,6 +22,7 @@ cleanup() {
       exit 1
     fi
     "$UV" run --offline scripts/smoke.py > "$OUT/rollback-smoke.txt" 2>&1 || rc=1
+    grep -F '5/5 checks passed hard' "$OUT/rollback-smoke.txt" || rc=1
     curl -fsS --max-time 10 http://127.0.0.1:8000/health > "$OUT/rollback-health.txt" || rc=1
     systemctl --user start vllm-b12x-watchdog.timer vllm-b12x-tailscale.service || rc=1
     systemctl --user is-active "$UNIT" vllm-b12x-watchdog.timer vllm-b12x-tailscale.service > "$OUT/rollback-units.txt" || rc=1
@@ -41,7 +43,6 @@ systemctl --user show b12x-ab-a.service -p Result -p ExecMainStatus > "$OUT/cont
 docker logs vllm_node > "$OUT/control-server-final.log" 2>&1 || true
 sha256sum --check "$OUT/candidate.sha256"
 cmp recipes/glm-5.3-flash-fp4-local.yaml "$OUT/recipe.control.yaml"
-armed=1
 systemctl --user stop b12x-ab-memory-a.service || true
 systemctl --user stop "$UNIT"
 printf '\n# --- allocator B %s ---\n# Independent variable: expandable segments, both ranks\n# Frozen: pinned image/checkpoint, MTP3, 17G FP8 KV, four seats\n# Gate: local/ab-20261110/2026-11-10-allocator.md\n# Rollback: B12X_ALLOCATOR_CONF=\nB12X_ALLOCATOR_CONF=expandable_segments:True\n' "$(date -u +%FT%TZ)" >> .env
@@ -60,11 +61,19 @@ for node in head worker; do
   [ "$image" = "$EXPECTED" ] || { echo "unexpected $node image: $image"; exit 1; }
   grep -Fx 'PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True' "$OUT/$node-b-env.txt"
 done
+docker logs vllm_node > "$OUT/candidate-boot.log" 2>&1
+grep -F 'GPU KV cache size: 2,350,210 tokens' "$OUT/candidate-boot.log"
 "$UV" run --offline scripts/smoke.py | tee "$OUT/smoke-b.txt"
 grep -F '5/5 checks passed hard' "$OUT/smoke-b.txt"
 # Match the control's probe warmup before the measured full matrix.
 "$UV" run --offline scripts/speed_matrix.py --label allocator-b-probe --out "$OUT/probe-b.json" --lengths 8192 --concurrency 1 --reps 1
 "$UV" run --offline scripts/speed_matrix.py --label allocator-b --out "$OUT/matrix-b.json"
 docker logs vllm_node > "$OUT/candidate-server-final.log" 2>&1
-"$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-b.json" > "$OUT/comparison.md" || true
+if "$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-b.json" > "$OUT/comparison.md" 2>&1; then
+  echo 0 > "$OUT/comparison-status.txt"
+else
+  status=$?
+  echo "$status" > "$OUT/comparison-status.txt"
+  exit "$status"
+fi
 # EXIT trap restores A even when the candidate passes. Approval follows receipts.
