@@ -1,6 +1,7 @@
 """Compare complete matched matrix receipts; never promote a deployment."""
 import argparse
 import json
+import math
 from pathlib import Path
 from statistics import median
 
@@ -25,9 +26,20 @@ def validate(receipt):
             raise ValueError("need three decode repetitions")
         for row in rows:
             if (row["errors"] or row["ok"] != c or row["completion_tokens"] <= 0
-                    or not row["drafts"] or not row["draft_tokens"]
+                    or not row["drafts"] > 0 or not row["draft_tokens"] > 0
+                    or not 0 <= row["accepted"] <= row["draft_tokens"]
                     or row["accept_rate"] is None or row["accept_length"] is None):
                 raise ValueError("invalid decode cell")
+            requests = row.get("requests", [])
+            if len(requests) != c or sum(r["completion_tokens"] for r in requests) != row["completion_tokens"]:
+                raise ValueError("missing per-request usage")
+            for r in requests:
+                if (not r["done"] or not r["finish_reason"] or not 0 < r["completion_tokens"] <= receipt["decode_budget"]
+                        or not r["ttft_s"] > 0 or not r["decode_s"] > 0):
+                    raise ValueError("incomplete request stream")
+            if (not 0 <= row["accept_rate"] <= 1 or not 1 <= row["accept_length"] <= 4
+                    or not all(math.isfinite(row[k]) for k in ("aggregate_tok_s", "accept_rate", "accept_length", "accepted", "draft_tokens", "drafts"))):
+                raise ValueError("invalid acceptance/timing values")
 
 
 def main():
@@ -51,6 +63,8 @@ def main():
         aa, bb = [[r for r in x["decode"] if r["concurrency"] == c] for x in (a, b)]
         if sorted(r["completion_tokens"] for r in aa) != sorted(r["completion_tokens"] for r in bb):
             raise ValueError(f"unmatched actual decode lengths at c{c}")
+        if sorted(r["completion_tokens"] for row in aa for r in row["requests"]) != sorted(r["completion_tokens"] for row in bb for r in row["requests"]):
+            raise ValueError(f"unmatched per-request decode lengths at c{c}")
         for metric in ("aggregate_tok_s", "accept_rate", "accept_length"):
             rows.append((f"{metric} c{c}", median(r[metric] for r in aa),
                          median(r[metric] for r in bb)))

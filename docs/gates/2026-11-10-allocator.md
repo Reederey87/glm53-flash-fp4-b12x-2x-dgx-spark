@@ -1,5 +1,29 @@
 # Candidate 2 — allocator headroom (pre-registered 2026-11-10)
 
+Additional user requirement (2026-11-10, before B was started): an Astra
+sub-agent performs final code review before deploying the next candidate.
+The waiting switch driver was stopped/cancelled before any B env append;
+control measurement continues. Resolve review blockers and review the final
+bytes before authorizing the next switch. Apply this requirement to subsequent
+candidate windows too.
+
+Review remediation before B: require complete, successful control and strict
+per-request decode evidence; observer initial readiness plus ongoing heartbeat
+checks; TERM/INT handling and a separate ExecStopPost recovery hook; separate
+primary/recovery status; verify both rollback images/allocator variables and
+reopen external traffic only after 5/5 smoke and health200. The original control
+prefill code/budgets remain unchanged. Preserve its original full receipt and
+repeat the twelve control decode batches with per-request usage/DONE/timing
+validation before B. The changed decode validation/recording is identical in
+both compared arms; historical aggregate-only decode rows are excluded.
+
+Safety research additionally checked the primary
+[systemd service](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html)
+and [kill-mode](https://www.freedesktop.org/software/systemd/man/latest/systemd.kill.html)
+contracts and [vLLM streaming usage](https://docs.vllm.ai/en/latest/features/per_request_metrics/).
+CPU-only failure injection must cover lost usage/DONE, reset counters, malformed
+or failed memory probes and interrupted window recovery before B is released.
+
 Arm A: image allocator default (no override), 17 GiB KV. Arm B: only
 `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` on both ranks, same KV.
 `B12X_ALLOCATOR_CONF` is an optional launcher passthrough recorded in the

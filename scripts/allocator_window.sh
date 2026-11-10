@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Candidate 2 only. Queue after b12x-ab-a; always restore the control profile.
-# Run as nvidia from the runtime tree via a separate systemd user service.
+# Candidate 2 only; run through b12x-allocator-window.service.
 set -euo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
@@ -8,46 +7,76 @@ OUT="$ROOT/local/ab-20261110"
 UV=/home/nvidia/.local/bin/uv
 UNIT=vllm-b12x.service
 EXPECTED=sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed
-armed=1
-cleanup() {
-  rc=$?
+GUARD=b12x-ab-memory-b.service
+child=
+finish() {
+  primary=$?
   trap - EXIT
-  if [ "$armed" = 1 ]; then
-    systemctl --user stop b12x-ab-a.service || true
-    systemctl --user stop b12x-ab-memory-a.service b12x-ab-memory-b.service || true
-    systemctl --user stop "$UNIT" || true
-    printf '\n# --- allocator rollback %s ---\n# Restore tested image allocator default; IMAGE and recipe unchanged\nB12X_ALLOCATOR_CONF=\n' "$(date -u +%FT%TZ)" >> .env
-    if ! systemctl --user start "$UNIT"; then
-      echo 'ROLLBACK START FAILED; inspect unit journal' > "$OUT/rollback-failed.txt"
-      exit 1
-    fi
-    "$UV" run --offline scripts/smoke.py > "$OUT/rollback-smoke.txt" 2>&1 || rc=1
-    grep -F '5/5 checks passed hard' "$OUT/rollback-smoke.txt" || rc=1
-    curl -fsS --max-time 10 http://127.0.0.1:8000/health > "$OUT/rollback-health.txt" || rc=1
-    systemctl --user start vllm-b12x-watchdog.timer vllm-b12x-tailscale.service || rc=1
-    systemctl --user is-active "$UNIT" vllm-b12x-watchdog.timer vllm-b12x-tailscale.service > "$OUT/rollback-units.txt" || rc=1
-  fi
-  printf '%s exit=%s\n' "$(date -u +%FT%TZ)" "$rc" > "$OUT/window-finished.txt"
-  exit "$rc"
+  trap '' TERM INT
+  if [ -n "$child" ]; then kill "$child" 2>/dev/null || true; wait "$child" 2>/dev/null || true; fi
+  printf '%s\n' "$primary" > "$OUT/primary-status.txt"
+  if /bin/bash "$ROOT/scripts/allocator_recover.sh"; then recovery=0; else recovery=$?; fi
+  printf '%s\n' "$recovery" > "$OUT/recovery-status.txt"
+  printf '%s primary=%s recovery=%s\n' "$(date -u +%FT%TZ)" "$primary" "$recovery" > "$OUT/window-finished.txt"
+  [ "$primary" -eq 0 ] || exit "$primary"
+  exit "$recovery"
 }
-trap cleanup EXIT
-
-# Bound the wait. A full 3.8M-token control ladder can take over half an hour.
+trap finish EXIT
+trap 'exit 143' TERM
+trap 'exit 130' INT
+guard_ok() {
+  local stamp
+  [ ! -e "$OUT/memory-b.csv.abort" ] || return 1
+  systemctl --user is-active --quiet "$GUARD" || return 1
+  stamp=$(cat "$OUT/memory-b.csv.ready") || return 1
+  [[ "$stamp" =~ ^[0-9]+$ ]] || return 1
+  [ "$(( $(date +%s) - stamp ))" -le 20 ]
+}
+checked_run() {
+  guard_ok || return 1
+  "$@" & child=$!
+  while kill -0 "$child" 2>/dev/null; do
+    guard_ok || return 1
+    sleep 2 & wait $!
+  done
+  local status=0
+  wait "$child" || status=$?
+  child=
+  guard_ok || return 1
+  return "$status"
+}
+# Missing, failed or transitional control jobs never authorize B.
 deadline=$((SECONDS + 7200))
-while [ "$(systemctl --user show b12x-ab-a.service -p ActiveState --value)" = active ]; do
-  [ "$SECONDS" -lt "$deadline" ] || { echo 'control wait timed out'; exit 1; }
-  sleep 5
+while true; do
+  state=$(systemctl --user show b12x-ab-a.service -p ActiveState --value)
+  case "$state" in
+    active|activating|deactivating) [ "$SECONDS" -lt "$deadline" ] || exit 1; sleep 5 & wait $! ;;
+    inactive) break ;;
+    *) echo "control not successful: $state"; exit 1 ;;
+  esac
 done
-systemctl --user show b12x-ab-a.service -p Result -p ExecMainStatus > "$OUT/control-job-result.txt"
-# Preserve failed controls as partial evidence; never turn them into a speed win.
-docker logs vllm_node > "$OUT/control-server-final.log" 2>&1 || true
+[ "$(systemctl --user show b12x-ab-a.service -p Result --value)" = success ]
+[ "$(systemctl --user show b12x-ab-a.service -p ExecMainStatus --value)" = 0 ]
+[ ! -e "$OUT/memory-a.csv.abort" ]
+systemctl --user is-active --quiet b12x-ab-memory-a.service
+"$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-a.json" > "$OUT/control-validation.md"
+grep -F '5/5 checks passed hard' "$OUT/control.log"
 sha256sum --check "$OUT/candidate.sha256"
 cmp recipes/glm-5.3-flash-fp4-local.yaml "$OUT/recipe.control.yaml"
-systemctl --user stop b12x-ab-memory-a.service || true
+docker logs vllm_node > "$OUT/control-server-final.log" 2>&1
+# Durable marker lets ExecStopPost recover even after SIGKILL.
+: > "$OUT/recovery-required"
+systemctl --user stop b12x-ab-memory-a.service
 systemctl --user stop "$UNIT"
-printf '\n# --- allocator B %s ---\n# Independent variable: expandable segments, both ranks\n# Frozen: pinned image/checkpoint, MTP3, 17G FP8 KV, four seats\n# Gate: local/ab-20261110/2026-11-10-allocator.md\n# Rollback: B12X_ALLOCATOR_CONF=\nB12X_ALLOCATOR_CONF=expandable_segments:True\n' "$(date -u +%FT%TZ)" >> .env
+printf '\n# --- allocator B %s ---\n# Independent variable: expandable segments, both ranks\n# Frozen: image/checkpoint, MTP3, 17G FP8 KV, four seats\n# Gate: docs/gates/2026-11-10-allocator.md\n# Rollback: B12X_ALLOCATOR_CONF=\nB12X_ALLOCATOR_CONF=expandable_segments:True\n' "$(date -u +%FT%TZ)" >> .env
 systemd-run --user --unit=b12x-ab-memory-b /bin/bash "$ROOT/scripts/memory_guard.sh" "$OUT/memory-b.csv"
-systemctl --user start "$UNIT"
+deadline=$((SECONDS + 30))
+until guard_ok; do
+  [ "$SECONDS" -lt "$deadline" ] || exit 1
+  [ ! -e "$OUT/memory-b.csv.abort" ] || exit 1
+  sleep 1 & wait $!
+done
+checked_run systemctl --user start "$UNIT"
 for node in head worker; do
   if [ "$node" = head ]; then
     image=$(docker inspect --format '{{.Image}}' vllm_node)
@@ -58,22 +87,18 @@ for node in head worker; do
     ssh nvidia@192.168.177.11 "docker inspect --format '{{range .Config.Env}}{{println .}}{{end}}' vllm_node" > "$OUT/worker-b-env.txt"
     ssh nvidia@192.168.177.11 docker top vllm_node -eo pid,args > "$OUT/worker-b-argv.txt"
   fi
-  [ "$image" = "$EXPECTED" ] || { echo "unexpected $node image: $image"; exit 1; }
+  [ "$image" = "$EXPECTED" ]
   grep -Fx 'PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True' "$OUT/$node-b-env.txt"
+  if grep -q '^PYTORCH_ALLOC_CONF=' "$OUT/$node-b-env.txt"; then exit 1; fi
+  guard_ok
 done
 docker logs vllm_node > "$OUT/candidate-boot.log" 2>&1
 grep -F 'GPU KV cache size: 2,350,210 tokens' "$OUT/candidate-boot.log"
-"$UV" run --offline scripts/smoke.py | tee "$OUT/smoke-b.txt"
+checked_run "$UV" run --offline scripts/smoke.py > "$OUT/smoke-b.txt" 2>&1
 grep -F '5/5 checks passed hard' "$OUT/smoke-b.txt"
-# Match the control's probe warmup before the measured full matrix.
-"$UV" run --offline scripts/speed_matrix.py --label allocator-b-probe --out "$OUT/probe-b.json" --lengths 8192 --concurrency 1 --reps 1
-"$UV" run --offline scripts/speed_matrix.py --label allocator-b --out "$OUT/matrix-b.json"
+checked_run "$UV" run --offline scripts/speed_matrix.py --label allocator-b-probe --out "$OUT/probe-b.json" --lengths 8192 --concurrency 1 --reps 1
+checked_run "$UV" run --offline scripts/speed_matrix.py --label allocator-b --out "$OUT/matrix-b.json"
 docker logs vllm_node > "$OUT/candidate-server-final.log" 2>&1
-if "$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-b.json" > "$OUT/comparison.md" 2>&1; then
-  echo 0 > "$OUT/comparison-status.txt"
-else
-  status=$?
-  echo "$status" > "$OUT/comparison-status.txt"
-  exit "$status"
-fi
-# EXIT trap restores A even when the candidate passes. Approval follows receipts.
+guard_ok
+"$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-b.json" > "$OUT/comparison.md" 2>&1
+# EXIT and service ExecStopPost restore A; never auto-adopt.

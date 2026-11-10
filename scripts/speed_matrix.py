@@ -29,6 +29,7 @@ def main() -> int:
     ap.add_argument("--reps", type=int, default=3)
     ap.add_argument("--lengths", default="8192,16384,32768,65536,131072")
     ap.add_argument("--concurrency", default="1,2,4,8")
+    ap.add_argument("--refresh-decode-from", help="preserve completed cold prefill; remeasure decode with strict per-request receipts")
     args = ap.parse_args()
     base = args.base.rstrip("/")
     model = "nvidia/GLM-5.3-Flash-FP4-Local"
@@ -36,6 +37,13 @@ def main() -> int:
     path.parent.mkdir(parents=True, exist_ok=True)
     result = {"label": args.label, "max_num_seqs": args.max_num_seqs,
               "decode_budget": 200, "prefill": [], "decode": [], "errors": []}
+    if args.refresh_decode_from:
+        source = json.loads(Path(args.refresh_decode_from).read_text())
+        if (not source.get("complete") or source.get("errors")
+                or source["max_num_seqs"] != args.max_num_seqs or source["decode_budget"] != 200):
+            raise ValueError("cannot refresh incomplete or unmatched control")
+        result["prefill"] = source["prefill"]
+        result["prefill_source"] = args.refresh_decode_from
 
     def save():
         tmp = path.with_suffix(".tmp")
@@ -55,6 +63,8 @@ def main() -> int:
             "stream": True, "stream_options": {"include_usage": True}})
         for c in map(int, args.concurrency.split(",")):
             for length in map(int, args.lengths.split(",")):
+                if args.refresh_decode_from:
+                    continue
                 prompts = []
                 for i in range(c):
                     rng = random.Random(length * 100 + i)

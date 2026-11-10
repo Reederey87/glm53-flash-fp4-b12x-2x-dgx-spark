@@ -1,0 +1,13 @@
+[Unit]
+Description=Reviewed allocator A/B trial with independent rollback
+
+[Service]
+Type=exec
+WorkingDirectory=/home/nvidia/b12x
+Environment=PATH=/home/nvidia/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/bin/bash /home/nvidia/b12x/scripts/allocator_window.sh
+ExecStopPost=/bin/bash /home/nvidia/b12x/scripts/allocator_recover.sh
+KillMode=control-group
+TimeoutStopSec=3600
+StandardOutput=append:/home/nvidia/b12x/local/ab-20261110/window.log
+StandardError=append:/home/nvidia/b12x/local/ab-20261110/window.log

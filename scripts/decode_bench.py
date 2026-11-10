@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import statistics
 import threading
@@ -37,6 +38,8 @@ def sse(url: str, body: dict) -> dict:
     t0 = time.perf_counter()
     first = None
     usage: dict = {}
+    done = False
+    finish = None
     with urllib.request.urlopen(req, timeout=1800) as r:
         for raw in r:
             line = raw.decode("utf-8", "replace").strip()
@@ -44,19 +47,30 @@ def sse(url: str, body: dict) -> dict:
                 continue
             payload = line[6:]
             if payload == "[DONE]":
+                done = True
                 break
             try:
                 chunk = json.loads(payload)
             except json.JSONDecodeError:
-                continue
+                raise ValueError("invalid SSE JSON")
+            if chunk.get("error"):
+                raise ValueError(f"stream error: {chunk['error']}")
             if chunk.get("usage"):
                 usage = chunk["usage"]
             for ch in chunk.get("choices") or []:
+                if ch.get("finish_reason") is not None:
+                    finish = ch["finish_reason"]
                 delta = ch.get("delta") or {}
                 if delta.get("content") or delta.get("reasoning_content") or delta.get("reasoning"):
                     if first is None:
                         first = time.perf_counter()
-    return {"first": first, "end": time.perf_counter(), "usage": usage}
+    end = time.perf_counter()
+    count = usage.get("completion_tokens")
+    if (not done or finish is None or first is None or not isinstance(count, int)
+            or not 0 < count <= body["max_tokens"] or end <= first):
+        raise ValueError("incomplete stream, missing usage/timing, or invalid completion length")
+    return {"first": first, "end": end, "usage": usage, "done": done,
+            "finish_reason": finish, "ttft_s": first - t0}
 
 
 def metrics(base: str) -> dict:
@@ -120,9 +134,15 @@ def one_round(base: str, model: str, conc: int, tokens: int) -> dict:
         acc = m1[SPEC["accepted"]] - m0[SPEC["accepted"]]
         dec = m1[SPEC["draft_tokens"]] - m0[SPEC["draft_tokens"]]
         drf = m1[SPEC["drafts"]] - m0[SPEC["drafts"]]
+    if (any(v is None or not math.isfinite(v) for v in (acc, dec, drf))
+            or not (drf > 0 and dec > 0 and 0 <= acc <= dec)):
+        errs.append("missing, reset or invalid speculative-counter deltas")
     return {
         "concurrency": conc, "ok": len(out), "errors": errs,
         "completion_tokens": completion,
+        "requests": [{"completion_tokens": r["usage"]["completion_tokens"],
+                      "ttft_s": r["ttft_s"], "decode_s": r["end"] - r["first"],
+                      "done": r["done"], "finish_reason": r["finish_reason"]} for r in out],
         "aggregate_tok_s": round(agg, 3),
         "per_request_tok_s": round(per_req, 3),
         "accepted": acc, "draft_tokens": dec, "drafts": drf,
