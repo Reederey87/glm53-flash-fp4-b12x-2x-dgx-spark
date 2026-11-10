@@ -112,7 +112,7 @@ ensure_upstream() {
 
 recipe_args() {
     local mode="$1"; shift
-    local -a cmd=("$SPARK_VLLM_DIR/run-recipe.sh" "$RECIPE" --config "$ENV_FILE")
+    local -a cmd=("$SPARK_VLLM_DIR/run-recipe.sh" "$RECIPE" --config "${UPSTREAM_ENV_FILE:-$ENV_FILE}")
     case "$mode" in
         up)     cmd+=(--setup --daemon) ;;
         render) cmd+=(--dry-run) ;;
@@ -130,6 +130,10 @@ recipe_args() {
 
 run_recipe() {
     local mode="$1"; shift
+    # Upstream rejects duplicate keys; keep .env as the append-only ledger and
+    # hand it an atomic, private last-wins projection of the same assignments.
+    local UPSTREAM_ENV_FILE="$SCRIPT_DIR/local/upstream.env"
+    /bin/bash "$SCRIPT_DIR/scripts/render_env.sh" "$ENV_FILE" "$UPSTREAM_ENV_FILE"
     local -a cmd=()
     while IFS= read -r -d '' x; do cmd+=("$x"); done < <(recipe_args "$mode" "$@")
     log "recipe: $mode (upstream $(git -C "$SPARK_VLLM_DIR" rev-parse --short HEAD))"
@@ -137,11 +141,16 @@ run_recipe() {
 }
 
 container_state() {  # $1 = head|worker
+    local state
     if [ "$1" = head ]; then
-        docker inspect --format '{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null || echo absent
+        if state=$(docker inspect --format '{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null); then
+            printf '%s\n' "$state"
+        else
+            echo absent
+        fi
     else
         ssh -o BatchMode=yes -o ConnectTimeout=8 "$WORKER_IP" \
-            "docker inspect --format '{{.State.Status}}' $CONTAINER_NAME 2>/dev/null || echo absent" \
+            "if state=\$(docker inspect --format '{{.State.Status}}' $CONTAINER_NAME 2>/dev/null); then printf '%s\\n' \"\$state\"; else echo absent; fi" \
             2>/dev/null || echo unreachable
     fi
 }
