@@ -1,0 +1,56 @@
+# Candidate 2 — allocator headroom (pre-registered 2026-11-10)
+
+Arm A: image allocator default (no override), 17 GiB KV. Arm B: only
+`PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` on both ranks, same KV.
+`B12X_ALLOCATOR_CONF` is an optional launcher passthrough recorded in the
+append-only runtime `.env`. Empty restores the default. No image build.
+
+Frozen: image `3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed`,
+checkpoint `76348ddb`, TP2, MTP3/humming, four seats, 1,000,000 context,
+4096 batched tokens, FP8 KV, block256, RoCEnante, driver/kernel unchanged.
+Restart each arm through `vllm-b12x.service`; stop its watchdog throughout.
+Save both-node env/file hashes, image identity and process argv before measuring.
+Start a fixed observer for both arms; stop on <2 GiB host MemAvailable or a
+failed remote probe. This is a safety abort, never evidence of performance.
+
+Gate: health in 900 s, exact allocator env on both ranks, KV >=2,350,210,
+all five functional checks PASS including tools and default Max. Run the full
+8k/16k/32k/64k/128k ladder at c1/2/4/8 with exact input-token budgets, unique
+first tokens (zero cache hits), one output token; queueing at the four-seat cap
+is included and reported. Decode 200-token budget, three reps, same code prompt
+at each concurrency; report run-delta acceptance rate and mean acceptance length.
+Warm once per arm. Preserve partial results on failure.
+
+Reject a >2% median decode regression or >2% acceptance-rate regression at
+any concurrency, or >2% median prefill regression at any matched length and
+concurrency; repeat noisy cells before declaring a robust regression.
+Allocator is useful if minimum serving headroom improves >=1 GiB on both ranks
+with no robust speed/acceptance regression. No automatic production adoption:
+restore A and present receipts for approval before permanent adoption.
+
+Only if B clears safety and speed: separately pre-register a 19 GiB KV arm,
+then 20 GiB if justified. Require measured minimum headroom minus the proposed
+increase >=3 GiB on BOTH nodes; never infer it from allocator reserved bytes.
+Each KV increase is its own treatment/restart. Do not increase KV after an
+allocator failure. Restore the original recipe/IMAGE and append
+`B12X_ALLOCATOR_CONF=` on rollback; restart, smoke, re-arm watchdog, health200.
+
+Research: NVIDIA model discussions [7](https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local/discussions/7)
+and [8](https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local/discussions/8)
+measure headroom at a smaller pool, not proof for this profile. PyTorch's
+[allocator analysis](https://docs.pytorch.org/devlogs/eager/2026-06-01-cuda-caching-allocator/)
+and NVIDIA's [graph memory guide](https://docs.nvidia.com/dl-cuda-graph/latest/troubleshooting/memory-issues.html)
+explain fragmentation and capture limitations. vLLM
+[issue55569](https://github.com/vllm-project/vllm/issues/55569) also proposes
+a 64 MiB sparse-indexer budget; it is a separate treatment, not bundled here.
+cudaMallocAsync and loader/workspace changes also change allocator contracts
+and are deferred until this simpler comparison is measured.
+
+Local review: `vllm/vllm/v1/worker/gpu_worker.py` explicitly skips automatic KV
+sizing when bytes are pinned; FlashInfer b12x MoE has separate preparation and
+execution lifetimes; Flare `ignition/recipes/glm53/bootstrap.py` reports reserved,
+allocated and free independently after capture cleanup; EXL3 memory utilities
+flush cached blocks; TensorFold `docs/memory-profiling.md` recommends actual
+token budgets, applied-profile receipts, separate cold/concurrent runs and
+phase memory measurements. Adopt that measurement technique in this harness;
+do not port its engine-specific cache spill or change the quant/KV pool.

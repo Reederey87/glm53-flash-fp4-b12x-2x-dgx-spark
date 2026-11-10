@@ -64,7 +64,7 @@ def sse(url: str, body: dict) -> dict:
             for ch in chunk.get("choices") or []:
                 delta = ch.get("delta") or {}
                 piece = delta.get("content") or delta.get("reasoning_content") \
-                    or delta.get("reasoning")
+                    or delta.get("reasoning") or ch.get("text")
                 if piece:
                     chunks += 1
                     if first is None:

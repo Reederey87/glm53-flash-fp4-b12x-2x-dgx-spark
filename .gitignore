@@ -5,3 +5,9 @@ local/
 spec/
 __pycache__/
 *.pyc
+.venv/
+AGENTS.md
+CLAUDE.md
+.claude/
+.factory/
+.mcp.json

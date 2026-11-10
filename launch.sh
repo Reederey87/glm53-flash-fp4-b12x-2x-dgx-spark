@@ -38,7 +38,7 @@ usage() { sed -n '4,22p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; }
 CAPTURE=(PORT HOST MAX_MODEL_LEN GPU_MEMORY_UTILIZATION CLUSTER_NODES HEAD_IP
          WORKER_IP ETH_IF IB_IF COPY_HOSTS MASTER_PORT CONTAINER_NAME IMAGE_TAG
          IMAGE_REF PULL_IMAGE SPARK_VLLM_REF SPARK_VLLM_DIR HF_TOKEN TAIL
-         DEFAULT_REASONING_EFFORT)
+         DEFAULT_REASONING_EFFORT B12X_ALLOCATOR_CONF)
 
 load_env() {
     if [ ! -f "$ENV_FILE" ]; then
@@ -122,6 +122,8 @@ recipe_args() {
     cmd+=(--port "$PORT" --host "$HOST" --max-model-len "$MAX_MODEL_LEN" \
           --gpu-mem "$GPU_MEMORY_UTILIZATION" --name "$CONTAINER_NAME")
     [ -n "$HF_TOKEN" ] && cmd+=(-e "HF_TOKEN=$HF_TOKEN")
+    # Optional A/B control; empty preserves the image's allocator default.
+    [ -n "${B12X_ALLOCATOR_CONF:-}" ] && cmd+=(-e "PYTORCH_CUDA_ALLOC_CONF=$B12X_ALLOCATOR_CONF")
     cmd+=("$@")
     printf '%s\0' "${cmd[@]}"
 }
