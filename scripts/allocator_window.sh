@@ -52,6 +52,13 @@ checked_run() {
   guard_ok || return 1
   return "$status"
 }
+run_plain() {
+  "$@" & child=$!
+  local status=0
+  wait "$child" || status=$?
+  child=
+  return "$status"
+}
 # Missing, failed or transitional control jobs never authorize B.
 deadline=$((SECONDS + 7200))
 while true; do
@@ -71,15 +78,15 @@ guard_ok a
 grep -F '5/5 checks passed hard' "$OUT/control.log"
 sha256sum --check "$OUT/candidate.sha256"
 cmp recipes/glm-5.3-flash-fp4-local.yaml "$OUT/recipe.control.yaml"
-systemctl --user stop vllm-b12x-watchdog.timer vllm-b12x-watchdog.service vllm-b12x-tailscale.service
+# Arm independent recovery BEFORE the first service mutation.
+: > "$OUT/recovery-required"
+run_plain systemctl --user stop vllm-b12x-watchdog.timer vllm-b12x-watchdog.service vllm-b12x-tailscale.service
 for isolated in vllm-b12x-watchdog.timer vllm-b12x-watchdog.service vllm-b12x-tailscale.service; do
   [ "$(systemctl --user show "$isolated" -p ActiveState --value)" = inactive ]
 done
 docker logs vllm_node > "$OUT/control-server-final.log" 2>&1
-# Durable marker lets ExecStopPost recover even after SIGKILL.
-: > "$OUT/recovery-required"
-systemctl --user stop b12x-ab-memory-a.service
-systemctl --user stop "$UNIT"
+run_plain systemctl --user stop b12x-ab-memory-a.service
+run_plain systemctl --user stop "$UNIT"
 printf '\n# --- allocator B %s ---\n# Independent variable: expandable segments, both ranks\n# Frozen: image/checkpoint, MTP3, 17G FP8 KV, four seats\n# Gate: docs/gates/2026-11-10-allocator.md\n# Rollback: B12X_ALLOCATOR_CONF=\nB12X_ALLOCATOR_CONF=expandable_segments:True\n' "$(date -u +%FT%TZ)" >> .env
 systemd-run --user --unit=b12x-ab-memory-b /bin/bash "$ROOT/scripts/memory_guard.sh" "$OUT/memory-b.csv"
 deadline=$((SECONDS + 30))

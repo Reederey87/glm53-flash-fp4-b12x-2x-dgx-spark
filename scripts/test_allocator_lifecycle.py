@@ -64,6 +64,12 @@ case "$(basename "$0")" in
    *'show vllm-b12x-watchdog'*|*'show vllm-b12x-tailscale'*) echo inactive ;;
    *'is-active --quiet b12x-ab-memory-b.service'*) test -f "$OUT/guard-active" ;;
    *'is-active'*) echo active ;;
+   *'stop vllm-b12x-watchdog.timer '*)
+    if [ "$B12X_TEST_MODE" = isolation ]; then
+      touch "$OUT/phase"
+      if [ "$B12X_TEST_ISOLATION_FAIL" = 1 ]; then exit 1; fi
+      exec sleep 300
+    fi ;;
    *'start vllm-b12x.service'*)
     if candidate && [ "$B12X_TEST_MODE" = startup ]; then touch "$OUT/phase"; exec sleep 300; fi ;;
    *'start vllm-b12x-tailscale.service'*)
@@ -111,10 +117,13 @@ esac
                  "--setenv=PATH=" + str(root/"bin") + ":/usr/bin:/bin",
                  "--setenv=B12X_TEST_ROOT=" + str(root), "--setenv=B12X_TEST_MODE=" + mode,
                  "--setenv=B12X_TEST_RECOVERY=" + recovery_failure,
+                 "--setenv=B12X_TEST_ISOLATION_FAIL=" + ("1" if signal == "stop-failure" else "0"),
                  "--setenv=B12X_TEST_IMAGE=" + IMAGE,
                  "/bin/bash", str(root/"scripts/allocator_window.sh"))
             wait_for(lambda: (out/"phase").exists())
-            if signal == "guard-failure":
+            if signal == "stop-failure":
+                pass
+            elif signal == "guard-failure":
                 (out/"guard-active").unlink()
             else:
                 real("/usr/bin/systemctl", "--user", "kill", "--kill-whom=main", "--signal=" + signal, unit)
@@ -147,4 +156,5 @@ if __name__ == "__main__":
     results = [scenario(mode, signal) for mode in ("startup", "measurement")
                for signal in ("SIGTERM", "SIGKILL", "guard-failure")]
     results += [scenario("measurement", "SIGTERM", failure) for failure in ("proxy-failure", "hold-rollback")]
+    results += [scenario("isolation", signal) for signal in ("SIGTERM", "SIGKILL", "stop-failure")]
     print(json.dumps(results, indent=2))
