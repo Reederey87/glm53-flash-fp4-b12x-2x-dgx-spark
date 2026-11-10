@@ -1,5 +1,16 @@
 # Status
 
+## 2026-11-10 — ordered optimization windows in progress
+
+- Runtime `/home/nvidia/b12x`: saved rollback env/recipe/launcher and image
+  identity, stopped both ranks through the unit, restarted the unchanged
+  17 GiB/MTP-3 control. Watchdog and external proxy stopped for measurement;
+  separate memory guard stops the unit below 2 GiB host available on either rank.
+- Added an optional allocator env passthrough, exact-token c1/2/4/8 prefill
+  matrix, matched-receipt validation and a dependency-free uv project. Control
+  smoke 5/5; full A/B and candidate decisions are pending. Gate:
+  `docs/gates/2026-11-10-allocator.md`; runtime receipts `local/ab-20261110/`.
+
 ## 2026-11-08 — b12x kit deployed; incumbent stopped
 
 - **Deployed:** `/home/nvidia/b12x` serves `nvidia/GLM-5.3-Flash-FP4-Local`
