@@ -106,7 +106,7 @@ esac
         unit = "b12x-review-test-" + uuid.uuid4().hex[:12]
         try:
             real("systemd-run", "--user", "--unit=" + unit,
-                 "--property=KillMode=control-group", "--property=TimeoutStopSec=30",
+                 "--property=KillMode=mixed", "--property=TimeoutStopSec=30",
                  "--property=ExecStopPost=/bin/bash " + str(root/"scripts/allocator_recover.sh"),
                  "--setenv=PATH=" + str(root/"bin") + ":/usr/bin:/bin",
                  "--setenv=B12X_TEST_ROOT=" + str(root), "--setenv=B12X_TEST_MODE=" + mode,
