@@ -15,6 +15,7 @@ import json
 import math
 import os
 import statistics
+import subprocess
 import threading
 import time
 import urllib.request
@@ -74,7 +75,7 @@ def sse(url: str, body: dict) -> dict:
 
 
 def metrics(base: str) -> dict:
-    out = {v: 0.0 for v in SPEC.values()}
+    out = {}
     try:
         with urllib.request.urlopen(f"{base}/metrics", timeout=10) as r:
             for line in r.read().decode().splitlines():
@@ -84,14 +85,41 @@ def metrics(base: str) -> dict:
                 if len(parts) != 2:
                     continue
                 name = parts[0].split("{", 1)[0]
-                if name in out:
+                if name in SPEC.values():
                     try:
-                        out[name] += float(parts[1])
+                        value = float(parts[1])
                     except ValueError:
-                        pass
+                        return {}
+                    if not math.isfinite(value) or value < 0:
+                        return {}
+                    out[name] = out.get(name, 0.0) + value
     except Exception:  # noqa: BLE001
         return {}
-    return out
+    return out if set(out) == set(SPEC.values()) else {}
+
+
+def engine_identity() -> dict:
+    """Host PIDs cover API/engine/ranks even though container PID1 is sleep."""
+    result = {}
+    for node, command in (
+        ("head", ["docker", "top", "vllm_node", "-eo", "pid,args"]),
+        ("worker", ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=5",
+                    "nvidia@192.168.177.11", "docker", "top", "vllm_node", "-eo", "pid,args"]),
+    ):
+        output = subprocess.run(command, check=True, capture_output=True, text=True, timeout=15).stdout
+        pids = []
+        for line in output.splitlines()[1:]:
+            fields = line.strip().split(None, 1)
+            if len(fields) != 2:
+                continue
+            pid, argv = fields
+            if (argv.startswith("VLLM::EngineCore") or argv.startswith("VLLM::Worker_TP")
+                    or ("/usr/local/bin/vllm serve " in argv and "bash" not in argv)):
+                pids.append(pid)
+        if len(pids) != (3 if node == "head" else 2):
+            raise ValueError(f"missing engine/rank processes on {node}")
+        result[node] = sorted(pids)
+    return result
 
 
 def one_round(base: str, model: str, conc: int, tokens: int) -> dict:
@@ -113,6 +141,7 @@ def one_round(base: str, model: str, conc: int, tokens: int) -> dict:
             with lock:
                 errs.append(repr(exc))
 
+    identity0 = engine_identity()
     m0 = metrics(base)
     t0 = time.perf_counter()
     threads = [threading.Thread(target=worker) for _ in range(conc)]
@@ -122,6 +151,9 @@ def one_round(base: str, model: str, conc: int, tokens: int) -> dict:
         t.join()
     wall = time.perf_counter() - t0
     m1 = metrics(base)
+    identity1 = engine_identity()
+    if identity0 != identity1:
+        errs.append("engine process identity changed during batch")
 
     completion = sum(((r["usage"] or {}).get("completion_tokens") or 0) for r in out)
     spans = [r["end"] - (r["first"] or r["end"]) for r in out if r["first"]]
@@ -143,6 +175,8 @@ def one_round(base: str, model: str, conc: int, tokens: int) -> dict:
         "requests": [{"completion_tokens": r["usage"]["completion_tokens"],
                       "ttft_s": r["ttft_s"], "decode_s": r["end"] - r["first"],
                       "done": r["done"], "finish_reason": r["finish_reason"]} for r in out],
+        "metrics_before": m0, "metrics_after": m1,
+        "engine_before": identity0, "engine_after": identity1,
         "aggregate_tok_s": round(agg, 3),
         "per_request_tok_s": round(per_req, 3),
         "accepted": acc, "draft_tokens": dec, "drafts": drf,

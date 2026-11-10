@@ -8,7 +8,14 @@ mkdir -p "$OUT"
 exec 8>"$OUT/recovery.lock"
 flock -w 1800 8
 [ -e "$OUT/recovery-required" ] || exit 0
-trap 'echo "recovery failed; external proxy remains stopped" > "$OUT/rollback-failed.txt"' ERR
+failure() {
+  status=$?
+  trap - ERR
+  systemctl --user stop vllm-b12x-tailscale.service || true
+  printf 'recovery failed rc=%s; external proxy stop requested\n' "$status" > "$OUT/rollback-failed.txt" || true
+  exit "$status"
+}
+trap failure ERR
 systemctl --user stop vllm-b12x-tailscale.service
 systemctl --user stop b12x-ab-memory-a.service b12x-ab-memory-b.service || true
 systemctl --user stop vllm-b12x.service
@@ -25,12 +32,17 @@ for node in head worker; do
   fi
   [ "$image" = "$expected" ]
   # This pinned control image has neither variable; absence proves restoration.
-  if grep -Eq '^PYTORCH_(CUDA_)?ALLOC_CONF=' "$OUT/$node-rollback-env.txt"; then exit 1; fi
+  if grep -Eq '^PYTORCH_(CUDA_)?ALLOC_CONF=' "$OUT/$node-rollback-env.txt"; then false; fi
 done
 /home/nvidia/.local/bin/uv run --offline scripts/smoke.py > "$OUT/rollback-smoke.txt" 2>&1
 grep -F '5/5 checks passed hard' "$OUT/rollback-smoke.txt"
 curl -fsS --max-time 10 http://127.0.0.1:8000/health > "$OUT/rollback-health.txt"
-systemctl --user start vllm-b12x-watchdog.timer vllm-b12x-tailscale.service
-systemctl --user is-active vllm-b12x.service vllm-b12x-watchdog.timer vllm-b12x-tailscale.service > "$OUT/rollback-units.txt"
+systemctl --user start vllm-b12x-watchdog.timer
+systemctl --user is-active --quiet vllm-b12x.service
+systemctl --user is-active --quiet vllm-b12x-watchdog.timer
+systemctl --user start vllm-b12x-tailscale.service
+for unit in vllm-b12x.service vllm-b12x-watchdog.timer vllm-b12x-tailscale.service; do
+  systemctl --user is-active "$unit" >> "$OUT/rollback-units.txt"
+done
 mv "$OUT/recovery-required" "$OUT/recovery-complete"
 date -u +%FT%TZ > "$OUT/recovery-success.txt"

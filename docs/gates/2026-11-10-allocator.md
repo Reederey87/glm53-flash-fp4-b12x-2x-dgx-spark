@@ -14,8 +14,13 @@ primary/recovery status; verify both rollback images/allocator variables and
 reopen external traffic only after 5/5 smoke and health200. The original control
 prefill code/budgets remain unchanged. Preserve its original full receipt and
 repeat the twelve control decode batches with per-request usage/DONE/timing
-validation before B. The changed decode validation/recording is identical in
-both compared arms; historical aggregate-only decode rows are excluded.
+validation before B. Repeat the same twelve batches **after B's full ladder**
+too, preserving both initial receipts and their hashes; compare post-ladder
+decode in both arms, never A post-ladder against B interleaved. The changed
+decode validation/recording is identical in both compared arms; historical
+aggregate-only decode rows are excluded. Preserve all raw counter snapshots
+and require observed finite samples and unchanged API/engine/rank host PIDs
+across every measured decode batch.
 
 Safety research additionally checked the primary
 [systemd service](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html)
@@ -23,6 +28,10 @@ and [kill-mode](https://www.freedesktop.org/software/systemd/man/latest/systemd.
 contracts and [vLLM streaming usage](https://docs.vllm.ai/en/latest/features/per_request_metrics/).
 CPU-only failure injection must cover lost usage/DONE, reset counters, malformed
 or failed memory probes and interrupted window recovery before B is released.
+Readiness must match the current observer InvocationID with heartbeat age in
+0..20 s, including for A. Assert watchdog timer/service and external proxy are
+inactive before B. Recovery failures must actually close the proxy, including
+partial start or post-start receipt failure; verify each unit independently.
 
 Arm A: image allocator default (no override), 17 GiB KV. Arm B: only
 `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True` on both ranks, same KV.

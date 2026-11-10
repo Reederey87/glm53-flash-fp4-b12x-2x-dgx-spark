@@ -4,6 +4,7 @@ import json
 import math
 from pathlib import Path
 from statistics import median
+from decode_bench import SPEC
 
 
 def validate(receipt):
@@ -18,7 +19,8 @@ def validate(receipt):
         if len(row["requests"]) != row["concurrency"]:
             raise ValueError("missing prefill requests")
         if any(r["cached_tokens"] != 0 or r["prompt_tokens"] != row["length"]
-               or r["prefill_tok_s"] <= 0 for r in row["requests"]):
+               or not all(math.isfinite(r[k]) and r[k] > 0 for k in ("prefill_tok_s", "ttft_s"))
+               for r in row["requests"]):
             raise ValueError("invalid or cached prefill")
     for c in (1, 2, 4, 8):
         rows = [r for r in receipt["decode"] if r["concurrency"] == c]
@@ -35,11 +37,25 @@ def validate(receipt):
                 raise ValueError("missing per-request usage")
             for r in requests:
                 if (not r["done"] or not r["finish_reason"] or not 0 < r["completion_tokens"] <= receipt["decode_budget"]
-                        or not r["ttft_s"] > 0 or not r["decode_s"] > 0):
+                        or not all(math.isfinite(r[k]) and r[k] > 0 for k in ("ttft_s", "decode_s"))):
                     raise ValueError("incomplete request stream")
             if (not 0 <= row["accept_rate"] <= 1 or not 1 <= row["accept_length"] <= 4
+                    or not row["aggregate_tok_s"] > 0
                     or not all(math.isfinite(row[k]) for k in ("aggregate_tok_s", "accept_rate", "accept_length", "accepted", "draft_tokens", "drafts"))):
                 raise ValueError("invalid acceptance/timing values")
+            for snapshot in (row.get("metrics_before", {}), row.get("metrics_after", {})):
+                if set(snapshot) != set(SPEC.values()) or not all(math.isfinite(v) and v >= 0 for v in snapshot.values()):
+                    raise ValueError("missing or invalid counter snapshot")
+            for field, counter in SPEC.items():
+                if row[field] != row["metrics_after"][counter] - row["metrics_before"][counter]:
+                    raise ValueError("counter delta mismatch")
+            if (abs(row["accept_rate"] - row["accepted"] / row["draft_tokens"]) > .0001
+                    or abs(row["accept_length"] - (1 + row["accepted"] / row["drafts"])) > .0001):
+                raise ValueError("acceptance ratio mismatch")
+            identity = row.get("engine_before", {})
+            if (identity != row.get("engine_after") or set(identity) != {"head", "worker"}
+                    or len(identity["head"]) != 3 or len(identity["worker"]) != 2):
+                raise ValueError("missing or changed engine identity")
 
 
 def main():

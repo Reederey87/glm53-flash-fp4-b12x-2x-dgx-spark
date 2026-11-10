@@ -12,7 +12,9 @@ child=
 finish() {
   primary=$?
   trap - EXIT
-  trap '' TERM INT
+  # Further termination falls back to service ExecStopPost; do not make
+  # recovery descendants inherit ignored signals and hold the recovery lock.
+  trap - TERM INT
   if [ -n "$child" ]; then kill "$child" 2>/dev/null || true; wait "$child" 2>/dev/null || true; fi
   printf '%s\n' "$primary" > "$OUT/primary-status.txt"
   if /bin/bash "$ROOT/scripts/allocator_recover.sh"; then recovery=0; else recovery=$?; fi
@@ -25,12 +27,17 @@ trap finish EXIT
 trap 'exit 143' TERM
 trap 'exit 130' INT
 guard_ok() {
-  local stamp
-  [ ! -e "$OUT/memory-b.csv.abort" ] || return 1
-  systemctl --user is-active --quiet "$GUARD" || return 1
-  stamp=$(cat "$OUT/memory-b.csv.ready") || return 1
+  local stamp token invocation age
+  local arm="${1:-b}"
+  local unit="b12x-ab-memory-$arm.service"
+  [ ! -e "$OUT/memory-$arm.csv.abort" ] || return 1
+  systemctl --user is-active --quiet "$unit" || return 1
+  read -r token stamp < "$OUT/memory-$arm.csv.ready" || return 1
+  invocation=$(systemctl --user show "$unit" -p InvocationID --value) || return 1
+  [ -n "$invocation" ] && [ "$token" = "$invocation" ] || return 1
   [[ "$stamp" =~ ^[0-9]+$ ]] || return 1
-  [ "$(( $(date +%s) - stamp ))" -le 20 ]
+  age=$(( $(date +%s) - stamp ))
+  [ "$age" -ge 0 ] && [ "$age" -le 20 ]
 }
 checked_run() {
   guard_ok || return 1
@@ -59,10 +66,15 @@ done
 [ "$(systemctl --user show b12x-ab-a.service -p ExecMainStatus --value)" = 0 ]
 [ ! -e "$OUT/memory-a.csv.abort" ]
 systemctl --user is-active --quiet b12x-ab-memory-a.service
+guard_ok a
 "$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-a.json" > "$OUT/control-validation.md"
 grep -F '5/5 checks passed hard' "$OUT/control.log"
 sha256sum --check "$OUT/candidate.sha256"
 cmp recipes/glm-5.3-flash-fp4-local.yaml "$OUT/recipe.control.yaml"
+systemctl --user stop vllm-b12x-watchdog.timer vllm-b12x-watchdog.service vllm-b12x-tailscale.service
+for isolated in vllm-b12x-watchdog.timer vllm-b12x-watchdog.service vllm-b12x-tailscale.service; do
+  [ "$(systemctl --user show "$isolated" -p ActiveState --value)" = inactive ]
+done
 docker logs vllm_node > "$OUT/control-server-final.log" 2>&1
 # Durable marker lets ExecStopPost recover even after SIGKILL.
 : > "$OUT/recovery-required"
@@ -98,6 +110,8 @@ checked_run "$UV" run --offline scripts/smoke.py > "$OUT/smoke-b.txt" 2>&1
 grep -F '5/5 checks passed hard' "$OUT/smoke-b.txt"
 checked_run "$UV" run --offline scripts/speed_matrix.py --label allocator-b-probe --out "$OUT/probe-b.json" --lengths 8192 --concurrency 1 --reps 1
 checked_run "$UV" run --offline scripts/speed_matrix.py --label allocator-b --out "$OUT/matrix-b.json"
+cp -n "$OUT/matrix-b.json" "$OUT/matrix-b-initial.json"
+checked_run "$UV" run --offline scripts/speed_matrix.py --label allocator-b-post --out "$OUT/matrix-b.json" --refresh-decode-from "$OUT/matrix-b-initial.json"
 docker logs vllm_node > "$OUT/candidate-server-final.log" 2>&1
 guard_ok
 "$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-b.json" > "$OUT/comparison.md" 2>&1

@@ -5,6 +5,7 @@ set -euo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT="${1:?receipt path required}"
 FLOOR_KIB=2097152
+TOKEN="${INVOCATION_ID:-manual-$$}"
 trap 'exit 0' TERM INT
 fail_closed() {
   rc=$?
@@ -35,7 +36,7 @@ while true; do
       exit 1
     fi
   done
-  date +%s > "$OUT.ready.tmp"
+  printf '%s %s\n' "$TOKEN" "$(date +%s)" > "$OUT.ready.tmp"
   mv "$OUT.ready.tmp" "$OUT.ready"
   sleep 3
 done
