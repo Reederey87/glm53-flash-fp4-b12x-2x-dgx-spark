@@ -14,6 +14,7 @@ esac
 OUT="$ROOT/local/ab-$TASK"
 UV=/home/nvidia/.local/bin/uv
 mkdir -p "$OUT"
+[ ! -e "$OUT/window-finished.txt" ] || { echo 'use a fresh window name/output directory'; exit 1; }
 child=
 loggers=()
 stop_logs() {
@@ -95,7 +96,6 @@ checked_run() {
   return "$status"
 }
 
-[ ! -e "$OUT/window-finished.txt" ] || { echo 'use a fresh window name/output directory'; exit 1; }
 sha256sum --check "$OUT/frozen.sha256"
 cp -n .env "$OUT/env.before"
 sha256sum .env "$CONTROL_RECIPE" "$CANDIDATE_RECIPE" > "$OUT/before.sha256"
@@ -110,7 +110,7 @@ for arm in "${arms[@]}"; do
   if [ "$arm" = a ]; then
     recipe="$CONTROL_RECIPE"; expected_image="$CONTROL_IMAGE_ID"; image_tag="$CONTROL_IMAGE_TAG"; backend="$CONTROL_BACKEND"; seats="$CONTROL_SEATS"
   else
-    "$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-a.json" > "$OUT/control-validation.md"
+    "$UV" run --offline scripts/compare_matrix.py --validate-only "$OUT/matrix-a.json" > "$OUT/control-validation.md"
     recipe="$CANDIDATE_RECIPE"; expected_image="$CANDIDATE_IMAGE_ID"; image_tag="$CANDIDATE_IMAGE_TAG"; backend="$CANDIDATE_BACKEND"; seats="$CANDIDATE_SEATS"
     run_plain systemctl --user stop "b12x-$TASK-memory-a.service"
   fi
@@ -133,7 +133,7 @@ for arm in "${arms[@]}"; do
   for node in head worker; do
     "$UV" run --offline scripts/window_profile.py --check-boot "$OUT/$node-$arm-boot.log" --backend "$backend"
     if [ "${WINDOW_KIND:-paired}" = observation ]; then
-      "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --require-complete > "$OUT/$node-$arm-trace.json"
+      "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --require-complete --expected-loader "$TRACE_LOADER_SHA256" --expected-helper "$(sha256sum mods/startup-memory/trace.py | cut -d' ' -f1)" > "$OUT/$node-$arm-trace.json"
     fi
   done
   pool_formatted=$("$UV" run --offline -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")
@@ -151,6 +151,6 @@ done
 if [ "${WINDOW_KIND:-paired}" = paired ]; then
   "$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-b.json" > "$OUT/comparison.md" 2>&1
 else
-  "$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-a.json" > "$OUT/observation-validation.md" 2>&1
+  "$UV" run --offline scripts/compare_matrix.py --validate-only "$OUT/matrix-a.json" > "$OUT/observation-validation.md" 2>&1
 fi
 # EXIT/ExecStopPost restore the frozen control even if every gate passes.

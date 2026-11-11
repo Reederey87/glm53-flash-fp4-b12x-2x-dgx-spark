@@ -2,6 +2,16 @@
 import json
 import os
 import time
+import hashlib
+from functools import cache
+from pathlib import Path
+
+
+@cache
+def installation():
+    root = Path(__file__).parent
+    return {"loader_sha256": hashlib.sha256((root/"utils.py").read_bytes()).hexdigest(),
+            "helper_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
 
 
 def snapshot(phase, device, name="", method="", released=None):
@@ -27,6 +37,7 @@ def snapshot(phase, device, name="", method="", released=None):
               "max_allocated": torch.accelerator.max_memory_allocated(device),
               "integrated": current_platform.is_integrated_gpu(device.index),
               "host": mem, "released": released}
+    record.update(installation())
     # One short write (no logging queue/thread or retained tensor references).
     line = "B12X_STARTUP_MEMORY " + json.dumps(record, separators=(",", ":")) + "\n"
     if len(line.encode()) > 4096:

@@ -61,8 +61,17 @@ def validate(receipt):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("baseline")
-    ap.add_argument("candidate")
+    ap.add_argument("candidate", nargs="?")
+    ap.add_argument("--validate-only", action="store_true")
     args = ap.parse_args()
+    if args.validate_only:
+        if args.candidate:
+            ap.error("validation accepts one receipt")
+        validate(json.loads(Path(args.baseline).read_text()))
+        print("Complete single-arm operational matrix validated; no comparison or adoption decision.")
+        return 0
+    if not args.candidate:
+        ap.error("comparison requires two receipts")
     a, b = [json.loads(Path(p).read_text()) for p in (args.baseline, args.candidate)]
     for receipt in (a, b):
         validate(receipt)

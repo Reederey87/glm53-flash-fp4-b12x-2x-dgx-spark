@@ -21,8 +21,11 @@ untouched. `WINDOW_KIND=observation` runs one arm; it never fabricates a paired
 performance comparison. Recovery explicitly selects the canonical recipe,
 not the traced one, and creates fresh containers from the unchanged image.
 
-Evidence gate: both actual rank/image profiles; both installation markers and
-postload records, including the last completed phase if aborted. A fully healthy
+Evidence gate: both actual rank/image profiles; each rank's exact patched-loader
+and helper hashes embedded in the trace; ordered per-module before/after/release
+triples with the actual boolean helper result, and model/attention boundaries.
+Retain the last completed phase if aborted. The integrated-device flag is an
+observation (including false), not an assumed value. A fully healthy
 boot additionally requires both Humming resolved-kernel markers, exact KV pool,
 smoke5/5, parity and the same20cold-prefill/12post-ladder decode matrix. These
 are operational checks, not proof of a speedup from observation overhead.
@@ -32,6 +35,11 @@ observation **and recovery**, matching InvocationID and<=20s heartbeat. A
 recovery safety abort is terminal; no automatic reset/retry of that boot. The
 proxy stays closed if restoration cannot pass its image/profile/smoke/health/
 unit and observer checks. No driver/kernel updates or reduced KV permitted.
+An EXIT cleanup handles failures inside shell functions. Blocking recovery
+commands are supervised with bounded observer polling. Before reopening access,
+stop/join the observer, require inactive/dead + success/status0, reconcile the
+abort marker, and verify live health. Both restored loader hashes must match
+the original untraced image. A single-arm validator emits no paired result.
 All exits restore canonical RECIPE/default allocator through the unit and append
 the ledger; `ExecStopPost` recovers interruption. Single-use output directory:
 `local/ab-startup-memory`; preserve the earlier failed draft output.
@@ -52,3 +60,9 @@ pools. TensorFold bounds in-flight layers with CUDA events and periodically
 releases cache. Adopt its phase/budget receipts in this diagnostic; defer any
 new barrier/pool/allocator policy to a separate measured treatment after traces
 identify the phase. No alternate engine or weight format is introduced.
+
+Recovery review follow-up also consulted Exa results for the
+[Bash manual](https://man7.org/linux/man-pages/man1/bash.1.html) and
+[systemd service lifecycle](https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html).
+Use EXIT cleanup rather than relying on ERR inheritance; reconcile terminal
+observer evidence because a completed stop command alone does not prove health.

@@ -38,7 +38,7 @@ class StartupTrace(unittest.TestCase):
             cuda=types.SimpleNamespace(is_initialized=lambda:True))
         platform = types.SimpleNamespace(current_platform=types.SimpleNamespace(is_integrated_gpu=lambda i:True))
         device = types.SimpleNamespace(type="cuda", index=0)
-        with patch.dict(sys.modules, {"torch":torch,"vllm.platforms":platform}), patch("builtins.open",mock_open(read_data=MEMINFO)), patch.object(trace.os,"write") as write:
+        with patch.object(trace,"installation",return_value={"loader_sha256":"loader","helper_sha256":"helper"}), patch.dict(sys.modules, {"torch":torch,"vllm.platforms":platform}), patch("builtins.open",mock_open(read_data=MEMINFO)), patch.object(trace.os,"write") as write:
             trace.snapshot("release-after", device, "model.layers.0.mlp.experts", "quant", True)
         record = json.loads(write.call_args.args[1].decode().split(MARKER)[1])
         self.assertEqual((record["allocated"],record["reserved"],record["releasable"]),(100,200,100))
@@ -57,13 +57,22 @@ class StartupTrace(unittest.TestCase):
         with self.assertRaises(ValueError): summarize("no records",True)
         trace=load("trace"); writes=[]
         accelerator=types.SimpleNamespace(memory_allocated=lambda d:100,memory_reserved=lambda d:200,max_memory_allocated=lambda d:150)
-        with patch("builtins.open",mock_open(read_data=MEMINFO)), patch.dict(sys.modules,{"torch":types.SimpleNamespace(accelerator=accelerator,cuda=types.SimpleNamespace(is_initialized=lambda:True)),
+        with patch.object(trace,"installation",return_value={"loader_sha256":"loader","helper_sha256":"helper"}), patch("builtins.open",mock_open(read_data=MEMINFO)), patch.dict(sys.modules,{"torch":types.SimpleNamespace(accelerator=accelerator,cuda=types.SimpleNamespace(is_initialized=lambda:True)),
                 "vllm.platforms":types.SimpleNamespace(current_platform=types.SimpleNamespace(is_integrated_gpu=lambda i:True))}), patch.object(trace.os,"write",side_effect=lambda fd,data:writes.append(data.decode())):
             trace.snapshot("postload-enter",types.SimpleNamespace(type="cuda",index=0))
+            trace.snapshot("quant-before",types.SimpleNamespace(type="cuda",index=0),"layer0","quant")
+            trace.snapshot("quant-after",types.SimpleNamespace(type="cuda",index=0),"layer0","quant")
+            trace.snapshot("release-after",types.SimpleNamespace(type="cuda",index=0),"layer0","quant",False)
+            trace.snapshot("attention-enter",types.SimpleNamespace(type="cuda",index=0))
+            trace.snapshot("attention-exit",types.SimpleNamespace(type="cuda",index=0))
             trace.snapshot("postload-exit",types.SimpleNamespace(type="cuda",index=0))
-        result=summarize("".join(writes),True)
-        self.assertEqual(len(result["records"]),2)
-        with self.assertRaises(ValueError): summarize(writes[0],True)
+        result=summarize("".join(writes),True,"loader","helper")
+        self.assertEqual(len(result["records"]),7)
+        with self.assertRaises(ValueError): summarize("".join(writes),True,"wrong","helper")
+        with self.assertRaises(ValueError): summarize("".join(writes[:2]+writes[3:]),True,"loader","helper")
+        with self.assertRaises(ValueError): summarize(writes[0],True,"loader","helper")
+        mixed = json.loads(writes[1].split(MARKER)[1]); mixed['pid']+=1
+        with self.assertRaises(ValueError): summarize(writes[0]+MARKER+json.dumps(mixed))
 
     def test_recipe_changes_only_mods_and_recovers_canonical(self):
         control=(ROOT/"recipes/glm-5.3-flash-fp4-local.yaml").read_text()
