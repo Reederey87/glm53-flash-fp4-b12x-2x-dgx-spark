@@ -74,6 +74,14 @@ guard_ok() {
         fi
       done
     fi
+    if [ "${PINNED_RETURN:-0}" = 1 ]; then
+      for node in head worker; do
+        if [ ! -s "$OUT/$node-$arm-pinned-return-early.json" ] && [ -s "$OUT/$node-$arm.json" ] && [ -f "$OUT/$node-$arm-boot.log" ] && [ "$(grep -c 'B12X_PINNED_RETURN ' "$OUT/$node-$arm-boot.log")" -ge 2 ]; then
+          "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --require-complete --expected-loader "$TRACE_LOADER_SHA256" --expected-helper "$(sha256sum mods/startup-memory/trace.py | cut -d' ' -f1)" > "$OUT/$node-$arm-trace.json" || return 1
+          "$UV" run --offline scripts/pinned_cache_receipt.py "$OUT/$node-$arm-boot.log" --worker "$PINNED_WORKER_SHA256" --helper "$(sha256sum mods/startup-pinned/release.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-pinned-return-early.json" || return 1
+        fi
+      done
+    fi
     if [ "${HOST_OWNERSHIP:-0}" = 1 ] && grep -q 'B12X_HOST_OWNERSHIP ' "$OUT/head-$arm-boot.log" 2>/dev/null && grep -q 'B12X_HOST_OWNERSHIP ' "$OUT/worker-$arm-boot.log" 2>/dev/null; then
       for node in head worker; do
         test -s "$OUT/$node-$arm.json" || return 1
@@ -195,6 +203,11 @@ for arm in "${arms[@]}"; do
       "$UV" run --offline scripts/compiler_release_receipt.py "$OUT/$node-$arm-boot.log" --worker "$RELEASE_WORKER_SHA256" --helper "$(sha256sum mods/compiler-cache-release/release.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" --minimum "$RELEASE_MINIMUM_RECLAIM" > "$OUT/$node-$arm-compiler-release.json"
     fi
   done
+  if [ "${PINNED_RETURN:-0}" = 1 ]; then
+    for node in head worker; do
+      "$UV" run --offline scripts/pinned_cache_receipt.py "$OUT/$node-$arm-boot.log" --worker "$PINNED_WORKER_SHA256" --helper "$(sha256sum mods/startup-pinned/release.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-pinned-return.json"
+    done
+  fi
   pool_formatted=$("$UV" run --offline python -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")
   # The exact capacity is frozen in this first recipe window.
   grep -F "GPU KV cache size: $pool_formatted tokens" "$OUT/head-$arm-boot.log"
