@@ -22,20 +22,26 @@ def load(name):
 
 class StartupBound(unittest.TestCase):
     def test_restore_after_return_and_exception(self):
-        for fail in (False,True):
+        for fail,index in ((False,0),(True,0),(False,None),(True,None)):
             module=load('bound'); current=[1.0]; mutations=[]; writes=[]
-            def set_fraction(value,device): mutations.append(value);current[0]=value
+            expected_index=0 if index is not None else 1
+            def checked(value,device):
+                self.assertEqual(device,expected_index)
+                return value
+            def set_fraction(value,device): checked(None,device);mutations.append(value);current[0]=value
             memory=types.SimpleNamespace(get_allocator_backend=lambda:'native',
-                get_per_process_memory_fraction=lambda d:current[0],
+                get_per_process_memory_fraction=lambda d:checked(current[0],d),
                 set_per_process_memory_fraction=set_fraction,
-                memory_reserved=lambda d:700,memory_allocated=lambda d:600)
+                memory_reserved=lambda d:checked(700,d),memory_allocated=lambda d:checked(600,d))
             torch=types.SimpleNamespace(cuda=types.SimpleNamespace(memory=memory,
-                is_initialized=lambda:True,get_device_properties=lambda d:types.SimpleNamespace(total_memory=1000)))
+                is_initialized=lambda:True,current_device=lambda:expected_index,
+                get_device_properties=lambda d:checked(types.SimpleNamespace(total_memory=1000),d)))
             platform=types.SimpleNamespace(current_platform=types.SimpleNamespace(is_integrated_gpu=lambda d:True))
-            device=types.SimpleNamespace(type='cuda',index=0)
+            device=types.SimpleNamespace(type='cuda',index=index)
             with tempfile.TemporaryDirectory() as tmp:
                 Path(tmp,'utils.py').write_text('# loader\n');Path(tmp,'bound.py').write_text('# helper\n')
                 def original(model,config,target):
+                    self.assertIs(target,device)
                     self.assertEqual(current[0],.8)
                     if fail: raise RuntimeError('original error')
                     return model

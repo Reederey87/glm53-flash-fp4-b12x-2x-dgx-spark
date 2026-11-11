@@ -18,10 +18,14 @@ def bounded_postload(function):
         import torch
         from vllm.platforms import current_platform
 
-        device = target_device
-        if device.type != 'cuda' or not torch.cuda.is_initialized():
+        if target_device.type != 'cuda' or not torch.cuda.is_initialized():
             raise RuntimeError('startup bound requires an initialized CUDA worker')
-        if not current_platform.is_integrated_gpu(device.index):
+        # Fraction APIs do not accept an unindexed torch.device('cuda'). The
+        # loader passes that spelling, while statistics APIs accept it.
+        device = target_device.index
+        if device is None:
+            device = torch.cuda.current_device()
+        if not current_platform.is_integrated_gpu(device):
             raise RuntimeError('startup bound requires an integrated GPU')
         memory = torch.cuda.memory
         backend = memory.get_allocator_backend()
@@ -40,7 +44,7 @@ def bounded_postload(function):
         loader_hash = hashlib.sha256(Path(__file__).with_name('utils.py').read_bytes()).hexdigest()
 
         def event(kind, success):
-            record = dict(event=kind, scope=scope, pid=os.getpid(), utc_ns=time.time_ns(),backend=backend,
+            record = dict(event=kind, scope=scope, pid=os.getpid(), utc_ns=time.time_ns(),backend=backend,device_index=device,
                 fraction=memory.get_per_process_memory_fraction(device), previous=previous,
                 requested=FRACTION, capacity=total, limit=limit, success=success,
                 allocated=memory.memory_allocated(device), reserved=memory.memory_reserved(device),
