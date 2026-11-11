@@ -4,6 +4,7 @@ import copy
 import io
 import json
 import re
+import runpy
 import os
 import subprocess
 import tempfile
@@ -143,6 +144,21 @@ class Lease(unittest.TestCase):
 
 
 class Receipt(unittest.TestCase):
+    def test_actual_cli_failed_B_stops_but_valid_failed_A_is_reported(self):
+        for fraction,expected in ((0,0),(512,1)):
+            p,r,raw=self.fixture();r['fraction']=fraction
+            if fraction:
+                for bundle in r['bundles']:
+                    kernel=bundle['kernel'];kernel['settings_read_only']['percpu_pagelist_high_fraction']='512'
+                    for z in kernel['zones']:
+                        for c in z['cpus']:c['high_min']=c['high_max']=max(z['managed_pages']//512//20,4*c['batch'])
+            text=self.log(p,r,raw)
+            def read(path,*a,**k):return text if str(path)=='/test.log' else '0-19\n'
+            with patch.object(sys,'argv',['receipt','check','/test.log',str(fraction)]),patch.object(Path,'read_text',new=read),contextlib.redirect_stdout(io.StringIO()) as output:
+                with self.assertRaises(SystemExit) as caught:runpy.run_path('scripts/pcp_micro_receipt.py',run_name='__main__')
+            self.assertEqual(caught.exception.code,expected)
+            self.assertFalse(json.loads(output.getvalue())['micro_qualified'])
+
     def fixture(self):
         log=Path('receipts/host-register/predeploy/head-default.log').read_text()
         parent=json.loads(next(l.split(' ',1)[1] for l in log.splitlines() if l.startswith('B12X_HOST_REGISTER_MEMORY ')))

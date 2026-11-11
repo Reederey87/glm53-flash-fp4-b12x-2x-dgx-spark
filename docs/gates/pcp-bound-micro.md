@@ -9,7 +9,8 @@ active owners/pointers/device counters, min_free1048576/stat_interval1. No model
 or API. All model/proxy/watchdog units remain stopped.17G admission stub is not
 model-profile evidence. No persistent sysctl config or production adoption.
 
-Exactly one fresh A then one fresh B process/node, same counter/timing wrapper.
+One fresh A then at most one fresh B process/node, same counter/timing wrapper.
+Stop and roll back immediately on a failed B; a head-B failure prevents workerB.
 Require100GiB available throughout this model-free study, independently of the
 unchanged2GiB full-model floor. This is a micro-probe entry/observation control.
 No adaptive cap search/retry/wait. Read bounded stock before any treatment,

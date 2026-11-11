@@ -41,7 +41,9 @@ if __name__=='__main__':
     if len(sys.argv)==4 and sys.argv[1]=='check':
         fraction=int(sys.argv[3])
         if fraction not in (0,512):raise ValueError('unregistered arm')
-        print(json.dumps(validate(Path(sys.argv[2]).read_text(),fraction)));sys.exit(0)
+        result=validate(Path(sys.argv[2]).read_text(),fraction)
+        print(json.dumps(result),flush=True)
+        sys.exit(1 if fraction==512 and not result['micro_qualified'] else 0)
     root=Path(sys.argv[1]);out={}
     for node in ('head','worker'):
         for arm,fraction in (('A',0),('B',512)):
