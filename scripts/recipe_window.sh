@@ -195,7 +195,7 @@ for arm in "${arms[@]}"; do
       "$UV" run --offline scripts/compiler_release_receipt.py "$OUT/$node-$arm-boot.log" --worker "$RELEASE_WORKER_SHA256" --helper "$(sha256sum mods/compiler-cache-release/release.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" --minimum "$RELEASE_MINIMUM_RECLAIM" > "$OUT/$node-$arm-compiler-release.json"
     fi
   done
-  pool_formatted=$("$UV" run --offline -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")
+  pool_formatted=$("$UV" run --offline python -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")
   # The exact capacity is frozen in this first recipe window.
   grep -F "GPU KV cache size: $pool_formatted tokens" "$OUT/head-$arm-boot.log"
   checked_run "$UV" run --offline scripts/smoke.py > "$OUT/smoke-$arm.txt" 2>&1

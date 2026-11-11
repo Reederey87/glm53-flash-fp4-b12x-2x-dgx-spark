@@ -186,7 +186,7 @@ case "$(basename "$0")" in
     case "$*" in *'--boundary post-explicit-profile --metadata '*) :;; *) exit 95;; esac
     [ "$B12X_TEST_FAILURE" != ownership-evidence ]; echo 'mock compiler proof';;
    *compiler_release_receipt.py*) [ "$B12X_TEST_FAILURE" != release-evidence ]; echo 'mock compiler release proof';;
-   *'run --offline -c '*) echo '2,350,210';;
+   *'run --offline python -c '*) echo '2,350,210';;
    *smoke.py*)
     if [ -e "$OUT/active-recovery" ] && [ "$B12X_TEST_RECOVERY" = recovery-smoke-loss ]; then
       touch "$OUT/rollback-phase"; exec sleep 300
