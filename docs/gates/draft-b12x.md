@@ -16,8 +16,9 @@ shows both the historical Humming launch and a newer b12x draft launch. The
 newer launch changes many controls and is not copied wholesale. The separate
 [NVFP4 checkpoint's BF16-MTP discussion](https://huggingface.co/nvidia/GLM-5.3-Flash-NVFP4/discussions/13)
 does not establish the dtype of this pinned FP4-Local checkpoint. Direct header
-inspection at `76348ddb` proves layer45/expert0 has U8 packed weights,
-F8_E4M3 block scales and F32 global scales. No weight payload is changed.
+inspection at `76348ddb` proves all864 layer45 routed-expert matrices have U8
+packed weights,864 F8_E4M3 block scales and864 F32 global scales. Only423,888
+header bytes were read, zero weight payload bytes. No weight payload is changed.
 
 The installed image's unquantized oracle explicitly permits b12x to fall through
 to auto, unlike the current local vLLM source. Its ModelOpt NVFP4 method prepares
@@ -53,7 +54,10 @@ and newer engine/images are stronger but separate treatments and remain frozen.
 4. Actual image and rank argv/env must show the selected backend, k3, default
    allocator and every frozen control. Capture profiles and boot logs during
    startup, before health. Health within the existing900s unit health gate;
-   expected KV pool, and all five functional smoke checks must pass.
+   expected KV pool, and all five functional smoke checks must pass. Both rank
+   boot logs must contain the pinned oracle's resolved `Using 'HUMMING'` or
+   `Using 'B12X' NvFp4 MoE backend` selection as appropriate. B rejects any
+   Humming selection/config initialization; requested argv alone cannot qualify.
 5. Each arm: three temperature0 parity prompts; raw8k probe; then full exact
    8192/16384/32768/65536/131072 cold ladder at c1/2/4/8 and200-token decode
    budget, three reps per concurrency. Report four-seat cap at c8. All cold

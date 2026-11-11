@@ -59,15 +59,27 @@ def validate(profile, backend, seats, rank, kv):
         raise ValueError("allocator/cache controls changed")
 
 
+def validate_boot(text, backend):
+    selected = f"Using '{backend.upper()}' NvFp4 MoE backend"
+    if selected not in text:
+        raise ValueError(f"resolved backend selection missing: {selected}")
+    if backend == "b12x" and ("Using 'HUMMING' NvFp4 MoE backend" in text or "fused_humming_moe.py" in text):
+        raise ValueError("candidate still initialized the Humming MoE path")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--check")
+    ap.add_argument("--check-boot")
     ap.add_argument("--backend")
     ap.add_argument("--seats", type=int)
     ap.add_argument("--rank", type=int)
     ap.add_argument("--kv", default="17G")
     args = ap.parse_args()
-    if args.check:
+    if args.check_boot:
+        validate_boot(Path(args.check_boot).read_text(), args.backend)
+        print("resolved NvFp4 backend verified")
+    elif args.check:
         validate(json.loads(Path(args.check).read_text()), args.backend, args.seats, args.rank, args.kv)
         print("profile verified")
     else:

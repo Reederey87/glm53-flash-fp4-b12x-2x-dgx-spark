@@ -3,7 +3,7 @@ import copy
 from pathlib import Path
 import unittest
 
-from window_profile import validate
+from window_profile import validate, validate_boot
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -23,6 +23,12 @@ def profile(backend="humming", rank=0):
 
 
 class RecipeWindow(unittest.TestCase):
+    def test_resolved_backend_not_just_requested_argv(self):
+        validate_boot("Using 'HUMMING' NvFp4 MoE backend", "humming")
+        validate_boot("Using 'B12X' NvFp4 MoE backend", "b12x")
+        for text in ("moe_backend='b12x'", "Using 'HUMMING' NvFp4 MoE backend",
+                     "Using 'B12X' NvFp4 MoE backend\nfused_humming_moe.py: config"):
+            with self.assertRaises(ValueError): validate_boot(text, "b12x")
     def test_candidate_changes_only_draft_backend(self):
         a = (ROOT/"recipes/glm-5.3-flash-fp4-local.yaml").read_text()
         b = (ROOT/"recipes/candidates/draft-b12x.yaml").read_text()

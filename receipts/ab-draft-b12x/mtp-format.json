@@ -1,0 +1,11 @@
+{
+  "checkpoint": "76348ddb2be2e35e39ecfc00e75dc07703f4f3d5",
+  "layer": 45,
+  "tensor_counts": {
+    "global_scale:F32": 864,
+    "weight:U8": 864,
+    "block_scale:F8_E4M3": 864
+  },
+  "header_bytes_read": 423888,
+  "weight_payload_bytes_read": 0
+}

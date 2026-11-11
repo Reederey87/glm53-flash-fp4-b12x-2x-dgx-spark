@@ -123,6 +123,11 @@ for arm in a b; do
   capture_startup
   test -s "$OUT/head-$arm.json"; test -s "$OUT/worker-$arm.json"
   booting=0; stop_logs
+  # The pinned NVFP4 oracle logs its resolved kernel family; requested argv
+  # alone is insufficient evidence that the draft treatment initialized.
+  for node in head worker; do
+    "$UV" run --offline scripts/window_profile.py --check-boot "$OUT/$node-$arm-boot.log" --backend "$backend"
+  done
   pool_formatted=$("$UV" run --offline -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")
   # The exact capacity is frozen in this first recipe window.
   grep -F "GPU KV cache size: $pool_formatted tokens" "$OUT/head-$arm-boot.log"
