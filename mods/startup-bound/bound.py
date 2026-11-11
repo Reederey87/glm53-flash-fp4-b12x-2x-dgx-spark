@@ -31,7 +31,8 @@ def bounded_postload(function):
         if not math.isclose(previous, 1.0, rel_tol=0, abs_tol=1e-9):
             raise RuntimeError('startup bound prior fraction differs from frozen default')
         total = torch.cuda.get_device_properties(device).total_memory
-        limit = int(total * FRACTION)
+        # Match this pinned allocator's std::round when converting to bytes.
+        limit = int(math.floor(total * FRACTION + .5))
         if memory.memory_reserved(device) > limit:
             raise RuntimeError('startup bound entry reservation already exceeds limit')
         scope = next(SCOPES)

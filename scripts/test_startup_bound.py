@@ -53,6 +53,8 @@ class StartupBound(unittest.TestCase):
                     log=''.join(MARKER+json.dumps(e)+'\n' for e in events+second)
                     result=validate(log,events[0]['loader_sha256'],events[0]['bound_sha256'],events[0]['pid'])
                     self.assertEqual(result['scopes'],2)
+                    rounded=log.replace('"fraction": 0.8','"fraction": 0.799999999999')
+                    self.assertEqual(validate(rounded,events[0]['loader_sha256'],events[0]['bound_sha256'],events[0]['pid'])['scopes'],2)
                     with self.assertRaises(ValueError):validate(log.replace('"fraction": 1.0','"fraction": 0.8'),events[0]['loader_sha256'],events[0]['bound_sha256'],events[0]['pid'])
 
     def test_wrong_backend_fraction_or_oversized_entry_fails_without_body(self):

@@ -22,13 +22,13 @@ def validate(log, loader_hash, helper_hash, expected_pid, trace=None):
                 raise ValueError('bound did not use native allocator')
             if record['previous']!=1.0 or record['requested']!=.8:
                 raise ValueError('unexpected startup allocator controls')
-            if type(record['capacity']) is not int or record['capacity']<=0 or record['limit']!=int(.8*record['capacity']):
+            if type(record['capacity']) is not int or record['capacity']<=0 or record['limit']!=math.floor(.8*record['capacity']+.5):
                 raise ValueError('incorrect allocator capacity/limit')
             if record['reserved']<record['allocated'] or record['reserved']>record['limit']:
                 raise ValueError('allocator reservation outside startup cap')
         if entered['event']!='enter' or exited['event']!='exit' or exited['success'] is not True:
             raise ValueError('incomplete or failed postload scope')
-        if entered['fraction']!=.8 or exited['fraction']!=1.0:
+        if not math.isclose(entered['fraction'],.8,rel_tol=0,abs_tol=1e-9) or exited['fraction']!=1.0:
             raise ValueError('allocator cap did not activate/restore')
     if trace is not None:
         if trace['minimum_available']<4*1024**3:
