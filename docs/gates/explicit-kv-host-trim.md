@@ -1,5 +1,10 @@
 # One host heap trim after explicit-KV profiling
 
+**Outcome: rejected before KV allocation.** Actual return1.4805MiB head/
+0.7578MiB worker failed1GiB gate. Both hooks refused further startup; cleanup
+verified03:31:39Z, primary1/recovery0, both models absent/proxywatchdogoff. No
+health/smoke/speed/adoption or TODO3 verdict. [Receipts](../../receipts/explicit-kv-host-trim/outcome.md).
+
 Pre-registered stabilization trial, dependency of TODO3. Original control is
 unsafe to reboot; compare safety against retained failed controls. Healthy
 single-arm speed receipts do not by themselves establish a fresh paired gain.

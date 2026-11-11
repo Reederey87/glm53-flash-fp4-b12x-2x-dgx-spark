@@ -1,0 +1,23 @@
+{
+  "decision": "REJECTED_INSUFFICIENT_HOST_HEAP_RECLAMATION",
+  "terminal": "2026-11-11T03:31:39Z",
+  "primary": 1,
+  "recovery": 0,
+  "rank_outcomes": {
+    "head": {
+      "reclaimed_anon_bytes": 1552384,
+      "postload_minimum": 10880856064,
+      "elapsed_ns": 1182336
+    },
+    "worker": {
+      "reclaimed_anon_bytes": 794624,
+      "postload_minimum": 12067909632,
+      "elapsed_ns": 640206
+    }
+  },
+  "kv_allocation_refused": true,
+  "health": false,
+  "smoke": false,
+  "speed": false,
+  "adopted": false
+}

@@ -1,5 +1,17 @@
 # Status
 
+## 2026-11-10 — real-model host trim rejected; models stopped
+
+- Actual one-shot trim returned1.4805MiB head/0.7578MiB worker versus1GiB gate.
+  CUDA/pinned/fraction/admission unchanged. Hooks refused KV allocation and
+  controller stopped eagerly; no floor breach, health/smoke/speed or adoption.
+- Stop-only cleanup03:31:39Z primary1/recovery0 verified both models absent,
+  canonical ledger restored, proxy/watchdog off. Both postload cap scopes had
+  passed with10.134/11.239GiB minima;17G/quant unchanged. TODO3 remains open.
+- Receipts receipts/explicit-kv-host-trim/. Next inspect actual retained compiler
+  and preparation state; the footprint was not free glibc pages recoverable
+  by this call. No further blind cache/heap flush or terminal task replay.
+
 ## 2026-11-10 — explicit-KV host trim stabilization trial running
 
 - Final review cleared4967be9 (critical1467b32);43CPU/40isolated Linux lifecycle

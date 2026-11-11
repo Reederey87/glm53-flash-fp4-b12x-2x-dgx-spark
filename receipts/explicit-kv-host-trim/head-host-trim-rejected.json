@@ -1,0 +1,57 @@
+{
+  "records": [
+    {
+      "version": 1,
+      "phase": "before",
+      "boundary": "post-explicit-profile",
+      "pid": 366,
+      "utc_ns": 1794367893182454491,
+      "device_index": 0,
+      "result": 18253611008,
+      "fraction": 1.0,
+      "allocated": 90342259200,
+      "reserved": 90861207552,
+      "pinned_owned": 687867449,
+      "pinned_active": 150996524,
+      "process": {
+        "VmRSS": 6688092160,
+        "RssAnon": 4868546560
+      },
+      "host": {
+        "MemFree": 21540511744,
+        "MemAvailable": 21468385280
+      },
+      "worker_sha256": "fb8c95d6928ff1c96e1460adb5cba2e335cbeb75b48aaa648bdb4af336f3c79b",
+      "helper_sha256": "849183c5d61c50ead4445cf36d11c8fe7e0db3c0835c49415896103d50f31ff6"
+    },
+    {
+      "version": 1,
+      "phase": "after",
+      "boundary": "post-explicit-profile",
+      "pid": 366,
+      "utc_ns": 1794367893183808586,
+      "device_index": 0,
+      "result": 18253611008,
+      "fraction": 1.0,
+      "allocated": 90342259200,
+      "reserved": 90861207552,
+      "pinned_owned": 687867449,
+      "pinned_active": 150996524,
+      "process": {
+        "VmRSS": 6686539776,
+        "RssAnon": 4866994176
+      },
+      "host": {
+        "MemFree": 21540511744,
+        "MemAvailable": 21468385280
+      },
+      "worker_sha256": "fb8c95d6928ff1c96e1460adb5cba2e335cbeb75b48aaa648bdb4af336f3c79b",
+      "helper_sha256": "849183c5d61c50ead4445cf36d11c8fe7e0db3c0835c49415896103d50f31ff6",
+      "trim_result": 1,
+      "elapsed_ns": 1182336
+    }
+  ],
+  "reclaimed_anon_bytes": 1552384,
+  "gate": "FAILED_LESS_THAN_ONE_GiB",
+  "postload_minimum": 10880856064
+}
