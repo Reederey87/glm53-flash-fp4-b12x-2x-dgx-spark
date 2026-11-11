@@ -1,5 +1,11 @@
 # Terminal ownership observation before warmup
 
+**Outcome: records collected, head safety gate failed.** Head1.623GiB at the
+entry record, worker2.624GiB. Both hooks/PIDs/hashes proven, but no captured-pass
+marker or serving tests. Stop-only cleanup03:13:15Z. Records show~512MiB/rank
+inactive pinned cache and~5.1GiB/rank worker RssAnon. Preserve terminal output.
+[Receipts](../../receipts/host-ownership-entry/outcome.md).
+
 Pre-registered fresh diagnostic, not a serving optimization or TODO3 verdict.
 The prior outer-return observation never ran: head1.788GiB at02:59:16Z during
 kernel warmup caused its guard to stop. Preserve that terminal output.

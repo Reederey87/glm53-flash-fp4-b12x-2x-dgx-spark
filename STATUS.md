@@ -1,5 +1,17 @@
 # Status
 
+## 2026-11-10 — entry ownership measured; models stopped
+
+- Both pre-warmup records collected with exact PID/hash proofs. Head1.623GiB
+  failed2GiB safety gate; worker2.624GiB. No captured-pass marker or serving
+  qualification. Both postload bound scopes passed;17G/quant unchanged.
+- Per rank:~512MiB inactive pinned cache,~5.1GiB worker anonymous RSS. The
+  explicit-KV branch bypasses the source's pre-KV host trim; source presence
+  did not mean it ran. Next measure one earlier heap trim, not a blind flush.
+- Stop-only cleanup03:13:15Z primary1/recovery0 verified both models absent,
+  canonical ledger restored, proxy/watchdog inactive. TODO3 stays open.
+  Receipts receipts/host-ownership-entry/.
+
 ## 2026-11-10 — pre-warmup terminal ownership observation running
 
 - Reviewed criticale9fb5bd;37CPU/38isolated Linuxlifecycle checks and both real

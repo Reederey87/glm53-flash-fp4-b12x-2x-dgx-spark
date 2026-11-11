@@ -1,0 +1,33 @@
+{
+  "decision": "OWNERSHIP_OBSERVED_BUT_HEAD_FLOOR_FAILED",
+  "terminal": "2026-11-11T03:13:15Z",
+  "primary": 1,
+  "recovery": 0,
+  "rank_measurements": {
+    "head": {
+      "ownership_safety_gate": "FAILED_HOST_FLOOR",
+      "pinned_owned": 687868505,
+      "pinned_active": 150997580,
+      "pinned_inactive": 536870925,
+      "worker_anon": 5489672192,
+      "worker_rss": 7309365248,
+      "host_available": 1743089664,
+      "postload_minimum": 10883747840
+    },
+    "worker": {
+      "ownership_safety_gate": "passed",
+      "pinned_owned": 687868505,
+      "pinned_active": 150997580,
+      "pinned_inactive": 536870925,
+      "worker_anon": 5488295936,
+      "worker_rss": 7333515264,
+      "host_available": 2817335296,
+      "postload_minimum": 12140670976
+    }
+  },
+  "health": false,
+  "smoke": false,
+  "speed": false,
+  "adopted": false,
+  "diagnostic_captured_gate": false
+}

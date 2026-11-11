@@ -1,0 +1,138 @@
+{
+  "record": {
+    "version": 1,
+    "boundary": "pre-warmup",
+    "pid": 306,
+    "ppid": 164,
+    "utc_ns": 1794366789878430410,
+    "device_index": 0,
+    "fraction": 1.0,
+    "allocated": 109347401216,
+    "reserved": 109941096448,
+    "cuda_free": 2610712576,
+    "cuda_total": 130663231488,
+    "pinned": {
+      "allocated_bytes.current": 687868505,
+      "active_bytes.current": 150997580,
+      "num_host_alloc": 141,
+      "num_host_free": 0
+    },
+    "processes": [
+      {
+        "VmLck": 0,
+        "VmPin": 422486016,
+        "VmRSS": 7333515264,
+        "RssAnon": 5488295936,
+        "RssFile": 759066624,
+        "RssShmem": 1086152704,
+        "pid": 306,
+        "pss": {
+          "Pss": 7105823744,
+          "Pss_Anon": 5488295936,
+          "Pss_File": 532038656,
+          "Pss_Shmem": 1085489152,
+          "Private_Dirty": 6433845248
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 1483198464,
+        "RssAnon": 1017040896,
+        "RssFile": 466157568,
+        "RssShmem": 0,
+        "pid": 164,
+        "pss": {
+          "Pss": 1256182784,
+          "Pss_Anon": 1017040896,
+          "Pss_File": 239141888,
+          "Pss_Shmem": 0,
+          "Private_Dirty": 1017040896
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 12025856,
+        "RssAnon": 5824512,
+        "RssFile": 6201344,
+        "RssShmem": 0,
+        "pid": 305,
+        "pss": {
+          "Pss": 7682048,
+          "Pss_Anon": 5824512,
+          "Pss_File": 1857536,
+          "Pss_Shmem": 0,
+          "Private_Dirty": 5824512
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 3170304,
+        "RssAnon": 315392,
+        "RssFile": 2854912,
+        "RssShmem": 0,
+        "pid": 163,
+        "pss": {
+          "Pss": 1210368,
+          "Pss_Anon": 315392,
+          "Pss_File": 894976,
+          "Pss_Shmem": 0,
+          "Private_Dirty": 315392
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 3137536,
+        "RssAnon": 282624,
+        "RssFile": 2854912,
+        "RssShmem": 0,
+        "pid": 157,
+        "pss": {
+          "Pss": 1177600,
+          "Pss_Anon": 282624,
+          "Pss_File": 894976,
+          "Pss_Shmem": 0,
+          "Private_Dirty": 282624
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 1257472,
+        "RssAnon": 90112,
+        "RssFile": 1167360,
+        "RssShmem": 0,
+        "pid": 1,
+        "pss": {
+          "Pss": 296960,
+          "Pss_Anon": 90112,
+          "Pss_File": 206848,
+          "Pss_Shmem": 0,
+          "Private_Dirty": 90112
+        }
+      }
+    ],
+    "host": {
+      "MemTotal": 130663231488,
+      "MemFree": 2610712576,
+      "MemAvailable": 2817335296,
+      "Cached": 4553338880,
+      "Unevictable": 24375296,
+      "Mlocked": 24375296,
+      "AnonPages": 6714626048,
+      "Shmem": 1088126976,
+      "Slab": 1426685952,
+      "SReclaimable": 213721088,
+      "SUnreclaim": 1212964864,
+      "PageTables": 36306944
+    },
+    "worker_sha256": "b70976515e0cd1fbd972ed6cbb7c29e1b30d0cb154549df59a5bbfef109251ad",
+    "helper_sha256": "b5676b1ae2518ef2f7330099239821062a299056e1204dd8f918a266d318b2c8"
+  },
+  "pinned_inactive_bytes": 536870925,
+  "serving_qualified": false,
+  "planned_terminal_diagnostic": true
+}

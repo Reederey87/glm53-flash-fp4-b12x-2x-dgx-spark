@@ -1,0 +1,136 @@
+{
+  "record": {
+    "version": 1,
+    "boundary": "pre-warmup",
+    "pid": 402,
+    "ppid": 290,
+    "utc_ns": 1794366789889215317,
+    "device_index": 0,
+    "fraction": 1.0,
+    "allocated": 109347401216,
+    "reserved": 109941096448,
+    "cuda_free": 2196598784,
+    "cuda_total": 130663165952,
+    "pinned": {
+      "allocated_bytes.current": 687868505,
+      "active_bytes.current": 150997580,
+      "num_host_alloc": 141,
+      "num_host_free": 0
+    },
+    "processes": [
+      {
+        "VmLck": 0,
+        "VmPin": 422486016,
+        "VmRSS": 7309365248,
+        "RssAnon": 5489672192,
+        "RssFile": 733388800,
+        "RssShmem": 1086304256,
+        "pid": 402,
+        "pss": {
+          "Pss": 7018700800,
+          "Pss_Anon": 5489672192,
+          "Pss_File": 443492352,
+          "Pss_Shmem": 1085536256,
+          "Private_Dirty": 6435942400
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 1985970176,
+        "RssAnon": 1525649408,
+        "RssFile": 460320768,
+        "RssShmem": 0,
+        "pid": 162,
+        "pss": {
+          "Pss": 1689392128,
+          "Pss_Anon": 1525649408,
+          "Pss_File": 163742720,
+          "Pss_Shmem": 0,
+          "Private_Dirty": 1525649408
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 1063845888,
+        "RssAnon": 649469952,
+        "RssFile": 414281728,
+        "RssShmem": 94208,
+        "pid": 290,
+        "pss": {
+          "Pss": 789408768,
+          "Pss_Anon": 649469952,
+          "Pss_File": 139891712,
+          "Pss_Shmem": 47104,
+          "Private_Dirty": 649469952
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 12009472,
+        "RssAnon": 5824512,
+        "RssFile": 6184960,
+        "RssShmem": 0,
+        "pid": 289,
+        "pss": {
+          "Pss": 7248896,
+          "Pss_Anon": 5824512,
+          "Pss_File": 1424384,
+          "Pss_Shmem": 0,
+          "Private_Dirty": 5824512
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 3170304,
+        "RssAnon": 315392,
+        "RssFile": 2854912,
+        "RssShmem": 0,
+        "pid": 161,
+        "pss": {
+          "Pss": 1162240,
+          "Pss_Anon": 315392,
+          "Pss_File": 846848,
+          "Pss_Shmem": 0,
+          "Private_Dirty": 315392
+        }
+      },
+      {
+        "VmLck": 0,
+        "VmPin": 0,
+        "VmRSS": 3133440,
+        "RssAnon": 282624,
+        "RssFile": 2850816,
+        "RssShmem": 0,
+        "pid": 155,
+        "pss": {
+          "Pss": 1128448,
+          "Pss_Anon": 282624,
+          "Pss_File": 845824,
+          "Pss_Shmem": 0,
+          "Private_Dirty": 282624
+        }
+      }
+    ],
+    "host": {
+      "MemTotal": 130663165952,
+      "MemFree": 2196516864,
+      "MemAvailable": 1743089664,
+      "Cached": 3891060736,
+      "Unevictable": 26718208,
+      "Mlocked": 26718208,
+      "AnonPages": 7905468416,
+      "Shmem": 1088065536,
+      "Slab": 1439834112,
+      "SReclaimable": 223182848,
+      "SUnreclaim": 1216651264,
+      "PageTables": 43380736
+    },
+    "worker_sha256": "b70976515e0cd1fbd972ed6cbb7c29e1b30d0cb154549df59a5bbfef109251ad",
+    "helper_sha256": "b5676b1ae2518ef2f7330099239821062a299056e1204dd8f918a266d318b2c8"
+  },
+  "gate_error": "ownership diagnostic crossed host floor"
+}
