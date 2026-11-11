@@ -1,5 +1,18 @@
 # Status
 
+## 2026-11-10 — pre-warmup terminal ownership observation running
+
+- Reviewed criticale9fb5bd;37CPU/38isolated Linuxlifecycle checks and both real
+  tinyCUDA probes passed. Original warmup never invoked by new wrapper; graph
+  pointers/output preserved in probes. Pinned frontend serving hash22bffdb2 is
+  unchanged, with only trace/bound/entry-diagnostic mods added.
+-35runtime hashes, image/source/env/memory preflights passed. Started template
+  host-ownership-entry initialPID522677; fresh local/ab-host-ownership-entry.
+  Requested17G pool/quant unchanged, common postload bound retained.
+- Captures at entry before JIT/graph work, then holds for stop-only cleanup.
+  No health/smoke/speed/adoption or TODO3 result. Preflight receipts:
+  receipts/host-ownership-entry/predeploy/.
+
 ## 2026-11-10 — ownership observation stopped before its boundary
 
 - Head available1.788GiB at02:59:16Z during kernel warmup, before the outer
