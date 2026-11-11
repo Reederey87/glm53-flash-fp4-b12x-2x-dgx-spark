@@ -1,0 +1,60 @@
+{
+  "scope": "exploratory-host-loader-only",
+  "physical_headroom_qualified": false,
+  "graph_correctness_qualified": false,
+  "checkpoint_deployment_cleared": false,
+  "nodes": {
+    "head": {
+      "paired_provenance_equal": true,
+      "engines_per_arm": 32,
+      "delta_bytes": {
+        "object": {
+          "Anonymous": 6627328,
+          "MemAvailable": -5001216,
+          "Pss": 23183360,
+          "Pss_Anon": 6627328,
+          "Pss_File": 16556032,
+          "Rss": 23183360,
+          "Swap": 0
+        },
+        "shared": {
+          "Anonymous": 1658880,
+          "MemAvailable": 348160,
+          "Pss": 19591168,
+          "Pss_Anon": 1658880,
+          "Pss_File": 17932288,
+          "Rss": 19591168,
+          "Swap": 0
+        }
+      },
+      "object_minus_shared_pss_bytes": 3592192,
+      "object_minus_shared_anon_bytes": 4968448
+    },
+    "worker": {
+      "paired_provenance_equal": true,
+      "engines_per_arm": 32,
+      "delta_bytes": {
+        "object": {
+          "Anonymous": 6529024,
+          "MemAvailable": 0,
+          "Pss": 23085056,
+          "Pss_Anon": 6529024,
+          "Pss_File": 16556032,
+          "Rss": 23085056,
+          "Swap": 0
+        },
+        "shared": {
+          "Anonymous": 1441792,
+          "MemAvailable": 0,
+          "Pss": 19374080,
+          "Pss_Anon": 1441792,
+          "Pss_File": 17932288,
+          "Rss": 19374080,
+          "Swap": 0
+        }
+      },
+      "object_minus_shared_pss_bytes": 3710976,
+      "object_minus_shared_anon_bytes": 5087232
+    }
+  }
+}

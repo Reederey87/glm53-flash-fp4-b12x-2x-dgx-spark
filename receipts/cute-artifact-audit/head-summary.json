@@ -1,0 +1,59 @@
+{
+  "accounting": "file bytes and declared sections, not RAM; GPU bytes are a subset",
+  "complete": true,
+  "distinct_object_digests": 1684,
+  "empty_cache": false,
+  "errors": [],
+  "gpu_payload_coverage": {
+    "complete": false,
+    "identified": 0,
+    "unknown": 1684
+  },
+  "limits": {
+    "entries": 65536,
+    "manifest_bytes": 2097152,
+    "nobits": 8589934592,
+    "nobits_per_object": 268435456,
+    "object_bytes": 67108864,
+    "objects": 8192,
+    "read_bytes": 17179869184,
+    "row_bytes": 33554432,
+    "seconds": 300,
+    "sections": 1000000,
+    "symbols": 16000000
+  },
+  "objects": 1684,
+  "objects_with_gpu_symbol": 0,
+  "scan_complete": true,
+  "scope": "all-disk-objects-not-live-owners",
+  "totals": {
+    "alloc_executable": 4275860,
+    "alloc_nobits": 13472,
+    "alloc_readonly": 73175944,
+    "alloc_writable": 1957784,
+    "nonalloc": 6376498,
+    "object_bytes": 87217976
+  },
+  "totals_basis": "per-path-disk-section-descriptors",
+  "unique_gpu_payload_totals": {
+    "known_subset_bytes": 0,
+    "payloads": 0
+  },
+  "unique_object_totals": {
+    "alloc_executable": 4275860,
+    "alloc_nobits": 13472,
+    "alloc_readonly": 73175944,
+    "alloc_writable": 1957784,
+    "nonalloc": 6376498,
+    "object_bytes": 87217976
+  },
+  "version": 2,
+  "work": {
+    "entries": 5311,
+    "nobits": 13472,
+    "read_bytes": 113214496,
+    "row_bytes": 1975363,
+    "sections": 20131,
+    "symbols": 63838
+  }
+}

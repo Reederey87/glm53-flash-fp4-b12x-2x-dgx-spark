@@ -1,3 +1,5 @@
+2026-11-11: OfflineCuTeaudit23CPUchecks/full1684+1680objects; matchednogpu32-engine.so comparison only3.43/3.54MiBPSSdifference, no physical/graph/deploy qualification. Modelsabsent/proxywatchdogoff verified06:45:25Z; TODO3open, receipts/cute-artifact-audit/outcome.md.
+
 2026-11-11: Postcapture-observe terminal06:11:41Z: head1.840GiB failed2GiBfloor beforesecondwarmup; freeheap10.53/9.51MiB rulesout256MiBtrim. Bothmodelsabsent/canonicalrestored/proxywatchdogoff. Nohealth/smoke/speed/adoption/TODO3completion; receipts/postcapture-observe/outcome.md. NextnativeAOTownershipaudit.
 
 2026-11-11: Started terminalpostcapture-observe afterfinalAstra3105eb5,74CPU/60Linux/fournativeobservationprobes/frontend and53runtime/image/source/env/memorypreflights. UnitPID940500; onlyownershipsnapshotthenstopbeforesecondwarmup. Cleanuprejected, same17G/commoncontrols, nomodeladoption/serving/TODO3verdict.
