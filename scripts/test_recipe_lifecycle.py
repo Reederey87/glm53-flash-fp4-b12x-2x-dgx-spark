@@ -29,7 +29,7 @@ def wait_for(test, seconds=30):
     raise TimeoutError('test phase timed out')
 
 
-def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False):
+def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False, ownership=False):
     with tempfile.TemporaryDirectory(prefix='b12x-review-recipe-') as tmp:
         root=Path(tmp); out=root/f'local/ab-{TASK}'
         out.mkdir(parents=True)
@@ -61,6 +61,11 @@ def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=Fa
                 stream.write('\nWARMUP_CACHE_RETURN=1\nWARMUP_WORKER_SHA256=fixture\nWARMUP_CACHE_MIN_HEAD=67108864\n')
             (root/'mods/warmup-cache-return').mkdir(parents=True)
             (root/'mods/warmup-cache-return/release.py').write_text('# fixture\n')
+        if ownership:
+            with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
+                stream.write('\nHOST_OWNERSHIP=1\nOWNERSHIP_WORKER_SHA256=fixture\n')
+            (root/'mods/host-ownership').mkdir(parents=True)
+            (root/'mods/host-ownership/observe.py').write_text('# fixture\n')
         recipe=root/'recipes/glm-5.3-flash-fp4-local.yaml'; recipe.write_text('fixture control\n')
         (root/f'recipes/candidates/{TASK}.yaml').write_text('fixture candidate\n')
         (root/'.env').write_text('B12X_ALLOCATOR_CONF=\n')
@@ -135,12 +140,15 @@ case "$(basename "$0")" in
     [ "$script" = '# mock docker exec stdin' ] || exit 97
     echo '{"mock":true}' ;;
    'logs '*) echo 'GPU KV cache size: 2,350,210 tokens'
+    if [ "$B12X_TEST_MODE" = ownership ] && [ "$B12X_TEST_FAILURE" != ownership-missing-both ]; then
+      if [ "$B12X_TEST_FAILURE" != ownership-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then echo 'B12X_HOST_OWNERSHIP {}'; fi
+    fi
     case "$*" in *--follow*) exec sleep 300;; esac;;
    *) exit 99;;
   esac;;
  ssh)
   while true; do case "${1:-}" in -o) shift 2;; -n) shift;; *) break;; esac; done
-  shift; exec /bin/bash -c "$*";;
+  shift; export B12X_MOCK_REMOTE=1; exec /bin/bash -c "$*";;
  curl) :;;
  uv)
   case "$*" in
@@ -150,6 +158,7 @@ case "$(basename "$0")" in
    *warmup_cache_receipt.py*)
     [ "$B12X_TEST_FAILURE" != warmup-evidence ]
     echo 'mock cache return proof';;
+   *host_ownership_receipt.py*) [ "$B12X_TEST_FAILURE" != ownership-evidence ]; echo 'mock ownership proof';;
    *'run --offline -c '*) echo '2,350,210';;
    *smoke.py*)
     if [ -e "$OUT/active-recovery" ] && [ "$B12X_TEST_RECOVERY" = recovery-smoke-loss ]; then
@@ -184,7 +193,7 @@ esac
                  '--setenv=B12X_TEST_MODE='+mode,'--setenv=B12X_TEST_FAILURE='+failure,
                  '--setenv=B12X_TEST_RECOVERY='+recovery_failure,'--setenv=B12X_TEST_IMAGE='+IMAGE,
                  '/bin/bash',str(root/'scripts/recipe_window.sh'),TASK)
-            if mode!='observation' and mode!='stabilization':
+            if mode not in ('observation','stabilization','ownership'):
                 wait_for(lambda:(out/'phase').exists())
                 if failure=='guard-failure': (out/('active-a' if stop_only else 'active-b')).unlink()
                 elif failure=='trace-floor': (out/'trace-floor').touch()
@@ -216,6 +225,15 @@ esac
                     events=(out/'events').read_text()
                     assert 'warmup_cache_receipt.py' in events
                     if failure=='warmup-evidence':assert 'scripts/smoke.py' not in events
+                if ownership:
+                    events=(out/'events').read_text()
+                    if failure not in ('ownership-missing-both','ownership-missing-worker'):
+                        assert 'host_ownership_receipt.py' in events
+                    else:
+                        assert (out/'diagnostic-failed.txt').exists()
+                    assert 'scripts/smoke.py' not in events
+                    assert not (out/'matrix-a.json').exists()
+                    assert (out/'diagnostic-captured.txt').exists() == (failure=='none')
                 return {'phase':mode,'failure':failure,'verified_stop_only':failure!='containers-present','cleanup_failed_closed':failure=='containers-present'}
             if recovery_failure=='proxy-failure' or recovery_failure.startswith('recovery-'):
                 wait_for(terminal)
@@ -265,4 +283,5 @@ if __name__=='__main__':
          ('stabilization-startup','guard-failure'),('stabilization-startup','trace-floor'),
          ('stabilization-measurement','SIGTERM'),('stabilization-measurement','SIGKILL')]]
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,warmup=True) for failure in ('none','warmup-evidence')]
+    rows += [scenario('ownership',failure,guarded=True,stop_only=True,ownership=True) for failure in ('none','ownership-evidence','ownership-missing-both','ownership-missing-worker')]
     print(json.dumps({'poll_override_seconds':.1,'scenarios':rows},indent=2))

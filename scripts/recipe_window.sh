@@ -58,6 +58,17 @@ guard_ok() {
         "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --safety-only || return 1
       fi
     done
+    if [ "${HOST_OWNERSHIP:-0}" = 1 ] && grep -q 'B12X_HOST_OWNERSHIP ' "$OUT/head-$arm-boot.log" 2>/dev/null && grep -q 'B12X_HOST_OWNERSHIP ' "$OUT/worker-$arm-boot.log" 2>/dev/null; then
+      for node in head worker; do
+        test -s "$OUT/$node-$arm.json" || return 1
+        "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --require-complete --expected-loader "$TRACE_LOADER_SHA256" --expected-helper "$(sha256sum mods/startup-memory/trace.py | cut -d' ' -f1)" > "$OUT/$node-$arm-trace.json" || return 1
+        "$UV" run --offline scripts/startup_bound_receipt.py "$OUT/$node-$arm-boot.log" --loader "$TRACE_LOADER_SHA256" --helper "$(sha256sum mods/startup-bound/bound.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-bound.json" || return 1
+        "$UV" run --offline scripts/host_ownership_receipt.py "$OUT/$node-$arm-boot.log" --worker "$OWNERSHIP_WORKER_SHA256" --helper "$(sha256sum mods/host-ownership/observe.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-ownership.json" || return 1
+      done
+      date -u +%FT%TZ > "$OUT/diagnostic-captured.txt"
+      # Planned terminal diagnostic: never proceed to /health or serving tests.
+      return 1
+    fi
   fi
 }
 capture_startup() {
@@ -133,6 +144,12 @@ for arm in "${arms[@]}"; do
   done
   booting=1
   checked_run systemctl --user start vllm-b12x.service
+  if [ "${HOST_OWNERSHIP:-0}" = 1 ]; then
+    # Even an unexpectedly healthy unpatched worker must never fall through
+    # into serving measurements in a terminal diagnostic window.
+    echo 'startup returned without validated terminal ownership evidence' > "$OUT/diagnostic-failed.txt"
+    exit 1
+  fi
   capture_startup
   test -s "$OUT/head-$arm.json"; test -s "$OUT/worker-$arm.json"
   booting=0; stop_logs

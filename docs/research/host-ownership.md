@@ -39,3 +39,21 @@ unused host-cache return, earlier CPU lifetime cleanup, bounded library workspac
 configuration or observer lifetime reduction. Each requires source/ownership
 proof and graph compatibility; do not clear library workspaces whose addresses
 may be captured, relax the floor, or shrink the requested KV pool as a shortcut.
+
+For the terminal observation, Exa also verified the
+[Linux proc ABI](https://docs.kernel.org/filesystems/proc.html) and
+[smaps_rollup ABI](https://kernel.org/doc/Documentation/ABI/testing/procfs-smaps_rollup).
+PSS apportions shared pages; RSS counts each mapping's resident view. Neither
+can be added to CUDA reserved on UMA. VmLck/VmPin do not replace the pinned
+allocator's own ownership counters. Read aggregate rollup fields, not all VMAs.
+Detailed PyTorch allocation history is a stronger follow-up if aggregates are
+insufficient, but adds collection overhead and is not enabled in this first read.
+
+Post-lookup local review: vLLM worker and engine call freeze_gc_heap, while
+distributed/parallel_state.py already knows empty_host_cache; EXL3 util/memory.py
+distinguishes integrated host availability and native reservation; TensorFold
+qwen4_exp/cuda/multi.py returns retired buffers rather than live state; Flare
+ignition/preparation/tuning.py retires preparation fixtures before host-cache
+release. FlashInfer's experimental/b12x CSF preparation owns actual quantization
+buffers. These support measuring ownership at a known boundary, not freeing
+live host/graph buffers or copying another engine's policy without evidence.
