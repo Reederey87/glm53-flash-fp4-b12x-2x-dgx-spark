@@ -1,0 +1,17 @@
+{
+  "package": "linux-nvidia-6.17",
+  "version": "6.17.0-1031.31",
+  "tag": "Ubuntu-nvidia-6.17-6.17.0-1031.31",
+  "commit": "791430b07122e9f9f71644082b2bf18583f3b467",
+  "repository": "https://git.launchpad.net/~canonical-kernel/ubuntu/+source/linux-nvidia/+git/noble",
+  "files": {
+    "mm/internal.h": "82b89e1e059cf49f5827fff5fd46090a9703b65e1e9e93819570b40b9c5a9285",
+    "mm/page_alloc.c": "f9f1226cbb0072d5370ea98fdb19046cf403265d6212754632b7190ab50fc72a",
+    "mm/vmstat.c": "46697c0ba00e7dea5f75750886fdcb5da7b366fb025cc80766fc5083d62c4d4f",
+    "mm/show_mem.c": "a5f0417f783952f5064a019f206828846789588dfcf4b83b16b102568e8e9308",
+    "include/linux/vmstat.h": "35bf285c4eaefab60500825dbe7ade16c5126e8036ab391ce690c04502f097f7",
+    "include/linux/mmzone.h": "d386dc23c6435f4eabdcb593d8a007b71ae351126e1d73e3c8454e9f20f22c06"
+  },
+  "source_manifest_sha256": "ff06a568d1f0e1464e5417245df75c68e01028fcb637864976e5428cb1e1041e",
+  "source_diff_sha256": "fb1969600a4a9339dd969cac18e218b23469e4ff879d0f3dae511b9adcd73677"
+}

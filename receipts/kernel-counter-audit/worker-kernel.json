@@ -1,0 +1,24 @@
+{
+  "kernel": "6.17.0-1031-nvidia",
+  "version_signature": "Ubuntu 6.17.0-1031.31-nvidia 6.17.13",
+  "packages": [
+    {
+      "request": "linux-image-6.17.0-1031-nvidia",
+      "status": 0,
+      "result": "linux-image-6.17.0-1031-nvidia\t6.17.0-1031.31\tlinux-signed-nvidia-6.17\t6.17.0-1031.31",
+      "error": ""
+    },
+    {
+      "request": "linux-modules-6.17.0-1031-nvidia",
+      "status": 0,
+      "result": "linux-modules-6.17.0-1031-nvidia\t6.17.0-1031.31\tlinux-nvidia-6.17\t6.17.0-1031.31",
+      "error": ""
+    },
+    {
+      "request": "linux-headers-6.17.0-1031-nvidia",
+      "status": 0,
+      "result": "linux-headers-6.17.0-1031-nvidia\t6.17.0-1031.31\tlinux-nvidia-6.17\t6.17.0-1031.31",
+      "error": ""
+    }
+  ]
+}
