@@ -1,5 +1,17 @@
 # Status
 
+## 2026-11-10 — candidate 3 paired recipe window running
+
+- Staged reviewed code `af8b87e` into `/home/nvidia/b12x` as nvidia, including
+  one-field draft-b12x recipe, profile/kernel evidence checks and independent
+  recovery unit. 14 CPU/12 isolated lifecycle tests passed; real frontend A/B
+  scripts differ only by draft backend,16 runtime hashes/images verified.
+- Started `b12x-recipe-window@draft-b12x.service`; fresh Humming control first,
+  then b12x candidate only after its complete matrix. Same image/quant/17G KV/
+  MTP3/four seats; watchdog/proxy isolated. Output `local/ab-draft-b12x/`.
+  Results and validated restoration pending; no adoption. Both nodes remain on
+  kernel6.17.0-1031-nvidia/driver580.173.02.
+
 ## 2026-11-10 — allocator candidate rejected; healthy control restored
 
 - Allocator-only 17G trial hit the pre-registered 2 GiB available-memory floor
