@@ -1,5 +1,18 @@
 # Status
 
+## 2026-11-10 — terminal host-ownership observation running
+
+- Reviewed critical28dee06;35CPU/38isolated Linuxlifecycle checks pass,
+  including missing-one/both records. Both tiny actualCUDA probes passed with
+  graph pointers/output preserved and intentional hold reached, no model/server.
+-35runtime hashes/image/source/env/memory preflights passed. Started template
+  host-ownership initialPID490616 at02:54:26Z; both profiles verified02:54:49Z,
+  actual worker54b3f8b1/helperd137d0bd match reviewed bytes.17G/quant unchanged;
+  common postload bound retained, rejected device-cache clear removed.
+- This diagnostic never returns into serving. Both ownership records trigger
+  stop-only recovery; no health/smoke/speed/adoption or TODO3 verdict. Receipts
+  receipts/host-ownership/predeploy/, runtime local/ab-host-ownership.
+
 ## 2026-11-10 — device-cache return rejected; models stopped
 
 - New outer-warmup hook activated, hashes/PIDs/live allocation verified, but
