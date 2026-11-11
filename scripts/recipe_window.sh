@@ -73,7 +73,8 @@ guard_ok() {
         "$UV" run --offline scripts/startup_bound_receipt.py "$OUT/$node-$arm-boot.log" --loader "$TRACE_LOADER_SHA256" --helper "$(sha256sum mods/startup-bound/bound.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-bound.json" || return 1
         ownership_args=()
         [ -z "${OWNERSHIP_BOUNDARY:-}" ] || ownership_args+=(--boundary "$OWNERSHIP_BOUNDARY")
-        "$UV" run --offline scripts/host_ownership_receipt.py "$OUT/$node-$arm-boot.log" --worker "$OWNERSHIP_WORKER_SHA256" --helper "$(sha256sum "${OWNERSHIP_HELPER:-mods/host-ownership/observe.py}" | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" "${ownership_args[@]}" > "$OUT/$node-$arm-ownership.json" || return 1
+        [ -z "${OWNERSHIP_METADATA:-}" ] || ownership_args+=(--metadata "$(sha256sum "$OWNERSHIP_METADATA" | cut -d' ' -f1)")
+        "$UV" run --offline "${OWNERSHIP_VALIDATOR:-scripts/host_ownership_receipt.py}" "$OUT/$node-$arm-boot.log" --worker "$OWNERSHIP_WORKER_SHA256" --helper "$(sha256sum "${OWNERSHIP_HELPER:-mods/host-ownership/observe.py}" | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" "${ownership_args[@]}" > "$OUT/$node-$arm-ownership.json" || return 1
       done
       date -u +%FT%TZ > "$OUT/diagnostic-captured.txt"
       # Planned terminal diagnostic: never proceed to /health or serving tests.
