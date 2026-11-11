@@ -1,0 +1,1 @@
+Worker has no b12x env; head owns append-only ledger

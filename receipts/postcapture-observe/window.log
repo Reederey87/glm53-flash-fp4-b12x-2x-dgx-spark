@@ -1,0 +1,67 @@
+launch.sh: OK
+scripts/render_env.sh: OK
+scripts/recipe_window.sh: OK
+scripts/recipe_recover.sh: OK
+scripts/memory_guard.sh: OK
+scripts/window_profile.py: OK
+scripts/startup_trace_receipt.py: OK
+scripts/wait_memory.sh: OK
+scripts/wait_health.sh: OK
+scripts/smoke.py: OK
+scripts/verify_reasoning.py: OK
+scripts/parity.py: OK
+scripts/speed_matrix.py: OK
+scripts/decode_bench.py: OK
+scripts/compare_matrix.py: OK
+scripts/speed_smoke.py: OK
+recipes/glm-5.3-flash-fp4-local.yaml: OK
+mods/startup-memory/install.py: OK
+mods/startup-memory/trace.py: OK
+mods/startup-memory/run.sh: OK
+systemd/b12x-recipe-window@.service: OK
+systemd/vllm-b12x.service: OK
+mods/startup-bound/bound.py: OK
+mods/startup-bound/install.py: OK
+mods/startup-bound/run.sh: OK
+scripts/startup_bound_receipt.py: OK
+scripts/check_startup_bound_cuda.py: OK
+recipes/observations/startup-bound.yaml: OK
+scripts/test_recipe_lifecycle.py: OK
+recipes/windows/draft-b12x.conf: OK
+mods/startup-pinned/install.py: OK
+mods/startup-pinned/release.py: OK
+mods/startup-pinned/run.sh: OK
+scripts/pinned_cache_receipt.py: OK
+scripts/check_pinned_cache_cuda.py: OK
+scripts/test_pinned_cache.py: OK
+recipes/observations/startup-pinned.yaml: OK
+recipes/windows/startup-pinned.conf: OK
+docs/gates/startup-pinned.md: OK
+docs/research/pinned-host-return.md: OK
+mods/postcapture-heap/install.py: OK
+mods/postcapture-heap/return_heap.py: OK
+mods/postcapture-heap/run.sh: OK
+scripts/postcapture_heap_receipt.py: OK
+scripts/check_postcapture_heap_cuda.py: OK
+scripts/test_postcapture_heap.py: OK
+recipes/observations/postcapture-heap.yaml: OK
+recipes/windows/postcapture-heap.conf: OK
+docs/gates/postcapture-heap.md: OK
+recipes/observations/postcapture-observe.yaml: OK
+recipes/windows/postcapture-observe.conf: OK
+docs/gates/postcapture-observe.md: OK
+docs/research/postcapture-budget.md: OK
+cp: warning: behavior of -n is non-portable and may change in future; use --update=none instead
+Running as unit: b12x-postcapture-observe-memory-a.service; invocation ID: ed97eaa418e5462f97b497c0d3c56bf8
+/home/nvidia/b12x/scripts/recipe_window.sh: line 48: /home/nvidia/b12x/local/ab-postcapture-observe/memory-a.csv.ready: No such file or directory
+profile verified
+2026-11-11T06:05:32Z worker-a profile verified
+profile verified
+2026-11-11T06:05:35Z head-a profile verified
+Traceback (most recent call last):
+  File "/home/nvidia/b12x/scripts/startup_trace_receipt.py", line 88, in <module>
+    safety(args.log.read_text())
+  File "/home/nvidia/b12x/scripts/startup_trace_receipt.py", line 18, in safety
+    raise ValueError('passive trace crossed 2 GiB host memory floor')
+ValueError: passive trace crossed 2 GiB host memory floor
+Failed to stop b12x-postcapture-observe-memory-b.service: Unit b12x-postcapture-observe-memory-b.service not loaded.

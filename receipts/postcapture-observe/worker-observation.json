@@ -1,0 +1,58 @@
+{
+  "record": {
+    "version": 1,
+    "phase": "observe",
+    "boundary": "post-capture-before-second-warmup",
+    "pid": 327,
+    "utc_ns": 1794377494810245141,
+    "device_index": 0,
+    "result": 355999744,
+    "kv_bytes": 18253611008,
+    "graphs_captured": true,
+    "fraction": 1.0,
+    "allocated": 109496164352,
+    "reserved": 110155005952,
+    "pinned_owned": 150998056,
+    "pinned_active": 150998056,
+    "gc_enabled": true,
+    "frozen_objects": 375,
+    "workspace_locked": true,
+    "heap": {
+      "arenas": 84,
+      "free_chunk_bytes": 9967603,
+      "system_current_bytes": 2538295296,
+      "mmap_bytes": 625475584
+    },
+    "process": {
+      "VmRSS": 7026880512,
+      "RssAnon": 5639487488
+    },
+    "pss": {
+      "Rss": 7026880512,
+      "Pss": 6798851072,
+      "Pss_Anon": 5639487488,
+      "Shared_Dirty": 1335296,
+      "Private_Dirty": 6245695488,
+      "Anonymous": 5639487488,
+      "KSM": 0,
+      "AnonHugePages": 2120220672,
+      "Swap": 0,
+      "SwapPss": 0
+    },
+    "host": {
+      "MemFree": 2611486720,
+      "MemAvailable": 2961526784
+    },
+    "runner_sha256": "7c6ed91bafc981eb32eddef35b71002f1e5d8525f2e7bab4d5596afdd6fc5fd5",
+    "helper_sha256": "75134f9bf42c33b8a60346db2d56091ca407eab64889fb0ef0e6bfadcad68cf7",
+    "plan_sha256": "272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24",
+    "gc_sha256": "e31de173771f6f3eaef4f12a5ec1da3a71f3e1b80aed2bbedd223a86228829d1",
+    "workspace_sha256": "18334e399b5d7749a0733d64fe6214906d0f9d276fc7c65806603de4c912449c",
+    "graph_sha256": "d43c261320ab63558b0975d9265e6ffe4871512bf7f4a448cfa81a8e6821f971",
+    "retained_program_owners": 228,
+    "retained_identity_sha256": "4119fe45bf7bed0c7d059d8c4fb28c66a9b2797bdecf37f3bdb819c123854707"
+  },
+  "terminal_observation": true,
+  "cleanup_performed": false,
+  "inference_qualified": false
+}

@@ -1,5 +1,12 @@
 # Terminal ownership observation after real graph capture
 
+Terminal result (2026-11-11T06:11:41Z): **failed safety**, not a diagnostic pass.
+Head 1.840 GiB available at the capture boundary; worker 2.758 GiB. Both raw
+records are retained, with head explicitly forensic-only. Free glibc chunks
+were only 11,043,009 / 9,967,603 bytes, ruling out the proposed >=256 MiB trim
+precondition. Both models stopped before second warmup; no serving tests or
+adoption. Full outcome: `receipts/postcapture-observe/outcome.md`.
+
 One passive diagnostic relative to retained startup-pinned Humming A: capture
 one source/PID-bound all-arena heap, process/PSS, CUDA/pinned and retained-owner
 snapshot after the actual V2 capture method's existing GC and workspace lock,

@@ -95,3 +95,6 @@ flush/error/length before parsing, and closes on all paths. Probe records
 storage pointers inside capture before the observation boundary. These fixes
 do not turn the failed cleanup into a pass. Next separately gated terminal
 observer performs no trim and stops before second warmup after one snapshot.
+
+
+Actual terminal observation, 2026-11-11T06:11:34Z: head already1.840GiB before secondwarmup; worker2.758GiB. Only10.53/9.51MiB free glibc chunks, so >=256MiB trim precondition is false. This rules out that specific hypothesis and places the head floor breach before secondwarmup. AnonymousRSS5.299/5.639GB remains unattributed;228program-key/owner tuples do not establish228distinct engines. No trim/secondwarmup/serving; terminalcleanup06:11:41Z. Head forensic-only, not diagnostic-qualified. See receipts/postcapture-observe/outcome.md.
