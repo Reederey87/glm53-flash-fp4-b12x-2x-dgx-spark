@@ -66,6 +66,14 @@ guard_ok() {
         fi
       done
     fi
+    if [ "${COMPILER_RELEASE:-0}" = 1 ]; then
+      for node in head worker; do
+        if [ ! -s "$OUT/$node-$arm-compiler-release-early.json" ] && [ -s "$OUT/$node-$arm.json" ] && [ -f "$OUT/$node-$arm-boot.log" ] && [ "$(grep -c 'B12X_COMPILER_RELEASE ' "$OUT/$node-$arm-boot.log")" -ge 2 ]; then
+          "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --require-complete --expected-loader "$TRACE_LOADER_SHA256" --expected-helper "$(sha256sum mods/startup-memory/trace.py | cut -d' ' -f1)" > "$OUT/$node-$arm-trace.json" || return 1
+          "$UV" run --offline scripts/compiler_release_receipt.py "$OUT/$node-$arm-boot.log" --worker "$RELEASE_WORKER_SHA256" --helper "$(sha256sum mods/compiler-cache-release/release.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" --minimum "$RELEASE_MINIMUM_RECLAIM" > "$OUT/$node-$arm-compiler-release-early.json" || return 1
+        fi
+      done
+    fi
     if [ "${HOST_OWNERSHIP:-0}" = 1 ] && grep -q 'B12X_HOST_OWNERSHIP ' "$OUT/head-$arm-boot.log" 2>/dev/null && grep -q 'B12X_HOST_OWNERSHIP ' "$OUT/worker-$arm-boot.log" 2>/dev/null; then
       for node in head worker; do
         test -s "$OUT/$node-$arm.json" || return 1
@@ -182,6 +190,9 @@ for arm in "${arms[@]}"; do
     fi
     if [ "${HOST_TRIM:-0}" = 1 ]; then
       "$UV" run --offline scripts/host_trim_receipt.py "$OUT/$node-$arm-boot.log" --worker "$TRIM_WORKER_SHA256" --helper "$(sha256sum mods/explicit-kv-host-trim/trim.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" --minimum "$TRIM_MINIMUM_RECLAIM" > "$OUT/$node-$arm-host-trim.json"
+    fi
+    if [ "${COMPILER_RELEASE:-0}" = 1 ]; then
+      "$UV" run --offline scripts/compiler_release_receipt.py "$OUT/$node-$arm-boot.log" --worker "$RELEASE_WORKER_SHA256" --helper "$(sha256sum mods/compiler-cache-release/release.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" --minimum "$RELEASE_MINIMUM_RECLAIM" > "$OUT/$node-$arm-compiler-release.json"
     fi
   done
   pool_formatted=$("$UV" run --offline -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")

@@ -29,7 +29,7 @@ def wait_for(test, seconds=30):
     raise TimeoutError('test phase timed out')
 
 
-def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False, ownership=False, host_trim=False, compiler=False):
+def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False, ownership=False, host_trim=False, compiler=False, release=False):
     with tempfile.TemporaryDirectory(prefix='b12x-review-recipe-') as tmp:
         root=Path(tmp); out=root/f'local/ab-{TASK}'
         out.mkdir(parents=True)
@@ -78,6 +78,12 @@ def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=Fa
             (root/'mods/compiler-ownership').mkdir(parents=True)
             (root/'mods/compiler-ownership/observe.py').write_text('# fixture\n')
             (root/'mods/compiler-ownership/metadata.py').write_text('# fixture metadata\n')
+        if release:
+            (out/'compiler-release-active').touch()
+            with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
+                stream.write('\nCOMPILER_RELEASE=1\nRELEASE_WORKER_SHA256=fixture\nRELEASE_MINIMUM_RECLAIM=1073741824\n')
+            (root/'mods/compiler-cache-release').mkdir(parents=True)
+            (root/'mods/compiler-cache-release/release.py').write_text('# fixture\n')
         recipe=root/'recipes/glm-5.3-flash-fp4-local.yaml'; recipe.write_text('fixture control\n')
         (root/f'recipes/candidates/{TASK}.yaml').write_text('fixture candidate\n')
         (root/'.env').write_text('B12X_ALLOCATOR_CONF=\n')
@@ -152,6 +158,7 @@ case "$(basename "$0")" in
     [ "$script" = '# mock docker exec stdin' ] || exit 97
     echo '{"mock":true}' ;;
    'logs '*) echo 'GPU KV cache size: 2,350,210 tokens'
+    if [ -e "$OUT/compiler-release-active" ]; then printf 'B12X_COMPILER_RELEASE {}\nB12X_COMPILER_RELEASE {}\n'; fi
     if [ -e "$OUT/host-trim-active" ]; then printf 'B12X_HOST_TRIM {}\nB12X_HOST_TRIM {}\n'; fi
     if [ "$B12X_TEST_MODE" = ownership ] && [ "$B12X_TEST_FAILURE" != ownership-missing-both ]; then
       if [ "$B12X_TEST_FAILURE" != ownership-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then echo 'B12X_HOST_OWNERSHIP {}'; fi
@@ -178,6 +185,7 @@ case "$(basename "$0")" in
    *compiler_ownership_receipt.py*)
     case "$*" in *'--boundary post-explicit-profile --metadata '*) :;; *) exit 95;; esac
     [ "$B12X_TEST_FAILURE" != ownership-evidence ]; echo 'mock compiler proof';;
+   *compiler_release_receipt.py*) [ "$B12X_TEST_FAILURE" != release-evidence ]; echo 'mock compiler release proof';;
    *'run --offline -c '*) echo '2,350,210';;
    *smoke.py*)
     if [ -e "$OUT/active-recovery" ] && [ "$B12X_TEST_RECOVERY" = recovery-smoke-loss ]; then
@@ -257,6 +265,10 @@ esac
                     events=(out/'events').read_text()
                     assert 'host_trim_receipt.py' in events
                     if failure=='trim-evidence': assert 'scripts/smoke.py' not in events
+                if release:
+                    events=(out/'events').read_text()
+                    assert 'compiler_release_receipt.py' in events
+                    if failure=='release-evidence': assert 'scripts/smoke.py' not in events
                 return {'phase':mode,'failure':failure,'verified_stop_only':failure!='containers-present','cleanup_failed_closed':failure=='containers-present'}
             if recovery_failure=='proxy-failure' or recovery_failure.startswith('recovery-'):
                 wait_for(terminal)
@@ -309,4 +321,5 @@ if __name__=='__main__':
     rows += [scenario('ownership',failure,guarded=True,stop_only=True,ownership=True) for failure in ('none','ownership-evidence','ownership-missing-both','ownership-missing-worker')]
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,host_trim=True) for failure in ('none','trim-evidence')]
     rows += [scenario('ownership',failure,guarded=True,stop_only=True,ownership=True,compiler=True) for failure in ('none','ownership-evidence','ownership-missing-both','ownership-missing-worker')]
+    rows += [scenario('stabilization',failure,guarded=True,stop_only=True,release=True) for failure in ('none','release-evidence')]
     print(json.dumps({'poll_override_seconds':.1,'scenarios':rows},indent=2))
