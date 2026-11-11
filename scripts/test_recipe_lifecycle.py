@@ -29,7 +29,7 @@ def wait_for(test, seconds=30):
     raise TimeoutError('test phase timed out')
 
 
-def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False, ownership=False, host_trim=False, compiler=False, release=False, pinned=False, postcapture=False):
+def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False, ownership=False, host_trim=False, compiler=False, release=False, pinned=False, postcapture=False, native=False):
     with tempfile.TemporaryDirectory(prefix='b12x-review-recipe-') as tmp:
         root=Path(tmp); out=root/f'local/ab-{TASK}'
         out.mkdir(parents=True)
@@ -78,6 +78,12 @@ def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=Fa
             (root/'mods/compiler-ownership').mkdir(parents=True)
             (root/'mods/compiler-ownership/observe.py').write_text('# fixture\n')
             (root/'mods/compiler-ownership/metadata.py').write_text('# fixture metadata\n')
+        if native:
+            with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
+                stream.write('\nOWNERSHIP_VALIDATOR=scripts/native_ownership_receipt.py\nOWNERSHIP_HELPER=mods/native-ownership/observe.py\nOWNERSHIP_METADATA=mods/native-ownership/metadata.py\nOWNERSHIP_BOUNDARY=post-profile-pinned-before-KV\n')
+            (root/'mods/native-ownership').mkdir(parents=True)
+            (root/'mods/native-ownership/observe.py').write_text('# fixture native observer\n')
+            (root/'mods/native-ownership/metadata.py').write_text('# fixture native collector\n')
         if release:
             (out/'compiler-release-active').touch()
             with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
@@ -209,6 +215,10 @@ case "$(basename "$0")" in
    *compiler_ownership_receipt.py*)
     case "$*" in *'--boundary post-explicit-profile --metadata '*) :;; *) exit 95;; esac
     [ "$B12X_TEST_FAILURE" != ownership-evidence ]; echo 'mock compiler proof';;
+   *native_ownership_receipt.py*)
+    case "$*" in *'--boundary post-profile-pinned-before-KV --metadata '*) :;; *) exit 94;; esac
+    test -e "$OUT/pinned-validator-called"
+    [ "$B12X_TEST_FAILURE" != ownership-evidence ]; echo 'mock native proof';;
    *compiler_release_receipt.py*) [ "$B12X_TEST_FAILURE" != release-evidence ]; echo 'mock compiler release proof';;
    *pinned_cache_receipt.py*)
     touch "$OUT/pinned-validator-called"
@@ -291,7 +301,7 @@ esac
                 if ownership:
                     events=(out/'events').read_text()
                     if failure not in ('ownership-missing-both','ownership-missing-worker'):
-                        assert ('compiler_ownership_receipt.py' if compiler else 'host_ownership_receipt.py') in events
+                        assert ('native_ownership_receipt.py' if native else 'compiler_ownership_receipt.py' if compiler else 'host_ownership_receipt.py') in events
                     else:
                         assert (out/'diagnostic-failed.txt').exists()
                     assert 'scripts/smoke.py' not in events
@@ -308,7 +318,7 @@ esac
                 if pinned:
                     events=(out/'events').read_text()
                     assert (out/'pinned-validator-called').exists()
-                    if failure=='none' and postcapture!='observe':
+                    if failure=='none' and postcapture!='observe' and not native:
                         assert 'scripts/smoke.py' in events and 'scripts/speed_matrix.py' in events
                         assert (out/'matrix-a.json').exists()
                         assert int((out/'primary-status.txt').read_text())==0
@@ -398,4 +408,5 @@ if __name__=='__main__':
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,pinned=True,postcapture=True) for failure in ('none','postcapture-evidence','postcapture-missing-both','postcapture-missing-worker')]
     rows += [scenario('postcapture-startup','postcapture-evidence-startup',guarded=True,stop_only=True,pinned=True,postcapture=True)]
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,pinned=True,postcapture='observe') for failure in ('none','postcapture-evidence','postcapture-missing-both','postcapture-missing-worker')]
+    rows += [scenario('ownership',failure,guarded=True,stop_only=True,pinned=True,ownership=True,native=True) for failure in ('none','ownership-evidence','ownership-missing-both','ownership-missing-worker')]
     print(json.dumps({'poll_override_seconds':.1,'scenarios':rows},indent=2))
