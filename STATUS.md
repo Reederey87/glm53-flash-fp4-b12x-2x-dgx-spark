@@ -1,5 +1,20 @@
 # Status
 
+## 2026-11-10 — compiler lookup retirement trial running
+
+- Final review clearedceac3b6;56CPU/46isolated Linux lifecycle outcomes pass.
+  Both real prepared-B12X probes kept a nonzero retained owner identity, cleared
+  lookup caches, returned~1.23GiB and replayed graphs3times/device spelling with
+  compiler/loader forbidden. Synthetic fixture proves compatibility, not benefit.
+-35runtime hashes/images/sources/env/memory preflights passed; template
+  compiler-cache-release initialPID686674, fresh local/ab-compiler-cache-release.
+  Same17G/quant/common postload cap and serving script22bffdb2.
+- One new API clear before common heap trim, no IR/engine mutation or new GC.
+  Actual>=1GiB/rank return and stable retained/CUDA/pinned/admission proofs
+  required before KV; then full healthy-only correctness/speed gates. Every
+  outcome stop-only; no adoption or TODO3 verdict. Receipts predeploy under
+  receipts/compiler-cache-release/.
+
 ## 2026-11-10 — compiler ownership collected; models stopped
 
 - Both full metadata/maps/memory sets passed before KV allocation. Known
