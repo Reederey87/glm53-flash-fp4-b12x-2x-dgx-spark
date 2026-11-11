@@ -6,6 +6,9 @@ import sys
 
 TARGETS = frozenset((
     'torch._inductor.output_code.CompiledFxGraph',
+    'torch._inductor.standalone_compile.AOTCompiledArtifact',
+    'torch._inductor.standalone_compile.CacheCompiledArtifact',
+    'torch._dynamo.aot_compile_types.BundledAOTAutogradSerializableCallable',
     'torch._inductor.runtime.triton_heuristics.CachingAutotuner',
     'torch._inductor.triton_bundler.TritonBundle',
     'torch._inductor.triton_bundler.TritonKernelArtifacts',

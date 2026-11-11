@@ -32,6 +32,8 @@ class CompilerOwnership(unittest.TestCase):
         kind=type('CompiledFxGraph',(),{'__module__':'torch._inductor.output_code','__sizeof__':forbidden})
         blob=b'PRIVATE-CONTENT'*1000; first=kind(); second=kind()
         first.source_code=blob; second.source_code=blob; first.constants={'hidden':blob*2}
+        cached=type('CacheCompiledArtifact',(),{'__module__':'torch._inductor.standalone_compile'})()
+        cached._artifacts=(blob,None); first.cached=cached
         result=module.compiler_summary([first,second,type('Odd',(),{'__module__':None})()])
         self.assertEqual(result['unique_payload_bytes'],sys.getsizeof(blob))
         self.assertEqual(result['unique_payload_objects'],1)

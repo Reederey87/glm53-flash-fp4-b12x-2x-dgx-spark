@@ -17,7 +17,8 @@ retirement has engine-specific invariants; this diagnostic copies no cleanup.
 
 One observation: after original explicit17G profiling returns, before KV,
 aggregate GC-tracked known compiler classes, deduplicate builtin byte/string
-payload sizes, and classify self smaps into heap/anonymous/file/stack/special.
+payload sizes (including pinned-source AOT/CacheCompiledArtifact wrappers and
+bundled callables), and classify self smaps into heap/anonymous/file/stack/special.
 Bound scan2million GC objects, metadata walk100,000nodes/depth6 and
 smaps16,384VMAs. GC's initial snapshot is a bulk list, so require>=8GiB host
 available and current worker VmRSS<=8GiB before collection. Record truncation,
