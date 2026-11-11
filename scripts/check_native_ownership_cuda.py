@@ -53,8 +53,9 @@ def main():
         emit=native.emit
         def capture_emit(marker,row):
             packets.append((marker,row));emit(marker,row)
+        def forbidden(*a,**kw):raise AssertionError('compiler/loader invoked during observation or replay')
         try:
-            with patch.object(native,'terminal_hold',side_effect=Terminal),patch.object(native,'emit',side_effect=capture_emit):
+            with patch.object(compiler,'compile',forbidden),patch.object(compiler,'_load_cute_compile_from_disk',forbidden),patch.object(native,'terminal_hold',side_effect=Terminal),patch.object(native,'emit',side_effect=capture_emit):
                 try:explicit_profile_stub(worker)
                 except Terminal:pass
                 else:raise AssertionError('terminal observer returned')
@@ -62,7 +63,6 @@ def main():
             assert packets[-1][0]==native.MARKER
             assert packets[-1][1]['inventory_complete'] is True
             assert pointers==(source.data_ptr(),weight.data_ptr(),output.data_ptr(),pinned.data_ptr(),upload.data_ptr())
-            def forbidden(*a,**kw):raise AssertionError('compiler/loader invoked during replay')
             with patch.object(compiler,'compile',forbidden),patch.object(compiler,'_load_cute_compile_from_disk',forbidden):
                 for number in (3,7,11):
                     pinned.fill_(number);upload.zero_();host_graph.replay()

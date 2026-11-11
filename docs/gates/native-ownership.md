@@ -1,5 +1,18 @@
 # Terminal native-owner inventory before KV allocation
 
+Current status: **NOT QUALIFIED for checkpoint deployment.** The initial frozen
+de7fe05 compound probes failed the unchanged common pinned physical-return gate
+on both nodes before collection. A preregistered old/current fixture-only pair
+also failed all four physical gates. Allocator counters alone are insufficient.
+Raw failures remain in receipts/native-ownership/predeploy. Subsequent direct
+schema exploration is explicitly nonqualifying and does not clear this gate.
+
+Independent review found missing carrier keys, disconnected graph acceptance
+and a collection deadline excluding roots/finalization. Revised code requires
+mandatory singleton/dialect identities, connected typed ownership relationships
+and equal program unions, plus an end-to-end deadline/elapsed counter.24focused
+native CPU tests pass; final review and native qualification remain required.
+
 One passive diagnostic relative to startup-pinned Humming controls. Existing
 postload trace,0.80 target/MTP cap restored1.0 and public pinned-cache return
 remain unchanged. New observer is outside pinned return and inside the existing

@@ -59,10 +59,15 @@ def inactive(plan):
         raise ValueError('program materialization context still active')
 
 
-def roots(plan, classes, limits):
+def roots(plan, classes, limits, deadline=None):
     """Keep bounded temporary strong references; no weak registry is an owner."""
     result, identities, edges = [], [], 0
+    def check_time():
+        if deadline is not None and time.monotonic() > deadline:
+            raise ValueError('root enumeration time limit exceeded')
+    check_time()
     for scope in plan['_LIVE_RETAINED_PROGRAMS']:
+        check_time()
         if len(result) >= limits['roots'] or classes.get(type(scope)) != '_RetainedPrograms':
             raise ValueError('unknown or excessive retention scopes')
         data = stored(scope)
@@ -74,26 +79,31 @@ def roots(plan, classes, limits):
             raise ValueError('root edge limit exceeded')
         own = []
         for key, value in owners.items():
+            check_time()
             if type(key) is not int or key != id(value):
                 raise ValueError('invalid explicit owner identity')
             own.append(value)
-        cached = list(cache.values())
+        cached, cached_ids = [], []
+        for key, value in cache.items():
+            check_time();cached.append(value);cached_ids.append((id(key),id(value)))
         result.append((scope, own, cached))
         identities.append((id(scope), tuple(sorted(id(x) for x in own)),
-                           tuple(sorted((id(k), id(v)) for k, v in cache.items()))))
+                           tuple(sorted(cached_ids))))
     fingerprint = hashlib.sha256(json.dumps(sorted(identities), separators=(',', ':')).encode()).hexdigest()
+    check_time()
     return result, fingerprint
 
 
 def collect(plan, classes, limits=None):
+    started = time.monotonic()
     limits = dict(LIMITS if limits is None else limits)
+    deadline = started + limits['seconds']
     inactive(plan)
-    scopes, before = roots(plan, classes, limits)
+    scopes, before = roots(plan, classes, limits, deadline)
     nodes, edges, objects, known, pending = [], [], [], {}, deque()
     counts, programs, blobs, problems = Counter(), set(), set(), []
     charged = 0
     key_references = 0
-    deadline = time.monotonic() + limits['seconds']
 
     def append(destination, value):
         nonlocal charged
@@ -127,10 +137,12 @@ def collect(plan, classes, limits=None):
         if child is not None:
             append(edges, dict(parent=parent, field=label, child=child))
 
-    def keys(node, values):
+    def keys(node, values, *, singleton=None):
         nonlocal key_references
         if type(values) is not tuple or len(values) > limits['edges']:
             raise ValueError('invalid/bounded program tuple')
+        if singleton is not None and len(values)!=1:
+            raise ValueError('compiled/deferred carrier requires one program key')
         recorded = []
         for program in values:
             key_references += 1
@@ -141,6 +153,8 @@ def collect(plan, classes, limits=None):
             data = stored(program); dialect, key = data['dialect'], data['key']
             if dialect not in ('cute', 'triton') or type(key) is not str or not re.fullmatch('[0-9a-f]{64}', key):
                 raise ValueError('invalid canonical program identity')
+            if singleton is not None and dialect!=singleton:
+                raise ValueError('carrier program dialect mismatch')
             pair = (dialect, key); programs.add(pair)
             recorded.append(dict(dialect=dialect, key=key))
         node['programs'] = recorded
@@ -157,7 +171,12 @@ def collect(plan, classes, limits=None):
             if kind == '_RetainedPrograms':
                 continue
             if kind in ('CompiledCuTeProgram', 'DeferredCuTeKernel', 'DeferredTritonKernel', 'function', 'ProgramBundle'):
-                keys(node, data.get('programs' if kind == 'ProgramBundle' else '__b12x_programs__', ()))
+                if kind=='function':
+                    values=data.get('__b12x_programs__',())
+                else:
+                    values=data['programs' if kind=='ProgramBundle' else '__b12x_programs__']
+                keys(node,values,singleton='triton' if kind=='DeferredTritonKernel' else
+                     'cute' if kind in ('CompiledCuTeProgram','DeferredCuTeKernel') else None)
                 if kind == 'CompiledCuTeProgram':
                     edge(number, '_executable', data['_executable'], depth)
                 elif kind.startswith('Deferred'):
@@ -173,6 +192,7 @@ def collect(plan, classes, limits=None):
                         edge(number, 'dependency', child, depth)
             elif kind in ('JitCompiledFunction', 'CudaDialectJitCompiledFunction'):
                 for field in ('engine', 'jit_module', '_default_executor', 'artifacts'):
+                    node[field+'_present']=data[field] is not None
                     edge(number, field, data[field], depth, 'engine' if field == 'engine' else None)
                 binary, prefix = data['load_from_binary'], data['prefix']
                 if type(binary) is not bool or (prefix is not None and
@@ -212,16 +232,25 @@ def collect(plan, classes, limits=None):
             if charged > limits['output_bytes'] or time.monotonic() > deadline:
                 raise ValueError('filled metadata/time limit exceeded')
         inactive(plan)
-        _, after = roots(plan, classes, limits)
+        _, after = roots(plan, classes, limits, deadline)
         if before != after:
             raise ValueError('retention roots changed during inventory')
     except (ValueError, KeyError, RuntimeError) as error:
         problems.append(str(error)[:160])
     report = dict(version=1, complete=not problems, problems=problems[:16], limits=limits,
+                  elapsed_ns=0,
                   root_identity_sha256=before, counts=dict(counts), nodes=nodes, edges=edges,
                   programs=[dict(dialect=d, key=k) for d, k in sorted(programs)],
                   scope='selected-strong-scopes-and-explicit-dependencies',
                   engine_identity_is_native_bytes=False)
     if len(json.dumps(report, separators=(',', ':')).encode()) > limits['output_bytes']:
         raise ValueError('final inventory exceeds output bound')
+    elapsed=time.monotonic()-started
+    report['elapsed_ns']=int(elapsed*1_000_000_000)
+    if elapsed>limits['seconds']:
+        report['complete']=False;report['problems'].append('finalization time limit exceeded')
+    if len(json.dumps(report,separators=(',',':')).encode())>limits['output_bytes']:
+        raise ValueError('final inventory exceeds output bound')
+    if time.monotonic()>deadline:
+        raise ValueError('final serialization time limit exceeded')
     return report

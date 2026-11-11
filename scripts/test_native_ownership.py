@@ -135,6 +135,35 @@ class Collector(unittest.TestCase):
         with patch.dict(sys.modules,{'b12x._lib.compile_plan':None}),self.assertRaisesRegex(ValueError,'already loaded'):
             M.providers()
 
+    def test_mandatory_singleton_carrier_fields_and_dialects(self):
+        for mode in ('missing','empty','multiple','wrong-dialect'):
+            p,c,s,a,b,new,key=fixture()
+            for carrier in (a,b):
+                if mode=='missing':del vars(carrier)['__b12x_programs__']
+                elif mode=='empty':carrier.__b12x_programs__=()
+                elif mode=='multiple':carrier.__b12x_programs__=(key,key)
+                else:key.dialect='triton'
+            with self.subTest(mode=mode):self.assertFalse(M.collect(p,c)['complete'])
+        p,c,s,a,b,new,key=fixture();bundle=new('ProgramBundle');s.cache['bundle']=bundle
+        self.assertFalse(M.collect(p,c)['complete'])
+
+    def test_initial_final_roots_and_serialization_are_inside_deadline(self):
+        real_roots=M.roots
+        for call in (1,2):
+            p,c,s,*_=fixture();clock=[0.];calls=[]
+            def slow_roots(*args):
+                calls.append(1)
+                if len(calls)==call:clock[0]+=3
+                return real_roots(*args)
+            with patch.object(M.time,'monotonic',side_effect=lambda:clock[0]),patch.object(M,'roots',side_effect=slow_roots):
+                with self.assertRaisesRegex(ValueError,'time limit'):M.collect(p,c)
+        p,c,s,*_=fixture();clock=[0.];real_dumps=M.json.dumps
+        def slow_dumps(value,*args,**kwargs):
+            if type(value) is dict and 'nodes' in value:clock[0]+=3
+            return real_dumps(value,*args,**kwargs)
+        with patch.object(M.time,'monotonic',side_effect=lambda:clock[0]),patch.object(M.json,'dumps',side_effect=slow_dumps):
+            with self.assertRaisesRegex(ValueError,'time limit'):M.collect(p,c)
+
     def test_weak_scope_not_retained_after_snapshot(self):
         p,c,s,*_=fixture();reference=weakref.ref(s);M.collect(p,c)
         del s;self.assertIsNone(reference())
@@ -238,6 +267,28 @@ class Receipts(unittest.TestCase):
             with self.subTest(key=key),self.assertRaises(ValueError):v.validate('\n'.join(lines),'w','h','m',trace)
         v,lines,trace=self.fixture_log()
         with self.assertRaises(ValueError):v.validate('\n'.join(lines[1:]),'w','h','m',trace)
+
+    def test_graph_relationships_reachability_and_key_union(self):
+        import native_ownership_receipt as V
+        for mode in ('disconnected','wrong-kind','missing-executable','program-union','wrong-singleton','wrong-prefix'):
+            p,c,s,*_=fixture();r=M.collect(p,c)
+            if mode=='disconnected':r['edges']=[e for e in r['edges'] if e['field']=='owners']
+            elif mode=='wrong-kind':r['edges'][0]['field']='engine'
+            elif mode=='missing-executable':r['edges']=[e for e in r['edges'] if e['field']!='_executable']
+            elif mode=='program-union':r['programs']=[]
+            elif mode=='wrong-singleton':next(n for n in r['nodes'] if n['kind']=='CompiledCuTeProgram')['programs']=[]
+            else:next(n for n in r['nodes'] if n['kind']=='CudaDialectJitCompiledFunction')['prefix']='wrong'
+            with self.subTest(mode=mode),self.assertRaises(ValueError):V.validate_graph(r)
+
+    def test_aliasing_cycles_and_materialized_modules_validate(self):
+        import native_ownership_receipt as V
+        p,c,s,a,b,new,key=fixture()
+        def function():pass
+        function.__b12x_programs__=(key,);function.__b12x_dependencies__=(function,a)
+        s.cache['function']=function
+        module=new('CudaDialectJitModule',engine=a._executable.engine,_unloaded=False,cuda_library=[object()])
+        a._executable.jit_module=module;a._executable._default_executor=new('JitExecutor',jit_module=module)
+        V.validate_graph(M.collect(p,c))
 
 
 if __name__=='__main__':unittest.main()

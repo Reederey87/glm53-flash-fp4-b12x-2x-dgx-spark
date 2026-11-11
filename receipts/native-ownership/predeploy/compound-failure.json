@@ -1,0 +1,22 @@
+{
+  "outcome": "compound-microqualification-failed-before-collector",
+  "checkpoint_deployment_cleared": false,
+  "collector_executed": false,
+  "model_loaded": false,
+  "nodes": {
+    "head": {
+      "returned_idle_bytes": 536870912,
+      "available_delta": -229376,
+      "common_pinned_qualified": false,
+      "error": "pinned cache failed physical128MiB return gate",
+      "worker_sha256": "cc95ace187a6ab535bb687c8bb97f5089a1f59dc6e1feb00ee799ff3ea5c40eb"
+    },
+    "worker": {
+      "returned_idle_bytes": 536870912,
+      "available_delta": 0,
+      "common_pinned_qualified": false,
+      "error": "pinned cache failed physical128MiB return gate",
+      "worker_sha256": "cc95ace187a6ab535bb687c8bb97f5089a1f59dc6e1feb00ee799ff3ea5c40eb"
+    }
+  }
+}

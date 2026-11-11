@@ -1,0 +1,586 @@
+{
+  "head": {
+    "old": {
+      "fixture": "old",
+      "comparison": "fixture-only-under-current-common-setup",
+      "rows": [
+        {
+          "phase": "before-fixture",
+          "pid": 62,
+          "utc_ns": 1794381723092061213,
+          "host": {
+            "MemFree": 121662160896,
+            "MemAvailable": 121599102976,
+            "Cached": 3038433280,
+            "Unevictable": 24735744,
+            "AnonPages": 855003136,
+            "Slab": 963506176,
+            "SReclaimable": 472408064
+          },
+          "process": {
+            "VmRSS": 1096298496,
+            "RssAnon": 621940736
+          },
+          "pss": {
+            "Pss": 1095485440,
+            "Pss_Anon": 621940736,
+            "Pss_File": 427210752,
+            "Pss_Shmem": 46333952
+          },
+          "pinned": {
+            "allocated_bytes.current": 1048576,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 1,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "resident-fixture",
+          "pid": 62,
+          "utc_ns": 1794381723275623227,
+          "host": {
+            "MemFree": 121144963072,
+            "MemAvailable": 121082744832,
+            "Cached": 3575508992,
+            "Unevictable": 24735744,
+            "AnonPages": 855367680,
+            "Slab": 967348224,
+            "SReclaimable": 473677824
+          },
+          "process": {
+            "VmRSS": 1633239040,
+            "RssAnon": 621944832
+          },
+          "pss": {
+            "Pss": 1632425984,
+            "Pss_Anon": 621944832,
+            "Pss_File": 427276288,
+            "Pss_Shmem": 583204864
+          },
+          "pinned": {
+            "allocated_bytes.current": 537919488,
+            "active_bytes.current": 537919488,
+            "num_host_alloc": 2,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "cached-before-profile-stub",
+          "pid": 62,
+          "utc_ns": 1794381723290607538,
+          "host": {
+            "MemFree": 121144963072,
+            "MemAvailable": 121082744832,
+            "Cached": 3575508992,
+            "Unevictable": 24735744,
+            "AnonPages": 855367680,
+            "Slab": 967348224,
+            "SReclaimable": 473677824
+          },
+          "process": {
+            "VmRSS": 1633239040,
+            "RssAnon": 621944832
+          },
+          "pss": {
+            "Pss": 1632425984,
+            "Pss_Anon": 621944832,
+            "Pss_File": 427276288,
+            "Pss_Shmem": 583204864
+          },
+          "pinned": {
+            "allocated_bytes.current": 537919488,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 2,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "after-helper-or-exception",
+          "pid": 62,
+          "utc_ns": 1794381723415318553,
+          "host": {
+            "MemFree": 121144963072,
+            "MemAvailable": 121082515456,
+            "Cached": 3039014912,
+            "Unevictable": 24735744,
+            "AnonPages": 855392256,
+            "Slab": 965029888,
+            "SReclaimable": 473219072
+          },
+          "process": {
+            "VmRSS": 1096368128,
+            "RssAnon": 621944832
+          },
+          "pss": {
+            "Pss": 1095522304,
+            "Pss_Anon": 621944832,
+            "Pss_File": 427243520,
+            "Pss_Shmem": 46333952
+          },
+          "pinned": {
+            "allocated_bytes.current": 1048576,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 2,
+            "num_host_free": 1
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        }
+      ],
+      "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+      "helper_gate_passed": false,
+      "helper_failure": "pinned cache failed physical128MiB return gate; refuse KV allocation",
+      "measurement_only": true,
+      "compound_probe_qualified": false,
+      "checkpoint_deployment_cleared": false,
+      "checkpoint_loaded": false,
+      "server_loaded": false,
+      "fixture_bytes": 536870912,
+      "added_waits": false,
+      "gate_interval_unchanged": true
+    },
+    "current": {
+      "fixture": "current",
+      "comparison": "fixture-only-under-current-common-setup",
+      "rows": [
+        {
+          "phase": "before-fixture",
+          "pid": 64,
+          "utc_ns": 1794381770261200840,
+          "host": {
+            "MemFree": 121451192320,
+            "MemAvailable": 121390096384,
+            "Cached": 3038531584,
+            "Unevictable": 24735744,
+            "AnonPages": 856829952,
+            "Slab": 963964928,
+            "SReclaimable": 472530944
+          },
+          "process": {
+            "VmRSS": 1096249344,
+            "RssAnon": 621891584
+          },
+          "pss": {
+            "Pss": 1095403520,
+            "Pss_Anon": 621891584,
+            "Pss_File": 427177984,
+            "Pss_Shmem": 46333952
+          },
+          "pinned": {
+            "allocated_bytes.current": 1048576,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 1,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "resident-fixture",
+          "pid": 64,
+          "utc_ns": 1794381770437960396,
+          "host": {
+            "MemFree": 120892575744,
+            "MemAvailable": 120832413696,
+            "Cached": 3575422976,
+            "Unevictable": 24735744,
+            "AnonPages": 857047040,
+            "Slab": 967675904,
+            "SReclaimable": 473899008
+          },
+          "process": {
+            "VmRSS": 1633120256,
+            "RssAnon": 621891584
+          },
+          "pss": {
+            "Pss": 1632274432,
+            "Pss_Anon": 621891584,
+            "Pss_File": 427177984,
+            "Pss_Shmem": 583204864
+          },
+          "pinned": {
+            "allocated_bytes.current": 537919488,
+            "active_bytes.current": 537919488,
+            "num_host_alloc": 2,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "cached-inside-profile-stub",
+          "pid": 64,
+          "utc_ns": 1794381770451963486,
+          "host": {
+            "MemFree": 120892575744,
+            "MemAvailable": 120832413696,
+            "Cached": 3575422976,
+            "Unevictable": 24735744,
+            "AnonPages": 857047040,
+            "Slab": 967675904,
+            "SReclaimable": 473899008
+          },
+          "process": {
+            "VmRSS": 1633120256,
+            "RssAnon": 621891584
+          },
+          "pss": {
+            "Pss": 1632274432,
+            "Pss_Anon": 621891584,
+            "Pss_File": 427177984,
+            "Pss_Shmem": 583204864
+          },
+          "pinned": {
+            "allocated_bytes.current": 537919488,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 2,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "after-helper-or-exception",
+          "pid": 64,
+          "utc_ns": 1794381770573028903,
+          "host": {
+            "MemFree": 120892575744,
+            "MemAvailable": 120832184320,
+            "Cached": 3038928896,
+            "Unevictable": 24735744,
+            "AnonPages": 857047040,
+            "Slab": 965120000,
+            "SReclaimable": 473440256
+          },
+          "process": {
+            "VmRSS": 1096249344,
+            "RssAnon": 621891584
+          },
+          "pss": {
+            "Pss": 1095403520,
+            "Pss_Anon": 621891584,
+            "Pss_File": 427177984,
+            "Pss_Shmem": 46333952
+          },
+          "pinned": {
+            "allocated_bytes.current": 1048576,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 2,
+            "num_host_free": 1
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        }
+      ],
+      "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+      "helper_gate_passed": false,
+      "helper_failure": "pinned cache failed physical128MiB return gate; refuse KV allocation",
+      "measurement_only": true,
+      "compound_probe_qualified": false,
+      "checkpoint_deployment_cleared": false,
+      "checkpoint_loaded": false,
+      "server_loaded": false,
+      "fixture_bytes": 536870912,
+      "added_waits": false,
+      "gate_interval_unchanged": true
+    }
+  },
+  "worker": {
+    "old": {
+      "fixture": "old",
+      "comparison": "fixture-only-under-current-common-setup",
+      "rows": [
+        {
+          "phase": "before-fixture",
+          "pid": 63,
+          "utc_ns": 1794381724873181509,
+          "host": {
+            "MemFree": 121784987648,
+            "MemAvailable": 121880035328,
+            "Cached": 3324473344,
+            "Unevictable": 24375296,
+            "AnonPages": 822611968,
+            "Slab": 669261824,
+            "SReclaimable": 205074432
+          },
+          "process": {
+            "VmRSS": 1099857920,
+            "RssAnon": 621580288
+          },
+          "pss": {
+            "Pss": 1099044864,
+            "Pss_Anon": 621580288,
+            "Pss_File": 431130624,
+            "Pss_Shmem": 46333952
+          },
+          "pinned": {
+            "allocated_bytes.current": 1048576,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 1,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "resident-fixture",
+          "pid": 63,
+          "utc_ns": 1794381725046605790,
+          "host": {
+            "MemFree": 121239494656,
+            "MemAvailable": 121335189504,
+            "Cached": 3861553152,
+            "Unevictable": 24375296,
+            "AnonPages": 823271424,
+            "Slab": 672583680,
+            "SReclaimable": 205873152
+          },
+          "process": {
+            "VmRSS": 1636798464,
+            "RssAnon": 621584384
+          },
+          "pss": {
+            "Pss": 1635952640,
+            "Pss_Anon": 621584384,
+            "Pss_File": 431163392,
+            "Pss_Shmem": 583204864
+          },
+          "pinned": {
+            "allocated_bytes.current": 537919488,
+            "active_bytes.current": 537919488,
+            "num_host_alloc": 2,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "cached-before-profile-stub",
+          "pid": 63,
+          "utc_ns": 1794381725060512780,
+          "host": {
+            "MemFree": 121239494656,
+            "MemAvailable": 121335189504,
+            "Cached": 3861553152,
+            "Unevictable": 24375296,
+            "AnonPages": 823271424,
+            "Slab": 672583680,
+            "SReclaimable": 205873152
+          },
+          "process": {
+            "VmRSS": 1636798464,
+            "RssAnon": 621584384
+          },
+          "pss": {
+            "Pss": 1635952640,
+            "Pss_Anon": 621584384,
+            "Pss_File": 431163392,
+            "Pss_Shmem": 583204864
+          },
+          "pinned": {
+            "allocated_bytes.current": 537919488,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 2,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "after-helper-or-exception",
+          "pid": 63,
+          "utc_ns": 1794381725193856947,
+          "host": {
+            "MemFree": 121239494656,
+            "MemAvailable": 121335189504,
+            "Cached": 3325059072,
+            "Unevictable": 24375296,
+            "AnonPages": 823271424,
+            "Slab": 670486528,
+            "SReclaimable": 205873152
+          },
+          "process": {
+            "VmRSS": 1099927552,
+            "RssAnon": 621584384
+          },
+          "pss": {
+            "Pss": 1099081728,
+            "Pss_Anon": 621584384,
+            "Pss_File": 431163392,
+            "Pss_Shmem": 46333952
+          },
+          "pinned": {
+            "allocated_bytes.current": 1048576,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 2,
+            "num_host_free": 1
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        }
+      ],
+      "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+      "helper_gate_passed": false,
+      "helper_failure": "pinned cache failed physical128MiB return gate; refuse KV allocation",
+      "measurement_only": true,
+      "compound_probe_qualified": false,
+      "checkpoint_deployment_cleared": false,
+      "checkpoint_loaded": false,
+      "server_loaded": false,
+      "fixture_bytes": 536870912,
+      "added_waits": false,
+      "gate_interval_unchanged": true
+    },
+    "current": {
+      "fixture": "current",
+      "comparison": "fixture-only-under-current-common-setup",
+      "rows": [
+        {
+          "phase": "before-fixture",
+          "pid": 64,
+          "utc_ns": 1794381773487486357,
+          "host": {
+            "MemFree": 121552773120,
+            "MemAvailable": 121649934336,
+            "Cached": 3324481536,
+            "Unevictable": 24375296,
+            "AnonPages": 829521920,
+            "Slab": 669487104,
+            "SReclaimable": 205025280
+          },
+          "process": {
+            "VmRSS": 1100140544,
+            "RssAnon": 621862912
+          },
+          "pss": {
+            "Pss": 1099327488,
+            "Pss_Anon": 621862912,
+            "Pss_File": 431130624,
+            "Pss_Shmem": 46333952
+          },
+          "pinned": {
+            "allocated_bytes.current": 1048576,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 1,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "resident-fixture",
+          "pid": 64,
+          "utc_ns": 1794381773637240314,
+          "host": {
+            "MemFree": 121003773952,
+            "MemAvailable": 121101619200,
+            "Cached": 3861561344,
+            "Unevictable": 24375296,
+            "AnonPages": 829587456,
+            "Slab": 672817152,
+            "SReclaimable": 205897728
+          },
+          "process": {
+            "VmRSS": 1637011456,
+            "RssAnon": 621862912
+          },
+          "pss": {
+            "Pss": 1636165632,
+            "Pss_Anon": 621862912,
+            "Pss_File": 431097856,
+            "Pss_Shmem": 583204864
+          },
+          "pinned": {
+            "allocated_bytes.current": 537919488,
+            "active_bytes.current": 537919488,
+            "num_host_alloc": 2,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "cached-inside-profile-stub",
+          "pid": 64,
+          "utc_ns": 1794381773650575468,
+          "host": {
+            "MemFree": 121003773952,
+            "MemAvailable": 121101619200,
+            "Cached": 3861561344,
+            "Unevictable": 24375296,
+            "AnonPages": 829587456,
+            "Slab": 672817152,
+            "SReclaimable": 205897728
+          },
+          "process": {
+            "VmRSS": 1637011456,
+            "RssAnon": 621862912
+          },
+          "pss": {
+            "Pss": 1636165632,
+            "Pss_Anon": 621862912,
+            "Pss_File": 431097856,
+            "Pss_Shmem": 583204864
+          },
+          "pinned": {
+            "allocated_bytes.current": 537919488,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 2,
+            "num_host_free": 0
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        },
+        {
+          "phase": "after-helper-or-exception",
+          "pid": 64,
+          "utc_ns": 1794381773797109936,
+          "host": {
+            "MemFree": 121003773952,
+            "MemAvailable": 121101619200,
+            "Cached": 3325067264,
+            "Unevictable": 24375296,
+            "AnonPages": 829591552,
+            "Slab": 670720000,
+            "SReclaimable": 205897728
+          },
+          "process": {
+            "VmRSS": 1100140544,
+            "RssAnon": 621862912
+          },
+          "pss": {
+            "Pss": 1099294720,
+            "Pss_Anon": 621862912,
+            "Pss_File": 431097856,
+            "Pss_Shmem": 46333952
+          },
+          "pinned": {
+            "allocated_bytes.current": 1048576,
+            "active_bytes.current": 1048576,
+            "num_host_alloc": 2,
+            "num_host_free": 1
+          },
+          "allocated": 1452544,
+          "reserved": 4194304
+        }
+      ],
+      "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+      "helper_gate_passed": false,
+      "helper_failure": "pinned cache failed physical128MiB return gate; refuse KV allocation",
+      "measurement_only": true,
+      "compound_probe_qualified": false,
+      "checkpoint_deployment_cleared": false,
+      "checkpoint_loaded": false,
+      "server_loaded": false,
+      "fixture_bytes": 536870912,
+      "added_waits": false,
+      "gate_interval_unchanged": true
+    }
+  }
+}
