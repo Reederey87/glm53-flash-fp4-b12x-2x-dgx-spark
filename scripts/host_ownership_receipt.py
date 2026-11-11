@@ -6,11 +6,13 @@ from pathlib import Path
 MARKER = 'B12X_HOST_OWNERSHIP '
 
 
-def validate(log, worker, helper, pid):
+def validate(log, worker, helper, pid, boundary=None):
     rows = [json.loads(line.split(MARKER, 1)[1]) for line in log.splitlines() if MARKER in line]
     if len(rows) != 1:
         raise ValueError('need exactly one complete ownership record')
     row = rows[0]
+    if boundary is not None and row.get('boundary') != boundary:
+        raise ValueError('wrong ownership observation boundary')
     if row['version'] != 1 or row['pid'] != pid or row['worker_sha256'] != worker or row['helper_sha256'] != helper:
         raise ValueError('wrong ownership process or installed hashes')
     for key in ('allocated', 'reserved', 'cuda_free', 'cuda_total', 'pid', 'ppid', 'utc_ns', 'device_index'):
@@ -39,6 +41,7 @@ if __name__ == '__main__':
     parser.add_argument('--worker', required=True)
     parser.add_argument('--helper', required=True)
     parser.add_argument('--trace', type=Path, required=True)
+    parser.add_argument('--boundary')
     args = parser.parse_args()
     trace = json.loads(args.trace.read_text())
-    print(json.dumps(validate(args.log.read_text(), args.worker, args.helper, trace['pid']), indent=2))
+    print(json.dumps(validate(args.log.read_text(), args.worker, args.helper, trace['pid'], args.boundary), indent=2))

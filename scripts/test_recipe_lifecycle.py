@@ -63,9 +63,9 @@ def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=Fa
             (root/'mods/warmup-cache-return/release.py').write_text('# fixture\n')
         if ownership:
             with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
-                stream.write('\nHOST_OWNERSHIP=1\nOWNERSHIP_WORKER_SHA256=fixture\n')
-            (root/'mods/host-ownership').mkdir(parents=True)
-            (root/'mods/host-ownership/observe.py').write_text('# fixture\n')
+                stream.write('\nHOST_OWNERSHIP=1\nOWNERSHIP_WORKER_SHA256=fixture\nOWNERSHIP_HELPER=mods/host-ownership-entry/observe.py\nOWNERSHIP_BOUNDARY=pre-warmup\n')
+            (root/'mods/host-ownership-entry').mkdir(parents=True)
+            (root/'mods/host-ownership-entry/observe.py').write_text('# fixture\n')
         recipe=root/'recipes/glm-5.3-flash-fp4-local.yaml'; recipe.write_text('fixture control\n')
         (root/f'recipes/candidates/{TASK}.yaml').write_text('fixture candidate\n')
         (root/'.env').write_text('B12X_ALLOCATOR_CONF=\n')
@@ -158,7 +158,9 @@ case "$(basename "$0")" in
    *warmup_cache_receipt.py*)
     [ "$B12X_TEST_FAILURE" != warmup-evidence ]
     echo 'mock cache return proof';;
-   *host_ownership_receipt.py*) [ "$B12X_TEST_FAILURE" != ownership-evidence ]; echo 'mock ownership proof';;
+   *host_ownership_receipt.py*)
+    case "$*" in *'--boundary pre-warmup'*) :;; *) exit 96;; esac
+    [ "$B12X_TEST_FAILURE" != ownership-evidence ]; echo 'mock ownership proof';;
    *'run --offline -c '*) echo '2,350,210';;
    *smoke.py*)
     if [ -e "$OUT/active-recovery" ] && [ "$B12X_TEST_RECOVERY" = recovery-smoke-loss ]; then
