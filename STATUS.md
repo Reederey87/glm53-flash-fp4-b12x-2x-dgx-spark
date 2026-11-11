@@ -1,5 +1,18 @@
 # Status
 
+## 2026-11-10 — compiler ownership collected; models stopped
+
+- Both full metadata/maps/memory sets passed before KV allocation. Known
+  Python compiler payloads~10MiB/rank;244Triton kernels,2FX graphs,2bundles.
+  No targeted AOT wrappers observed; no bounded scan/depth truncation. This is
+  incomplete native ownership, not proof of absence beyond tracked types.
+- Anonymous mappingRSS~3.0GiB, heap~1.8GiB. No cleanup/adoption/TODO3 result.
+  Next inspect native CuTe/CUTLASS owners and preparation cache lifetimes;
+  whole-cache eviction could invalidate host entrypoints/graph kernel owners.
+- Captured03:56:29Z; stop-only03:56:34Z primary1/recovery0 verified both models
+  absent, canonical ledger restored, proxy/watchdog off. No health/smoke/speed.
+  Receipts receipts/compiler-ownership/.
+
 ## 2026-11-10 — compiler ownership terminal diagnostic running
 
 - Final review cleared42440ea;49CPU/44isolated Linux lifecycle scenarios pass.

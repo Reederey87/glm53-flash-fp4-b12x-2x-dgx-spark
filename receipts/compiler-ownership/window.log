@@ -1,0 +1,45 @@
+launch.sh: OK
+scripts/render_env.sh: OK
+scripts/recipe_window.sh: OK
+scripts/recipe_recover.sh: OK
+scripts/memory_guard.sh: OK
+scripts/window_profile.py: OK
+scripts/startup_trace_receipt.py: OK
+scripts/wait_memory.sh: OK
+scripts/wait_health.sh: OK
+scripts/smoke.py: OK
+scripts/verify_reasoning.py: OK
+scripts/parity.py: OK
+scripts/speed_matrix.py: OK
+scripts/decode_bench.py: OK
+scripts/compare_matrix.py: OK
+scripts/speed_smoke.py: OK
+recipes/glm-5.3-flash-fp4-local.yaml: OK
+mods/startup-memory/install.py: OK
+mods/startup-memory/trace.py: OK
+mods/startup-memory/run.sh: OK
+systemd/b12x-recipe-window@.service: OK
+systemd/vllm-b12x.service: OK
+recipes/observations/compiler-ownership.yaml: OK
+recipes/windows/compiler-ownership.conf: OK
+docs/gates/compiler-ownership.md: OK
+mods/startup-bound/bound.py: OK
+mods/startup-bound/install.py: OK
+mods/startup-bound/run.sh: OK
+scripts/startup_bound_receipt.py: OK
+scripts/check_startup_bound_cuda.py: OK
+mods/compiler-ownership/observe.py: OK
+mods/compiler-ownership/install.py: OK
+mods/compiler-ownership/run.sh: OK
+scripts/compiler_ownership_receipt.py: OK
+scripts/check_compiler_ownership_cuda.py: OK
+mods/compiler-ownership/metadata.py: OK
+scripts/host_ownership_receipt.py: OK
+cp: warning: behavior of -n is non-portable and may change in future; use --update=none instead
+Running as unit: b12x-compiler-ownership-memory-a.service; invocation ID: c79653eb68274a6f8009779143e35fea
+/home/nvidia/b12x/scripts/recipe_window.sh: line 48: /home/nvidia/b12x/local/ab-compiler-ownership/memory-a.csv.ready: No such file or directory
+profile verified
+2026-11-11T03:51:56Z head-a profile verified
+profile verified
+2026-11-11T03:51:57Z worker-a profile verified
+Failed to stop b12x-compiler-ownership-memory-b.service: Unit b12x-compiler-ownership-memory-b.service not loaded.

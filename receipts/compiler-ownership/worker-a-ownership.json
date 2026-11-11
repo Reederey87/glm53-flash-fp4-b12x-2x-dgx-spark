@@ -1,0 +1,261 @@
+{
+  "memory": {
+    "record": {
+      "version": 1,
+      "boundary": "post-explicit-profile",
+      "pid": 306,
+      "ppid": 164,
+      "utc_ns": 1794369388577423463,
+      "device_index": 0,
+      "fraction": 1.0,
+      "allocated": 90342259200,
+      "reserved": 90861207552,
+      "cuda_free": 21996343296,
+      "cuda_total": 130663231488,
+      "pinned": {
+        "allocated_bytes.current": 687867449,
+        "active_bytes.current": 150996524,
+        "num_host_alloc": 105,
+        "num_host_free": 0
+      },
+      "processes": [
+        {
+          "VmLck": 0,
+          "VmPin": 422486016,
+          "VmRSS": 7059890176,
+          "RssAnon": 5217808384,
+          "RssFile": 755929088,
+          "RssShmem": 1086152704,
+          "pid": 306,
+          "pss": {
+            "Pss": 6832232448,
+            "Pss_Anon": 5217808384,
+            "Pss_File": 528934912,
+            "Pss_Shmem": 1085489152,
+            "Private_Dirty": 6162096128
+          }
+        },
+        {
+          "VmLck": 0,
+          "VmPin": 0,
+          "VmRSS": 1483194368,
+          "RssAnon": 1017044992,
+          "RssFile": 466149376,
+          "RssShmem": 0,
+          "pid": 164,
+          "pss": {
+            "Pss": 1256206336,
+            "Pss_Anon": 1017044992,
+            "Pss_File": 239161344,
+            "Pss_Shmem": 0,
+            "Private_Dirty": 1017044992
+          }
+        },
+        {
+          "VmLck": 0,
+          "VmPin": 0,
+          "VmRSS": 12017664,
+          "RssAnon": 5824512,
+          "RssFile": 6193152,
+          "RssShmem": 0,
+          "pid": 305,
+          "pss": {
+            "Pss": 7681024,
+            "Pss_Anon": 5824512,
+            "Pss_File": 1856512,
+            "Pss_Shmem": 0,
+            "Private_Dirty": 5824512
+          }
+        },
+        {
+          "VmLck": 0,
+          "VmPin": 0,
+          "VmRSS": 3170304,
+          "RssAnon": 315392,
+          "RssFile": 2854912,
+          "RssShmem": 0,
+          "pid": 163,
+          "pss": {
+            "Pss": 1211392,
+            "Pss_Anon": 315392,
+            "Pss_File": 896000,
+            "Pss_Shmem": 0,
+            "Private_Dirty": 315392
+          }
+        },
+        {
+          "VmLck": 0,
+          "VmPin": 0,
+          "VmRSS": 3137536,
+          "RssAnon": 282624,
+          "RssFile": 2854912,
+          "RssShmem": 0,
+          "pid": 158,
+          "pss": {
+            "Pss": 1178624,
+            "Pss_Anon": 282624,
+            "Pss_File": 896000,
+            "Pss_Shmem": 0,
+            "Private_Dirty": 282624
+          }
+        },
+        {
+          "VmLck": 0,
+          "VmPin": 0,
+          "VmRSS": 1261568,
+          "RssAnon": 94208,
+          "RssFile": 1167360,
+          "RssShmem": 0,
+          "pid": 1,
+          "pss": {
+            "Pss": 302080,
+            "Pss_Anon": 94208,
+            "Pss_File": 207872,
+            "Pss_Shmem": 0,
+            "Private_Dirty": 94208
+          }
+        }
+      ],
+      "host": {
+        "MemTotal": 130663231488,
+        "MemFree": 21996343296,
+        "MemAvailable": 22228971520,
+        "Cached": 4559474688,
+        "Unevictable": 24375296,
+        "Mlocked": 24375296,
+        "AnonPages": 6448603136,
+        "Shmem": 1088135168,
+        "Slab": 1422299136,
+        "SReclaimable": 215748608,
+        "SUnreclaim": 1206550528,
+        "PageTables": 35934208
+      },
+      "worker_sha256": "ce3c3f47e2ebc584884674595c7401f257047a1ae30dc2ab23719086a4509a76",
+      "helper_sha256": "5464f120f7e264c26d1520070808cb3e1b11222b6373958da58a18bd22e2916b",
+      "metadata_sha256": "d1d50bedb9f212254a4384b3d8d948879c68c143594aaba2c9264b70da142574",
+      "result": 18253611008
+    },
+    "pinned_inactive_bytes": 536870925,
+    "serving_qualified": false,
+    "planned_terminal_diagnostic": true
+  },
+  "objects": {
+    "scanned_objects": 1261370,
+    "gc_objects_total": 1261370,
+    "max_gc_objects": 2000000,
+    "target_counts": {
+      "triton.compiler.compiler.CompiledKernel": 244,
+      "torch._inductor.output_code.CompiledFxGraph": 2,
+      "torch._inductor.triton_bundler.TritonBundle": 2
+    },
+    "unique_payload_bytes": 10365237,
+    "unique_payload_objects": 3748,
+    "largest_fields": [
+      [
+        "CompiledKernel.kernel",
+        9874876
+      ],
+      [
+        "CompiledKernel.metadata_group",
+        236457
+      ],
+      [
+        "CompiledFxGraph._fx_graph_cache_debug_lines",
+        195998
+      ],
+      [
+        "CompiledKernel.hash",
+        25620
+      ],
+      [
+        "CompiledKernel.name",
+        14643
+      ],
+      [
+        "CompiledFxGraph.runnable_graph_str",
+        6942
+      ],
+      [
+        "CompiledFxGraph.source_code",
+        6757
+      ],
+      [
+        "CompiledFxGraph.inductor_post_grad_graph_str",
+        1416
+      ],
+      [
+        "CompiledFxGraph.cache_linemap",
+        1348
+      ],
+      [
+        "CompiledFxGraph.output_strides",
+        336
+      ],
+      [
+        "CompiledFxGraph.guards_expr",
+        242
+      ],
+      [
+        "CompiledFxGraph.extern_libs_key",
+        230
+      ]
+    ],
+    "visited_metadata_nodes": 6156,
+    "uninspectable_targets": 0,
+    "depth_omissions": 0,
+    "truncated": false,
+    "max_nodes": 100000,
+    "max_depth": 6,
+    "coverage": "GC-tracked known types; bounded metadata only"
+  },
+  "mappings": {
+    "buckets": {
+      "file": {
+        "maps": 1712,
+        "Rss": 1889681408,
+        "Pss": 1662025728,
+        "Anonymous": 47607808,
+        "Private_Dirty": 991895552,
+        "Locked": 0
+      },
+      "anonymous": {
+        "maps": 1353,
+        "Rss": 3254902784,
+        "Pss": 3254902784,
+        "Anonymous": 3254902784,
+        "Private_Dirty": 3254902784,
+        "Locked": 0
+      },
+      "heap": {
+        "maps": 13,
+        "Rss": 1915133952,
+        "Pss": 1915133952,
+        "Anonymous": 1915133952,
+        "Private_Dirty": 1915133952,
+        "Locked": 0
+      },
+      "special": {
+        "maps": 2,
+        "Rss": 8192,
+        "Pss": 0,
+        "Anonymous": 0,
+        "Private_Dirty": 0,
+        "Locked": 0
+      },
+      "stack": {
+        "maps": 1,
+        "Rss": 163840,
+        "Pss": 163840,
+        "Anonymous": 163840,
+        "Private_Dirty": 163840,
+        "Locked": 0
+      }
+    },
+    "maps": 3081,
+    "truncated": false,
+    "max_maps": 16384
+  },
+  "complete_within_bounds": true,
+  "serving_qualified": false,
+  "total_process_ownership_proven": false
+}

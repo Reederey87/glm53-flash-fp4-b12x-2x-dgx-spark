@@ -1,5 +1,10 @@
 # Compiler metadata ownership before KV allocation
 
+**Outcome: collected; no serving verdict.** Both three-record sets validated,
+captured03:56:29Z and stop-only cleanup03:56:34Z. Known payloads~10MiB/rank;
+anonymous mappingRSS~3.0GiB and heap~1.8GiB. No bounded traversal truncation.
+No PyTorch metadata clear is justified as a multi-GiB fix. [Receipts](../../receipts/compiler-ownership/outcome.md).
+
 Fresh terminal diagnostic, dependency of TODO3; no cleanup, optimization or
 serving qualification. Actual malloc_trim returned<2MiB/rank while worker
 RssAnon was~5GiB. Inactive pinned ownership was only~512MiB. Do not infer free

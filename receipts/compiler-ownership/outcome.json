@@ -1,0 +1,41 @@
+{
+  "decision": "DIAGNOSTIC_COLLECTED_NO_SERVING_QUALIFICATION",
+  "terminal": "2026-11-11T03:56:34Z",
+  "primary": 1,
+  "recovery": 0,
+  "rank_measurements": {
+    "head": {
+      "known_payload_bytes": 10613341,
+      "target_counts": {
+        "triton.compiler.compiler.CompiledKernel": 244,
+        "torch._inductor.output_code.CompiledFxGraph": 2,
+        "torch._inductor.triton_bundler.TritonBundle": 2
+      },
+      "gc_scanned": 1261438,
+      "anonymous_Rss": 3260178432,
+      "heap_Rss": 1917538304,
+      "host_available": 21190385664,
+      "postload_minimum": 10812190720
+    },
+    "worker": {
+      "known_payload_bytes": 10365237,
+      "target_counts": {
+        "triton.compiler.compiler.CompiledKernel": 244,
+        "torch._inductor.output_code.CompiledFxGraph": 2,
+        "torch._inductor.triton_bundler.TritonBundle": 2
+      },
+      "gc_scanned": 1261370,
+      "anonymous_Rss": 3254902784,
+      "heap_Rss": 1915133952,
+      "host_available": 22228971520,
+      "postload_minimum": 12107202560
+    }
+  },
+  "bounded_metadata_proven": true,
+  "total_process_ownership_proven": false,
+  "kv_allocated": false,
+  "health": false,
+  "smoke": false,
+  "speed": false,
+  "adopted": false
+}

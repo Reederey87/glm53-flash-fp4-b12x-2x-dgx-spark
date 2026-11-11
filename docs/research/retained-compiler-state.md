@@ -53,3 +53,40 @@ Deduplicate shared owners and bound the output. Preserve full postload traces,
 allocator/host counters, source pins, independent memory guard and stop-only
 cleanup. If aggregates are insufficient, evaluate bounded allocation tracing
 as its own diagnostic before a cleanup candidate. No fix or adoption is implied.
+
+Completed compiler-ownership diagnostic now disproves the size premise for a
+simple PyTorch metadata clear: tracked payloads10.613/10.365MB,244Triton kernels,
+2FX graphs and2bundles perrank; no targeted AOT wrappers observed. No bounded
+scan/depth truncation, but native/untracked ownership remains outside scope.
+Anonymous mappingRSS3.260/3.255GB and heap1.918/1.915GB remain. Both records
+collected before KV with>19GiB host available; stop-only cleanup03:56:34Z.
+
+Further Exa primary [NVIDIA JIT caching documentation](https://docs.nvidia.com/cutlass/latest/media/docs/pythonDSL/cute_dsl_general/dsl_jit_caching.html)
+binds executor lifetime to host function pointers, MLIR engine and CUDA modules.
+[CuTe disk-cache work](https://github.com/flashinfer-ai/flashinfer/pull/3874)
+distinguishes exported object cache from in-process owners. It does not justify
+clearing all live compile caches. [B12X warmup fix](https://github.com/vllm-project/vllm/pull/47599)
+also explains why dropping shape/workspace specializations can cause mid-serve
+compilation stalls. This must remain covered by the full long-prefill/decode
+matrix for any eventual lifetime treatment.
+
+Exact native owner source was extracted from a never-started pinned image:
+ignored local/native-cute-source/{nvidia,flashinfer,b12x}/, source.sha256;
+head /tmp/b12x-native-cute-source/. A disposable CPU-only shell located paths
+without CUDA/model initialization, then was removed. Both NVIDIA wheel and
+FlashInfer vendored CuTe source exist; runtime import-provider identity must
+be proven before patching either.
+
+Pinned JitCompiledFunction stores ir_module, engine, capi_func, artifacts,
+export_provider and cached executors. JitModule stores engine and CUDA modules;
+its unload destroys kernel libraries. B12X compiler retains a bounded compile
+cache and a cached default executor, and exposes clear_compile_cache. These
+are ownership leads, not cleanup permission. In particular do not unload modules
+or drop an engine that backs live host pointers. Local CSF preparation helpers
+are largely Triton, so they cannot simply be assumed to explain native CuTe RSS.
+
+Next inspect/prove active CuTe provider and count the actual native/compiler
+owners, export/IR holders and preparation-only versus serving references. The
+current diagnostic intentionally did not cover these classes. Only measured,
+source-isolated retirement with real pointer/replay proofs could justify a
+new candidate. No native cleanup or further model restart was made here.
