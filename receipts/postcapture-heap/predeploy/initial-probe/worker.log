@@ -1,0 +1,20 @@
+B12X_STARTUP_TRACE_INSTALLED source=aa398e74ee835537403e60186f2e9a81e8741a4b35fec68b47df6537716a45b7 patched=bafdd73c286f691bf169eae4f55dd06edf45cf42134e0348fac35cd5ce88b27b
+B12X_STARTUP_BOUND_INSTALLED patched=d2da61d2cad91668921698b48ec0b2ba844624ad6952ade7a2f351cbe8b1cb7b
+B12X_PINNED_RETURN_INSTALLED patched=ea6dc50f79cea69ab42d0fe31982a301b1081aa5f3f79eb268edb4df943b143e
+B12X_POSTCAPTURE_HEAP_INSTALLED patched=beaedff51861f1030184a73e589e28b33767090ee857ab7bb3f10cd1925dcf2d
+INFO 11-11 05:35:38 [model_runner.py:1266] Graph capturing finished in 0 secs, took 0.55 GiB
+B12X_POSTCAPTURE_HEAP {"version":1,"phase":"before","boundary":"post-capture-before-second-warmup","pid":77,"utc_ns":1794375338656651521,"device_index":0,"result":588783616,"kv_bytes":18253611008,"fraction":1.0,"allocated":1452544,"reserved":4194304,"pinned_owned":1048576,"pinned_active":1048576,"gc_enabled":true,"frozen_objects":375,"workspace_locked":true,"heap":{"arenas":33,"free_chunk_bytes":533293181,"system_current_bytes":813113344,"mmap_bytes":17014784},"process":{"VmRSS":1812807680,"RssAnon":1241620480},"host":{"MemFree":121359085568,"MemAvailable":121296359424},"runner_sha256":"beaedff51861f1030184a73e589e28b33767090ee857ab7bb3f10cd1925dcf2d","helper_sha256":"d80ce79d013b446b43f08d2b1f984051841bd995267b544fd25fbb36c446b5fb","plan_sha256":"272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24","gc_sha256":"e31de173771f6f3eaef4f12a5ec1da3a71f3e1b80aed2bbedd223a86228829d1","workspace_sha256":"18334e399b5d7749a0733d64fe6214906d0f9d276fc7c65806603de4c912449c","retained_program_owners":1,"retained_identity_sha256":"e238b179aa2cd698e444ecf4aa230ed9469d193b8c001285b071dcfa95acc383"}
+B12X_POSTCAPTURE_HEAP {"version":1,"phase":"after","boundary":"post-capture-before-second-warmup","pid":77,"utc_ns":1794375338710472609,"device_index":0,"result":588783616,"kv_bytes":18253611008,"fraction":1.0,"allocated":1452544,"reserved":4194304,"pinned_owned":1048576,"pinned_active":1048576,"gc_enabled":true,"frozen_objects":375,"workspace_locked":true,"heap":{"arenas":33,"free_chunk_bytes":533288998,"system_current_bytes":813113344,"mmap_bytes":17014784},"process":{"VmRSS":1283923968,"RssAnon":712736768},"host":{"MemFree":121359085568,"MemAvailable":121296359424},"runner_sha256":"beaedff51861f1030184a73e589e28b33767090ee857ab7bb3f10cd1925dcf2d","helper_sha256":"d80ce79d013b446b43f08d2b1f984051841bd995267b544fd25fbb36c446b5fb","plan_sha256":"272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24","gc_sha256":"e31de173771f6f3eaef4f12a5ec1da3a71f3e1b80aed2bbedd223a86228829d1","workspace_sha256":"18334e399b5d7749a0733d64fe6214906d0f9d276fc7c65806603de4c912449c","retained_program_owners":1,"retained_identity_sha256":"e238b179aa2cd698e444ecf4aa230ed9469d193b8c001285b071dcfa95acc383","trim_result":1,"elapsed_ns":53621825}
+Traceback (most recent call last):
+  File "/probe/check.py", line 97, in <module>
+    if __name__ == '__main__': main()
+                               ^^^^^^
+  File "/probe/check.py", line 71, in main
+    result = GPUModelRunner.capture_model(runner)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/vllm/v1/worker/gpu/_b12x_postcapture_heap.py", line 172, in wrapped
+    raise RuntimeError('postcapture heap return failed256MiB/128MiB gate; refuse second warmup')
+RuntimeError: postcapture heap return failed256MiB/128MiB gate; refuse second warmup

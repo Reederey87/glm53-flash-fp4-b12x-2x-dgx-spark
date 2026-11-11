@@ -1,0 +1,165 @@
+{
+  "checks": [
+    {
+      "proof": {
+        "record": {
+          "version": 1,
+          "phase": "observe",
+          "boundary": "post-capture-before-second-warmup",
+          "pid": 77,
+          "utc_ns": 1794376745219205159,
+          "device_index": 0,
+          "result": 589557760,
+          "kv_bytes": 18253611008,
+          "graphs_captured": true,
+          "fraction": 1.0,
+          "allocated": 1452544,
+          "reserved": 4194304,
+          "pinned_owned": 1048576,
+          "pinned_active": 1048576,
+          "gc_enabled": true,
+          "frozen_objects": 375,
+          "workspace_locked": true,
+          "heap": {
+            "arenas": 28,
+            "free_chunk_bytes": 532495888,
+            "system_current_bytes": 815210496,
+            "mmap_bytes": 14315520
+          },
+          "process": {
+            "VmRSS": 1806630912,
+            "RssAnon": 1242423296
+          },
+          "pss": {
+            "Rss": 1806630912,
+            "Pss": 1805398016,
+            "Pss_Anon": 1242423296,
+            "Shared_Dirty": 0,
+            "Private_Dirty": 1249988608,
+            "Anonymous": 1242423296,
+            "KSM": 0,
+            "AnonHugePages": 2097152,
+            "Swap": 0,
+            "SwapPss": 0
+          },
+          "host": {
+            "MemFree": 121860505600,
+            "MemAvailable": 121433579520
+          },
+          "runner_sha256": "7c6ed91bafc981eb32eddef35b71002f1e5d8525f2e7bab4d5596afdd6fc5fd5",
+          "helper_sha256": "75134f9bf42c33b8a60346db2d56091ca407eab64889fb0ef0e6bfadcad68cf7",
+          "plan_sha256": "272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24",
+          "gc_sha256": "e31de173771f6f3eaef4f12a5ec1da3a71f3e1b80aed2bbedd223a86228829d1",
+          "workspace_sha256": "18334e399b5d7749a0733d64fe6214906d0f9d276fc7c65806603de4c912449c",
+          "graph_sha256": "d43c261320ab63558b0975d9265e6ffe4871512bf7f4a448cfa81a8e6821f971",
+          "retained_program_owners": 1,
+          "retained_identity_sha256": "2c5d30991f6a686b062531626ef8439ec6265384fabb6c22374d3a7ff6675fa2"
+        },
+        "terminal_observation": true,
+        "cleanup_performed": false,
+        "inference_qualified": false,
+        "microprobe_trace_standin_only": true,
+        "actual_log_segment_validated": true
+      },
+      "result": {
+        "device": "cuda",
+        "original_capture_method": true,
+        "original_capture_metric": 589557760,
+        "existing_gc_collected_fixture": true,
+        "fixture_bytes": 536870912,
+        "live_CPU_guards_preserved": true,
+        "workspace_locked": true,
+        "live_pinned_graph_replays": 3,
+        "prepared_b12x_graph_replays": 3,
+        "pointers_preserved_across_observation": true,
+        "compiler_and_loader_forbidden": true,
+        "terminal_observation": true,
+        "trim_forbidden": true,
+        "reclamation_qualified": false,
+        "checkpoint_loaded": false,
+        "server_loaded": false
+      }
+    },
+    {
+      "proof": {
+        "record": {
+          "version": 1,
+          "phase": "observe",
+          "boundary": "post-capture-before-second-warmup",
+          "pid": 151,
+          "utc_ns": 1794376751829118226,
+          "device_index": 0,
+          "result": 622534656,
+          "kv_bytes": 18253611008,
+          "graphs_captured": true,
+          "fraction": 1.0,
+          "allocated": 1452544,
+          "reserved": 4194304,
+          "pinned_owned": 1048576,
+          "pinned_active": 1048576,
+          "gc_enabled": true,
+          "frozen_objects": 375,
+          "workspace_locked": true,
+          "heap": {
+            "arenas": 22,
+            "free_chunk_bytes": 531752695,
+            "system_current_bytes": 794832896,
+            "mmap_bytes": 14315520
+          },
+          "process": {
+            "VmRSS": 1702674432,
+            "RssAnon": 1201504256
+          },
+          "pss": {
+            "Rss": 1702674432,
+            "Pss": 1701861376,
+            "Pss_Anon": 1201504256,
+            "Shared_Dirty": 0,
+            "Private_Dirty": 1209069568,
+            "Anonymous": 1201504256,
+            "KSM": 0,
+            "AnonHugePages": 2097152,
+            "Swap": 0,
+            "SwapPss": 0
+          },
+          "host": {
+            "MemFree": 121778352128,
+            "MemAvailable": 121433190400
+          },
+          "runner_sha256": "7c6ed91bafc981eb32eddef35b71002f1e5d8525f2e7bab4d5596afdd6fc5fd5",
+          "helper_sha256": "75134f9bf42c33b8a60346db2d56091ca407eab64889fb0ef0e6bfadcad68cf7",
+          "plan_sha256": "272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24",
+          "gc_sha256": "e31de173771f6f3eaef4f12a5ec1da3a71f3e1b80aed2bbedd223a86228829d1",
+          "workspace_sha256": "18334e399b5d7749a0733d64fe6214906d0f9d276fc7c65806603de4c912449c",
+          "graph_sha256": "d43c261320ab63558b0975d9265e6ffe4871512bf7f4a448cfa81a8e6821f971",
+          "retained_program_owners": 1,
+          "retained_identity_sha256": "93d5496e4aced66775e78214a0c6f1f0ec5bd49aaec1c1d125ec74ddaecf0bf1"
+        },
+        "terminal_observation": true,
+        "cleanup_performed": false,
+        "inference_qualified": false,
+        "microprobe_trace_standin_only": true,
+        "actual_log_segment_validated": true
+      },
+      "result": {
+        "device": "cuda:0",
+        "original_capture_method": true,
+        "original_capture_metric": 622534656,
+        "existing_gc_collected_fixture": true,
+        "fixture_bytes": 536870912,
+        "live_CPU_guards_preserved": true,
+        "workspace_locked": true,
+        "live_pinned_graph_replays": 3,
+        "prepared_b12x_graph_replays": 3,
+        "pointers_preserved_across_observation": true,
+        "compiler_and_loader_forbidden": true,
+        "terminal_observation": true,
+        "trim_forbidden": true,
+        "reclamation_qualified": false,
+        "checkpoint_loaded": false,
+        "server_loaded": false
+      }
+    }
+  ],
+  "qualification": "terminal-observation-only"
+}

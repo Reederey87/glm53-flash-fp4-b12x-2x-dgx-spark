@@ -1,3 +1,5 @@
+2026-11-11: Postcapturetrimfailednativephysicalgate; matched3sCPUcontrols/PSSdonotjustifywaitorcleanup. Fixedcaptureflag/boundedreport/pre-pointerfindings, frozen3105eb5 terminalobserveronly.74CPU/ASTpass; finalreview/60Linux/nativeobservationprobes/frontendpending; modelsremainoff.
+
 2026-11-11: Frozenpostcapture-heap4e56fc5,71CPU/AST/syntaxpass. OneCPUheaptrim afterexistingcaptureGC beforesecondwarmup; same17G/commonpinned+bound. Finalreview/model-freecaptureprobes/56Linux/frontendpending; modelsremainoff.
 
 2026-11-11: Actual startup-pinned reclaimed512MiB/rank with519/514MiBavailablegain andallproofgatespass, butlaterhead1.823GiBfailed2GiBfloor aftergraphcapture. Stop-only05:10:43Z modelsabsent/canonicalledgerrestored/proxywatchdogoff. Nohealth/smoke/speed/adoption; TODO3open. Receiptsreceipts/startup-pinned/outcome.md.
