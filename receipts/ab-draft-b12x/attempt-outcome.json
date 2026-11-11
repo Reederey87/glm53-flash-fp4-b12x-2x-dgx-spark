@@ -1,0 +1,24 @@
+{
+  "decision": "CONTROL_STARTUP_SAFETY_FAILURE",
+  "candidate_backend_attempted": false,
+  "control_minimum_samples": {
+    "head": {
+      "utc": "2026-11-11T00:36:32Z",
+      "node": "head",
+      "MemFree_kib": "2426364",
+      "MemAvailable_kib": "782524"
+    },
+    "worker": {
+      "utc": "2026-11-11T00:36:29Z",
+      "node": "worker",
+      "MemFree_kib": "4754924",
+      "MemAvailable_kib": "3290828"
+    }
+  },
+  "control_health_or_speed_gate_reached": false,
+  "recovery_completed_utc": "2026-11-11T00:42:32Z",
+  "primary_status": 1,
+  "recovery_status": 0,
+  "functional_recovery": "5/5",
+  "candidate_3_complete": false
+}

@@ -1,0 +1,7 @@
+[b12x] smoke against http://127.0.0.1:8000
+  PASS  models             nvidia/GLM-5.3-Flash-FP4-Local @ 1000000
+  PASS  thinking           reasoning 154 chars
+  PASS  reasoning-default  reasoning contract ok: default=Max, explicit low/high/max honoured
+  PASS  tools              tool_calls=get_weather args={"city": "Reykjavik"}
+  PASS  prefix             cached_tokens=1124
+[b12x] smoke: 5/5 checks passed hard

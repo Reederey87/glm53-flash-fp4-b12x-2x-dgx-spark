@@ -1,5 +1,13 @@
 # Candidate 3 — draft MoE Humming to b12x
 
+**First attempt: CONTROL STARTUP SAFETY FAILURE.** A crossed the 2GiB floor
+at 2026-11-11T00:36:32Z (head0.746GiB). B was never started; no backend verdict
+or speed comparison exists. Control recovery validated at00:42:32Z, smoke5/5,
+health200 and each production unit/timer active. Candidate3 remains open while
+the existing startup pressure-release path is investigated. Preserve this gate
+and failed receipts; do not relax the floor or reuse this output directory.
+See [attempt evidence](../../receipts/ab-draft-b12x/attempt-outcome.md).
+
 Pre-registered before any restart. Final Astra sub-agent review is required
 before this window is deployed. No automatic adoption.
 

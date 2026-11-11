@@ -1,0 +1,2 @@
+b12x weights loaded: 91.99 GB selected on rank 0 · 119.44 GB physical reads; 149.37 s total loading; ROUTE 149.32s · SETUP 0.00s · PLAN 0.00s · READ 0.04s · SYNC 0.00s
+(Worker_TP0 pid=333) INFO 11-11 00:36:25 [default_loader.py:575] Loading weights took 149.37 seconds

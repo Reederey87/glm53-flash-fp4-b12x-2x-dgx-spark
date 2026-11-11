@@ -1,5 +1,16 @@
 # Status
 
+## 2026-11-10 — candidate 3 control aborted; original service healthy
+
+- Fresh Humming A hit0.746GiB host available seven seconds after target weight
+  load; guard stopped it before health. B never ran; candidate3 stays open.
+- Recovery validated at2026-11-11T00:42:32Z: pinned/default control profiles,
+  smoke5/5, health200, serving/watchdog/proxy active. Additional recovery observer
+  stopped after validation. No backend, quantization or KV optimization adopted.
+- Installed image already has per-module UMA pressure release. Investigate its
+  conditions and post-load allocator phases before selecting a repair; do not
+  add a duplicate hook blindly. Receipts `receipts/ab-draft-b12x/attempt-outcome.md`.
+
 ## 2026-11-10 — candidate 3 paired recipe window running
 
 - Staged reviewed code `af8b87e` into `/home/nvidia/b12x` as nvidia, including
