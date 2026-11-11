@@ -171,6 +171,9 @@ for arm in "${arms[@]}"; do
       [ "$node" != head ] || minimum_reclaim="$WARMUP_CACHE_MIN_HEAD"
       "$UV" run --offline scripts/warmup_cache_receipt.py "$OUT/$node-$arm-boot.log" --worker "$WARMUP_WORKER_SHA256" --helper "$(sha256sum mods/warmup-cache-return/release.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" --minimum-reclaim "$minimum_reclaim" > "$OUT/$node-$arm-warmup-cache.json"
     fi
+    if [ "${HOST_TRIM:-0}" = 1 ]; then
+      "$UV" run --offline scripts/host_trim_receipt.py "$OUT/$node-$arm-boot.log" --worker "$TRIM_WORKER_SHA256" --helper "$(sha256sum mods/explicit-kv-host-trim/trim.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" --minimum "$TRIM_MINIMUM_RECLAIM" > "$OUT/$node-$arm-host-trim.json"
+    fi
   done
   pool_formatted=$("$UV" run --offline -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")
   # The exact capacity is frozen in this first recipe window.

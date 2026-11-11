@@ -29,7 +29,7 @@ def wait_for(test, seconds=30):
     raise TimeoutError('test phase timed out')
 
 
-def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False, ownership=False):
+def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False, ownership=False, host_trim=False):
     with tempfile.TemporaryDirectory(prefix='b12x-review-recipe-') as tmp:
         root=Path(tmp); out=root/f'local/ab-{TASK}'
         out.mkdir(parents=True)
@@ -66,6 +66,11 @@ def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=Fa
                 stream.write('\nHOST_OWNERSHIP=1\nOWNERSHIP_WORKER_SHA256=fixture\nOWNERSHIP_HELPER=mods/host-ownership-entry/observe.py\nOWNERSHIP_BOUNDARY=pre-warmup\n')
             (root/'mods/host-ownership-entry').mkdir(parents=True)
             (root/'mods/host-ownership-entry/observe.py').write_text('# fixture\n')
+        if host_trim:
+            with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
+                stream.write('\nHOST_TRIM=1\nTRIM_WORKER_SHA256=fixture\nTRIM_MINIMUM_RECLAIM=1073741824\n')
+            (root/'mods/explicit-kv-host-trim').mkdir(parents=True)
+            (root/'mods/explicit-kv-host-trim/trim.py').write_text('# fixture\n')
         recipe=root/'recipes/glm-5.3-flash-fp4-local.yaml'; recipe.write_text('fixture control\n')
         (root/f'recipes/candidates/{TASK}.yaml').write_text('fixture candidate\n')
         (root/'.env').write_text('B12X_ALLOCATOR_CONF=\n')
@@ -161,6 +166,7 @@ case "$(basename "$0")" in
    *host_ownership_receipt.py*)
     case "$*" in *'--boundary pre-warmup'*) :;; *) exit 96;; esac
     [ "$B12X_TEST_FAILURE" != ownership-evidence ]; echo 'mock ownership proof';;
+   *host_trim_receipt.py*) [ "$B12X_TEST_FAILURE" != trim-evidence ]; echo 'mock trim proof';;
    *'run --offline -c '*) echo '2,350,210';;
    *smoke.py*)
     if [ -e "$OUT/active-recovery" ] && [ "$B12X_TEST_RECOVERY" = recovery-smoke-loss ]; then
@@ -236,6 +242,10 @@ esac
                     assert 'scripts/smoke.py' not in events
                     assert not (out/'matrix-a.json').exists()
                     assert (out/'diagnostic-captured.txt').exists() == (failure=='none')
+                if host_trim:
+                    events=(out/'events').read_text()
+                    assert 'host_trim_receipt.py' in events
+                    if failure=='trim-evidence': assert 'scripts/smoke.py' not in events
                 return {'phase':mode,'failure':failure,'verified_stop_only':failure!='containers-present','cleanup_failed_closed':failure=='containers-present'}
             if recovery_failure=='proxy-failure' or recovery_failure.startswith('recovery-'):
                 wait_for(terminal)
@@ -286,4 +296,5 @@ if __name__=='__main__':
          ('stabilization-measurement','SIGTERM'),('stabilization-measurement','SIGKILL')]]
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,warmup=True) for failure in ('none','warmup-evidence')]
     rows += [scenario('ownership',failure,guarded=True,stop_only=True,ownership=True) for failure in ('none','ownership-evidence','ownership-missing-both','ownership-missing-worker')]
+    rows += [scenario('stabilization',failure,guarded=True,stop_only=True,host_trim=True) for failure in ('none','trim-evidence')]
     print(json.dumps({'poll_override_seconds':.1,'scenarios':rows},indent=2))
