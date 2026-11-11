@@ -1,3 +1,5 @@
+2026-11-11: Started startup-pinned stabilization afterfinalreview70075d3/64CPU/51Linux, fouractualgraphprobes and40runtime/image/source/env/memorypreflights. Unitb12x-recipe-window@startup-pinned PID825715; actualmodelreturn/safety/smoke/matrixpending. Humming/quant17G/commonbound frozen; allexitsstop-only.
+
 2026-11-10: Frozen startup-pinned dependency8d75468 returns measuredidle hostcache throughpinnedTorchpublicAPI afterexplicit17Gprofile.64CPU/AST/syntaxchecks pass; finalreview,48Linuxlifecycle andbothmodel-freegraph probes pending. No modeldeployment; bothranksremainoff.
 
 2026-11-10: Draft-B12X initialized both ranks with exact17G and valid target/MTP bound scopes, then head1.898GiB failed2GiBfloor beforehealth/smoke/speed. Stop-only04:48:36Z verified modelsabsent/canonicalledgerrestored/proxywatchdogoff; candidate3 remainsopen. Receiptsreceipts/draft-b12x-safety/.
