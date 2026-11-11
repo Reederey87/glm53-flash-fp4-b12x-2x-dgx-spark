@@ -1,6 +1,7 @@
 # Preregistered PCP policy micro A/B
 
-Status: NOT RUN. Final review and staged-source/control preflights required.
+Result2026-11-11: model-free micro PASS at frozen e2ee283; both policies restored0.
+No model or permanent-tuning clearance. Receipts: receipts/pcp-bound/outcome.md.
 
 Independent variable: vm.percpu_pagelist_high_fraction0 ->512 on BOTH nodes.
 Frozen: exact existing image/kernel/driver, default CUDA host allocator, original

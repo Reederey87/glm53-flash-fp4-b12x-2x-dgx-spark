@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/home/nvidia/b12x-staging/pcp-bound-fdc1350/scripts/run_pcp_micro.py", line 25, in transaction
+    result=perform();completed=True;return result
+           ^^^^^^^^^
+  File "/home/nvidia/b12x-staging/pcp-bound-fdc1350/scripts/run_pcp_micro.py", line 76, in perform
+    checked(node,'ledger','test ! -e '+q(backup)+'\ncp -n /home/nvidia/b12x/.env '+q(backup)+'\nsha256sum '+q(backup)+'\nprintf %s '+q('# PCP micro '+label+' policy0->512; unchanged model off,17GKV,2GiBfloor,minfree; rollback0; gate docs/gates/pcp-bound-micro.md\n')+' >> /home/nvidia/b12x/.env\n')
+  File "/home/nvidia/b12x-staging/pcp-bound-fdc1350/scripts/run_pcp_micro.py", line 54, in checked
+    execute(node,key,'set -euo pipefail\ncd '+q(str(root))+'\nsha256sum -c .pcp-frozen.sha256\n'+script)
+  File "/home/nvidia/b12x-staging/pcp-bound-fdc1350/scripts/run_pcp_micro.py", line 52, in execute
+    if result.returncode:raise RuntimeError(node+' '+key+' failed; see '+str(out))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: worker ledger failed; see /home/nvidia/b12x/local/pcp-bound-20261111T084548Z
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nvidia/b12x-staging/pcp-bound-fdc1350/scripts/run_pcp_micro.py", line 92, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/nvidia/b12x-staging/pcp-bound-fdc1350/scripts/run_pcp_micro.py", line 89, in main
+    print(transaction(perform,restore,verify,cancel),flush=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nvidia/b12x-staging/pcp-bound-fdc1350/scripts/run_pcp_micro.py", line 35, in transaction
+    if errors:raise RuntimeError('rollback/cancellation unverified; independent timers retained: '+str(errors))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: rollback/cancellation unverified; independent timers retained: [('worker', RuntimeError('worker ledger-restored failed; see /home/nvidia/b12x/local/pcp-bound-20261111T084548Z'))]
