@@ -1,0 +1,162 @@
+"""Real Linux user-systemd lifecycle, with ALL cluster/benchmark calls mocked.
+
+Fixtures shorten supervisor polling to 0.1s; production remains 2s. Only unique
+b12x-review-recipe-* units are managed for real. No model/API is touched.
+"""
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
+import time
+import uuid
+
+SCRIPTS = Path(__file__).resolve().parent
+TASK = 'draft-b12x'
+IMAGE = 'sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed'
+
+
+def real(*args, **kw):
+    return subprocess.run(args, check=True, capture_output=True, text=True, **kw)
+
+
+def wait_for(test, seconds=30):
+    end = time.monotonic()+seconds
+    while time.monotonic()<end:
+        if test(): return
+        time.sleep(.1)
+    raise TimeoutError('test phase timed out')
+
+
+def scenario(mode, failure, recovery_failure='none'):
+    with tempfile.TemporaryDirectory(prefix='b12x-review-recipe-') as tmp:
+        root=Path(tmp); out=root/f'local/ab-{TASK}'
+        out.mkdir(parents=True)
+        for path in ('scripts', 'bin', 'recipes/windows', 'recipes/candidates'):
+            (root/path).mkdir(parents=True, exist_ok=True)
+        for name in ('recipe_window.sh', 'recipe_recover.sh'):
+            source=(SCRIPTS/name).read_text().replace('/home/nvidia/.local/bin/uv',str(root/'bin/uv'))
+            source=source.replace('sleep 2 & wait $!', 'sleep 0.1 & wait $!')
+            (root/'scripts'/name).write_text(source)
+        (root/'scripts/window_profile.py').write_text('# mock docker exec stdin\n')
+        shutil.copy(SCRIPTS.parent/f'recipes/windows/{TASK}.conf',root/f'recipes/windows/{TASK}.conf')
+        recipe=root/'recipes/glm-5.3-flash-fp4-local.yaml'; recipe.write_text('fixture control\n')
+        (root/f'recipes/candidates/{TASK}.yaml').write_text('fixture candidate\n')
+        (root/'.env').write_text('B12X_ALLOCATOR_CONF=\n')
+        (out/'frozen.sha256').write_text(real('sha256sum',str(recipe)).stdout)
+        mock=r'''#!/bin/bash
+set -eu
+cd "$B12X_TEST_ROOT"
+OUT="$B12X_TEST_ROOT/local/ab-draft-b12x"
+echo "$(basename "$0") $*" >> "$OUT/events"
+candidate() { grep '^RECIPE=' .env | tail -n1 | grep -q '/recipes/candidates/'; }
+case "$(basename "$0")" in
+ systemctl)
+  case "$*" in
+   *'show b12x-draft-b12x-memory-a.service -p InvocationID'*) echo fake-a;;
+   *'show b12x-draft-b12x-memory-b.service -p InvocationID'*) echo fake-b;;
+   *'show vllm-b12x-watchdog'*|*'show vllm-b12x-tailscale'*) echo inactive;;
+   *'is-active --quiet b12x-draft-b12x-memory-a.service'*) test -f "$OUT/active-a";;
+   *'is-active --quiet b12x-draft-b12x-memory-b.service'*) test -f "$OUT/active-b";;
+   *'is-active'*) echo active;;
+   *'stop vllm-b12x-watchdog.timer '*)
+    if [ "$B12X_TEST_MODE" = isolation ]; then
+      touch "$OUT/phase"; if [ "$B12X_TEST_FAILURE" = stop-failure ]; then exit 1; fi
+      exec sleep 300
+    fi;;
+   *'start vllm-b12x.service'*)
+    if candidate && [ "$B12X_TEST_MODE" = startup ]; then touch "$OUT/phase"; exec sleep 300; fi
+    sleep .1;;
+   *'start vllm-b12x-tailscale.service'*)
+    touch "$OUT/proxy-active"; if [ "$B12X_TEST_RECOVERY" = proxy-failure ]; then exit 1; fi;;
+   *'stop vllm-b12x-tailscale.service'*) rm -f "$OUT/proxy-active";;
+   *'stop '*|*'start '*|*'reset-failed '*) :;;
+   *) exit 99;;
+  esac;;
+ systemd-run)
+  case "$*" in *memory-a*) arm=a;; *memory-b*) arm=b;; *) exit 99;; esac
+  touch "$OUT/active-$arm"; echo "fake-$arm $(date +%s)" > "$OUT/memory-$arm.csv.ready";;
+ docker)
+  case "$*" in
+   *'.Image'*) echo "$B12X_TEST_IMAGE";;
+   'exec '*) echo '{"mock":true}' ;;
+   'logs '*) echo 'GPU KV cache size: 2,350,210 tokens'
+    case "$*" in *--follow*) exec sleep 300;; esac;;
+   *) exit 99;;
+  esac;;
+ ssh)
+  while [ "${1:-}" = -o ]; do shift 2; done
+  shift; exec /bin/bash -c "$*";;
+ curl) :;;
+ uv)
+  case "$*" in
+   *'window_profile.py --check'*) echo 'profile verified';;
+   *'run --offline -c '*) echo '2,350,210';;
+   *smoke.py*)
+    if ! candidate && [ -e "$OUT/recovery-required" ] && [ -e "$OUT/b-seen" ] && [ "$B12X_TEST_RECOVERY" = hold-rollback ] && [ ! -e "$OUT/held-once" ]; then
+      touch "$OUT/held-once" "$OUT/rollback-phase"; exec sleep 300
+    fi
+    echo '5/5 checks passed hard';;
+   *compare_matrix.py*) echo 'mock receipt validator';;
+   *parity.py*) :;;
+   *speed_matrix.py*)
+    dest=; prev=
+    for arg in "$@"; do if [ "$prev" = --out ]; then dest="$arg"; fi; prev="$arg"; done
+    printf '{}\n' > "$dest"
+    case "$*" in *-probe*) exit 0;; esac
+    if ! candidate && [ "$B12X_TEST_FAILURE" = control-failure ]; then touch "$OUT/phase"; exit 1; fi
+    if candidate; then touch "$OUT/b-seen" "$OUT/phase"; exec sleep 300; fi;;
+   *) exit 99;;
+  esac;;
+ *) exit 99;;
+esac
+'''
+        for name in ('systemctl','systemd-run','docker','ssh','curl','uv'):
+            p=root/'bin'/name; p.write_text(mock); p.chmod(0o755)
+        unit='b12x-review-recipe-'+uuid.uuid4().hex[:12]
+        try:
+            real('systemd-run','--user','--unit='+unit,'--property=KillMode=mixed','--property=TimeoutStopSec=30',
+                 '--property=ExecStopPost=/bin/bash '+str(root/'scripts/recipe_recover.sh')+' '+TASK,
+                 '--setenv=PATH='+str(root/'bin')+':/usr/bin:/bin','--setenv=B12X_TEST_ROOT='+str(root),
+                 '--setenv=B12X_TEST_MODE='+mode,'--setenv=B12X_TEST_FAILURE='+failure,
+                 '--setenv=B12X_TEST_RECOVERY='+recovery_failure,'--setenv=B12X_TEST_IMAGE='+IMAGE,
+                 '/bin/bash',str(root/'scripts/recipe_window.sh'),TASK)
+            wait_for(lambda:(out/'phase').exists())
+            if failure=='guard-failure': (out/'active-b').unlink()
+            elif failure not in ('stop-failure','control-failure'):
+                real('/usr/bin/systemctl','--user','kill','--kill-whom=main','--signal='+failure,unit)
+            if recovery_failure=='hold-rollback':
+                wait_for(lambda:(out/'rollback-phase').exists())
+                real('/usr/bin/systemctl','--user','kill','--kill-whom=main','--signal=SIGKILL',unit)
+            terminal=lambda:real('/usr/bin/systemctl','--user','show',unit,'-p','ActiveState','--value').stdout.strip() in ('failed','inactive')
+            if recovery_failure=='proxy-failure':
+                wait_for(terminal)
+                assert not (out/'proxy-active').exists()
+                assert (out/'recovery-required').exists()
+                assert (out/'recovery-failed.txt').exists()
+                return {'phase':mode,'failure':'proxy-failure','failed_closed':True}
+            wait_for(lambda:(out/'recovery-success.txt').exists())
+            wait_for(terminal)
+            ledger=(root/'.env').read_text()
+            assert ledger.splitlines()[-1]=='B12X_ALLOCATOR_CONF='
+            assert [x for x in ledger.splitlines() if x.startswith('RECIPE=')][-1]=='RECIPE='+str(recipe)
+            assert not (out/'recovery-required').exists()
+            assert (out/'proxy-active').exists()
+            if failure=='control-failure':
+                assert '/recipes/candidates/' not in ledger
+            if failure!='SIGKILL' and recovery_failure!='hold-rollback':
+                assert int((out/'primary-status.txt').read_text())!=0
+                assert int((out/'recovery-status.txt').read_text())==0
+            return {'phase':mode,'failure':failure,'recovery_failure':recovery_failure,'restored':True}
+        finally:
+            subprocess.run(['/usr/bin/systemctl','--user','stop',unit],capture_output=True,timeout=40)
+            subprocess.run(['/usr/bin/systemctl','--user','reset-failed',unit],capture_output=True)
+
+
+if __name__=='__main__':
+    rows=[scenario(mode,failure) for mode in ('startup','measurement') for failure in ('SIGTERM','SIGKILL','guard-failure')]
+    rows += [scenario('measurement','SIGTERM',failure) for failure in ('proxy-failure','hold-rollback')]
+    rows += [scenario('isolation',failure) for failure in ('SIGTERM','SIGKILL','stop-failure')]
+    rows += [scenario('measurement','control-failure')]
+    print(json.dumps({'poll_override_seconds':.1,'scenarios':rows},indent=2))
