@@ -8,7 +8,7 @@ cd "$ROOT"
 . "$ROOT/recipes/windows/$TASK.conf"
 case "${WINDOW_KIND:-paired}" in
   paired) arms=(a b) ;;
-  observation) arms=(a) ;;
+  observation|stabilization) arms=(a) ;;
   *) echo 'unknown window kind' >&2; exit 2 ;;
 esac
 OUT="$ROOT/local/ab-$TASK"
@@ -50,7 +50,15 @@ guard_ok() {
   [ -n "$invocation" ] && [ "$token" = "$invocation" ] || return 1
   [[ "$stamp" =~ ^[0-9]+$ ]] || return 1
   age=$(( $(date +%s) - stamp ))
-  [ "$age" -ge 0 ] && [ "$age" -le 20 ]
+  [ "$age" -ge 0 ] && [ "$age" -le 20 ] || return 1
+  if [ "${WINDOW_KIND:-paired}" = stabilization ] && [ "${booting:-0}" = 1 ]; then
+    local node
+    for node in head worker; do
+      if [ -e "$OUT/$node-$arm-boot.log" ]; then
+        "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --safety-only || return 1
+      fi
+    done
+  fi
 }
 capture_startup() {
   local node rank image
@@ -132,8 +140,12 @@ for arm in "${arms[@]}"; do
   # alone is insufficient evidence that the draft treatment initialized.
   for node in head worker; do
     "$UV" run --offline scripts/window_profile.py --check-boot "$OUT/$node-$arm-boot.log" --backend "$backend"
-    if [ "${WINDOW_KIND:-paired}" = observation ]; then
+    if [ "${WINDOW_KIND:-paired}" != paired ]; then
       "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --require-complete --expected-loader "$TRACE_LOADER_SHA256" --expected-helper "$(sha256sum mods/startup-memory/trace.py | cut -d' ' -f1)" > "$OUT/$node-$arm-trace.json"
+    fi
+    if [ "${WINDOW_KIND:-paired}" = stabilization ]; then
+      "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --safety-only
+      "$UV" run --offline scripts/startup_bound_receipt.py "$OUT/$node-$arm-boot.log" --loader "$TRACE_LOADER_SHA256" --helper "$(sha256sum mods/startup-bound/bound.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-bound.json"
     fi
   done
   pool_formatted=$("$UV" run --offline -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")
@@ -153,4 +165,4 @@ if [ "${WINDOW_KIND:-paired}" = paired ]; then
 else
   "$UV" run --offline scripts/compare_matrix.py --validate-only "$OUT/matrix-a.json" > "$OUT/observation-validation.md" 2>&1
 fi
-# EXIT/ExecStopPost restore the frozen control even if every gate passes.
+# EXIT/ExecStopPost apply the pre-registered recovery mode even if gates pass.

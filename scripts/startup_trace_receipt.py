@@ -1,9 +1,20 @@
 """Summarize passive startup logs, including a partial unsafe boot."""
 import argparse
 import json
+import sys
 from pathlib import Path
 
 MARKER = "B12X_STARTUP_MEMORY "
+
+
+def safety(log):
+    """Check completed trace lines while a boot log is still being written."""
+    for line in log.splitlines(keepends=True):
+        if MARKER not in line or not line.endswith('\n'):
+            continue
+        record = json.loads(line.split(MARKER, 1)[1])
+        if record['host']['MemAvailable'] < 2 * 1024**3:
+            raise ValueError('passive trace crossed 2 GiB host memory floor')
 
 
 def summarize(log, require_complete=False, expected_loader=None, expected_helper=None):
@@ -70,5 +81,9 @@ if __name__ == "__main__":
     parser.add_argument("--require-complete", action="store_true")
     parser.add_argument("--expected-loader")
     parser.add_argument("--expected-helper")
+    parser.add_argument("--safety-only", action="store_true")
     args = parser.parse_args()
+    if args.safety_only:
+        safety(args.log.read_text())
+        sys.exit(0)
     print(json.dumps(summarize(args.log.read_text(), args.require_complete, args.expected_loader, args.expected_helper), indent=2))

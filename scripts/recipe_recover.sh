@@ -30,6 +30,9 @@ finish() {
       systemctl --user stop vllm-b12x-watchdog.timer vllm-b12x-watchdog.service || true
       systemctl --user stop vllm-b12x.service || true
       systemctl --user stop "b12x-$TASK-recovery-memory.service" || true
+      if [ "${RECOVERY_MODE:-canonical}" = stop-only ]; then
+        systemctl --user stop "b12x-$TASK-memory-a.service" "b12x-$TASK-memory-b.service" || true
+      fi
     fi
   fi
   exit "$status"
@@ -37,6 +40,31 @@ finish() {
 trap finish EXIT
 trap 'exit 143' TERM
 trap 'exit 130' INT
+case "${RECOVERY_MODE:-canonical}" in
+  stop-only)
+    # The original control itself failed its startup floor. This window may
+    # restore its ledger/configuration, but must never silently reboot it.
+    systemctl --user stop vllm-b12x-watchdog.timer vllm-b12x-watchdog.service vllm-b12x-tailscale.service
+    systemctl --user stop vllm-b12x.service
+    systemctl --user stop "b12x-$TASK-memory-a.service" "b12x-$TASK-memory-b.service" || true
+    for unit in vllm-b12x-watchdog.timer vllm-b12x-watchdog.service vllm-b12x-tailscale.service vllm-b12x.service "b12x-$TASK-memory-a.service" "b12x-$TASK-memory-b.service"; do
+      state=$(timeout 5 systemctl --user show "$unit" -p ActiveState --value)
+      case "$state" in inactive|failed) ;; *) exit 1 ;; esac
+      if [[ "$unit" = *.service ]]; then
+        [ "$(timeout 5 systemctl --user show "$unit" -p MainPID --value)" = 0 ]
+      fi
+    done
+    containers=$(timeout 15 docker ps -a --filter 'name=^/vllm_node$' --format '{{.ID}}')
+    [ -z "$containers" ]
+    containers=$(timeout 20 ssh -n -o ConnectTimeout=5 nvidia@192.168.177.11 docker ps -a --filter 'name=^/vllm_node$' --format '{{.ID}}')
+    [ -z "$containers" ]
+    printf '\n# --- %s stopped rollback %s ---\n# Canonical configuration restored; unsafe control not restarted\nRECIPE=%s/%s\nIMAGE_TAG=%s\nB12X_ALLOCATOR_CONF=\n' "$TASK" "$(date -u +%FT%TZ)" "$ROOT" "$RECOVERY_RECIPE" "$CONTROL_IMAGE_TAG" >> .env
+    mv "$OUT/recovery-required" "$OUT/recovery-complete"
+    date -u +%FT%TZ > "$OUT/recovery-stopped.txt"
+    exit 0 ;;
+  canonical) ;;
+  *) exit 2 ;;
+esac
 recovery_guard_ok() {
   [ "${RECOVERY_GUARD:-0}" = 1 ] || return 0
   local token stamp invocation age
