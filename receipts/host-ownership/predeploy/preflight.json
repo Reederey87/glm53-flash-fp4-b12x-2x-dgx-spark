@@ -1,0 +1,16 @@
+{
+  "critical_commit": "28dee06d0143ea94475d6f7dc7a52e5da32a0989",
+  "cpu_tests": 35,
+  "lifecycle_scenarios": 38,
+  "head_gpu_probe": "passed",
+  "worker_gpu_probe": "passed",
+  "checkpoint_loaded_by_probes": false,
+  "server_loaded_by_probes": false,
+  "assertions": "PYTHONOPTIMIZE=0",
+  "source_AST": "preserved",
+  "worker_sha256": "54b3f8b1a19843ffe47dc6ab66bcedea10a9eb669d04ea3c72fd630502fbff87",
+  "helper_sha256": "d137d0bd23ac7ef5a2280ca1a805b581bb7e2439f95f401ef6e72b73185ab18e",
+  "runtime_files": 35,
+  "diagnostic": "intentional hold, never serving qualification",
+  "initial_transfer_failure": "missing parent path caused empty root-owned bind dirs; no model loaded; fresh owned -v2 staging used successfully"
+}
