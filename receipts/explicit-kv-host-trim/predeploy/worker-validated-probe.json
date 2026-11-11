@@ -1,0 +1,118 @@
+[
+  {
+    "records": [
+      {
+        "version": 1,
+        "phase": "before",
+        "boundary": "post-explicit-profile",
+        "pid": 69,
+        "utc_ns": 1794367498764574004,
+        "device_index": 0,
+        "result": 18253608960,
+        "fraction": 1.0,
+        "allocated": 2048,
+        "reserved": 6291456,
+        "pinned_owned": 1048576,
+        "pinned_active": 1048576,
+        "process": {
+          "VmRSS": 2181693440,
+          "RssAnon": 1790697472
+        },
+        "host": {
+          "MemFree": 121006915584,
+          "MemAvailable": 120791355392
+        },
+        "worker_sha256": "fb8c95d6928ff1c96e1460adb5cba2e335cbeb75b48aaa648bdb4af336f3c79b",
+        "helper_sha256": "849183c5d61c50ead4445cf36d11c8fe7e0db3c0835c49415896103d50f31ff6"
+      },
+      {
+        "version": 1,
+        "phase": "after",
+        "boundary": "post-explicit-profile",
+        "pid": 69,
+        "utc_ns": 1794367498914514872,
+        "device_index": 0,
+        "result": 18253608960,
+        "fraction": 1.0,
+        "allocated": 2048,
+        "reserved": 6291456,
+        "pinned_owned": 1048576,
+        "pinned_active": 1048576,
+        "process": {
+          "VmRSS": 916238336,
+          "RssAnon": 525242368
+        },
+        "host": {
+          "MemFree": 122211217408,
+          "MemAvailable": 121995730944
+        },
+        "worker_sha256": "fb8c95d6928ff1c96e1460adb5cba2e335cbeb75b48aaa648bdb4af336f3c79b",
+        "helper_sha256": "849183c5d61c50ead4445cf36d11c8fe7e0db3c0835c49415896103d50f31ff6",
+        "trim_result": 1,
+        "elapsed_ns": 149988852
+      }
+    ],
+    "reclaimed_anon_bytes": 1265455104,
+    "host_available_delta": 1204375552,
+    "pid": 69,
+    "inference_qualified": false
+  },
+  {
+    "records": [
+      {
+        "version": 1,
+        "phase": "before",
+        "boundary": "post-explicit-profile",
+        "pid": 69,
+        "utc_ns": 1794367499311284566,
+        "device_index": 0,
+        "result": 18253608960,
+        "fraction": 1.0,
+        "allocated": 2048,
+        "reserved": 6291456,
+        "pinned_owned": 1048576,
+        "pinned_active": 1048576,
+        "process": {
+          "VmRSS": 2292494336,
+          "RssAnon": 1895145472
+        },
+        "host": {
+          "MemFree": 120891097088,
+          "MemAvailable": 120675618816
+        },
+        "worker_sha256": "fb8c95d6928ff1c96e1460adb5cba2e335cbeb75b48aaa648bdb4af336f3c79b",
+        "helper_sha256": "849183c5d61c50ead4445cf36d11c8fe7e0db3c0835c49415896103d50f31ff6"
+      },
+      {
+        "version": 1,
+        "phase": "after",
+        "boundary": "post-explicit-profile",
+        "pid": 69,
+        "utc_ns": 1794367499445116130,
+        "device_index": 0,
+        "result": 18253608960,
+        "fraction": 1.0,
+        "allocated": 2048,
+        "reserved": 6291456,
+        "pinned_owned": 1048576,
+        "pinned_active": 1048576,
+        "process": {
+          "VmRSS": 971857920,
+          "RssAnon": 574509056
+        },
+        "host": {
+          "MemFree": 121473056768,
+          "MemAvailable": 121257578496
+        },
+        "worker_sha256": "fb8c95d6928ff1c96e1460adb5cba2e335cbeb75b48aaa648bdb4af336f3c79b",
+        "helper_sha256": "849183c5d61c50ead4445cf36d11c8fe7e0db3c0835c49415896103d50f31ff6",
+        "trim_result": 1,
+        "elapsed_ns": 133755069
+      }
+    ],
+    "reclaimed_anon_bytes": 1320636416,
+    "host_available_delta": 581959680,
+    "pid": 69,
+    "inference_qualified": false
+  }
+]
