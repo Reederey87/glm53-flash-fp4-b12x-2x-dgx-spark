@@ -1,0 +1,32 @@
+{
+  "critical_commit": "9a01728",
+  "cpu_tests": 26,
+  "lifecycle_scenarios_expected": 32,
+  "lifecycle_complete": true,
+  "actual_pinned_frontend": "passed",
+  "serving_script_identical_to_unsafe_control": true,
+  "serve_sha256": "22bffdb2756539e09558dbafebf36cc279c2d1bfc60bb57d0074afb50ba7ee78",
+  "ordered_mods": [
+    "startup-memory",
+    "startup-bound"
+  ],
+  "pinned_loader_install_and_compile": "passed",
+  "traced_postload_executable_ast_preserved": true,
+  "original_loader_sha256": "aa398e74ee835537403e60186f2e9a81e8741a4b35fec68b47df6537716a45b7",
+  "traced_loader_sha256": "bafdd73c286f691bf169eae4f55dd06edf45cf42134e0348fac35cd5ce88b27b",
+  "bounded_loader_sha256": "d2da61d2cad91668921698b48ec0b2ba844624ad6952ade7a2f351cbe8b1cb7b",
+  "restart_cleared": true,
+  "lifecycle_scenarios": 32,
+  "bound_helper_sha256": "7060fce991761fda22a469d31c790a75d33c124dd3576f6464a65876aba1e6df",
+  "tracing_helper_sha256": "34365b162a8d669c8eedd890a2ee7ee22fa95abdc7258cbc6a70756d6c5178aa",
+  "staged_head_files": 30,
+  "staged_worker_mods_verified": true,
+  "both_base_loader_hashes_verified": true,
+  "snapshots_verified": true,
+  "supervisor": "b12x-recipe-window@startup-bound-retry.service",
+  "probe_required_on_both_nodes": true,
+  "real_cuda_probe_head": "4/4 passed",
+  "real_cuda_probe_worker": "4/4 passed",
+  "probe_assertions": "PYTHONOPTIMIZE=0; no optimization flags",
+  "initial_main_pid": 362204
+}

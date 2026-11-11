@@ -1,0 +1,31 @@
+{
+  "pid": "136",
+  "flags": {
+    "--revision": "76348ddb2be2e35e39ecfc00e75dc07703f4f3d5",
+    "--tensor-parallel-size": "2",
+    "--node-rank": "0",
+    "--nnodes": "2",
+    "--max-model-len": "1000000",
+    "--max-num-seqs": "4",
+    "--max-num-batched-tokens": "4096",
+    "--kv-cache-memory-bytes": "17G",
+    "--kv-cache-dtype": "fp8",
+    "--quantization": "modelopt_mixed",
+    "--moe-backend": "b12x",
+    "--linear-backend": "b12x",
+    "--attention-backend": "B12X",
+    "--load-format": "b12x",
+    "--block-size": "256",
+    "--reasoning-parser": "glm45",
+    "--tool-call-parser": "glm47"
+  },
+  "spec": {
+    "method": "mtp",
+    "num_speculative_tokens": 3,
+    "moe_backend": "humming",
+    "attention_backend": "B12X"
+  },
+  "allocator": {},
+  "prefix_caching": true,
+  "chunked_prefill": true
+}

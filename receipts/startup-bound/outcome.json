@@ -1,0 +1,25 @@
+{
+  "decision": "SETUP_API_FAILURE",
+  "bound_activated": false,
+  "postload_entered": false,
+  "health_or_smoke_or_speed_reached": false,
+  "minimum_observer_samples": {
+    "head": {
+      "utc": "2026-11-11T01:47:30Z",
+      "node": "head",
+      "MemFree_kib": "24256112",
+      "MemAvailable_kib": "23349568"
+    },
+    "worker": {
+      "utc": "2026-11-11T01:47:30Z",
+      "node": "worker",
+      "MemFree_kib": "24439728",
+      "MemAvailable_kib": "23973308"
+    }
+  },
+  "stop_only_cleanup": "verified",
+  "finished_utc": "2026-11-11T01:48:13Z",
+  "model_containers": "both absent",
+  "healers_proxy": "inactive",
+  "retry_requires_new_output": true
+}

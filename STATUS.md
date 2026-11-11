@@ -1,5 +1,25 @@
 # Status
 
+## 2026-11-10 — reviewed bound retry running after real-CUDA checks
+
+- Final review cleared9a01728; both GB10/PyTorch2.13 probes passed4/4 actual
+  indexed/unindexed cap/restore normal/exception paths without loading weights.
+  Disposable probe containers removed.26 CPU/32 lifecycle checks retained.
+-30 runtime hashes, both images/base-loader hashes, worker staged bytes, env
+  snapshot and memory gates passed. Started `b12x-recipe-window@startup-bound-retry.service`,
+  initialPID362204. Keep this handle/output; prior failed attempt preserved.
+  Same quant/17G KV/Humming MTP3/four seats. All exits stop-only; no adoption.
+
+## 2026-11-10 — bound setup failed; safe stopped state verified
+
+- First bound attempt raised before activation: fraction API rejected unindexed
+  `cuda`. No postload/health/smoke/speed; this does not evaluate the cap.
+- Stop-only cleanup completed01:48:13Z (primary143/recovery0), both model objects
+  absent, canonical ledger restored, proxy/watchdog inactive. No unsafe reboot.
+- Device-index fix atcd83f40 plus fresh retry/real-CUDA microcheck at9a01728 are
+  in final review.26 CPU/32 lifecycle tests passed; no retry staged/deployed yet.
+  Preserve terminal `local/ab-startup-bound/`; TODO3 remains open.
+
 ## 2026-11-10 — reviewed startup-bound trial running
 
 - Code32db0ae cleared final Astra review;26 CPU/32 isolated Linux lifecycle

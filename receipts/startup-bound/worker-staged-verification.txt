@@ -1,0 +1,6 @@
+mods/startup-memory/install.py: OK
+mods/startup-memory/trace.py: OK
+mods/startup-memory/run.sh: OK
+mods/startup-bound/bound.py: OK
+mods/startup-bound/install.py: OK
+mods/startup-bound/run.sh: OK
