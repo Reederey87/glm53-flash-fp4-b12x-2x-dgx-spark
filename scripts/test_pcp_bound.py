@@ -4,6 +4,7 @@ import copy
 import io
 import json
 import re
+import os
 import subprocess
 import tempfile
 from pathlib import Path
@@ -14,10 +15,19 @@ from unittest.mock import patch
 import check_pcp_bound_cuda as probe
 import pcp_bound_snapshot as policy
 import pcp_micro_receipt as receipt
-from run_pcp_micro import transaction,NODES
+from run_pcp_micro import transaction,NODES,cancel_command
 
 
 class Transaction(unittest.TestCase):
+    def test_unloaded_transient_service_cancellation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);stub=root/'systemctl';log=root/'log'
+            stub.write_text('#!/bin/sh\necho "$*" >> "$PCP_TEST_LOG"\ncase "$*" in *LoadState*) echo "$PCP_TEST_STATE" ;; esac\n');stub.chmod(0o755)
+            for state,expected_stops,code in (('not-found',1,0),('loaded',2,0),('error',1,1)):
+                log.write_text('')
+                env=dict(os.environ,PATH=str(root)+':'+os.environ['PATH'],PCP_TEST_LOG=str(log),PCP_TEST_STATE=state)
+                result=subprocess.run(['sh','-c',cancel_command('test')],env=env,capture_output=True)
+                self.assertEqual(result.returncode,code);self.assertEqual(log.read_text().count('--user stop'),expected_stops)
     def run_case(self,fail=None):
         calls=[]
         def action(name,node=None):

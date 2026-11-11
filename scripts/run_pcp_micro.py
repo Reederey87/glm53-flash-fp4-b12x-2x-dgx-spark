@@ -10,6 +10,14 @@ import subprocess
 NODES=('head','worker')
 
 
+def cancel_command(timer):
+    q=shlex.quote
+    return ('set -eu\nsystemctl --user stop '+q(timer+'.timer')+'\n'
+        'state=$(systemctl --user show '+q(timer+'.service')+' -p LoadState --value)\n'
+        'case "$state" in loaded) systemctl --user stop '+q(timer+'.service')+' ;; '
+        'not-found) ;; *) echo "Unexpected rollback-service load state: $state" >&2; exit 1 ;; esac\n')
+
+
 def transaction(perform,restore,verify,cancel):
     """Always attempt both restores; keep timers on any unverified restoration."""
     completed=False
@@ -53,7 +61,7 @@ def main():
         snapshot(node,'restored',0)
         execute(node,'no-containers','test -z "$(docker ps -q)"\n')
         execute(node,'ledger-restored','printf %s '+q('# PCP micro '+label+' policy restored0; see local/pcp-bound-'+label+'/ receipts; no adoption\n')+' >> /home/nvidia/b12x/.env\n')
-    def cancel(node):execute(node,'timer-cancel','systemctl --user stop '+q(timer+'.timer')+' '+q(timer+'.service')+'\n')
+    def cancel(node):execute(node,'timer-cancel',cancel_command(timer))
     def perform():
         for node in NODES:
             checked(node,'preflight','''test -z "$(docker ps -q)"
