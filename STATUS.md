@@ -1,5 +1,16 @@
 # Status
 
+## 2026-11-10 — reviewed startup-bound trial running
+
+- Code32db0ae cleared final Astra review;26 CPU/32 isolated Linux lifecycle
+  checks and actual pinned frontend dry-run passed.29 runtime hashes, both base
+  image/loader identities, ordered mods and worker staged bytes verified.
+- Started `b12x-recipe-window@startup-bound.service`, initialPID306965.
+  Existing memory gates passed head117GiB/worker115GiB free. Same quant/17G KV/
+  Humming MTP3/four seats. Native fraction0.80 only during postload; original1.0
+  must be proven restored before smoke/matrix. All exits stop both ranks and
+  restore canonical ledger without unsafe reboot; no adoption/candidate3 yet.
+
 ## 2026-11-10 — guarded startup/recovery failed; both ranks stopped
 
 - Diagnostic proved both installed hashes and1817 ordered target-postload

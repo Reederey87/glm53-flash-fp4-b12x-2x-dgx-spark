@@ -1,0 +1,211 @@
+{
+  "poll_override_seconds": 0.1,
+  "scenarios": [
+    {
+      "phase": "startup",
+      "failure": "SIGTERM",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "startup",
+      "failure": "SIGKILL",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "startup",
+      "failure": "guard-failure",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "SIGTERM",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "SIGKILL",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "guard-failure",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "proxy-failure",
+      "guarded": false,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "SIGTERM",
+      "recovery_failure": "hold-rollback",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "isolation",
+      "failure": "SIGTERM",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "isolation",
+      "failure": "SIGKILL",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "isolation",
+      "failure": "stop-failure",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "control-failure",
+      "recovery_failure": "none",
+      "guarded": false,
+      "restored": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "SIGTERM",
+      "recovery_failure": "none",
+      "guarded": true,
+      "restored": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "recovery-floor",
+      "guarded": true,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "recovery-observer",
+      "guarded": true,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "proxy-failure",
+      "guarded": true,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "recovery-stale",
+      "guarded": true,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "recovery-future",
+      "guarded": true,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "recovery-startup-loss",
+      "guarded": true,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "recovery-smoke-loss",
+      "guarded": true,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "recovery-stop-race",
+      "guarded": true,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "recovery-terminal",
+      "guarded": true,
+      "failed_closed": true
+    },
+    {
+      "phase": "measurement",
+      "failure": "SIGTERM",
+      "recovery_failure": "hold-rollback",
+      "guarded": true,
+      "restored": true
+    },
+    {
+      "phase": "observation",
+      "failure": "none",
+      "recovery_failure": "none",
+      "guarded": true,
+      "restored": true
+    },
+    {
+      "phase": "stabilization",
+      "failure": "none",
+      "verified_stop_only": true,
+      "cleanup_failed_closed": false
+    },
+    {
+      "phase": "stabilization",
+      "failure": "containers-present",
+      "verified_stop_only": false,
+      "cleanup_failed_closed": true
+    },
+    {
+      "phase": "stabilization-startup",
+      "failure": "SIGTERM",
+      "verified_stop_only": true,
+      "cleanup_failed_closed": false
+    },
+    {
+      "phase": "stabilization-startup",
+      "failure": "SIGKILL",
+      "verified_stop_only": true,
+      "cleanup_failed_closed": false
+    },
+    {
+      "phase": "stabilization-startup",
+      "failure": "guard-failure",
+      "verified_stop_only": true,
+      "cleanup_failed_closed": false
+    },
+    {
+      "phase": "stabilization-startup",
+      "failure": "trace-floor",
+      "verified_stop_only": true,
+      "cleanup_failed_closed": false
+    },
+    {
+      "phase": "stabilization-measurement",
+      "failure": "SIGTERM",
+      "verified_stop_only": true,
+      "cleanup_failed_closed": false
+    },
+    {
+      "phase": "stabilization-measurement",
+      "failure": "SIGKILL",
+      "verified_stop_only": true,
+      "cleanup_failed_closed": false
+    }
+  ]
+}
