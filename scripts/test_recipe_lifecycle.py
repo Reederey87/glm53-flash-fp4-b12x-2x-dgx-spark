@@ -67,6 +67,7 @@ def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=Fa
             (root/'mods/host-ownership-entry').mkdir(parents=True)
             (root/'mods/host-ownership-entry/observe.py').write_text('# fixture\n')
         if host_trim:
+            (out/'host-trim-active').touch()
             with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
                 stream.write('\nHOST_TRIM=1\nTRIM_WORKER_SHA256=fixture\nTRIM_MINIMUM_RECLAIM=1073741824\n')
             (root/'mods/explicit-kv-host-trim').mkdir(parents=True)
@@ -145,6 +146,7 @@ case "$(basename "$0")" in
     [ "$script" = '# mock docker exec stdin' ] || exit 97
     echo '{"mock":true}' ;;
    'logs '*) echo 'GPU KV cache size: 2,350,210 tokens'
+    if [ -e "$OUT/host-trim-active" ]; then printf 'B12X_HOST_TRIM {}\nB12X_HOST_TRIM {}\n'; fi
     if [ "$B12X_TEST_MODE" = ownership ] && [ "$B12X_TEST_FAILURE" != ownership-missing-both ]; then
       if [ "$B12X_TEST_FAILURE" != ownership-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then echo 'B12X_HOST_OWNERSHIP {}'; fi
     fi
