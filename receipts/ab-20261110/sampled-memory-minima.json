@@ -1,0 +1,34 @@
+{
+  "a": {
+    "head": {
+      "utc": "2026-11-10T23:35:41Z",
+      "node": "head",
+      "MemFree_kib": "2942152",
+      "MemAvailable_kib": "2129752",
+      "available_gib": 2.0310897827148438
+    },
+    "worker": {
+      "utc": "2026-11-10T23:41:49Z",
+      "node": "worker",
+      "MemFree_kib": "3308220",
+      "MemAvailable_kib": "2343992",
+      "available_gib": 2.2354049682617188
+    }
+  },
+  "b": {
+    "head": {
+      "utc": "2026-11-10T23:56:31Z",
+      "node": "head",
+      "MemFree_kib": "3414404",
+      "MemAvailable_kib": "2986108",
+      "available_gib": 2.8477745056152344
+    },
+    "worker": {
+      "utc": "2026-11-10T23:56:31Z",
+      "node": "worker",
+      "MemFree_kib": "2540328",
+      "MemAvailable_kib": "2053508",
+      "available_gib": 1.9583778381347656
+    }
+  }
+}

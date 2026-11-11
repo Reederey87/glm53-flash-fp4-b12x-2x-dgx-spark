@@ -1,5 +1,13 @@
 # Candidate 2 — allocator headroom (pre-registered 2026-11-10)
 
+**Outcome: NOT QUALIFIED (startup safety rejection).** At 23:56:31Z the worker
+fell to 1.958 GiB available, below the fixed 2 GiB floor; observer stopped the
+trial. B did not reach activation verification, functional smoke or speed
+measurement. No throughput/mechanism conclusion. Do not raise KV; the 19/20G
+condition was not met. Control recovery completed 2026-11-11T00:02:40Z with
+5/5 smoke, health200, default allocator/pinned image on both ranks and each
+production unit/timer active. See [full receipts](../../receipts/ab-20261110/outcome.md).
+
 ## Frontend integration repair before retry
 
 The first B dispatch never booted an engine: the pinned upstream validator

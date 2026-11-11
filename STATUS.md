@@ -1,5 +1,17 @@
 # Status
 
+## 2026-11-10 — allocator candidate rejected; healthy control restored
+
+- Allocator-only 17G trial hit the pre-registered 2 GiB available-memory floor
+  on the worker (1.958 GiB); stopped before activation verification/speed smoke.
+  No larger KV trial and no optimization adopted. Full control matrix retained.
+- Recovery verified 2026-11-11T00:02:40Z: default allocator on both ranks, pinned
+  image, 17G FP8 KV/pool 2,350,210, MTP-3/four seats, smoke 5/5 and health200;
+  serving unit/watchdog/proxy individually active. Temporary ENV_FILE override
+  removed; normal append-only ledger works through the reviewed projection fix.
+- Receipts `receipts/ab-20261110/outcome.md`; 10 CPU and 11 isolated systemd
+  scenarios passed. Next: candidate 3, with final review before deployment.
+
 ## 2026-11-10 — ordered optimization windows in progress
 
 - First allocator-B dispatch failed before model launch: pinned upstream rejects
