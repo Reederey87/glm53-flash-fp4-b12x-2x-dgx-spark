@@ -51,3 +51,15 @@ idle512MiB while preserving live pinned storage, a graph using pinned input,
 prepared B12X graph replay, tensor pointers and device accounting. The fixture
 proves API compatibility only; actual-model return and full memory/smoke/speed
 gates remain mandatory.
+
+Initial model-free probe: both nodes' first one-shot call returned512MiB owned
+and480MiB immediately reported available. A second fixture in the same process
+returned512MiB owned but reported zero immediate OS gain and correctly failed
+the unchanged physical gate. Preserve that failure; do not call it a pass.
+Each indexed/unindexed spelling is now tested in a fresh process, matching the
+startup-once contract. This is test isolation, not evidence about the cause of
+the second sample. [CUDA documents the free operation](https://docs.nvidia.com/cuda/cuda-runtime-api/cuda_runtime_api/group__CUDART__MEMORY.html),
+while [Linux documents per-CPU vmstat precision](https://www.kernel.org/doc/html/latest/admin-guide/sysctl/vm.html#stat-refresh)
+and [MemAvailable as an estimate](https://www.kernel.org/doc/html/latest/filesystems/proc.html).
+No forced root-only refresh, sleep/polling, gate relaxation or extra GPU call
+is added to the runtime helper. Actual checkpoint benefit remains unproven.

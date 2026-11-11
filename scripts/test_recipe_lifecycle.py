@@ -129,6 +129,7 @@ case "$(basename "$0")" in
       exec sleep 300
     fi;;
    *'start vllm-b12x.service'*)
+    if [ "$B12X_TEST_MODE" = pinned-startup ]; then touch "$OUT/phase"; exec sleep 300; fi
     if [ "$B12X_TEST_MODE" = stabilization-startup ]; then touch "$OUT/phase"; exec sleep 300; fi
     if candidate && [ "$B12X_TEST_MODE" = startup ]; then touch "$OUT/phase"; exec sleep 300; fi
     if [ -e "$OUT/active-recovery" ]; then
@@ -165,7 +166,9 @@ case "$(basename "$0")" in
     echo '{"mock":true}' ;;
    'logs '*) echo 'GPU KV cache size: 2,350,210 tokens'
     if [ -e "$OUT/compiler-release-active" ]; then printf 'B12X_COMPILER_RELEASE {}\nB12X_COMPILER_RELEASE {}\n'; fi
-    if [ -e "$OUT/pinned-return-active" ]; then printf 'B12X_PINNED_RETURN {}\nB12X_PINNED_RETURN {}\n'; fi
+    if [ -e "$OUT/pinned-return-active" ] && [ "$B12X_TEST_FAILURE" != pinned-missing-both ]; then
+      if [ "$B12X_TEST_FAILURE" != pinned-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then printf 'B12X_PINNED_RETURN {}\nB12X_PINNED_RETURN {}\n'; fi
+    fi
     if [ -e "$OUT/host-trim-active" ]; then printf 'B12X_HOST_TRIM {}\nB12X_HOST_TRIM {}\n'; fi
     if [ "$B12X_TEST_MODE" = ownership ] && [ "$B12X_TEST_FAILURE" != ownership-missing-both ]; then
       if [ "$B12X_TEST_FAILURE" != ownership-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then echo 'B12X_HOST_OWNERSHIP {}'; fi
@@ -193,7 +196,12 @@ case "$(basename "$0")" in
     case "$*" in *'--boundary post-explicit-profile --metadata '*) :;; *) exit 95;; esac
     [ "$B12X_TEST_FAILURE" != ownership-evidence ]; echo 'mock compiler proof';;
    *compiler_release_receipt.py*) [ "$B12X_TEST_FAILURE" != release-evidence ]; echo 'mock compiler release proof';;
-   *pinned_cache_receipt.py*) [ "$B12X_TEST_FAILURE" != pinned-evidence ]; echo 'mock pinned return proof';;
+   *pinned_cache_receipt.py*)
+    touch "$OUT/pinned-validator-called"
+    case "$B12X_TEST_FAILURE:$*" in
+      pinned-evidence:*|pinned-evidence-startup:*|pinned-missing-both:*|pinned-missing-worker:*worker-a-boot.log*) exit 1;;
+    esac
+    echo 'mock pinned return proof';;
    *'run --offline python -c '*) echo '2,350,210';;
    *smoke.py*)
     if [ -e "$OUT/active-recovery" ] && [ "$B12X_TEST_RECOVERY" = recovery-smoke-loss ]; then
@@ -228,7 +236,7 @@ esac
                  '--setenv=B12X_TEST_MODE='+mode,'--setenv=B12X_TEST_FAILURE='+failure,
                  '--setenv=B12X_TEST_RECOVERY='+recovery_failure,'--setenv=B12X_TEST_IMAGE='+IMAGE,
                  '/bin/bash',str(root/'scripts/recipe_window.sh'),TASK)
-            if mode not in ('observation','stabilization','ownership'):
+            if mode not in ('observation','stabilization','ownership','pinned-startup'):
                 wait_for(lambda:(out/'phase').exists())
                 if failure=='guard-failure': (out/('active-a' if stop_only else 'active-b')).unlink()
                 elif failure=='trace-floor': (out/'trace-floor').touch()
@@ -277,6 +285,20 @@ esac
                     events=(out/'events').read_text()
                     assert 'compiler_release_receipt.py' in events
                     if failure=='release-evidence': assert 'scripts/smoke.py' not in events
+                if pinned:
+                    events=(out/'events').read_text()
+                    assert (out/'pinned-validator-called').exists()
+                    if failure=='none':
+                        assert 'scripts/smoke.py' in events and 'scripts/speed_matrix.py' in events
+                        assert (out/'matrix-a.json').exists()
+                        assert int((out/'primary-status.txt').read_text())==0
+                    else:
+                        assert 'scripts/smoke.py' not in events and 'scripts/speed_matrix.py' not in events
+                        assert not (out/'matrix-a.json').exists()
+                        assert int((out/'primary-status.txt').read_text())!=0
+                    if mode=='pinned-startup':
+                        assert (out/'phase').exists()
+                        assert (out/'head-a-pinned-return-early.json').exists()
                 return {'phase':mode,'failure':failure,'verified_stop_only':failure!='containers-present','cleanup_failed_closed':failure=='containers-present'}
             if recovery_failure=='proxy-failure' or recovery_failure.startswith('recovery-'):
                 wait_for(terminal)
@@ -330,5 +352,6 @@ if __name__=='__main__':
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,host_trim=True) for failure in ('none','trim-evidence')]
     rows += [scenario('ownership',failure,guarded=True,stop_only=True,ownership=True,compiler=True) for failure in ('none','ownership-evidence','ownership-missing-both','ownership-missing-worker')]
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,release=True) for failure in ('none','release-evidence')]
-    rows += [scenario('stabilization',failure,guarded=True,stop_only=True,pinned=True) for failure in ('none','pinned-evidence')]
+    rows += [scenario('stabilization',failure,guarded=True,stop_only=True,pinned=True) for failure in ('none','pinned-evidence','pinned-missing-both','pinned-missing-worker')]
+    rows += [scenario('pinned-startup','pinned-evidence-startup',guarded=True,stop_only=True,pinned=True)]
     print(json.dumps({'poll_override_seconds':.1,'scenarios':rows},indent=2))

@@ -1,4 +1,5 @@
 """Real pinned-staging return preserves live host-copy and prepared B12X graphs."""
+import argparse
 import importlib.util
 import json
 from pathlib import Path
@@ -11,12 +12,16 @@ from b12x.preparation import PreparationSession, PreparedCall
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--device-spelling', choices=('unindexed', 'indexed'), required=True)
+    args = parser.parse_args()
     path = Path('/usr/local/lib/python3.12/dist-packages/vllm/v1/worker/_b12x_startup_pinned.py')
     spec = importlib.util.spec_from_file_location('pinned_probe', path)
     module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
     torch.cuda.init(); index = torch.cuda.current_device(); torch.manual_seed(17)
     results = []
-    for spelling in ('cuda', f'cuda:{index}'):
+    # Each invocation represents one startup-once worker in a fresh process.
+    for spelling in ('cuda' if args.device_spelling == 'unindexed' else f'cuda:{index}',):
         worker = types.SimpleNamespace(device=torch.device(spelling), cache_config=types.SimpleNamespace(kv_cache_memory_bytes=17*1024**3))
         source = torch.randn(2, 2048, device=worker.device, dtype=torch.bfloat16)
         weight = torch.randn(96, 2048, device=worker.device, dtype=torch.bfloat16)
