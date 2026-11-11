@@ -1,5 +1,16 @@
 # Status
 
+## 2026-11-10 — device-cache return rejected; models stopped
+
+- New outer-warmup hook activated, hashes/PIDs/live allocation verified, but
+  returned only2MiB/rank vs64MiB head gate. Not a sufficient repair; no adoption.
+- Head hit1.734GiB at02:28:58Z;2GiB guard stopped before health/smoke/speed.
+  Stop-only cleanup02:29:03Z, primary1/recovery0, both model objects absent,
+  canonical ledger restored and proxy/healers inactive. TODO3 stays open.
+- Next collect actual pinned-host owned/active bytes and worker/parent RSS.
+  Installed graph contexts already clear host cache before capture, so a blind
+  extra host flush is not justified. Evidence `receipts/warmup-cache-return/`.
+
 ## 2026-11-10 — reviewed post-warmup cache trial running
 
 - Final review cleared7fdd343;31 CPU/34 isolated lifecycle checks passed. Both

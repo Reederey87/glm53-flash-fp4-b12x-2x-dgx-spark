@@ -1,0 +1,36 @@
+{
+  "pid": 408,
+  "returned_bytes": 2097152,
+  "records": [
+    {
+      "phase": "before",
+      "pid": 408,
+      "utc_ns": 1794364136254910133,
+      "device_index": 0,
+      "allocated": 109496164352,
+      "reserved": 110157103104,
+      "fraction": 1.0,
+      "host": {
+        "MemFree": 2713309184,
+        "MemAvailable": 2291380224
+      },
+      "worker_sha256": "9ccdbd2913e2feafcbc6638fe7fa82641f79c9778044c527e33f356af817443e",
+      "helper_sha256": "ee99d16239f93e1dad8f5202e64d1b5fe94aec324702ea0ff3b3f891d045422f"
+    },
+    {
+      "phase": "after",
+      "pid": 408,
+      "utc_ns": 1794364136255506983,
+      "device_index": 0,
+      "allocated": 109496164352,
+      "reserved": 110155005952,
+      "fraction": 1.0,
+      "host": {
+        "MemFree": 2714742784,
+        "MemAvailable": 2292813824
+      },
+      "worker_sha256": "9ccdbd2913e2feafcbc6638fe7fa82641f79c9778044c527e33f356af817443e",
+      "helper_sha256": "ee99d16239f93e1dad8f5202e64d1b5fe94aec324702ea0ff3b3f891d045422f"
+    }
+  ]
+}

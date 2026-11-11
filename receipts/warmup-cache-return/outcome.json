@@ -1,0 +1,43 @@
+{
+  "decision": "REJECTED_INSUFFICIENT_DEVICE_CACHE_RECLAMATION_AND_LATE_SAFETY_FAILURE",
+  "treatment_activated": true,
+  "head_required_bytes": 67108864,
+  "ranks": [
+    {
+      "node": "head",
+      "scopes": 2,
+      "postload_min_available_GiB": 10.2484130859375,
+      "returned_GPU_bytes": 2097152,
+      "live_allocated_unchanged": true
+    },
+    {
+      "node": "worker",
+      "scopes": 2,
+      "postload_min_available_GiB": 11.466121673583984,
+      "returned_GPU_bytes": 2097152,
+      "live_allocated_unchanged": true
+    }
+  ],
+  "minimum_observer_samples": {
+    "head": {
+      "utc": "2026-11-11T02:28:58Z",
+      "node": "head",
+      "MemFree_kib": "2228900",
+      "MemAvailable_kib": "1817796"
+    },
+    "worker": {
+      "utc": "2026-11-11T02:28:51Z",
+      "node": "worker",
+      "MemFree_kib": "2538704",
+      "MemAvailable_kib": "2708372"
+    }
+  },
+  "finished_utc": "2026-11-11T02:29:03Z",
+  "primary_status": 1,
+  "recovery_status": 0,
+  "health_smoke_speed_reached": false,
+  "model_containers": "both absent",
+  "healers_proxy": "inactive",
+  "adopted": false,
+  "candidate3_attempted": false
+}

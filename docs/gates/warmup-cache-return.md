@@ -1,5 +1,12 @@
 # Return unused CUDA cache after warmup
 
+**Outcome: rejected.** The actual hook returned2MiB/rank, below the64MiB head
+gate, without changing live allocation. Later head available fell1.734GiB at
+2026-11-11T02:28:58Z; guard stopped before health/smoke/speed. Stop-only cleanup
+verified02:29:03Z. Both model objects absent, proxy/healers off. No adoption or
+TODO3 verdict. Preserve this terminal output.
+[Receipts](../../receipts/warmup-cache-return/outcome.md).
+
 Pre-registered before deployment; final Astra review and both-node real graph
 compatibility probes are required first. This is a stabilization dependency of
 TODO3, not its completion. No automatic adoption or unsafe rollback boot.
