@@ -1,0 +1,192 @@
+[
+  {
+    "records": [
+      {
+        "version": 1,
+        "phase": "before",
+        "boundary": "post-explicit-profile",
+        "pid": 72,
+        "utc_ns": 1794371008160018878,
+        "device_index": 0,
+        "result": 18253611008,
+        "fraction": 1.0,
+        "allocated": 402944,
+        "reserved": 4194304,
+        "pinned_owned": 1048576,
+        "pinned_active": 1048576,
+        "process": {
+          "VmRSS": 2404904960,
+          "RssAnon": 1883471872
+        },
+        "host": {
+          "MemFree": 120850735104,
+          "MemAvailable": 120674045952
+        },
+        "worker_sha256": "19892e72244866064770ca325f8744dcdd42dd2da840d69b766951ddcd2f4222",
+        "helper_sha256": "1ccd395bbe80969f4276b8d8eea30af196688b43e3d759edcc36b7ff23f047ee",
+        "compiler_sha256": "3a73fe9d56fe1bf6277b92f8ec7c28b9b0a7b6c02e1ca2c04106c9922e83694b",
+        "plan_sha256": "272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24",
+        "compiler_provider": "/usr/local/lib/python3.12/dist-packages/flashinfer/experimental/b12x/_lib/compiler.py",
+        "retained_program_owners": 1,
+        "retained_identity_sha256": "8d720fb5c5215bc1bf8a83882c56d2fdefeea0f8a7549bbfbe62c7a17af83865",
+        "cache": {
+          "memory_cache_enabled": true,
+          "memory_cache_size": 2,
+          "memory_cache_max_size": 1024,
+          "memory_cache_hits": 0,
+          "memory_cache_misses": 2,
+          "disk_cache_enabled": true,
+          "disk_cache_hits": 0,
+          "compile_misses": 1,
+          "spec_memo_enabled": true,
+          "spec_memo_size": 3,
+          "spec_memo_hits": 0,
+          "spec_memo_misses": 2
+        }
+      },
+      {
+        "version": 1,
+        "phase": "after",
+        "boundary": "post-explicit-profile",
+        "pid": 72,
+        "utc_ns": 1794371008356147754,
+        "device_index": 0,
+        "result": 18253611008,
+        "fraction": 1.0,
+        "allocated": 402944,
+        "reserved": 4194304,
+        "pinned_owned": 1048576,
+        "pinned_active": 1048576,
+        "process": {
+          "VmRSS": 1075503104,
+          "RssAnon": 554070016
+        },
+        "host": {
+          "MemFree": 122142412800,
+          "MemAvailable": 121965723648
+        },
+        "worker_sha256": "19892e72244866064770ca325f8744dcdd42dd2da840d69b766951ddcd2f4222",
+        "helper_sha256": "1ccd395bbe80969f4276b8d8eea30af196688b43e3d759edcc36b7ff23f047ee",
+        "compiler_sha256": "3a73fe9d56fe1bf6277b92f8ec7c28b9b0a7b6c02e1ca2c04106c9922e83694b",
+        "plan_sha256": "272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24",
+        "compiler_provider": "/usr/local/lib/python3.12/dist-packages/flashinfer/experimental/b12x/_lib/compiler.py",
+        "retained_program_owners": 1,
+        "retained_identity_sha256": "8d720fb5c5215bc1bf8a83882c56d2fdefeea0f8a7549bbfbe62c7a17af83865",
+        "cache": {
+          "memory_cache_enabled": true,
+          "memory_cache_size": 0,
+          "memory_cache_max_size": 1024,
+          "memory_cache_hits": 0,
+          "memory_cache_misses": 0,
+          "disk_cache_enabled": true,
+          "disk_cache_hits": 0,
+          "compile_misses": 0,
+          "spec_memo_enabled": true,
+          "spec_memo_size": 0,
+          "spec_memo_hits": 0,
+          "spec_memo_misses": 0
+        },
+        "trim_result": 1,
+        "elapsed_ns": 196169117
+      }
+    ],
+    "reclaimed_anon_bytes": 1329401856,
+    "pid": 72,
+    "inference_qualified": false
+  },
+  {
+    "records": [
+      {
+        "version": 1,
+        "phase": "before",
+        "boundary": "post-explicit-profile",
+        "pid": 72,
+        "utc_ns": 1794371009129082391,
+        "device_index": 0,
+        "result": 18253611008,
+        "fraction": 1.0,
+        "allocated": 33957376,
+        "reserved": 37748736,
+        "pinned_owned": 1048576,
+        "pinned_active": 1048576,
+        "process": {
+          "VmRSS": 2709225472,
+          "RssAnon": 2165252096
+        },
+        "host": {
+          "MemFree": 120382115840,
+          "MemAvailable": 120286625792
+        },
+        "worker_sha256": "19892e72244866064770ca325f8744dcdd42dd2da840d69b766951ddcd2f4222",
+        "helper_sha256": "1ccd395bbe80969f4276b8d8eea30af196688b43e3d759edcc36b7ff23f047ee",
+        "compiler_sha256": "3a73fe9d56fe1bf6277b92f8ec7c28b9b0a7b6c02e1ca2c04106c9922e83694b",
+        "plan_sha256": "272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24",
+        "compiler_provider": "/usr/local/lib/python3.12/dist-packages/flashinfer/experimental/b12x/_lib/compiler.py",
+        "retained_program_owners": 1,
+        "retained_identity_sha256": "4bf0544db2399d2e46cbc27b78cd89200b8716af2fd61eee5028bdf3bd9b3bf5",
+        "cache": {
+          "memory_cache_enabled": true,
+          "memory_cache_size": 2,
+          "memory_cache_max_size": 1024,
+          "memory_cache_hits": 0,
+          "memory_cache_misses": 1,
+          "disk_cache_enabled": true,
+          "disk_cache_hits": 1,
+          "compile_misses": 0,
+          "spec_memo_enabled": true,
+          "spec_memo_size": 3,
+          "spec_memo_hits": 0,
+          "spec_memo_misses": 2
+        }
+      },
+      {
+        "version": 1,
+        "phase": "after",
+        "boundary": "post-explicit-profile",
+        "pid": 72,
+        "utc_ns": 1794371009281279989,
+        "device_index": 0,
+        "result": 18253611008,
+        "fraction": 1.0,
+        "allocated": 33957376,
+        "reserved": 37748736,
+        "pinned_owned": 1048576,
+        "pinned_active": 1048576,
+        "process": {
+          "VmRSS": 1387970560,
+          "RssAnon": 843997184
+        },
+        "host": {
+          "MemFree": 120928157696,
+          "MemAvailable": 120832667648
+        },
+        "worker_sha256": "19892e72244866064770ca325f8744dcdd42dd2da840d69b766951ddcd2f4222",
+        "helper_sha256": "1ccd395bbe80969f4276b8d8eea30af196688b43e3d759edcc36b7ff23f047ee",
+        "compiler_sha256": "3a73fe9d56fe1bf6277b92f8ec7c28b9b0a7b6c02e1ca2c04106c9922e83694b",
+        "plan_sha256": "272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24",
+        "compiler_provider": "/usr/local/lib/python3.12/dist-packages/flashinfer/experimental/b12x/_lib/compiler.py",
+        "retained_program_owners": 1,
+        "retained_identity_sha256": "4bf0544db2399d2e46cbc27b78cd89200b8716af2fd61eee5028bdf3bd9b3bf5",
+        "cache": {
+          "memory_cache_enabled": true,
+          "memory_cache_size": 0,
+          "memory_cache_max_size": 1024,
+          "memory_cache_hits": 0,
+          "memory_cache_misses": 0,
+          "disk_cache_enabled": true,
+          "disk_cache_hits": 0,
+          "compile_misses": 0,
+          "spec_memo_enabled": true,
+          "spec_memo_size": 0,
+          "spec_memo_hits": 0,
+          "spec_memo_misses": 0
+        },
+        "trim_result": 1,
+        "elapsed_ns": 151994511
+      }
+    ],
+    "reclaimed_anon_bytes": 1321254912,
+    "pid": 72,
+    "inference_qualified": false
+  }
+]

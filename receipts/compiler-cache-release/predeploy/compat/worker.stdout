@@ -1,0 +1,4 @@
+B12X_STARTUP_TRACE_INSTALLED source=aa398e74ee835537403e60186f2e9a81e8741a4b35fec68b47df6537716a45b7 patched=bafdd73c286f691bf169eae4f55dd06edf45cf42134e0348fac35cd5ce88b27b
+B12X_STARTUP_BOUND_INSTALLED patched=d2da61d2cad91668921698b48ec0b2ba844624ad6952ade7a2f351cbe8b1cb7b
+B12X_COMPILER_RELEASE_INSTALLED patched=19892e72244866064770ca325f8744dcdd42dd2da840d69b766951ddcd2f4222
+{"pytorch": "2.13.0+cu130", "checks": [{"device": "cuda", "b12x_graph_replays": 3, "pointers_preserved": true, "compiler_and_loader_forbidden": true, "cache_owned_fixture_released": true, "same_one_GiB_gate_passed": true}, {"device": "cuda:0", "b12x_graph_replays": 3, "pointers_preserved": true, "compiler_and_loader_forbidden": true, "cache_owned_fixture_released": true, "same_one_GiB_gate_passed": true}], "checkpoint_loaded": false, "server_loaded": false, "cpu_fixture_bytes": 1342177280}
