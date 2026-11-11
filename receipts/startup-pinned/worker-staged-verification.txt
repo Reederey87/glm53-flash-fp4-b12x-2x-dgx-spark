@@ -1,0 +1,11 @@
+mods/startup-memory/install.py: OK
+mods/startup-memory/trace.py: OK
+mods/startup-memory/run.sh: OK
+mods/startup-bound/bound.py: OK
+mods/startup-bound/install.py: OK
+mods/startup-bound/run.sh: OK
+scripts/check_startup_bound_cuda.py: OK
+mods/startup-pinned/install.py: OK
+mods/startup-pinned/release.py: OK
+mods/startup-pinned/run.sh: OK
+scripts/check_pinned_cache_cuda.py: OK

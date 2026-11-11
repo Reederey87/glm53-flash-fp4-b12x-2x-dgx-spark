@@ -1,0 +1,37 @@
+{
+  "head": {
+    "pid": 403,
+    "trace_records": 1817,
+    "postload_minimum_gib": 10.142257690429688,
+    "idle_returned_bytes": 536870925,
+    "retired_event_bytes": 0,
+    "host_available_gain_bytes": 544346112,
+    "return_gate": "PASS",
+    "scopes": 2,
+    "restored_fraction": 1.0,
+    "lowest_available_gib": 1.8234329223632812,
+    "lowest_utc": "2026-11-11T05:10:37Z"
+  },
+  "worker": {
+    "pid": 306,
+    "trace_records": 1817,
+    "postload_minimum_gib": 11.284381866455078,
+    "idle_returned_bytes": 536870925,
+    "retired_event_bytes": 0,
+    "host_available_gain_bytes": 538435584,
+    "return_gate": "PASS",
+    "scopes": 2,
+    "restored_fraction": 1.0,
+    "lowest_available_gib": 2.9583358764648438,
+    "lowest_utc": "2026-11-11T05:10:34Z"
+  },
+  "outcome": "later-startup-memory-floor-failed",
+  "finished": "2026-11-11T05:10:43Z",
+  "primary": 1,
+  "recovery": 0,
+  "health": false,
+  "smoke": false,
+  "parity": false,
+  "speed": false,
+  "adoption": false
+}

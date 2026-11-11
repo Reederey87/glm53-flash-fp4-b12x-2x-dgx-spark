@@ -1,3 +1,10 @@
+## Terminal outcome: reclamation pass; complete startup safety failed
+
+Actual both-rank idle return536,870,925bytes with544/538MB available gain passed
+both source-bound gates. Later head1.823GiB failed2GiBfloor after graph capture.
+Stop-only05:10:43Z, both objects absent/proxywatchdogoff. No health/smoke/parity/
+speed/adoption/TODO3 verdict. Full receipts: `receipts/startup-pinned/outcome.md`.
+
 # Startup-only return of idle pinned host staging
 
 Pre-registered dependency for TODO3, one new treatment: one public
