@@ -43,3 +43,15 @@ unchanged live CUDA/pinned allocations, tiny graph/tensor compatibility checks,
 final review and a fresh supervised single-treatment window. Full functional
 and speed qualification is still required before adoption. Keep17G/quant,
 source pins,2GiB observer and stop-only fallback unchanged.
+
+The subsequent entry records are now available in receipts/host-ownership-entry/:
+inactive pinned~512MiB/rank, worker anonymous RSS~5.1GiB/rank, no multi-GiB
+compiler children among the largest processes. Head floor failed at1.623GiB,
+so no passed-diagnostic or serving claim. This supports testing measured heap
+return before KV; it does not establish that5.1GiB is all unused heap.
+
+Exa also checked mallinfo2: its counters have allocator/arena coverage and
+concurrency limitations. They are not added to this first treatment. Measure
+the actual process anonymous-RSS reduction plus unchanged CUDA/pinned counters
+and host availability; the callable return1 alone is insufficient. Tiny probes
+must pass the same1GiB return gate with live CPU guards and CUDA graph replay.

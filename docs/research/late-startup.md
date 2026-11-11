@@ -15,9 +15,11 @@ Direct filesystem reads from a never-started pinned-image container confirmed:
 - `utils/gc_utils.py:freeze_gc_heap` already collects/freezes and calls glibc
   malloc_trim. GPU workers invoke it after graph/sampler/inductor warmup;
   engine core also invokes it after scheduler/request-hasher initialization.
-- `gpu_worker.py` already trims host heap before KV sizing, clears CUDA cache
-  before KV allocation, and repeats profiling/tuning cleanup before allocating
-  the explicit serving pool. The log reports0.42GiB cleared at that stage.
+- `gpu_worker.py` contains host trim before automatic KV sizing, but later
+  exact-branch review proved the explicit17G path returns before that trim.
+  It does clear CUDA cache and repeats profiling/tuning cleanup before the
+  explicit pool; the log reports0.42GiB CUDA cache cleared. Source presence
+  alone did not prove CPU trim executed. See explicit-kv-host-heap.md.
 - The guard fired around the later engine-core initialization handoff. Workers
   had already logged JIT monitoring and graph capture completion. Do not add a
   duplicate generic malloc_trim/pre-KV cleanup and presume it fixes the issue.
