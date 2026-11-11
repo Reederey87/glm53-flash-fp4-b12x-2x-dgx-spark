@@ -1,5 +1,10 @@
 # Terminal native-owner inventory before KV allocation
 
+Follow-up2026-11-11: four source-reviewed compound probes under temporary
+PCP512 passed the strict physical/inventory/graph gates; both policies restored0.
+See receipts/pcp-native/outcome.md. This satisfies the model-free prerequisite
+under that policy, but does not clear a checkpoint diagnostic or serving.
+
 Current status: **NOT QUALIFIED for checkpoint deployment.** The initial frozen
 de7fe05 compound probes failed the unchanged common pinned physical-return gate
 on both nodes before collection. A preregistered old/current fixture-only pair

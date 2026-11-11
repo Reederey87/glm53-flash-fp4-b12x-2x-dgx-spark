@@ -1,0 +1,12 @@
+2026-11-11T09:18:11Z
+MainPID=0
+ActiveState=failed
+inactive
+inactive
+0
+1048576
+1
+/home/nvidia/b12x/.vendor/spark-vllm-docker
+0
+1048576
+1

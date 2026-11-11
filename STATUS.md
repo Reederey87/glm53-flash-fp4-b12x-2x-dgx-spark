@@ -1,3 +1,5 @@
+2026-11-11: All four native/pinned compound probes passed under PCP512, including strict physical return, complete inventories, live graph replays and post-teardown proof. Restored0 both09:13:49Z; models/proxy/watchdog off.73CPU checks pass; model-aware stabilization still needs review. receipts/pcp-native/outcome.md.
+
 2026-11-11: Temporary PCP512 micro passed both physical gates (~524MiB immediate available gain), graphs and exact-policy checks; restored0 both08:50:34/35Z, models/proxy/watchdog remain off. Earlier paired counters attribute these micro returns to PCP retention. No model/adoption/TODO3 clearance; receipts/pcp-bound/outcome.md.
 
 2026-11-11: Registered-host512MiB A/B failed the128MiB physical gate on both nodes in both arms; backing changed and all graph/pointer/live-state checks passed. No model trial/adoption. Read-only kernel baseline shows~1GiB PCP inventory/node; cause remains unproved. Results: receipts/host-register/outcome.md.

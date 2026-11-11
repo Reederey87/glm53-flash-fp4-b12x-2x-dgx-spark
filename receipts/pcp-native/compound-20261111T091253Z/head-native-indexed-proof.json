@@ -1,0 +1,181 @@
+{
+  "node": "head",
+  "run_id": "f07e55494f98ecc94ca11fde05b76410",
+  "device_spelling": "indexed",
+  "probe_entry_not_model_profile": true,
+  "native_inventory": {
+    "version": 1,
+    "complete": true,
+    "problems": [],
+    "limits": {
+      "roots": 4096,
+      "nodes": 8192,
+      "edges": 32768,
+      "depth": 16,
+      "output_bytes": 1048576,
+      "seconds": 2
+    },
+    "elapsed_ns": 262639,
+    "root_identity_sha256": "3e555d790fac8308adb2c40f15648bdda502b602ba70a4efe2e55e43d6453c2e",
+    "counts": {
+      "_RetainedPrograms": 1,
+      "CompiledCuTeProgram": 1,
+      "CudaDialectJitCompiledFunction": 1,
+      "engine": 1,
+      "CudaDialectJitModule": 1
+    },
+    "nodes": [
+      {
+        "id": 0,
+        "kind": "_RetainedPrograms"
+      },
+      {
+        "id": 1,
+        "kind": "CompiledCuTeProgram",
+        "programs": [
+          {
+            "dialect": "cute",
+            "key": "b9c30be8e641b45f063d910962884e45401ef497a96707a5b2b4cc6026e1d20b"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "kind": "CudaDialectJitCompiledFunction",
+        "engine_present": true,
+        "jit_module_present": true,
+        "_default_executor_present": false,
+        "artifacts_present": false,
+        "binary_loaded": true,
+        "ir_present": false,
+        "prefix": "b12x_cute_b9c30be8e641b45f063d910962884e45401ef497a96707a5b2b4cc6026e1d20b"
+      },
+      {
+        "id": 3,
+        "kind": "engine"
+      },
+      {
+        "id": 4,
+        "kind": "CudaDialectJitModule",
+        "unloaded": false,
+        "library_entries": 1
+      }
+    ],
+    "edges": [
+      {
+        "parent": 0,
+        "field": "owners",
+        "child": 1
+      },
+      {
+        "parent": 0,
+        "field": "cache",
+        "child": 1
+      },
+      {
+        "parent": 1,
+        "field": "_executable",
+        "child": 2
+      },
+      {
+        "parent": 2,
+        "field": "engine",
+        "child": 3
+      },
+      {
+        "parent": 2,
+        "field": "jit_module",
+        "child": 4
+      },
+      {
+        "parent": 4,
+        "field": "engine",
+        "child": 3
+      }
+    ],
+    "programs": [
+      {
+        "dialect": "cute",
+        "key": "b9c30be8e641b45f063d910962884e45401ef497a96707a5b2b4cc6026e1d20b"
+      }
+    ],
+    "scope": "selected-strong-scopes-and-explicit-dependencies",
+    "engine_identity_is_native_bytes": false
+  },
+  "pinned_return": {
+    "records": [
+      {
+        "version": 1,
+        "phase": "before",
+        "boundary": "post-explicit-profile",
+        "pid": 68,
+        "utc_ns": 1794388400375555208,
+        "device_index": 0,
+        "result": 18253611008,
+        "fraction": 1.0,
+        "allocated": 1452544,
+        "reserved": 4194304,
+        "pinned_owned": 537919488,
+        "pinned_active": 1048576,
+        "num_host_alloc": 2,
+        "num_host_free": 0,
+        "host": {
+          "MemFree": 121772744704,
+          "MemAvailable": 121774792704
+        },
+        "worker_sha256": "cc95ace187a6ab535bb687c8bb97f5089a1f59dc6e1feb00ee799ff3ea5c40eb",
+        "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+        "api_sha256": "ffe85913caefd73a2e2cd2866972052d926893a409f53784b348cfda9a9fc214",
+        "header_sha256": "9ddd1e13154fcebbb3de28bd1bb145ad82954fcff9b689c3f0d9241c09fb7e49"
+      },
+      {
+        "version": 1,
+        "phase": "after",
+        "boundary": "post-explicit-profile",
+        "pid": 68,
+        "utc_ns": 1794388400486578647,
+        "device_index": 0,
+        "result": 18253611008,
+        "fraction": 1.0,
+        "allocated": 1452544,
+        "reserved": 4194304,
+        "pinned_owned": 1048576,
+        "pinned_active": 1048576,
+        "num_host_alloc": 2,
+        "num_host_free": 1,
+        "host": {
+          "MemFree": 122321453056,
+          "MemAvailable": 122323271680
+        },
+        "worker_sha256": "cc95ace187a6ab535bb687c8bb97f5089a1f59dc6e1feb00ee799ff3ea5c40eb",
+        "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+        "api_sha256": "ffe85913caefd73a2e2cd2866972052d926893a409f53784b348cfda9a9fc214",
+        "header_sha256": "9ddd1e13154fcebbb3de28bd1bb145ad82954fcff9b689c3f0d9241c09fb7e49",
+        "elapsed_ns": 111022670
+      }
+    ],
+    "idle_returned_bytes": 536870912,
+    "retired_event_bytes": 0,
+    "host_available_delta": 548478976,
+    "pid": 68,
+    "inference_qualified": false,
+    "physical_gate_passed": true
+  },
+  "graph_summary": {
+    "device": "cuda:0",
+    "pid": 68,
+    "terminal_collector": true,
+    "common_pinned_return_completed": true,
+    "prepared_b12x_replays": 3,
+    "pinned_copy_replays": 3,
+    "pointers_preserved": true,
+    "compiler_and_loader_forbidden": true,
+    "checkpoint_loaded": false,
+    "admission_stub_not_model_profile": true,
+    "server_loaded": false
+  },
+  "compound_micro_qualified": true,
+  "checkpoint_deployment_cleared": false,
+  "serving_qualified": false,
+  "process_exit_verified_by_controller": true
+}

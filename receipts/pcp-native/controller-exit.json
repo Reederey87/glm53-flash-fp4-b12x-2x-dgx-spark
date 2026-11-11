@@ -1,0 +1,6 @@
+{
+  "command": "run_pcp_micro.py --execute --kind native",
+  "commit": "45fcfcea4b38ae8e5e961e7e6aac366c5fee85e2",
+  "ssh_exit_status": 0,
+  "normal_output_path": "/home/nvidia/b12x/local/pcp-native-20261111T091253Z"
+}

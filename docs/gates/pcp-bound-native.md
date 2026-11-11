@@ -1,6 +1,7 @@
 # Fixed-count native/pinned compound qualification under PCP512
 
-Status: NOT RUN. No checkpoint or model startup is cleared by this gate.
+Result2026-11-11: compound micro PASS, all four at frozen45fcfce; restored0 both.
+No checkpoint or model startup is cleared. Receipts: receipts/pcp-native/outcome.md.
 
 Dependency: e2ee283 model-free PCP A/B passed both unchanged physical gates,
 then restored0. Preserve every earlier failed native/default/registered-host
