@@ -1,0 +1,49 @@
+{
+  "outcome": "tiny-capability-lifetime-passed",
+  "physical_return_qualified": false,
+  "checkpoint_deployment_cleared": false,
+  "nodes": {
+    "head": {
+      "tiny_capability_and_lifetime_only": true,
+      "attributes": {
+        "cudaDevAttrHostRegisterSupported": 1,
+        "cudaDevAttrPageableMemoryAccessUsesHostPageTables": 1,
+        "cudaDevAttrCanUseHostPointerForRegisteredMem": 1,
+        "cudaDevAttrUnifiedAddressing": 1,
+        "cudaDevAttrIntegrated": 1
+      },
+      "effective_allocator_settings": "pinned_use_cuda_host_register:True",
+      "pageable_host_table_registration": true,
+      "os_page_locking_proven": false,
+      "active_bytes_unchanged": true,
+      "graph_replays": 3,
+      "pointers_preserved": true,
+      "retired_idle_bytes": 65536,
+      "physical_return_qualified": false,
+      "checkpoint_deployment_cleared": false,
+      "checkpoint_loaded": false,
+      "server_loaded": false
+    },
+    "worker": {
+      "tiny_capability_and_lifetime_only": true,
+      "attributes": {
+        "cudaDevAttrHostRegisterSupported": 1,
+        "cudaDevAttrPageableMemoryAccessUsesHostPageTables": 1,
+        "cudaDevAttrCanUseHostPointerForRegisteredMem": 1,
+        "cudaDevAttrUnifiedAddressing": 1,
+        "cudaDevAttrIntegrated": 1
+      },
+      "effective_allocator_settings": "pinned_use_cuda_host_register:True",
+      "pageable_host_table_registration": true,
+      "os_page_locking_proven": false,
+      "active_bytes_unchanged": true,
+      "graph_replays": 3,
+      "pointers_preserved": true,
+      "retired_idle_bytes": 65536,
+      "physical_return_qualified": false,
+      "checkpoint_deployment_cleared": false,
+      "checkpoint_loaded": false,
+      "server_loaded": false
+    }
+  }
+}

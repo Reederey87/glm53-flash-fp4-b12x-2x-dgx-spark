@@ -1,3 +1,5 @@
+2026-11-11: Registered-host tiny probes passed once on each GPU: supported capabilities/effective flag,64KiB idle retirement and3live graph replays. Physical return remains unqualified; same-size512MiB default/register comparison frozen pending review. Both models remain off.
+
 2026-11-11: Native schema exploration passed on both GPUs; compound qualification remains failed. Registered-host tiny capability/lifetime probe frozen for reviewed execution; no production change or checkpoint clearance.
 
 2026-11-11: NativecompoundmicroqualificationFAILED both beforecollector (512MiBownedreturn, no128MiBphysicalgain); matchedfixture-onlyold/current4/4alsofail.24nativeCPUfixes+64Linux/frontendpass, no checkpointdeploymentclearance. Modelsremainoff; receipts/native-ownership/predeploy/.

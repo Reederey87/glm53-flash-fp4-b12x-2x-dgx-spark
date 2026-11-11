@@ -1,0 +1,6 @@
+scripts/check_host_register_cuda.py: OK
+docs/gates/host-register-micro.md: OK
+receipts/host-register/predeploy/run-tiny.py: OK
+scripts/check_host_register_cuda.py: OK
+docs/gates/host-register-micro.md: OK
+receipts/host-register/predeploy/run-tiny.py: OK
