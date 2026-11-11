@@ -1,0 +1,81 @@
+{
+  "decision": "REJECTED_INSUFFICIENT_COMPILER_LOOKUP_RECLAMATION",
+  "terminal": "2026-11-11T04:30:19Z",
+  "primary": 1,
+  "recovery": 0,
+  "rank_results": {
+    "head": {
+      "pid": 408,
+      "reclaimed_bytes": 1552384,
+      "postload_minimum": 10806534144,
+      "retained_owners": 196,
+      "before_cache": {
+        "memory_cache_enabled": true,
+        "memory_cache_size": 140,
+        "memory_cache_max_size": 1024,
+        "memory_cache_hits": 50,
+        "memory_cache_misses": 140,
+        "disk_cache_enabled": true,
+        "disk_cache_hits": 4,
+        "compile_misses": 0,
+        "spec_memo_enabled": true,
+        "spec_memo_size": 128,
+        "spec_memo_hits": 50,
+        "spec_memo_misses": 206
+      },
+      "after_cache": {
+        "memory_cache_enabled": true,
+        "memory_cache_size": 0,
+        "memory_cache_max_size": 1024,
+        "memory_cache_hits": 0,
+        "memory_cache_misses": 0,
+        "disk_cache_enabled": true,
+        "disk_cache_hits": 0,
+        "compile_misses": 0,
+        "spec_memo_enabled": true,
+        "spec_memo_size": 0,
+        "spec_memo_hits": 0,
+        "spec_memo_misses": 0
+      }
+    },
+    "worker": {
+      "pid": 305,
+      "reclaimed_bytes": 806912,
+      "postload_minimum": 12026195968,
+      "retained_owners": 196,
+      "before_cache": {
+        "memory_cache_enabled": true,
+        "memory_cache_size": 140,
+        "memory_cache_max_size": 1024,
+        "memory_cache_hits": 50,
+        "memory_cache_misses": 140,
+        "disk_cache_enabled": true,
+        "disk_cache_hits": 4,
+        "compile_misses": 0,
+        "spec_memo_enabled": true,
+        "spec_memo_size": 128,
+        "spec_memo_hits": 50,
+        "spec_memo_misses": 206
+      },
+      "after_cache": {
+        "memory_cache_enabled": true,
+        "memory_cache_size": 0,
+        "memory_cache_max_size": 1024,
+        "memory_cache_hits": 0,
+        "memory_cache_misses": 0,
+        "disk_cache_enabled": true,
+        "disk_cache_hits": 0,
+        "compile_misses": 0,
+        "spec_memo_enabled": true,
+        "spec_memo_size": 0,
+        "spec_memo_hits": 0,
+        "spec_memo_misses": 0
+      }
+    }
+  },
+  "kv_allocated": false,
+  "health": false,
+  "smoke": false,
+  "speed": false,
+  "adopted": false
+}

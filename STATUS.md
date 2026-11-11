@@ -1,5 +1,17 @@
 # Status
 
+## 2026-11-10 — compiler lookup retirement rejected; models stopped
+
+- Real memory-cache140/spec-memo128 entries cleared to0,196 retained program
+  owners stable and live CUDA/pinned/admission unchanged. Only1.4805/0.7695MiB
+  returned, failing1GiB gate before KV. No floor breach or serving tests.
+- Stop-only04:30:19Z primary1/recovery0 verified both models absent, canonical
+  ledger restored, proxy/watchdog off. No adoption/TODO3 verdict. Receipts
+  receipts/compiler-cache-release/.
+- Next return to actual TODO3 draft-B12X safety arm with retained failed
+  Humming control and fresh review/gate; do not claim a fresh paired speed gain
+  or repeat unsafe control/failed lookup treatment.17G/quant/bound preserved.
+
 ## 2026-11-10 — compiler lookup retirement trial running
 
 - Final review clearedceac3b6;56CPU/46isolated Linux lifecycle outcomes pass.

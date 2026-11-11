@@ -1,5 +1,10 @@
 # Retire compiler lookup ownership after profiling
 
+**Outcome: rejected.** Actual140/128 lookup entries cleared to0,196 retained
+owners stable, but only1.4805/0.7695MiB returned versus1GiB. Hooks refused KV;
+stop-only cleanup04:30:19Z primary1/recovery0 verified models absent/proxyoff.
+No serving tests or adoption. [Receipts](../../receipts/compiler-cache-release/outcome.md).
+
 Pre-registered stabilization window, dependency of TODO3; no automatic adoption.
 Retained failed control explicit-kv-host-trim returned<2MiB/rank. This candidate
 adds ONE clear_compile_cache call before the same existing glibc trim. No added

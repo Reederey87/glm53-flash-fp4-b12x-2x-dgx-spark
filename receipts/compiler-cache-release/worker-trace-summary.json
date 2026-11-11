@@ -1,0 +1,12 @@
+{
+  "pid": 305,
+  "last_phase": "postload-exit",
+  "integrated_flags": [
+    true
+  ],
+  "minimum_available": 12026195968,
+  "maximum_reserved": 104505278464,
+  "maximum_allocated": 93425101824,
+  "release_calls": 603,
+  "released_calls": 39
+}

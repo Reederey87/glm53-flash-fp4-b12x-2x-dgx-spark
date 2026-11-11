@@ -1,0 +1,51 @@
+launch.sh: OK
+scripts/render_env.sh: OK
+scripts/recipe_window.sh: OK
+scripts/recipe_recover.sh: OK
+scripts/memory_guard.sh: OK
+scripts/window_profile.py: OK
+scripts/startup_trace_receipt.py: OK
+scripts/wait_memory.sh: OK
+scripts/wait_health.sh: OK
+scripts/smoke.py: OK
+scripts/verify_reasoning.py: OK
+scripts/parity.py: OK
+scripts/speed_matrix.py: OK
+scripts/decode_bench.py: OK
+scripts/compare_matrix.py: OK
+scripts/speed_smoke.py: OK
+recipes/glm-5.3-flash-fp4-local.yaml: OK
+mods/startup-memory/install.py: OK
+mods/startup-memory/trace.py: OK
+mods/startup-memory/run.sh: OK
+systemd/b12x-recipe-window@.service: OK
+systemd/vllm-b12x.service: OK
+recipes/observations/compiler-cache-release.yaml: OK
+recipes/windows/compiler-cache-release.conf: OK
+docs/gates/compiler-cache-release.md: OK
+mods/startup-bound/bound.py: OK
+mods/startup-bound/install.py: OK
+mods/startup-bound/run.sh: OK
+scripts/startup_bound_receipt.py: OK
+scripts/check_startup_bound_cuda.py: OK
+mods/compiler-cache-release/release.py: OK
+mods/compiler-cache-release/install.py: OK
+mods/compiler-cache-release/run.sh: OK
+scripts/compiler_release_receipt.py: OK
+scripts/check_compiler_release_cuda.py: OK
+cp: warning: behavior of -n is non-portable and may change in future; use --update=none instead
+Running as unit: b12x-compiler-cache-release-memory-a.service; invocation ID: b245519c0ac34032a004f059320b6baa
+/home/nvidia/b12x/scripts/recipe_window.sh: line 48: /home/nvidia/b12x/local/ab-compiler-cache-release/memory-a.csv.ready: No such file or directory
+profile verified
+2026-11-11T04:25:43Z head-a profile verified
+profile verified
+2026-11-11T04:25:43Z worker-a profile verified
+Traceback (most recent call last):
+  File "/home/nvidia/b12x/scripts/compiler_release_receipt.py", line 44, in <module>
+    print(json.dumps(validate(args.log.read_text(),args.worker,args.helper,json.loads(args.trace.read_text())['pid'],args.minimum),indent=2))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nvidia/b12x/scripts/compiler_release_receipt.py", line 35, in validate
+    if reclaimed<minimum:raise ValueError('compiler release below required reclamation')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: compiler release below required reclamation
+Failed to stop b12x-compiler-cache-release-memory-b.service: Unit b12x-compiler-cache-release-memory-b.service not loaded.
