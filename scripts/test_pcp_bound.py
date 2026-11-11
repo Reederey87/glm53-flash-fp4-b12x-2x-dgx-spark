@@ -101,7 +101,7 @@ class Wrapper(unittest.TestCase):
             for p in phases or ('before-fixture','resident-fixture','cached-before-helper','after-helper-or-exception'):parent.sample(p)
             for _ in range(fixtures):torch.ones(512*1024**2,dtype=torch.uint8,pin_memory=True)
         parent.main=main
-        with patch.dict(sys.modules,{'check_host_register_memory_cuda':parent}),patch.object(probe.counters,'snapshot',return_value={}),\
+        with patch.dict(sys.modules,{'check_host_register_memory_cuda':parent}),patch.object(probe.counters,'snapshot',return_value={}),patch.object(probe,'validate_policy',side_effect=lambda r,f:r),\
              patch.object(sys,'argv',['probe','--fraction','512']),contextlib.redirect_stdout(io.StringIO()) as output:
             probe.main()
         return json.loads(output.getvalue().split(' ',1)[1])
@@ -112,6 +112,18 @@ class Wrapper(unittest.TestCase):
     def test_missing_phase_or_fixture_rejects(self):
         for phases,fixtures in ((['before-fixture'],1),(None,0),(None,2)):
             with self.assertRaises(ValueError):self.run_fake(phases,fixtures)
+
+    def test_invalid_policy_rejects_during_callback(self):
+        with patch.object(probe.counters,'snapshot',return_value={}),patch.object(probe,'validate_policy',side_effect=ValueError('policy')):
+            # run_fake supplies its own policy stub; test the real callback by
+            # making that nested stub raise on the very first bundle.
+            parent=types.SimpleNamespace(torch=types.SimpleNamespace(ones=lambda:None),sample=lambda p:{})
+            calls=[]
+            def main():parent.sample('before-fixture');calls.append('fixture-would-start')
+            parent.main=main
+            with patch.dict(sys.modules,{'check_host_register_memory_cuda':parent}),patch.object(sys,'argv',['probe','--fraction','512']):
+                with self.assertRaisesRegex(ValueError,'policy'):probe.main()
+            self.assertEqual(calls,[])
 
 
 class Lease(unittest.TestCase):
@@ -156,6 +168,12 @@ class Receipt(unittest.TestCase):
                 with self.assertRaises(ValueError):receipt.validate(self.log(p,r,raw),0)
         p,r,raw=self.fixture();r['checkpoint_deployment_cleared']=True
         with self.assertRaises(ValueError):receipt.validate(self.log(p,r,raw),0)
+
+    def test_missing_helper_or_bad_source_aborts_control(self):
+        p,r,raw=self.fixture()
+        for bad in ([],[line.replace('1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6','0'*64) for line in raw]):
+            with patch.object(Path,'read_text',return_value='0-19\n'):
+                with self.assertRaises(ValueError):receipt.validate(self.log(p,r,bad),0)
 
 
 if __name__=='__main__':unittest.main()

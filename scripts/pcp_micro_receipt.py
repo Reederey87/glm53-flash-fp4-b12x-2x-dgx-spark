@@ -27,18 +27,21 @@ def validate(log,fraction):
         policy_validate(bundle['kernel'],fraction)
     allocation=result['fixture_allocation']
     if allocation['bytes']!=512*1024**2 or allocation['end_ns']<allocation['begin_ns']:raise ValueError('invalid fixture latency')
-    failure=None
-    try:
-        proof=pin_validate(log,'ea6dc50f79cea69ab42d0fe31982a301b1081aa5f3f79eb268edb4df943b143e',
-            '1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6',{'pid':pid,'records':[{'utc_ns':0}]})
-    except ValueError as error:failure=str(error);proof=None
-    qualified=failure is None
+    proof=pin_validate(log,'ea6dc50f79cea69ab42d0fe31982a301b1081aa5f3f79eb268edb4df943b143e',
+        '1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6',
+        {'pid':pid,'records':[{'utc_ns':0}]},allow_physical_failure=True)
+    qualified=proof['physical_gate_passed']
+    failure=None if qualified else 'pinned return failed idle/physical reclamation gate'
     if parent['helper_gate_passed'] is not qualified or parent['micro_physical_and_graph_qualified'] is not qualified:
         raise ValueError('parent/helper classification differs')
     return dict(fraction=fraction,pid=pid,micro_qualified=qualified,failure=failure,pinned_proof=proof,
         allocation_plus_fill_ns=allocation['end_ns']-allocation['begin_ns'],checkpoint_deployment_cleared=False)
 
 if __name__=='__main__':
+    if len(sys.argv)==4 and sys.argv[1]=='check':
+        fraction=int(sys.argv[3])
+        if fraction not in (0,512):raise ValueError('unregistered arm')
+        print(json.dumps(validate(Path(sys.argv[2]).read_text(),fraction)));sys.exit(0)
     root=Path(sys.argv[1]);out={}
     for node in ('head','worker'):
         for arm,fraction in (('A',0),('B',512)):

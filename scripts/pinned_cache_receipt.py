@@ -8,7 +8,8 @@ API_SHA256 = 'ffe85913caefd73a2e2cd2866972052d926893a409f53784b348cfda9a9fc214'
 HEADER_SHA256 = '9ddd1e13154fcebbb3de28bd1bb145ad82954fcff9b689c3f0d9241c09fb7e49'
 
 
-def validate(log, worker, helper, trace):
+def validate(log, worker, helper, trace, *, allow_physical_failure=False):
+    if type(allow_physical_failure) is not bool:raise ValueError('invalid validation mode')
     rows = [json.loads(line.split(MARKER, 1)[1]) for line in log.splitlines() if MARKER in line]
     if len(rows) != 2 or [r['phase'] for r in rows] != ['before', 'after']:
         raise ValueError('need one complete pinned-cache return')
@@ -34,10 +35,14 @@ def validate(log, worker, helper, trace):
     idle_returned = before['pinned_owned']-after['pinned_owned']-retired_events
     gain = after['host']['MemAvailable']-before['host']['MemAvailable']
     if (retired_events < 0 or before['pinned_owned']-before['pinned_active'] < 256*1024**2
-            or idle_returned < 256*1024**2 or after['num_host_free'] <= before['num_host_free'] or gain < 128*1024**2):
+            or idle_returned < 256*1024**2 or after['num_host_free'] <= before['num_host_free']):
+        raise ValueError('pinned return failed idle/physical reclamation gate')
+    physical_pass=gain>=128*1024**2
+    if not physical_pass and not allow_physical_failure:
         raise ValueError('pinned return failed idle/physical reclamation gate')
     return dict(records=rows, idle_returned_bytes=idle_returned, retired_event_bytes=retired_events,
-                host_available_delta=gain, pid=trace['pid'], inference_qualified=False)
+                host_available_delta=gain, pid=trace['pid'], inference_qualified=False,
+                physical_gate_passed=physical_pass)
 
 
 if __name__ == '__main__':

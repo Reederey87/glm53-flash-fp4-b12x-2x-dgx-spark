@@ -65,6 +65,8 @@ def main():
     def perform():
         for node in NODES:
             checked(node,'preflight','''test -z "$(docker ps -q)"
+test "$(stat -c %a .)" = 700
+test "$(stat -c %u .)" = "$(id -u)"
 test "$(systemctl --user show vllm-b12x.service -p MainPID --value)" = 0
 ! systemctl --user is-active --quiet vllm-b12x-watchdog.timer
 ! systemctl --user is-active --quiet vllm-b12x-tailscale.service
@@ -72,12 +74,16 @@ test "$(systemctl --user show vllm-b12x.service -p MainPID --value)" = 0
             snapshot(node,'before',0)
             backup='/home/nvidia/b12x/.env.bak-pcp-bound-'+label
             checked(node,'ledger','test ! -e '+q(backup)+'\ncp -n /home/nvidia/b12x/.env '+q(backup)+'\nsha256sum '+q(backup)+'\nprintf %s '+q('# PCP micro '+label+' policy0->512; unchanged model off,17GKV,2GiBfloor,minfree; rollback0; gate docs/gates/pcp-bound-micro.md\n')+' >> /home/nvidia/b12x/.env\n')
-        for node in NODES:checked(node,'A','bash mods/pcp-bound/gpu-node.sh 0\n')
+        for node in NODES:
+            checked(node,'A','bash mods/pcp-bound/gpu-node.sh 0\n')
+            subprocess.run(['/home/nvidia/.local/bin/uv','run','--offline','--no-project','--python','/usr/bin/python3',str(root/'scripts/pcp_micro_receipt.py'),'check',str(out/(node+'-A.log')),'0'],check=True,timeout=10)
         for node in NODES:
             checked(node,'timer-arm','test ! -e .pcp-lease\nprintf "armed\\n" > .pcp-lease\ntouch .pcp-lock\nchmod 666 .pcp-lease .pcp-lock\nsystemd-run --user --unit='+q(timer)+' --on-active=300s --timer-property=AccuracySec=1s --property=Restart=on-failure --property=RestartSec=5s --property=StartLimitIntervalSec=0 /bin/bash '+q(str(root/'mods/pcp-bound/rollback.sh'))+'\nsystemctl --user is-active --quiet '+q(timer+'.timer')+'\n')
         for node in NODES:checked(node,'apply','/home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 scripts/check_pcp_timer.py '+q(timer)+' 240\nbash mods/pcp-bound/knob.sh 0 512\n')
         for node in NODES:snapshot(node,'activated',512)
-        for node in NODES:checked(node,'B','/home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 scripts/check_pcp_timer.py '+q(timer)+' 180\nbash mods/pcp-bound/gpu-node.sh 512\n')
+        for node in NODES:
+            checked(node,'B','/home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 scripts/check_pcp_timer.py '+q(timer)+' 180\nbash mods/pcp-bound/gpu-node.sh 512\n')
+            subprocess.run(['/home/nvidia/.local/bin/uv','run','--offline','--no-project','--python','/usr/bin/python3',str(root/'scripts/pcp_micro_receipt.py'),'check',str(out/(node+'-B.log')),'512'],check=True,timeout=10)
         subprocess.run(['/home/nvidia/.local/bin/uv','run','--offline','--no-project','--python','/usr/bin/python3',str(root/'scripts/pcp_micro_receipt.py'),str(out)],check=True,timeout=10)
         return str(out)
     print(transaction(perform,restore,verify,cancel),flush=True)

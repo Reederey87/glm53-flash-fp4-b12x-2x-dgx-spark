@@ -6,6 +6,7 @@ import sys
 import time
 from unittest.mock import patch
 import kernel_memory_counters as counters
+from pcp_bound_snapshot import validate as validate_policy
 from check_kernel_return_cuda import EXPECTED
 
 
@@ -20,7 +21,8 @@ def main():
     def sample(phase):
         row=original_sample(phase)
         if len(bundles)>=4:raise ValueError('too many counter bundles')
-        bundles.append(dict(phase=phase,process_sample=row,kernel=counters.snapshot(fraction)))
+        kernel=validate_policy(counters.snapshot(fraction),fraction)
+        bundles.append(dict(phase=phase,process_sample=row,kernel=kernel))
         return row
     def ones(*args,**kw):
         fixture=args==(512*1024**2,) and kw=={'dtype':parent.torch.uint8,'pin_memory':True}
