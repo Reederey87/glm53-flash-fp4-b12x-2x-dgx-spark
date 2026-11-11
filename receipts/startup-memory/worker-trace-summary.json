@@ -1,0 +1,139 @@
+{
+  "pid": 255,
+  "last_phase": "postload-exit",
+  "integrated_flags": [
+    true
+  ],
+  "minimum_available": 2056216576,
+  "maximum_reserved": 117293711360,
+  "maximum_allocated": 93425101824,
+  "release_calls": 603,
+  "released_calls": 31,
+  "node": "worker",
+  "record_count": 1817,
+  "minimum_snapshot": {
+    "trace_version": 1,
+    "phase": "quant-after",
+    "monotonic_ns": 9180031609931,
+    "utc_ns": 1794359935208648699,
+    "pid": 255,
+    "name": "language_model.model.layers.6.mlp.experts.routed_experts",
+    "method": "Nvfp4CsfMoEMethod",
+    "allocated": 92050627584,
+    "reserved": 117293711360,
+    "releasable": 25243083776,
+    "max_allocated": 93008265216,
+    "integrated": true,
+    "host": {
+      "MemTotal": 130663231488,
+      "MemFree": 3714785280,
+      "MemAvailable": 2056216576,
+      "Cached": 1282699264,
+      "SReclaimable": 178601984
+    },
+    "released": null,
+    "loader_sha256": "bafdd73c286f691bf169eae4f55dd06edf45cf42134e0348fac35cd5ce88b27b",
+    "helper_sha256": "34365b162a8d669c8eedd890a2ee7ee22fa95abdc7258cbc6a70756d6c5178aa"
+  },
+  "minimum_context": [
+    {
+      "trace_version": 1,
+      "phase": "quant-before",
+      "monotonic_ns": 9176974112171,
+      "utc_ns": 1794359932151150427,
+      "pid": 255,
+      "name": "language_model.model.layers.6.mlp.experts.routed_experts",
+      "method": "Nvfp4CsfMoEMethod",
+      "allocated": 92178217984,
+      "reserved": 92314533888,
+      "releasable": 136315904,
+      "max_allocated": 93008265216,
+      "integrated": true,
+      "host": {
+        "MemTotal": 130663231488,
+        "MemFree": 24931422208,
+        "MemAvailable": 24612646912,
+        "Cached": 3526811648,
+        "SReclaimable": 200011776
+      },
+      "released": null,
+      "loader_sha256": "bafdd73c286f691bf169eae4f55dd06edf45cf42134e0348fac35cd5ce88b27b",
+      "helper_sha256": "34365b162a8d669c8eedd890a2ee7ee22fa95abdc7258cbc6a70756d6c5178aa"
+    },
+    {
+      "trace_version": 1,
+      "phase": "quant-after",
+      "monotonic_ns": 9180031609931,
+      "utc_ns": 1794359935208648699,
+      "pid": 255,
+      "name": "language_model.model.layers.6.mlp.experts.routed_experts",
+      "method": "Nvfp4CsfMoEMethod",
+      "allocated": 92050627584,
+      "reserved": 117293711360,
+      "releasable": 25243083776,
+      "max_allocated": 93008265216,
+      "integrated": true,
+      "host": {
+        "MemTotal": 130663231488,
+        "MemFree": 3714785280,
+        "MemAvailable": 2056216576,
+        "Cached": 1282699264,
+        "SReclaimable": 178601984
+      },
+      "released": null,
+      "loader_sha256": "bafdd73c286f691bf169eae4f55dd06edf45cf42134e0348fac35cd5ce88b27b",
+      "helper_sha256": "34365b162a8d669c8eedd890a2ee7ee22fa95abdc7258cbc6a70756d6c5178aa"
+    },
+    {
+      "trace_version": 1,
+      "phase": "release-after",
+      "monotonic_ns": 9180360692468,
+      "utc_ns": 1794359935537731444,
+      "pid": 255,
+      "name": "language_model.model.layers.6.mlp.experts.routed_experts",
+      "method": "Nvfp4CsfMoEMethod",
+      "allocated": 92050627584,
+      "reserved": 92197093376,
+      "releasable": 146465792,
+      "max_allocated": 93008265216,
+      "integrated": true,
+      "host": {
+        "MemTotal": 130663231488,
+        "MemFree": 29308813312,
+        "MemAvailable": 27647004672,
+        "Cached": 1287106560,
+        "SReclaimable": 167223296
+      },
+      "released": true,
+      "loader_sha256": "bafdd73c286f691bf169eae4f55dd06edf45cf42134e0348fac35cd5ce88b27b",
+      "helper_sha256": "34365b162a8d669c8eedd890a2ee7ee22fa95abdc7258cbc6a70756d6c5178aa"
+    }
+  ],
+  "below_floor_snapshots": [
+    {
+      "trace_version": 1,
+      "phase": "quant-after",
+      "monotonic_ns": 9180031609931,
+      "utc_ns": 1794359935208648699,
+      "pid": 255,
+      "name": "language_model.model.layers.6.mlp.experts.routed_experts",
+      "method": "Nvfp4CsfMoEMethod",
+      "allocated": 92050627584,
+      "reserved": 117293711360,
+      "releasable": 25243083776,
+      "max_allocated": 93008265216,
+      "integrated": true,
+      "host": {
+        "MemTotal": 130663231488,
+        "MemFree": 3714785280,
+        "MemAvailable": 2056216576,
+        "Cached": 1282699264,
+        "SReclaimable": 178601984
+      },
+      "released": null,
+      "loader_sha256": "bafdd73c286f691bf169eae4f55dd06edf45cf42134e0348fac35cd5ce88b27b",
+      "helper_sha256": "34365b162a8d669c8eedd890a2ee7ee22fa95abdc7258cbc6a70756d6c5178aa"
+    }
+  ],
+  "raw_log_sha256": "fdd9654af35e3ebb6c75771b60dc6e9ad14e123ba5f53d9acf8594373ba0288c"
+}

@@ -1,5 +1,12 @@
 # Passive startup memory observation
 
+**Outcome: safety failure; terminal recovery also failed its safety gate.**
+The worker passive snapshot dipped1.915GiB between external samples; the
+operator stopped the diagnostic before health/smoke/speed. Guarded canonical
+recovery hit1.561GiB on head and stopped. Both ranks are absent; proxy/watchdog
+inactive. No candidate3 or adoption result. Preserve this terminal directory,
+do not retry it. [Evidence](../../receipts/startup-memory/outcome.md).
+
 Pre-registered before restart. This is a diagnostic dependency of candidate3,
 whose b12x arm has never run. No inference optimization or adoption decision is
 made from this observation. Final independent code review precedes staging.

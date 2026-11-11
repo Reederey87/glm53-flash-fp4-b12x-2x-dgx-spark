@@ -1,0 +1,45 @@
+{
+  "decision": "OBSERVATION_SAFETY_FAILURE",
+  "speed_or_functional_measurements": false,
+  "candidate_3_attempted": false,
+  "trace_summary": [
+    {
+      "node": "head",
+      "records": 1817,
+      "minimum_available_GiB": 2.0989227294921875,
+      "release_calls": 603,
+      "released_calls": 31,
+      "last_phase": "postload-exit",
+      "minimum_context_module": "language_model.model.layers.6.mlp.experts.routed_experts"
+    },
+    {
+      "node": "worker",
+      "records": 1817,
+      "minimum_available_GiB": 1.9150009155273438,
+      "release_calls": 603,
+      "released_calls": 31,
+      "last_phase": "postload-exit",
+      "minimum_context_module": "language_model.model.layers.6.mlp.experts.routed_experts"
+    }
+  ],
+  "recovery_safety_failure": true,
+  "recovery_minima": {
+    "head": {
+      "utc": "2026-11-11T01:24:32Z",
+      "node": "head",
+      "MemFree_kib": "3215976",
+      "MemAvailable_kib": "1637192"
+    },
+    "worker": {
+      "utc": "2026-11-11T01:24:29Z",
+      "node": "worker",
+      "MemFree_kib": "25598900",
+      "MemAvailable_kib": "24758272"
+    }
+  },
+  "production_model": "stopped",
+  "watchdog_proxy": "inactive",
+  "both_rank_containers": "absent",
+  "terminal_utc": "2026-11-11T01:24:38Z",
+  "automatic_retry_permitted": false
+}

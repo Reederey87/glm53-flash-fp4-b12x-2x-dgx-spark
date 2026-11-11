@@ -1,5 +1,19 @@
 # Status
 
+## 2026-11-10 — guarded startup/recovery failed; both ranks stopped
+
+- Diagnostic proved both installed hashes and1817 ordered target-postload
+  records/rank. Layer6 CSF postprocessing left25.24GB reserved-minus-allocated;
+  worker briefly1.915GiB before the existing helper released it. Operator stopped
+  before health/smoke/speed; external sampling missed the short dip.
+- Canonical recovery breached2GiB at01:24:32Z (head1.561GiB) and failed closed.
+  At01:24:38Z both containers absent; serving stopped/failed, watchdog and proxy
+  inactive. Memory recovered. No automatic retry; no optimization adopted.
+- Candidate3 remains open. Evaluate a separate startup-only allocator bound
+  before another boot, with Exa/source proof and final review. Existing helper
+  works after conversion; a duplicate post-module cleanup is not a proven fix.
+  Receipts `receipts/startup-memory/outcome.md`.
+
 ## 2026-11-10 — reviewed startup observation started
 
 - Passive loader trace and guarded canonical recovery frozen at4d4d66a; actual
