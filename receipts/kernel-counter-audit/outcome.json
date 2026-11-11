@@ -1,0 +1,42 @@
+{
+  "head": {
+    "clean_exit": true,
+    "final_marker_count": 1,
+    "helper_qualified": false,
+    "independent_rejection": "pinned return failed idle/physical reclamation gate",
+    "pcp_delta_bytes": 548159488,
+    "buddy_delta_bytes": 65536,
+    "pss_shmem_delta_bytes": -536870912,
+    "meminfo_delta_bytes": {
+      "MemFree": 0,
+      "MemAvailable": -458752,
+      "Cached": -536494080
+    },
+    "helper_available_delta_bytes": -229376,
+    "bundle_elapsed_ns": [
+      1279486,
+      852976
+    ],
+    "model_clearance": false
+  },
+  "worker": {
+    "clean_exit": true,
+    "final_marker_count": 1,
+    "helper_qualified": false,
+    "independent_rejection": "pinned return failed idle/physical reclamation gate",
+    "pcp_delta_bytes": 547475456,
+    "buddy_delta_bytes": 0,
+    "pss_shmem_delta_bytes": -536870912,
+    "meminfo_delta_bytes": {
+      "MemFree": 0,
+      "MemAvailable": 0,
+      "Cached": -536494080
+    },
+    "helper_available_delta_bytes": 0,
+    "bundle_elapsed_ns": [
+      1172891,
+      772957
+    ],
+    "model_clearance": false
+  }
+}

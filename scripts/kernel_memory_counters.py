@@ -106,7 +106,9 @@ def online_cpus(text):
     return sorted(result)
 
 
-def snapshot():
+def snapshot(expected_fraction=0):
+    if type(expected_fraction) is not int or expected_fraction not in (0,512):
+        raise ValueError('unregistered PCP observation policy')
     started=time.monotonic_ns();timings={};raw={}
     page_size=os.sysconf('SC_PAGE_SIZE')
     cpus=online_cpus(bounded('/sys/devices/system/cpu/online',4096))
@@ -114,7 +116,7 @@ def snapshot():
         begin=time.monotonic_ns();raw[name]=bounded('/proc/'+name,cap)
         timings[name]=dict(begin_ns=begin,end_ns=time.monotonic_ns())
     settings={name:bounded('/proc/sys/vm/'+name,128).strip() for name in ('min_free_kbytes','stat_interval','percpu_pagelist_high_fraction')}
-    if settings!={'min_free_kbytes':'1048576','stat_interval':'1','percpu_pagelist_high_fraction':'0'}:
+    if settings!={'min_free_kbytes':'1048576','stat_interval':'1','percpu_pagelist_high_fraction':str(expected_fraction)}:
         raise ValueError('kernel counter study controls changed')
     zones=parse_zoneinfo(raw['zoneinfo'],cpus);buddy=parse_buddyinfo(raw['buddyinfo'])
     populated={(z['node'],z['name']) for z in zones if z['present_pages']}
