@@ -29,7 +29,7 @@ def wait_for(test, seconds=30):
     raise TimeoutError('test phase timed out')
 
 
-def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False, ownership=False, host_trim=False, compiler=False, release=False, pinned=False):
+def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=False, warmup=False, ownership=False, host_trim=False, compiler=False, release=False, pinned=False, postcapture=False):
     with tempfile.TemporaryDirectory(prefix='b12x-review-recipe-') as tmp:
         root=Path(tmp); out=root/f'local/ab-{TASK}'
         out.mkdir(parents=True)
@@ -90,6 +90,12 @@ def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=Fa
                 stream.write('\nPINNED_RETURN=1\nPINNED_WORKER_SHA256=fixture\n')
             (root/'mods/startup-pinned').mkdir(parents=True)
             (root/'mods/startup-pinned/release.py').write_text('# fixture\n')
+        if postcapture:
+            (out/'postcapture-active').touch()
+            with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
+                stream.write('\nPOSTCAPTURE_HEAP=1\nPOSTCAPTURE_RUNNER_SHA256=fixture\n')
+            (root/'mods/postcapture-heap').mkdir(parents=True)
+            (root/'mods/postcapture-heap/return_heap.py').write_text('# fixture\n')
         recipe=root/'recipes/glm-5.3-flash-fp4-local.yaml'; recipe.write_text('fixture control\n')
         (root/f'recipes/candidates/{TASK}.yaml').write_text('fixture candidate\n')
         (root/'.env').write_text('B12X_ALLOCATOR_CONF=\n')
@@ -129,7 +135,7 @@ case "$(basename "$0")" in
       exec sleep 300
     fi;;
    *'start vllm-b12x.service'*)
-    if [ "$B12X_TEST_MODE" = pinned-startup ]; then touch "$OUT/phase"; exec sleep 300; fi
+    if [ "$B12X_TEST_MODE" = pinned-startup ] || [ "$B12X_TEST_MODE" = postcapture-startup ]; then touch "$OUT/phase"; exec sleep 300; fi
     if [ "$B12X_TEST_MODE" = stabilization-startup ]; then touch "$OUT/phase"; exec sleep 300; fi
     if candidate && [ "$B12X_TEST_MODE" = startup ]; then touch "$OUT/phase"; exec sleep 300; fi
     if [ -e "$OUT/active-recovery" ]; then
@@ -166,6 +172,9 @@ case "$(basename "$0")" in
     echo '{"mock":true}' ;;
    'logs '*) echo 'GPU KV cache size: 2,350,210 tokens'
     if [ -e "$OUT/compiler-release-active" ]; then printf 'B12X_COMPILER_RELEASE {}\nB12X_COMPILER_RELEASE {}\n'; fi
+    if [ -e "$OUT/postcapture-active" ] && [ "$B12X_TEST_FAILURE" != postcapture-missing-both ]; then
+      if [ "$B12X_TEST_FAILURE" != postcapture-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then printf 'Graph capturing finished\nB12X_POSTCAPTURE_HEAP {}\nB12X_POSTCAPTURE_HEAP {}\n'; fi
+    fi
     if [ -e "$OUT/pinned-return-active" ] && [ "$B12X_TEST_FAILURE" != pinned-missing-both ]; then
       if [ "$B12X_TEST_FAILURE" != pinned-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then printf 'B12X_PINNED_RETURN {}\nB12X_PINNED_RETURN {}\n'; fi
     fi
@@ -202,6 +211,12 @@ case "$(basename "$0")" in
       pinned-evidence:*|pinned-evidence-startup:*|pinned-missing-both:*|pinned-missing-worker:*worker-a-boot.log*) exit 1;;
     esac
     echo 'mock pinned return proof';;
+   *postcapture_heap_receipt.py*)
+    touch "$OUT/postcapture-validator-called"
+    case "$B12X_TEST_FAILURE:$*" in
+      postcapture-evidence:*|postcapture-evidence-startup:*|postcapture-missing-both:*|postcapture-missing-worker:*worker-a-boot.log*) exit 1;;
+    esac
+    echo 'mock postcapture proof';;
    *'run --offline python -c '*) echo '2,350,210';;
    *smoke.py*)
     if [ -e "$OUT/active-recovery" ] && [ "$B12X_TEST_RECOVERY" = recovery-smoke-loss ]; then
@@ -236,7 +251,7 @@ esac
                  '--setenv=B12X_TEST_MODE='+mode,'--setenv=B12X_TEST_FAILURE='+failure,
                  '--setenv=B12X_TEST_RECOVERY='+recovery_failure,'--setenv=B12X_TEST_IMAGE='+IMAGE,
                  '/bin/bash',str(root/'scripts/recipe_window.sh'),TASK)
-            if mode not in ('observation','stabilization','ownership','pinned-startup'):
+            if mode not in ('observation','stabilization','ownership','pinned-startup','postcapture-startup'):
                 wait_for(lambda:(out/'phase').exists())
                 if failure=='guard-failure': (out/('active-a' if stop_only else 'active-b')).unlink()
                 elif failure=='trace-floor': (out/'trace-floor').touch()
@@ -299,6 +314,19 @@ esac
                     if mode=='pinned-startup':
                         assert (out/'phase').exists()
                         assert (out/'head-a-pinned-return-early.json').exists()
+                if postcapture:
+                    events=(out/'events').read_text()
+                    assert (out/'postcapture-validator-called').exists()
+                    if failure=='none':
+                        assert 'scripts/smoke.py' in events and 'scripts/speed_matrix.py' in events
+                        assert (out/'matrix-a.json').exists()
+                        assert int((out/'primary-status.txt').read_text())==0
+                    else:
+                        assert 'scripts/smoke.py' not in events and 'scripts/speed_matrix.py' not in events
+                        assert not (out/'matrix-a.json').exists()
+                        assert int((out/'primary-status.txt').read_text())!=0
+                    if mode=='postcapture-startup':
+                        assert (out/'phase').exists() and (out/'head-a-postcapture-early.json').exists()
                 return {'phase':mode,'failure':failure,'verified_stop_only':failure!='containers-present','cleanup_failed_closed':failure=='containers-present'}
             if recovery_failure=='proxy-failure' or recovery_failure.startswith('recovery-'):
                 wait_for(terminal)
@@ -354,4 +382,6 @@ if __name__=='__main__':
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,release=True) for failure in ('none','release-evidence')]
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,pinned=True) for failure in ('none','pinned-evidence','pinned-missing-both','pinned-missing-worker')]
     rows += [scenario('pinned-startup','pinned-evidence-startup',guarded=True,stop_only=True,pinned=True)]
+    rows += [scenario('stabilization',failure,guarded=True,stop_only=True,pinned=True,postcapture=True) for failure in ('none','postcapture-evidence','postcapture-missing-both','postcapture-missing-worker')]
+    rows += [scenario('postcapture-startup','postcapture-evidence-startup',guarded=True,stop_only=True,pinned=True,postcapture=True)]
     print(json.dumps({'poll_override_seconds':.1,'scenarios':rows},indent=2))

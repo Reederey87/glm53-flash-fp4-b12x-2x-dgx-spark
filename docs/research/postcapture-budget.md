@@ -52,3 +52,27 @@ pinned staging; FlashInfer session closure preserves selected prepared programs
 while dropping temporary owners. These support phase/lifetime measurements,
 not blind whole-cache eviction. Early CPU-thread/arena policies and smaller
 capture sets have no measured benefit here and remain separate hypotheses.
+
+
+Next evaluation: one measured host trim after the existing capture GC, before
+second warmup. Fresh Exa [malloc_trim](https://man7.org/linux/man-pages/man3/malloc_trim.3.html),
+[malloc_info](https://man7.org/linux/man-pages/man3/malloc_info.3.html) and
+[open_memstream](https://man7.org/linux/man-pages/man3/open_memstream.3.html)
+lookup establishes the all-arena API and resource contract. Aggregate free
+chunks are logical, not resident bytes; require actual anonymous RSS and host
+available-memory gains. Do not add another GC already performed by capture.
+All five source trees rechecked for lifetime/heap patterns before code changes.
+
+A stronger CUDA-stack alternative was researched through Exa/NVIDIA context
+memory discussions and compared with actual image program_cache SHA361952a1,
+preparation wrapper SHA0b8717cc and session6d391f53. The image already implements
+initial stack-limit recording and conditional post-benchmark reclamation. A
+cached job intentionally skips it; past execution is not proved by presence.
+No new losing candidate justifies repeating it after capture. CuTe executor
+weak-reference improvements concern final release, not deleting live owners.
+
+The model-free probe now exercises the exact capture method, existing GC and
+workspace lock with actual prepared B12X/pinned-copy graphs. Its512MiB CPU
+cycle fixture establishes API/lifetime correctness, not model reclamation.
+The new full-model gate remains source/PID-bound and fail-closed; no checkpoint
+or adoption is cleared until final review and all preflights are complete.

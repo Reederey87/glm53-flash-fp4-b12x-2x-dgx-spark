@@ -10,7 +10,7 @@ MARKER = "B12X_STARTUP_MEMORY "
 def safety(log):
     """Check completed trace lines while a boot log is still being written."""
     for line in log.splitlines(keepends=True):
-        marker = next((m for m in (MARKER, 'B12X_WARMUP_CACHE ', 'B12X_HOST_OWNERSHIP ', 'B12X_HOST_TRIM ', 'B12X_COMPILER_RELEASE ', 'B12X_PINNED_RETURN ') if m in line), None)
+        marker = next((m for m in (MARKER, 'B12X_WARMUP_CACHE ', 'B12X_HOST_OWNERSHIP ', 'B12X_HOST_TRIM ', 'B12X_COMPILER_RELEASE ', 'B12X_PINNED_RETURN ', 'B12X_POSTCAPTURE_HEAP ') if m in line), None)
         if marker is None or not line.endswith('\n'):
             continue
         record = json.loads(line.split(marker, 1)[1])
