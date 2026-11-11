@@ -1,5 +1,18 @@
 # Status
 
+## 2026-11-10 — explicit-KV host trim stabilization trial running
+
+- Final review cleared4967be9 (critical1467b32);43CPU/40isolated Linux lifecycle
+  outcomes passed. Both actual libc/CUDA probes returned1.179/1.230GiB per
+  device-spelling check, preserved live CPU guards/pinned/graph pointers and
+  three correct graph replays/check. No reduced1GiB gate or checkpoint loaded.
+- Same serving script22bffdb2, ordered trace/bound/trim mods only.35runtime
+  hashes/images/sources/env/memory preflights passed. Template started initial
+  PID573085, fresh local/ab-explicit-kv-host-trim. One malloc_trim after explicit
+  profiling must return>=1GiB/rank before KV can allocate;17G/quant unchanged.
+- Full safety/activation/correctness/speed gates pending. Every exit stop-only,
+  no adoption or TODO3 verdict. Preflight receipts receipts/explicit-kv-host-trim/.
+
 ## 2026-11-10 — entry ownership measured; models stopped
 
 - Both pre-warmup records collected with exact PID/hash proofs. Head1.623GiB
