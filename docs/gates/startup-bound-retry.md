@@ -1,5 +1,12 @@
 # Startup-only allocator bound retry qualification
 
+**Outcome: postload gates passed; complete startup failed the external floor.**
+Both scopes/rank entered0.80 and restored1.0; minimum trace headroom10.132/
+11.092GiB, within the native cap. Later head reached1.968GiB after graph
+warmup; observer stopped before health/smoke/speed. Stop-only cleanup verified
+at2026-11-11T01:58:43Z. No adoption or candidate3 result. Preserve this terminal
+output. [Evidence](../../receipts/startup-bound-retry/outcome.md).
+
 Pre-registered before this fresh retry. The first bounded attempt failed before
 activation because the fraction API rejected unindexed cuda; its output remains
 immutable. Normalize the device index and require a tiny real-CUDA compatibility

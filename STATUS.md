@@ -1,5 +1,17 @@
 # Status
 
+## 2026-11-10 — postload stabilized; later startup floor failed, models stopped
+
+- Actual target+MTP native0.80 scopes and restoration1.0 verified on both ranks;
+ 1817 ordered records/rank. Postload minima10.132/11.092GiB; reserved<=97.328GiB.
+- After graph capture/engine warmup, head hit1.968GiB at01:58:37Z. Guard stopped
+  before health/smoke/speed. Stop-only cleanup01:58:43Z, primary1/recovery0;
+  both model objects absent, canonical ledger restored, proxy/watchdog inactive.
+- No adoption/TODO3 result. Investigate later startup footprint before retry;
+  pinned image already has startup glibc trims and pre-KV CUDA cleanup. Avoid
+  duplicate cleanup patches without phase evidence. Receipts
+  `receipts/startup-bound-retry/outcome.md`.
+
 ## 2026-11-10 — reviewed bound retry running after real-CUDA checks
 
 - Final review cleared9a01728; both GB10/PyTorch2.13 probes passed4/4 actual

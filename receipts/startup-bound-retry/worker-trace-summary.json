@@ -1,0 +1,14 @@
+{
+  "pid": 278,
+  "last_phase": "postload-exit",
+  "integrated_flags": [
+    true
+  ],
+  "minimum_available": 11909943296,
+  "maximum_reserved": 104505278464,
+  "maximum_allocated": 93425101824,
+  "release_calls": 603,
+  "released_calls": 40,
+  "record_count": 1817,
+  "raw_log_sha256": "5296b560e5e40361d8288fed51f6902dd0ff13c77bca98890e8a95f66eb63478"
+}

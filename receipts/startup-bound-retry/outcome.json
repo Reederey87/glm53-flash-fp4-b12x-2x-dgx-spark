@@ -1,0 +1,43 @@
+{
+  "decision": "POSTLOAD_PASSED_LATER_STARTUP_SAFETY_FAILURE",
+  "postload_gate_passed": true,
+  "postload": [
+    {
+      "node": "head",
+      "scopes": 2,
+      "fraction_restored": 1.0,
+      "postload_min_available_GiB": 10.132137298583984,
+      "postload_max_reserved_GiB": 97.328125,
+      "trace_records": 1817
+    },
+    {
+      "node": "worker",
+      "scopes": 2,
+      "fraction_restored": 1.0,
+      "postload_min_available_GiB": 11.091999053955078,
+      "postload_max_reserved_GiB": 97.328125,
+      "trace_records": 1817
+    }
+  ],
+  "minimum_observer_samples": {
+    "head": {
+      "utc": "2026-11-11T01:58:37Z",
+      "node": "head",
+      "MemFree_kib": "2387064",
+      "MemAvailable_kib": "2063804"
+    },
+    "worker": {
+      "utc": "2026-11-11T01:58:31Z",
+      "node": "worker",
+      "MemFree_kib": "4560464",
+      "MemAvailable_kib": "3928664"
+    }
+  },
+  "health_smoke_speed_reached": false,
+  "finished_utc": "2026-11-11T01:58:43Z",
+  "primary_status": 1,
+  "recovery_status": 0,
+  "cleanup": "verified stop-only; both objects absent; healers proxy inactive",
+  "adopted": false,
+  "candidate3_attempted": false
+}
