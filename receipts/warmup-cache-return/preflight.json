@@ -1,0 +1,29 @@
+{
+  "critical_commit": "7fdd343",
+  "cpu_tests": 31,
+  "lifecycle_scenarios": 34,
+  "lifecycle_complete": true,
+  "exact_source_install_compile_AST": "passed",
+  "frontend": "passed",
+  "identical_serve_script": true,
+  "serve_sha256": "22bffdb2756539e09558dbafebf36cc279c2d1bfc60bb57d0074afb50ba7ee78",
+  "ordered_mods": [
+    "startup-memory",
+    "startup-bound",
+    "warmup-cache-return"
+  ],
+  "original_worker_sha256": "668921c635ad810bfdb93a937ffa54a051859e5466cb8d941e1cb67e3e172e81",
+  "patched_worker_sha256": "9ccdbd2913e2feafcbc6638fe7fa82641f79c9778044c527e33f356af817443e",
+  "warmup_helper_sha256": "ee99d16239f93e1dad8f5202e64d1b5fe94aec324702ea0ff3b3f891d045422f",
+  "runtime_files": 35,
+  "restart_cleared": true,
+  "probe_head": "passed",
+  "probe_worker": "passed",
+  "assertions": "PYTHONOPTIMIZE=0; no -O/-OO",
+  "initial_main_pid": 392726,
+  "runtime_hashes_verified": true,
+  "both_images_verified": true,
+  "both_sources_verified": true,
+  "worker_staging_verified": true,
+  "env_snapshot_verified": true
+}

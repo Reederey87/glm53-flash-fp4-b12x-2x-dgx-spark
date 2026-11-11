@@ -1,5 +1,16 @@
 # Status
 
+## 2026-11-10 — reviewed post-warmup cache trial running
+
+- Final review cleared7fdd343;31 CPU/34 isolated lifecycle checks passed. Both
+  actual GPU probes preserved pointers and passed6 graph replays/node after
+  cache return, no checkpoint/server. All disposable probe containers removed.
+-35 runtime hashes, images/base-loader sources, worker staging, env snapshot
+  and memory gates passed. Started `b12x-recipe-window@warmup-cache-return.service`,
+  initialPID392726, both actual profiles verified02:24:14Z. Only one new treatment:
+  unused CUDA cache return after original warmup; postload cap/17G KV frozen.
+  Functional/full matrix pending; all exits stop-only, no adoption/TODO3 verdict.
+
 ## 2026-11-10 — postload stabilized; later startup floor failed, models stopped
 
 - Actual target+MTP native0.80 scopes and restoration1.0 verified on both ranks;
