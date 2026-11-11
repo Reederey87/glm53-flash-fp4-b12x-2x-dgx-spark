@@ -1,0 +1,16 @@
+{
+  "decision": "INCOMPLETE_GUARDED_BEFORE_OWNERSHIP_BOUNDARY",
+  "terminal": "2026-11-11T02:59:21Z",
+  "primary": 1,
+  "recovery": 0,
+  "minimum_available_KiB": {
+    "head": 1874672,
+    "worker": 3358352
+  },
+  "ownership_records": 0,
+  "health": false,
+  "smoke": false,
+  "speed": false,
+  "adopted": false,
+  "next": "move terminal observation before kernel warmup after Exa and final review"
+}

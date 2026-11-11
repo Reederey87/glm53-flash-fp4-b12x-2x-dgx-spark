@@ -1,5 +1,15 @@
 # Status
 
+## 2026-11-10 — ownership observation stopped before its boundary
+
+- Head available1.788GiB at02:59:16Z during kernel warmup, before the outer
+  warmup-return hook. No ownership records, health/smoke/speed or adoption.
+  Common postload cap passed both scopes with10.308/11.320GiB traced minima.
+- Stop-only cleanup02:59:21Z primary1/recovery0 verified both containers absent,
+  canonical ledger restored, watchdog/proxy inactive. TODO3 remains open.
+  Receipts receipts/host-ownership/. Next use a separately reviewed earlier
+  terminal observation; do not replay this output or lower the safety floor.
+
 ## 2026-11-10 — terminal host-ownership observation running
 
 - Reviewed critical28dee06;35CPU/38isolated Linuxlifecycle checks pass,

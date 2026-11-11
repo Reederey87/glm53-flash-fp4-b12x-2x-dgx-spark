@@ -1,5 +1,10 @@
 # Post-warmup host ownership diagnostic
 
+**Outcome: incomplete.** Head crossed2GiB during kernel warmup at02:59:16Z,
+before the outer-return hook. No ownership records or serving tests. Stop-only
+cleanup verified02:59:21Z. [Receipts](../../receipts/host-ownership/outcome.md).
+Do not repeat this terminal task; a new observation needs an earlier boundary.
+
 Pre-registered terminal diagnostic, not an optimization or serving qualification.
 Dependency of TODO3, which remains open. Exa research and the local vLLM,
 exllamav3, TensorFold, FlashInfer and Flare source review precede this patch;

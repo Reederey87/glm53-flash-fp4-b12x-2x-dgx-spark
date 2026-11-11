@@ -1,0 +1,2 @@
+ExecStopPost={ path=/bin/bash ; argv[]=/bin/bash /home/nvidia/b12x/scripts/recipe_recover.sh host-ownership ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }
+KillMode=mixed
