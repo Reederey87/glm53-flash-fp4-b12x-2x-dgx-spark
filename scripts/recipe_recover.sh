@@ -52,7 +52,7 @@ recovery_guard_ok() {
 checked_run() {
   if [ "${RECOVERY_GUARD:-0}" != 1 ]; then "$@"; return; fi
   recovery_guard_ok
-  "$@" & child=$!
+  "$@" <&0 & child=$!
   while kill -0 "$child" 2>/dev/null; do
     recovery_guard_ok
     sleep 2 & wait $!

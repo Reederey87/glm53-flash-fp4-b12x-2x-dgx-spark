@@ -115,7 +115,10 @@ case "$(basename "$0")" in
   case "$*" in
    *'.Image'*) echo "$B12X_TEST_IMAGE";;
    'exec vllm_node sha256sum '*) echo 'aa398e74ee835537403e60186f2e9a81e8741a4b35fec68b47df6537716a45b7 utils.py';;
-   'exec '*) echo '{"mock":true}' ;;
+   'exec -i '*)
+    script=$(cat)
+    [ "$script" = '# mock docker exec stdin' ] || exit 97
+    echo '{"mock":true}' ;;
    'logs '*) echo 'GPU KV cache size: 2,350,210 tokens'
     case "$*" in *--follow*) exec sleep 300;; esac;;
    *) exit 99;;

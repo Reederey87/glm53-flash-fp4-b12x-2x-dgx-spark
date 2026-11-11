@@ -4,6 +4,7 @@ import importlib.util
 import json
 from pathlib import Path
 import sys
+import subprocess
 import tempfile
 import types
 import unittest
@@ -21,6 +22,16 @@ def load(name):
 
 
 class StartupTrace(unittest.TestCase):
+    def test_guarded_recovery_preserves_profile_stdin(self):
+        source=(ROOT/'scripts/recipe_recover.sh').read_text()
+        body=source.split('checked_run() {',1)[1].split('\nsystemctl --user stop',1)[0]
+        code='set -eu\nRECOVERY_GUARD=1\nchild=\nrecovery_guard_ok() { return 0; }\nchecked_run() {'+body+'\nchecked_run cat\n'
+        code=code.replace('sleep 2 & wait $!', 'sleep 0.01 & wait $!')
+        payload='# exact profile bytes\n'
+        result=subprocess.run(['bash','-c',code],input=payload,text=True,capture_output=True,timeout=5)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertEqual(result.stdout,payload)
+
     def test_wrong_source_fails_before_mutation(self):
         installer = load("install")
         with tempfile.TemporaryDirectory() as tmp:
