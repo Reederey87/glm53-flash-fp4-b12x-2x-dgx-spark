@@ -1,3 +1,5 @@
+2026-11-11: Started terminalpostcapture-observe afterfinalAstra3105eb5,74CPU/60Linux/fournativeobservationprobes/frontend and53runtime/image/source/env/memorypreflights. UnitPID940500; onlyownershipsnapshotthenstopbeforesecondwarmup. Cleanuprejected, same17G/commoncontrols, nomodeladoption/serving/TODO3verdict.
+
 2026-11-11: Postcapturetrimfailednativephysicalgate; matched3sCPUcontrols/PSSdonotjustifywaitorcleanup. Fixedcaptureflag/boundedreport/pre-pointerfindings, frozen3105eb5 terminalobserveronly.74CPU/ASTpass; finalreview/60Linux/nativeobservationprobes/frontendpending; modelsremainoff.
 
 2026-11-11: Frozenpostcapture-heap4e56fc5,71CPU/AST/syntaxpass. OneCPUheaptrim afterexistingcaptureGC beforesecondwarmup; same17G/commonpinned+bound. Finalreview/model-freecaptureprobes/56Linux/frontendpending; modelsremainoff.
