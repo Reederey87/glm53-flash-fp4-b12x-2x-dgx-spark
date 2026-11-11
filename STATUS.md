@@ -1,5 +1,18 @@
 # Status
 
+## 2026-11-10 — compiler ownership terminal diagnostic running
+
+- Final review cleared42440ea;49CPU/44isolated Linux lifecycle scenarios pass.
+  Both actualCUDA probes preserved metadata/pinned/graph objects, deduplicated
+  payloads and validated all three content-free records. No model in probes.
+-37runtime hashes/images/sources/env/memory preflights passed. Template
+  compiler-ownership initialPID653214; fresh local/ab-compiler-ownership.
+  Same serving script22bffdb2, only trace/bound/compiler-diagnostic mods.
+- After explicit17G profiling, inspect bounded known compiler metadata and
+  smaps buckets, then hold for stop-only cleanup before KV. No cleanup,
+  serving test, performance claim, adoption or TODO3 verdict. Preflight receipts
+  receipts/compiler-ownership/predeploy/.
+
 ## 2026-11-10 — real-model host trim rejected; models stopped
 
 - Actual one-shot trim returned1.4805MiB head/0.7578MiB worker versus1GiB gate.
