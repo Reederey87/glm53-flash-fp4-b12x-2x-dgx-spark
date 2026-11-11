@@ -17,6 +17,8 @@ FLOOR = 2 * 1024**3
 PLAN_SHA = '272ddb4f674b437e185e6c52274d87333534e0100db29ff5cf88a2e2fefc3e24'
 GC_SHA = 'e31de173771f6f3eaef4f12a5ec1da3a71f3e1b80aed2bbedd223a86228829d1'
 WORKSPACE_SHA = '18334e399b5d7749a0733d64fe6214906d0f9d276fc7c65806603de4c912449c'
+GRAPH_SHA = 'd43c261320ab63558b0975d9265e6ffe4871512bf7f4a448cfa81a8e6821f971'
+HEAP_REPORT_BYTES = 128 * 1024
 
 
 def fields(path, keys):
@@ -50,9 +52,12 @@ def parse_heap(data):
 
 def libc_api():
     libc = ctypes.CDLL(None)
-    libc.open_memstream.argtypes = (ctypes.POINTER(ctypes.c_void_p), ctypes.POINTER(ctypes.c_size_t))
-    libc.open_memstream.restype = ctypes.c_void_p
+    libc.fmemopen.argtypes = (ctypes.c_void_p, ctypes.c_size_t, ctypes.c_char_p)
+    libc.fmemopen.restype = ctypes.c_void_p
     libc.malloc_info.argtypes = (ctypes.c_int, ctypes.c_void_p); libc.malloc_info.restype = ctypes.c_int
+    libc.fflush.argtypes = (ctypes.c_void_p,); libc.fflush.restype = ctypes.c_int
+    libc.ferror.argtypes = (ctypes.c_void_p,); libc.ferror.restype = ctypes.c_int
+    libc.ftell.argtypes = (ctypes.c_void_p,); libc.ftell.restype = ctypes.c_long
     libc.fclose.argtypes = (ctypes.c_void_p,); libc.fclose.restype = ctypes.c_int
     libc.free.argtypes = (ctypes.c_void_p,); libc.free.restype = None
     libc.malloc_trim.argtypes = (ctypes.c_size_t,); libc.malloc_trim.restype = ctypes.c_int
@@ -60,35 +65,37 @@ def libc_api():
 
 
 def heap_info(libc):
-    buffer = ctypes.c_void_p(); size = ctypes.c_size_t()
-    stream = libc.open_memstream(ctypes.byref(buffer), ctypes.byref(size))
+    buffer = ctypes.create_string_buffer(HEAP_REPORT_BYTES)
+    stream = libc.fmemopen(buffer, len(buffer), b'w')
     if not stream:
-        raise RuntimeError('open_memstream failed')
+        raise RuntimeError('fixed-size fmemopen failed')
     try:
         if libc.malloc_info(0, stream) != 0:
             raise RuntimeError('malloc_info failed')
+        if libc.fflush(stream) != 0 or libc.ferror(stream):
+            raise RuntimeError('malloc_info exceeded fixed report buffer')
+        size = libc.ftell(stream)
         status = libc.fclose(stream); stream = None
-        if status != 0 or not buffer.value or not 0 < size.value <= 1024**2:
-            raise RuntimeError('invalid/bounded malloc_info stream')
-        return parse_heap(ctypes.string_at(buffer, size.value))
+        if status != 0 or not 0 < size < len(buffer):
+            raise RuntimeError('invalid fixed malloc_info stream')
+        return parse_heap(buffer.raw[:size])
     finally:
         if stream:
             libc.fclose(stream)
-        if buffer.value:
-            libc.free(buffer)
 
 
 def providers():
     plan = importlib.import_module('b12x._lib.compile_plan')
     gc_module = importlib.import_module('vllm.utils.gc_utils')
     workspace = importlib.import_module('vllm.v1.worker.workspace')
-    modules = (plan, gc_module, workspace)
+    graph_module = importlib.import_module('vllm.v1.worker.gpu.cudagraph_utils')
+    modules = (plan, gc_module, workspace, graph_module)
     hashes = tuple(hashlib.sha256(Path(m.__file__).read_bytes()).hexdigest() for m in modules)
-    if hashes != (PLAN_SHA, GC_SHA, WORKSPACE_SHA):
+    if hashes != (PLAN_SHA, GC_SHA, WORKSPACE_SHA, GRAPH_SHA):
         raise RuntimeError('postcapture provider differs from pinned image')
     if plan._RETAINED_PROGRAMS.get() is not None:
         raise RuntimeError('cannot trim during program materialization')
-    return plan, workspace, dict(plan_sha256=hashes[0], gc_sha256=hashes[1], workspace_sha256=hashes[2])
+    return plan, workspace, dict(plan_sha256=hashes[0], gc_sha256=hashes[1], workspace_sha256=hashes[2], graph_sha256=hashes[3])
 
 
 def retention(plan):
@@ -110,12 +117,15 @@ def snapshot(torch, runner, device, result, phase, libc, plan, workspace, source
     return dict(version=1, phase=phase, boundary='post-capture-before-second-warmup',
                 pid=os.getpid(), utc_ns=time.time_ns(), device_index=device, result=result,
                 kv_bytes=runner.cache_config.kv_cache_memory_bytes,
+                graphs_captured=runner.cudagraph_manager._graphs_captured,
                 fraction=torch.cuda.memory.get_per_process_memory_fraction(device),
                 allocated=torch.cuda.memory_allocated(device), reserved=torch.cuda.memory_reserved(device),
                 pinned_owned=pinned['allocated_bytes.current'], pinned_active=pinned['active_bytes.current'],
                 gc_enabled=gc.isenabled(), frozen_objects=gc.get_freeze_count(),
                 workspace_locked=workspace.current_workspace_manager().is_locked(), heap=heap,
                 process=fields('/proc/self/status', ('VmRSS', 'RssAnon')),
+                pss=fields('/proc/self/smaps_rollup', ('Rss', 'Pss', 'Pss_Anon', 'Anonymous', 'Private_Dirty',
+                           'Shared_Dirty', 'AnonHugePages', 'KSM', 'Swap', 'SwapPss')),
                 host=fields('/proc/meminfo', ('MemFree', 'MemAvailable')),
                 runner_sha256=hashlib.sha256(helper.with_name('model_runner.py').read_bytes()).hexdigest(),
                 helper_sha256=hashlib.sha256(helper.read_bytes()).hexdigest(), **source, **retention(plan))
@@ -127,7 +137,12 @@ def emit(row):
         raise RuntimeError('invalid postcapture receipt write')
 
 
-def return_heap_after_capture(function):
+def terminal_hold():
+    while True:
+        time.sleep(60)
+
+
+def _after_capture(function, *, observe):
     @wraps(function)
     def wrapped(runner, *args, **kwargs):
         if kwargs.get('profile_only', False):
@@ -136,13 +151,14 @@ def return_heap_after_capture(function):
             raise RuntimeError('postcapture trim requires explicit17G KV')
         if getattr(runner, '_b12x_postcapture_heap_seen', False):
             raise RuntimeError('postcapture heap return is startup-once')
-        if runner.cudagraph_manager is None or not runner.cudagraph_manager.needs_capture():
+        if (runner.cudagraph_manager is None or not runner.cudagraph_manager.needs_capture()
+                or runner.cudagraph_manager._graphs_captured is not False):
             raise RuntimeError('postcapture trim requires actual graph capture')
         runner._b12x_postcapture_heap_seen = True
         result = function(runner, *args, **kwargs)
         import torch
         from vllm.platforms import current_platform
-        if type(result) is not int or runner.cudagraph_manager.needs_capture():
+        if type(result) is not int or runner.cudagraph_manager._graphs_captured is not True:
             raise RuntimeError('capture did not complete with its original metric')
         if runner.device.type != 'cuda' or not torch.cuda.is_initialized():
             raise RuntimeError('postcapture trim requires initialized CUDA')
@@ -152,6 +168,12 @@ def return_heap_after_capture(function):
                 or torch.cuda.is_current_stream_capturing() or torch.cuda.memory.get_per_process_memory_fraction(device) != 1.0):
             raise RuntimeError('postcapture trim requires integrated/native restored CUDA outside capture')
         plan, workspace, source = providers(); libc = libc_api()
+        if observe:
+            row = snapshot(torch, runner, device, result, 'observe', libc, plan, workspace, source)
+            emit(row)
+            # Terminal diagnosis: never continue into second warmup/serving.
+            terminal_hold()
+            raise RuntimeError('terminal postcapture observer unexpectedly returned')
         before = snapshot(torch, runner, device, result, 'before', libc, plan, workspace, source)
         emit(before)
         if before['host']['MemAvailable'] < FLOOR or not before['workspace_locked'] or not before['retained_program_owners']:
@@ -172,3 +194,11 @@ def return_heap_after_capture(function):
             raise RuntimeError('postcapture heap return failed256MiB/128MiB gate; refuse second warmup')
         return result
     return wrapped
+
+
+def return_heap_after_capture(function):
+    return _after_capture(function, observe=False)
+
+
+def observe_after_capture(function):
+    return _after_capture(function, observe=True)

@@ -93,7 +93,9 @@ def scenario(mode, failure, recovery_failure='none', guarded=False, stop_only=Fa
         if postcapture:
             (out/'postcapture-active').touch()
             with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
-                stream.write('\nPOSTCAPTURE_HEAP=1\nPOSTCAPTURE_RUNNER_SHA256=fixture\n')
+                stream.write('\nPOSTCAPTURE_HEAP='+('0' if postcapture=='observe' else '1')+'\nPOSTCAPTURE_RUNNER_SHA256=fixture\n')
+                if postcapture=='observe':stream.write('POSTCAPTURE_OBSERVE=1\n')
+            if postcapture=='observe':(out/'postcapture-observation').touch()
             (root/'mods/postcapture-heap').mkdir(parents=True)
             (root/'mods/postcapture-heap/return_heap.py').write_text('# fixture\n')
         recipe=root/'recipes/glm-5.3-flash-fp4-local.yaml'; recipe.write_text('fixture control\n')
@@ -173,7 +175,10 @@ case "$(basename "$0")" in
    'logs '*) echo 'GPU KV cache size: 2,350,210 tokens'
     if [ -e "$OUT/compiler-release-active" ]; then printf 'B12X_COMPILER_RELEASE {}\nB12X_COMPILER_RELEASE {}\n'; fi
     if [ -e "$OUT/postcapture-active" ] && [ "$B12X_TEST_FAILURE" != postcapture-missing-both ]; then
-      if [ "$B12X_TEST_FAILURE" != postcapture-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then printf 'Graph capturing finished\nB12X_POSTCAPTURE_HEAP {}\nB12X_POSTCAPTURE_HEAP {}\n'; fi
+      if [ "$B12X_TEST_FAILURE" != postcapture-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then
+        printf 'Graph capturing finished\nB12X_POSTCAPTURE_HEAP {}\n'
+        if [ ! -e "$OUT/postcapture-observation" ]; then printf 'B12X_POSTCAPTURE_HEAP {}\n'; fi
+      fi
     fi
     if [ -e "$OUT/pinned-return-active" ] && [ "$B12X_TEST_FAILURE" != pinned-missing-both ]; then
       if [ "$B12X_TEST_FAILURE" != pinned-missing-worker ] || [ "${B12X_MOCK_REMOTE:-0}" != 1 ]; then printf 'B12X_PINNED_RETURN {}\nB12X_PINNED_RETURN {}\n'; fi
@@ -303,7 +308,7 @@ esac
                 if pinned:
                     events=(out/'events').read_text()
                     assert (out/'pinned-validator-called').exists()
-                    if failure=='none':
+                    if failure=='none' and postcapture!='observe':
                         assert 'scripts/smoke.py' in events and 'scripts/speed_matrix.py' in events
                         assert (out/'matrix-a.json').exists()
                         assert int((out/'primary-status.txt').read_text())==0
@@ -316,12 +321,20 @@ esac
                         assert (out/'head-a-pinned-return-early.json').exists()
                 if postcapture:
                     events=(out/'events').read_text()
-                    assert (out/'postcapture-validator-called').exists()
-                    if failure=='none':
+                    if postcapture=='observe':
+                        if failure not in ('postcapture-missing-both','postcapture-missing-worker'):
+                            assert (out/'postcapture-validator-called').exists()
+                        else:assert (out/'diagnostic-failed.txt').exists()
+                        assert 'scripts/smoke.py' not in events and 'scripts/speed_matrix.py' not in events
+                        assert not (out/'matrix-a.json').exists()
+                        assert (out/'diagnostic-captured.txt').exists() == (failure=='none')
+                    elif failure=='none':
+                        assert (out/'postcapture-validator-called').exists()
                         assert 'scripts/smoke.py' in events and 'scripts/speed_matrix.py' in events
                         assert (out/'matrix-a.json').exists()
                         assert int((out/'primary-status.txt').read_text())==0
                     else:
+                        assert (out/'postcapture-validator-called').exists()
                         assert 'scripts/smoke.py' not in events and 'scripts/speed_matrix.py' not in events
                         assert not (out/'matrix-a.json').exists()
                         assert int((out/'primary-status.txt').read_text())!=0
@@ -384,4 +397,5 @@ if __name__=='__main__':
     rows += [scenario('pinned-startup','pinned-evidence-startup',guarded=True,stop_only=True,pinned=True)]
     rows += [scenario('stabilization',failure,guarded=True,stop_only=True,pinned=True,postcapture=True) for failure in ('none','postcapture-evidence','postcapture-missing-both','postcapture-missing-worker')]
     rows += [scenario('postcapture-startup','postcapture-evidence-startup',guarded=True,stop_only=True,pinned=True,postcapture=True)]
+    rows += [scenario('stabilization',failure,guarded=True,stop_only=True,pinned=True,postcapture='observe') for failure in ('none','postcapture-evidence','postcapture-missing-both','postcapture-missing-worker')]
     print(json.dumps({'poll_override_seconds':.1,'scenarios':rows},indent=2))

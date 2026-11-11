@@ -1,3 +1,13 @@
+## Qualification failed before checkpoint deployment
+
+Initial real-capture probes at4e56fc5 returned~504MiB anonymous RSS but failed
+immediate128MiB node-availability gate on both nodes. Two settled-baseline,
+fixed3s CPU matched trials per node did not show robust128MiB gain on head.
+No runtime wait, larger fixture, gate relaxation or checkpoint deployment was
+approved. Source review also found capture-state/reporting/pointer-test defects;
+these are corrected for a separately reviewed terminal observation. See
+`docs/gates/postcapture-observe.md` and `receipts/postcapture-heap/predeploy/`.
+
 # Return measured free heap at the post-capture boundary
 
 Pre-registered dependency for TODO3. One new treatment relative to retained

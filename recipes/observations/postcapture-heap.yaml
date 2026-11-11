@@ -40,6 +40,7 @@ mods:
   - /home/nvidia/b12x/mods/postcapture-heap
 
 env:
+  B12X_POSTCAPTURE_MODE: "trim"
   CUTE_DSL_ARCH: "sm_121a"
   SAFETENSORS_FAST_GPU: "1"
   VLLM_ENABLE_ROCE_ALLREDUCE: "1"

@@ -82,6 +82,18 @@ guard_ok() {
         fi
       done
     fi
+    if [ "${POSTCAPTURE_OBSERVE:-0}" = 1 ] && grep -q 'B12X_POSTCAPTURE_HEAP ' "$OUT/head-$arm-boot.log" 2>/dev/null && grep -q 'B12X_POSTCAPTURE_HEAP ' "$OUT/worker-$arm-boot.log" 2>/dev/null; then
+      [ "${PINNED_RETURN:-0}" = 1 ] || return 1
+      for node in head worker; do
+        test -s "$OUT/$node-$arm.json" || return 1
+        "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --require-complete --expected-loader "$TRACE_LOADER_SHA256" --expected-helper "$(sha256sum mods/startup-memory/trace.py | cut -d' ' -f1)" > "$OUT/$node-$arm-trace.json" || return 1
+        "$UV" run --offline scripts/startup_bound_receipt.py "$OUT/$node-$arm-boot.log" --loader "$TRACE_LOADER_SHA256" --helper "$(sha256sum mods/startup-bound/bound.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-bound.json" || return 1
+        "$UV" run --offline scripts/pinned_cache_receipt.py "$OUT/$node-$arm-boot.log" --worker "$PINNED_WORKER_SHA256" --helper "$(sha256sum mods/startup-pinned/release.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-pinned-return.json" || return 1
+        "$UV" run --offline scripts/postcapture_heap_receipt.py "$OUT/$node-$arm-boot.log" --observe --runner "$POSTCAPTURE_RUNNER_SHA256" --helper "$(sha256sum mods/postcapture-heap/return_heap.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-postcapture-observe.json" || return 1
+      done
+      date -u +%FT%TZ > "$OUT/diagnostic-captured.txt"
+      return 1
+    fi
     if [ "${POSTCAPTURE_HEAP:-0}" = 1 ]; then
       for node in head worker; do
         if [ ! -s "$OUT/$node-$arm-postcapture-early.json" ] && [ -s "$OUT/$node-$arm.json" ] && [ -f "$OUT/$node-$arm-boot.log" ] && [ "$(grep -c 'B12X_POSTCAPTURE_HEAP ' "$OUT/$node-$arm-boot.log")" -ge 2 ]; then
@@ -179,7 +191,7 @@ for arm in "${arms[@]}"; do
   done
   booting=1
   checked_run systemctl --user start vllm-b12x.service
-  if [ "${HOST_OWNERSHIP:-0}" = 1 ]; then
+  if [ "${HOST_OWNERSHIP:-0}" = 1 ] || [ "${POSTCAPTURE_OBSERVE:-0}" = 1 ]; then
     # Even an unexpectedly healthy unpatched worker must never fall through
     # into serving measurements in a terminal diagnostic window.
     echo 'startup returned without validated terminal ownership evidence' > "$OUT/diagnostic-failed.txt"

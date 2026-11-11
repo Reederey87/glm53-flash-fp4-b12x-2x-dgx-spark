@@ -76,3 +76,22 @@ workspace lock with actual prepared B12X/pinned-copy graphs. Its512MiB CPU
 cycle fixture establishes API/lifetime correctness, not model reclamation.
 The new full-model gate remains source/PID-bound and fail-closed; no checkpoint
 or adoption is cleared until final review and all preflights are complete.
+
+
+The first4e56fc5 native probes failed the immediate128MiB node-gain gate despite
+~504MiB RSS return. Matched CPU observations fixed the resident baseline for
+1.25s and collected a full3s/50ms window after trim/control. Head trim final
+available gains49.6/87.0MiB, controls-6.8/+23.6; worker94.9/197.4 vs-.2/+39.4.
+No stable head128MiB return is established; runtime waiting or larger fixtures
+would not be justified by these results. PSS follow-up showed~504MiB private
+anonymous disappearance with only53MiB node gain; KSM/THP/swap were absent.
+Global attribution remains unresolved. Raw receipts preserve every failure.
+
+Final source review caught a real contract error: needs_capture() describes
+configured descriptors and remains true; _graphs_captured records completion.
+That flag and its exact source are now pinned. Reporting now uses a fixed128KiB
+[fmemopen buffer](https://man7.org/linux/man-pages/man3/fmemopen.3.html), checks
+flush/error/length before parsing, and closes on all paths. Probe records
+storage pointers inside capture before the observation boundary. These fixes
+do not turn the failed cleanup into a pass. Next separately gated terminal
+observer performs no trim and stops before second warmup after one snapshot.
