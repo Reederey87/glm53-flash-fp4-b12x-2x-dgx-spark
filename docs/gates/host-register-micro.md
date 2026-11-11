@@ -1,5 +1,13 @@
 # Registered-host allocation: microexperiment only
 
+Terminal micro result: tiny capability/lifetime checks passed on both nodes,
+but the fixed-count512MiB A/B comparison FAILED physical qualification in both
+arms on both nodes. Register mode changes PSS backing as expected, with only
+0/7.805MiB immediate available gain; default gives-0.219/-1.852MiB. All six
+graph replays and pointer/live/configuration checks pass. No subsequent compound
+probe or model startup is cleared. Raw and independently validated helper
+receipts: receipts/host-register/predeploy/memory-outcome.json.
+
 New independent variable: process-start PYTORCH_CUDA_ALLOC_CONF sets
 pinned_use_cuda_host_register:True. Native device allocator, registration thread
 count1 and disabled reserve segment remain default; no explicit reserve0 token

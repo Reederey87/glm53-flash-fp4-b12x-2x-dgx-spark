@@ -1,0 +1,394 @@
+{
+  "utc_ns": 1794383663629303561,
+  "kernel": "6.17.0-1031-nvidia",
+  "page_size": 4096,
+  "meminfo_bytes": {
+    "MemTotal": 130663165952,
+    "MemFree": 122613792768,
+    "MemAvailable": 122467237888,
+    "Cached": 2917294080,
+    "Unevictable": 24735744,
+    "SwapTotal": 17179865088,
+    "SwapFree": 17098772480,
+    "AnonPages": 221917184,
+    "Shmem": 2752512,
+    "Slab": 918274048,
+    "SReclaimable": 437108736,
+    "CmaTotal": 134217728,
+    "CmaFree": 70983680
+  },
+  "vmstat_base_page_counters": {
+    "nr_free_pages": 29935008,
+    "nr_free_cma": 17330,
+    "nr_inactive_file": 546238,
+    "nr_active_file": 257602,
+    "nr_anon_pages": 54179,
+    "nr_shmem": 672
+  },
+  "zones": [
+    {
+      "node": 0,
+      "name": "DMA",
+      "cpus": [
+        {
+          "cpu": 0,
+          "count": 76,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 1,
+          "count": 123,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 2,
+          "count": 32,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 3,
+          "count": 7,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 4,
+          "count": 0,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 5,
+          "count": 38,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 6,
+          "count": 82,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 7,
+          "count": 35,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 8,
+          "count": 36,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 9,
+          "count": 65,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 10,
+          "count": 5,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 11,
+          "count": 0,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 12,
+          "count": 1,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 13,
+          "count": 18,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 14,
+          "count": 116,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 15,
+          "count": 94,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 16,
+          "count": 50,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 17,
+          "count": 3,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 18,
+          "count": 0,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        },
+        {
+          "cpu": 19,
+          "count": 61,
+          "high": 124,
+          "batch": 31,
+          "high_min": 124,
+          "high_max": 1092
+        }
+      ],
+      "free_pages_reported": 150486
+    },
+    {
+      "node": 0,
+      "name": "DMA32",
+      "cpus": [],
+      "free_pages_reported": 0
+    },
+    {
+      "node": 0,
+      "name": "Normal",
+      "cpus": [
+        {
+          "cpu": 0,
+          "count": 16042,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 1,
+          "count": 16045,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 2,
+          "count": 12238,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 3,
+          "count": 15225,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 4,
+          "count": 11716,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 5,
+          "count": 10164,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 6,
+          "count": 16272,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 7,
+          "count": 14943,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 8,
+          "count": 15664,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 9,
+          "count": 12675,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 10,
+          "count": 12051,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 11,
+          "count": 16241,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 12,
+          "count": 13099,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 13,
+          "count": 10289,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 14,
+          "count": 4843,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 15,
+          "count": 13453,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 16,
+          "count": 6271,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 17,
+          "count": 9853,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 18,
+          "count": 15227,
+          "high": 16420,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        },
+        {
+          "cpu": 19,
+          "count": 14051,
+          "high": 16294,
+          "batch": 63,
+          "high_min": 16294,
+          "high_max": 198283
+        }
+      ],
+      "free_pages_reported": 29784522
+    },
+    {
+      "node": 0,
+      "name": "Movable",
+      "cpus": [],
+      "free_pages_reported": 0
+    },
+    {
+      "node": 0,
+      "name": "Device",
+      "cpus": [],
+      "free_pages_reported": 0
+    }
+  ],
+  "settings_read_only": {
+    "min_free_kbytes": "1048576",
+    "stat_interval": "1",
+    "percpu_pagelist_high_fraction": "0"
+  },
+  "stat_refresh_metadata_only": {
+    "mode": "0o600",
+    "uid": 0
+  },
+  "stat_refresh_content_read": false,
+  "no_settings_written": true,
+  "no_allocator_calls": true
+}

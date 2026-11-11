@@ -1,3 +1,5 @@
+2026-11-11: Registered-host512MiB A/B failed the128MiB physical gate on both nodes in both arms; backing changed and all graph/pointer/live-state checks passed. No model trial/adoption. Read-only kernel baseline shows~1GiB PCP inventory/node; cause remains unproved. Results: receipts/host-register/outcome.md.
+
 2026-11-11: Registered-host tiny probes passed once on each GPU: supported capabilities/effective flag,64KiB idle retirement and3live graph replays. Physical return remains unqualified; same-size512MiB default/register comparison frozen pending review. Both models remain off.
 
 2026-11-11: Native schema exploration passed on both GPUs; compound qualification remains failed. Registered-host tiny capability/lifetime probe frozen for reviewed execution; no production change or checkpoint clearance.

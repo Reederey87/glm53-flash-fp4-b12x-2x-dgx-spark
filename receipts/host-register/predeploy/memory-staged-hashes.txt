@@ -1,0 +1,6 @@
+scripts/check_host_register_memory_cuda.py: OK
+scripts/check_pinned_residency_cuda.py: OK
+receipts/host-register/predeploy/memory-ab-plan.md: OK
+scripts/check_host_register_memory_cuda.py: OK
+scripts/check_pinned_residency_cuda.py: OK
+receipts/host-register/predeploy/memory-ab-plan.md: OK
