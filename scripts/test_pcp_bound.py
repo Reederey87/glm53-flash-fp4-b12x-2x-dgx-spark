@@ -16,10 +16,31 @@ from unittest.mock import patch
 import check_pcp_bound_cuda as probe
 import pcp_bound_snapshot as policy
 import pcp_micro_receipt as receipt
-from run_pcp_micro import transaction,NODES,cancel_command
+from run_pcp_micro import transaction,NODES,cancel_command,ledger_command,with_bookkeeping
 
 
 class Transaction(unittest.TestCase):
+    def test_head_ledger_and_worker_absence_are_distinct(self):
+        with tempfile.TemporaryDirectory() as directory:
+            head=Path(directory)/'head.env';worker=Path(directory)/'worker.env';head.write_text('ORIGINAL=1\n')
+            for node,path in (('head',head),('worker',worker)):
+                script=ledger_command(node,'test').replace('/home/nvidia/b12x/.env',str(path))
+                result=subprocess.run(['sh','-ec',script],capture_output=True)
+                self.assertEqual(result.returncode,0,result.stderr)
+            self.assertTrue(head.read_text().startswith('ORIGINAL=1\n'));self.assertFalse(worker.exists())
+            self.assertEqual(Path(str(head)+'.bak-pcp-bound-test').read_text(),'ORIGINAL=1\n')
+
+    def test_bookkeeping_failure_cannot_masquerade_as_policy_failure(self):
+        calls=[]
+        def fail():raise OSError('ledger unavailable')
+        def work():return transaction(lambda:None,lambda n:calls.append('restore-'+n),lambda n:calls.append('verified-'+n),lambda n:None)
+        with self.assertRaisesRegex(RuntimeError,'bookkeeping failed; policy restoration verified'):with_bookkeeping(work,fail)
+        self.assertEqual(calls,['restore-head','verified-head','restore-worker','verified-worker'])
+        def primary():raise ValueError('primary preflight failed')
+        with contextlib.redirect_stderr(io.StringIO()) as output:
+            with self.assertRaisesRegex(ValueError,'primary preflight failed'):with_bookkeeping(primary,fail)
+        self.assertIn('Bookkeeping failed separately',output.getvalue())
+
     def test_unloaded_transient_service_cancellation(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);stub=root/'systemctl';log=root/'log'

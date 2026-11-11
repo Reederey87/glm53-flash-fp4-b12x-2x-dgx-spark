@@ -10,6 +10,26 @@ import subprocess
 NODES=('head','worker')
 
 
+def ledger_command(node,label):
+    ledger='/home/nvidia/b12x/.env';q=shlex.quote
+    if node=='worker':return 'test ! -e '+q(ledger)+'\necho "Worker has no b12x env; head owns launch ledger"\n'
+    if node!='head':raise ValueError('unknown node')
+    backup=ledger+'.bak-pcp-bound-'+label
+    return ('test -f '+q(ledger)+'\ntest ! -e '+q(backup)+'\ncp -n '+q(ledger)+' '+q(backup)+'\nsha256sum '+q(backup)+
+        '\nprintf %s '+q('# PCP micro '+label+' policy0->512; unchanged model off,17GKV,2GiBfloor,minfree; rollback0; gate docs/gates/pcp-bound-micro.md\n')+' >> '+q(ledger)+'\n')
+
+
+def with_bookkeeping(work,bookkeep):
+    primary=None
+    try:return work()
+    except BaseException as error:primary=error;raise
+    finally:
+        try:bookkeep()
+        except BaseException as error:
+            if primary is not None:print('Bookkeeping failed separately: '+repr(error),file=__import__('sys').stderr)
+            else:raise RuntimeError('bookkeeping failed; policy restoration verified') from error
+
+
 def cancel_command(timer):
     q=shlex.quote
     return ('set -eu\nsystemctl --user stop '+q(timer+'.timer')+'\n'
@@ -57,10 +77,14 @@ def main():
     def restore(node):
         # Rollback must not depend on source-manifest validity or a GPU lock.
         execute(node,'restore','set -eu\nbash '+q(str(root/'mods/pcp-bound/rollback.sh'))+'\n')
+    verified=set()
     def verify(node):
         snapshot(node,'restored',0)
         execute(node,'no-containers','test -z "$(docker ps -q)"\n')
-        execute(node,'ledger-restored','printf %s '+q('# PCP micro '+label+' policy restored0; see local/pcp-bound-'+label+'/ receipts; no adoption\n')+' >> /home/nvidia/b12x/.env\n')
+        verified.add(node)
+    def bookkeep():
+        status='both policies verified0' if verified==set(NODES) else 'restoration unverified'
+        execute('head','ledger-outcome','printf %s '+q('# PCP micro '+label+' ended; '+status+'; see local/pcp-bound-'+label+'/ receipts; no adoption\n')+' >> /home/nvidia/b12x/.env\n')
     def cancel(node):execute(node,'timer-cancel',cancel_command(timer))
     def perform():
         for node in NODES:
@@ -72,8 +96,7 @@ test "$(systemctl --user show vllm-b12x.service -p MainPID --value)" = 0
 ! systemctl --user is-active --quiet vllm-b12x-tailscale.service
 ''')
             snapshot(node,'before',0)
-            backup='/home/nvidia/b12x/.env.bak-pcp-bound-'+label
-            checked(node,'ledger','test ! -e '+q(backup)+'\ncp -n /home/nvidia/b12x/.env '+q(backup)+'\nsha256sum '+q(backup)+'\nprintf %s '+q('# PCP micro '+label+' policy0->512; unchanged model off,17GKV,2GiBfloor,minfree; rollback0; gate docs/gates/pcp-bound-micro.md\n')+' >> /home/nvidia/b12x/.env\n')
+            checked(node,'ledger',ledger_command(node,label))
         for node in NODES:
             checked(node,'A','bash mods/pcp-bound/gpu-node.sh 0\n')
             subprocess.run(['/home/nvidia/.local/bin/uv','run','--offline','--no-project','--python','/usr/bin/python3',str(root/'scripts/pcp_micro_receipt.py'),'check',str(out/(node+'-A.log')),'0'],check=True,timeout=10)
@@ -86,7 +109,7 @@ test "$(systemctl --user show vllm-b12x.service -p MainPID --value)" = 0
             subprocess.run(['/home/nvidia/.local/bin/uv','run','--offline','--no-project','--python','/usr/bin/python3',str(root/'scripts/pcp_micro_receipt.py'),'check',str(out/(node+'-B.log')),'512'],check=True,timeout=10)
         subprocess.run(['/home/nvidia/.local/bin/uv','run','--offline','--no-project','--python','/usr/bin/python3',str(root/'scripts/pcp_micro_receipt.py'),str(out)],check=True,timeout=10)
         return str(out)
-    print(transaction(perform,restore,verify,cancel),flush=True)
+    print(with_bookkeeping(lambda:transaction(perform,restore,verify,cancel),bookkeep),flush=True)
 
 
 if __name__=='__main__':main()

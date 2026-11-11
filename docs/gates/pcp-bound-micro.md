@@ -32,8 +32,11 @@ aiming for >=0.5GiB reduction while retaining a nonzero cache.256 nominal494MiB
 is less aggressive but leaves less margin against last head1.840GiB. No hard
 instantaneous occupancy guarantee or inference-speed claim for either.
 
-Snapshot .env and source hashes both nodes; append only experiment comments
-and outcomes. Arm independent user-systemd rollback timers BEFORE the first
+Snapshot the head's shared launch .env; explicitly record worker ledger absence
+without creating it. Snapshot source/control hashes on both nodes; append only
+experiment comments/outcomes to head. Ledger errors are separate from policy
+reset/readback/container proofs and cannot suppress cleanup. Preserve primary
+and cleanup errors. Arm independent user-systemd rollback timers BEFORE the first
 write,300s maximum, on both nodes. Controller finally cleanup restores both nodes on
 partial application, probe failure or interrupt; timers survive disconnect.
 Verify policy0 and original minfree/statinterval after exit, then cancel timers.
