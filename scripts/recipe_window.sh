@@ -147,6 +147,11 @@ for arm in "${arms[@]}"; do
       "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --safety-only
       "$UV" run --offline scripts/startup_bound_receipt.py "$OUT/$node-$arm-boot.log" --loader "$TRACE_LOADER_SHA256" --helper "$(sha256sum mods/startup-bound/bound.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" > "$OUT/$node-$arm-bound.json"
     fi
+    if [ "${WARMUP_CACHE_RETURN:-0}" = 1 ]; then
+      minimum_reclaim=0
+      [ "$node" != head ] || minimum_reclaim="$WARMUP_CACHE_MIN_HEAD"
+      "$UV" run --offline scripts/warmup_cache_receipt.py "$OUT/$node-$arm-boot.log" --worker "$WARMUP_WORKER_SHA256" --helper "$(sha256sum mods/warmup-cache-return/release.py | cut -d' ' -f1)" --trace "$OUT/$node-$arm-trace.json" --minimum-reclaim "$minimum_reclaim" > "$OUT/$node-$arm-warmup-cache.json"
+    fi
   done
   pool_formatted=$("$UV" run --offline -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")
   # The exact capacity is frozen in this first recipe window.

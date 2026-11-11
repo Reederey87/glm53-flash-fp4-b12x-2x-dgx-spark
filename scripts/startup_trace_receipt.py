@@ -10,9 +10,10 @@ MARKER = "B12X_STARTUP_MEMORY "
 def safety(log):
     """Check completed trace lines while a boot log is still being written."""
     for line in log.splitlines(keepends=True):
-        if MARKER not in line or not line.endswith('\n'):
+        marker = next((m for m in (MARKER, 'B12X_WARMUP_CACHE ') if m in line), None)
+        if marker is None or not line.endswith('\n'):
             continue
-        record = json.loads(line.split(MARKER, 1)[1])
+        record = json.loads(line.split(marker, 1)[1])
         if record['host']['MemAvailable'] < 2 * 1024**3:
             raise ValueError('passive trace crossed 2 GiB host memory floor')
 
