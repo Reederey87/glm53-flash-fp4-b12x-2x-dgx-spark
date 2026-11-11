@@ -1,0 +1,12 @@
+{
+  "method": "CPU-only disposable pinned container, docker logs --follow plus actual retained-log safety parser",
+  "cuda_or_model_loaded": false,
+  "container_removed": true,
+  "docker_logs_client_rss_kib": 27224,
+  "docker_logs_client_anonymous_pss_kib": 8788,
+  "docker_logs_client_file_pss_kib": 17196,
+  "safety_parser_peak_rss_kib": 18596,
+  "safety_parser_anonymous_pss_kib": 9244,
+  "safety_parser_file_pss_kib": 4119,
+  "does_not_prove_cause_of_late_deficit": true
+}
