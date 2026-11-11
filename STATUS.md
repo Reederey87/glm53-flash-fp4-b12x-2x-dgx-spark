@@ -1,5 +1,16 @@
 # Status
 
+## 2026-11-10 — reviewed startup observation started
+
+- Passive loader trace and guarded canonical recovery frozen at4d4d66a; actual
+  serving script unchanged.20 CPU tests and24 isolated Linux lifecycle scenarios
+  passed, including stale/future heartbeats, blocked-operation observer loss,
+  shutdown abort race, terminal retry prevention and A-only observation.
+- Final review cleared one diagnostic A-only window after recovery and stdin
+  fixes. All25 staged hashes, both images/original loaders, rollback snapshot and
+  independent recovery verified before starting `b12x-recipe-window@startup-memory.service`.
+  The window isolates healers/proxy; no candidate3 or adoption clearance.
+
 ## 2026-11-10 — candidate 3 control aborted; original service healthy
 
 - Fresh Humming A hit0.746GiB host available seven seconds after target weight

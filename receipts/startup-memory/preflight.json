@@ -1,0 +1,25 @@
+{
+  "critical_commit": "4d4d66a",
+  "cpu_tests": 20,
+  "isolated_linux_lifecycle_scenarios": 24,
+  "all_cluster_api_operations_mocked": true,
+  "actual_pinned_frontend": "passed",
+  "generated_serve_script_identical": true,
+  "only_recipe_delta": "mods: /home/nvidia/b12x/mods/startup-memory",
+  "serve_sha256": "22bffdb2756539e09558dbafebf36cc279c2d1bfc60bb57d0074afb50ba7ee78",
+  "original_loader_sha256": "aa398e74ee835537403e60186f2e9a81e8741a4b35fec68b47df6537716a45b7",
+  "patched_loader_sha256": "bafdd73c286f691bf169eae4f55dd06edf45cf42134e0348fac35cd5ce88b27b",
+  "patched_actual_loader_compiles": true,
+  "wrong_source_and_repeat_install_rejected": true,
+  "production_restart_authorized_by_review": true,
+  "original_ast_preserved_after_removing_observational_statements": true,
+  "tracing_helper_sha256": "34365b162a8d669c8eedd890a2ee7ee22fa95abdc7258cbc6a70756d6c5178aa",
+  "fresh_final_lifecycle_rerun_passed": true,
+  "real_idle_transient_observer_terminal_probe": {
+    "LoadState": "not-found",
+    "ActiveState": "inactive",
+    "SubState": "dead",
+    "Result": "success",
+    "ExecMainStatus": 0
+  }
+}
