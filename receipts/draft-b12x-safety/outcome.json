@@ -1,0 +1,35 @@
+{
+  "head": {
+    "pid": 379,
+    "trace_records": 1817,
+    "trace_minimum_available_gib": 9.946842193603516,
+    "resolved_b12x": true,
+    "humming_initialized": false,
+    "mtp_routed_method": "ModelOptNvFp4FusedMoE",
+    "scopes": 2,
+    "restored_fraction": 1.0,
+    "lowest_available_gib": 1.8979988098144531,
+    "lowest_utc": "2026-11-11T04:48:31Z"
+  },
+  "worker": {
+    "pid": 280,
+    "trace_records": 1817,
+    "trace_minimum_available_gib": 10.972145080566406,
+    "resolved_b12x": true,
+    "humming_initialized": false,
+    "mtp_routed_method": "ModelOptNvFp4FusedMoE",
+    "scopes": 2,
+    "restored_fraction": 1.0,
+    "lowest_available_gib": 10.97686767578125,
+    "lowest_utc": "2026-11-11T04:47:11Z"
+  },
+  "outcome": "startup-memory-floor-failed",
+  "finished": "2026-11-11T04:48:36Z",
+  "primary": 1,
+  "recovery": 0,
+  "health": false,
+  "smoke": false,
+  "speed": false,
+  "adoption": false,
+  "paired_comparison": false
+}

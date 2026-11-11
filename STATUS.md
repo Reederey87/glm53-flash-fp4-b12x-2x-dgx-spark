@@ -1,3 +1,5 @@
+2026-11-10: Draft-B12X initialized both ranks with exact17G and valid target/MTP bound scopes, then head1.898GiB failed2GiBfloor beforehealth/smoke/speed. Stop-only04:48:36Z verified modelsabsent/canonicalledgerrestored/proxywatchdogoff; candidate3 remainsopen. Receiptsreceipts/draft-b12x-safety/.
+
 2026-11-10: Started actual draft-B12X qualification after final independent review701e114,56CPU/46Linux lifecycle checks, pinned frontend one-field proof,33runtime hashes/both image/base-source checks/env snapshots/memory gate. Unit b12x-recipe-window@draft-b12x-safety PID718842; output local/ab-draft-b12x-safety. Same17G/quant/commonbound, stop-only all exits; no unsafeAboot or paired-speed claim.
 
 # Status

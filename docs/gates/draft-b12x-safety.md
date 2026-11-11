@@ -1,3 +1,7 @@
+## Terminal outcome: startup safety failed
+
+Both-rank MTP B12X initialized; target/MTP caps restored1.0,1817trace records/rank validate. Later head1.898GiB failed independent2GiBfloor04:48:31Z. Stop-only complete04:48:36Z; no health/smoke/parity/speed/adoption/paired-performance verdict. TODO3 remains open. Exact receipts: `receipts/draft-b12x-safety/outcome.md`.
+
 # TODO3: qualify the actual draft-B12X arm safely
 
 Pre-registered fresh window for TODO3 itself. The first paired attempt never

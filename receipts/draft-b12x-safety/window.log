@@ -1,0 +1,42 @@
+launch.sh: OK
+scripts/render_env.sh: OK
+scripts/recipe_window.sh: OK
+scripts/recipe_recover.sh: OK
+scripts/memory_guard.sh: OK
+scripts/window_profile.py: OK
+scripts/startup_trace_receipt.py: OK
+scripts/wait_memory.sh: OK
+scripts/wait_health.sh: OK
+scripts/smoke.py: OK
+scripts/verify_reasoning.py: OK
+scripts/parity.py: OK
+scripts/speed_matrix.py: OK
+scripts/decode_bench.py: OK
+scripts/compare_matrix.py: OK
+scripts/speed_smoke.py: OK
+recipes/glm-5.3-flash-fp4-local.yaml: OK
+mods/startup-memory/install.py: OK
+mods/startup-memory/trace.py: OK
+mods/startup-memory/run.sh: OK
+systemd/b12x-recipe-window@.service: OK
+systemd/vllm-b12x.service: OK
+mods/startup-bound/bound.py: OK
+mods/startup-bound/install.py: OK
+mods/startup-bound/run.sh: OK
+scripts/startup_bound_receipt.py: OK
+scripts/check_startup_bound_cuda.py: OK
+recipes/observations/draft-b12x-safety.yaml: OK
+recipes/observations/startup-bound.yaml: OK
+recipes/windows/draft-b12x-safety.conf: OK
+docs/gates/draft-b12x-safety.md: OK
+scripts/test_recipe_lifecycle.py: OK
+recipes/windows/draft-b12x.conf: OK
+cp: warning: behavior of -n is non-portable and may change in future; use --update=none instead
+Running as unit: b12x-draft-b12x-safety-memory-a.service; invocation ID: b838c5e87c444be5a9883692a9c52aad
+/home/nvidia/b12x/scripts/recipe_window.sh: line 48: /home/nvidia/b12x/local/ab-draft-b12x-safety/memory-a.csv.ready: No such file or directory
+profile verified
+2026-11-11T04:44:05Z head-a profile verified
+profile verified
+2026-11-11T04:44:06Z worker-a profile verified
+Job for vllm-b12x.service canceled.
+Failed to stop b12x-draft-b12x-safety-memory-b.service: Unit b12x-draft-b12x-safety-memory-b.service not loaded.
