@@ -1,0 +1,231 @@
+{
+  "scope": "nonqualifying-schema-exploration",
+  "checkpoint_deployment_cleared": false,
+  "common_pinned_qualified": false,
+  "nodes": {
+    "head": {
+      "inventory": {
+        "version": 1,
+        "complete": true,
+        "problems": [],
+        "limits": {
+          "roots": 4096,
+          "nodes": 8192,
+          "edges": 32768,
+          "depth": 16,
+          "output_bytes": 1048576,
+          "seconds": 2
+        },
+        "elapsed_ns": 187487,
+        "root_identity_sha256": "4b815e88acd0b47662f3be64297a38e1601584af5e456d1c02dcb475ec376ff0",
+        "counts": {
+          "_RetainedPrograms": 1,
+          "CompiledCuTeProgram": 1,
+          "CudaDialectJitCompiledFunction": 1,
+          "engine": 1,
+          "CudaDialectJitModule": 1
+        },
+        "nodes": [
+          {
+            "id": 0,
+            "kind": "_RetainedPrograms"
+          },
+          {
+            "id": 1,
+            "kind": "CompiledCuTeProgram",
+            "programs": [
+              {
+                "dialect": "cute",
+                "key": "b9c30be8e641b45f063d910962884e45401ef497a96707a5b2b4cc6026e1d20b"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "kind": "CudaDialectJitCompiledFunction",
+            "engine_present": true,
+            "jit_module_present": true,
+            "_default_executor_present": false,
+            "artifacts_present": false,
+            "binary_loaded": true,
+            "ir_present": false,
+            "prefix": "b12x_cute_b9c30be8e641b45f063d910962884e45401ef497a96707a5b2b4cc6026e1d20b"
+          },
+          {
+            "id": 3,
+            "kind": "engine"
+          },
+          {
+            "id": 4,
+            "kind": "CudaDialectJitModule",
+            "unloaded": false,
+            "library_entries": 1
+          }
+        ],
+        "edges": [
+          {
+            "parent": 0,
+            "field": "owners",
+            "child": 1
+          },
+          {
+            "parent": 0,
+            "field": "cache",
+            "child": 1
+          },
+          {
+            "parent": 1,
+            "field": "_executable",
+            "child": 2
+          },
+          {
+            "parent": 2,
+            "field": "engine",
+            "child": 3
+          },
+          {
+            "parent": 2,
+            "field": "jit_module",
+            "child": 4
+          },
+          {
+            "parent": 4,
+            "field": "engine",
+            "child": 3
+          }
+        ],
+        "programs": [
+          {
+            "dialect": "cute",
+            "key": "b9c30be8e641b45f063d910962884e45401ef497a96707a5b2b4cc6026e1d20b"
+          }
+        ],
+        "scope": "selected-strong-scopes-and-explicit-dependencies",
+        "engine_identity_is_native_bytes": false
+      },
+      "compatibility": {
+        "schema_exploration": true,
+        "common_pinned_qualified": false,
+        "checkpoint_deployment_cleared": false,
+        "checkpoint_loaded": false,
+        "server_loaded": false,
+        "compiler_loader_forbidden_during_collection_and_replay": true,
+        "prepared_b12x_graph_replays": 3,
+        "pinned_copy_replays": 3,
+        "pointers_preserved": true
+      }
+    },
+    "worker": {
+      "inventory": {
+        "version": 1,
+        "complete": true,
+        "problems": [],
+        "limits": {
+          "roots": 4096,
+          "nodes": 8192,
+          "edges": 32768,
+          "depth": 16,
+          "output_bytes": 1048576,
+          "seconds": 2
+        },
+        "elapsed_ns": 216526,
+        "root_identity_sha256": "278cfa2214bf1a3dc8ccb694598ccedf01ca9866411391157daed98d467f7f88",
+        "counts": {
+          "_RetainedPrograms": 1,
+          "CompiledCuTeProgram": 1,
+          "CudaDialectJitCompiledFunction": 1,
+          "engine": 1,
+          "CudaDialectJitModule": 1
+        },
+        "nodes": [
+          {
+            "id": 0,
+            "kind": "_RetainedPrograms"
+          },
+          {
+            "id": 1,
+            "kind": "CompiledCuTeProgram",
+            "programs": [
+              {
+                "dialect": "cute",
+                "key": "b9c30be8e641b45f063d910962884e45401ef497a96707a5b2b4cc6026e1d20b"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "kind": "CudaDialectJitCompiledFunction",
+            "engine_present": true,
+            "jit_module_present": true,
+            "_default_executor_present": false,
+            "artifacts_present": false,
+            "binary_loaded": true,
+            "ir_present": false,
+            "prefix": "b12x_cute_b9c30be8e641b45f063d910962884e45401ef497a96707a5b2b4cc6026e1d20b"
+          },
+          {
+            "id": 3,
+            "kind": "engine"
+          },
+          {
+            "id": 4,
+            "kind": "CudaDialectJitModule",
+            "unloaded": false,
+            "library_entries": 1
+          }
+        ],
+        "edges": [
+          {
+            "parent": 0,
+            "field": "owners",
+            "child": 1
+          },
+          {
+            "parent": 0,
+            "field": "cache",
+            "child": 1
+          },
+          {
+            "parent": 1,
+            "field": "_executable",
+            "child": 2
+          },
+          {
+            "parent": 2,
+            "field": "engine",
+            "child": 3
+          },
+          {
+            "parent": 2,
+            "field": "jit_module",
+            "child": 4
+          },
+          {
+            "parent": 4,
+            "field": "engine",
+            "child": 3
+          }
+        ],
+        "programs": [
+          {
+            "dialect": "cute",
+            "key": "b9c30be8e641b45f063d910962884e45401ef497a96707a5b2b4cc6026e1d20b"
+          }
+        ],
+        "scope": "selected-strong-scopes-and-explicit-dependencies",
+        "engine_identity_is_native_bytes": false
+      },
+      "compatibility": {
+        "schema_exploration": true,
+        "common_pinned_qualified": false,
+        "checkpoint_deployment_cleared": false,
+        "checkpoint_loaded": false,
+        "server_loaded": false,
+        "compiler_loader_forbidden_during_collection_and_replay": true,
+        "prepared_b12x_graph_replays": 3,
+        "pinned_copy_replays": 3,
+        "pointers_preserved": true
+      }
+    }
+  }
+}

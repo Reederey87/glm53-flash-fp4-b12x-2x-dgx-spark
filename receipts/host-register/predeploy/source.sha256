@@ -1,0 +1,3 @@
+c4eb5af197a4365fef664c46c9903f8033c7e54525b4d821bb7625d02f790da0  scripts/check_host_register_cuda.py
+f19b34c24fc1830955d0270bb23cbf8bb4d658b13c8eb7d9db02df665209e35c  docs/gates/host-register-micro.md
+f3ff26d72a3f1eb755ac4a2153898c8010891de45aad6b0bfd1e0b7b2154eecb  receipts/host-register/predeploy/run-tiny.py

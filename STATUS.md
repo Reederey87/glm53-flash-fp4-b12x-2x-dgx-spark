@@ -1,3 +1,5 @@
+2026-11-11: Native schema exploration passed on both GPUs; compound qualification remains failed. Registered-host tiny capability/lifetime probe frozen for reviewed execution; no production change or checkpoint clearance.
+
 2026-11-11: NativecompoundmicroqualificationFAILED both beforecollector (512MiBownedreturn, no128MiBphysicalgain); matchedfixture-onlyold/current4/4alsofail.24nativeCPUfixes+64Linux/frontendpass, no checkpointdeploymentclearance. Modelsremainoff; receipts/native-ownership/predeploy/.
 
 2026-11-11: Native-owner terminal collector frozen pendingreview/nativeprobes/Linux/frontend;32CPUchecks andpinned-workerASTpass. Outercommonpinnedreturn/preKV10GiBentry, existing17G/commoncontrols; modelsremainoff. Gate docs/gates/native-ownership.md.
