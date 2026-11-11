@@ -1,3 +1,5 @@
+2026-11-11: Frozenpostcapture-heap4e56fc5,71CPU/AST/syntaxpass. OneCPUheaptrim afterexistingcaptureGC beforesecondwarmup; same17G/commonpinned+bound. Finalreview/model-freecaptureprobes/56Linux/frontendpending; modelsremainoff.
+
 2026-11-11: Actual startup-pinned reclaimed512MiB/rank with519/514MiBavailablegain andallproofgatespass, butlaterhead1.823GiBfailed2GiBfloor aftergraphcapture. Stop-only05:10:43Z modelsabsent/canonicalledgerrestored/proxywatchdogoff. Nohealth/smoke/speed/adoption; TODO3open. Receiptsreceipts/startup-pinned/outcome.md.
 
 2026-11-11: Started startup-pinned stabilization afterfinalreview70075d3/64CPU/51Linux, fouractualgraphprobes and40runtime/image/source/env/memorypreflights. Unitb12x-recipe-window@startup-pinned PID825715; actualmodelreturn/safety/smoke/matrixpending. Humming/quant17G/commonbound frozen; allexitsstop-only.
