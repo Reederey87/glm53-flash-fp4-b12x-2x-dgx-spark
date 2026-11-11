@@ -202,7 +202,9 @@ case "$1" in
 esac
 ''')
             for f in bin.iterdir():f.chmod(0o755)
-            env=dict(os.environ,PATH=str(bin)+':'+os.environ['PATH'],PCP_TEST_ROOT=str(root),PCP_TEST_UV=shutil.which('uv'),PCP_TEST_PYTHON=sys.executable,PCP_TEST_LOCK=str(lock))
+            uv=shutil.which('uv',path=str(Path.home()/'.local/bin')+os.pathsep+os.environ['PATH'])
+            self.assertIsNotNone(uv,'uv required for the lock test')
+            env=dict(os.environ,PATH=str(bin)+':'+os.environ['PATH'],PCP_TEST_ROOT=str(root),PCP_TEST_UV=uv,PCP_TEST_PYTHON=sys.executable,PCP_TEST_LOCK=str(lock))
             with subprocess.Popen(['bash',str(scripts/'gpu-native.sh'),'unindexed','a'*32,'head'],env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE) as child:
                 try:
                     deadline=time.monotonic()+8

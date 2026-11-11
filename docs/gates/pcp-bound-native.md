@@ -21,9 +21,9 @@ never a loader trace or evidence of actual model profiling/postload scopes.
 Before any probe and after its parent returns: verify actual PCP512 bounds,
 20localCPUs/4KiB pages/managed counts/base batches, minfree1048576,
 stat_interval1, >=100GiB available. Snapshot outside all measured helper/
-collector intervals. Require complete original native source/PID-bound memory
-Also record and recheck actual Torch revision/device/native allocator/effective
+collector intervals. Also record and recheck actual Torch revision/device/native allocator/effective
 settings/assertion mode at both boundaries; any post-parent drift suppresses END.
+Require complete original native source/PID-bound memory
 proof, strict physical pinned gate, all ordered chunks/digest/typed graph,
 unchanged owners/counters/pointers and3correct B12X+3pinned-copy graph replays
 with compiler/loader forbidden. Parent summary plus wrapper END after normal
