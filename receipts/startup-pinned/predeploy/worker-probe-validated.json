@@ -1,0 +1,157 @@
+{
+  "process_isolated": true,
+  "checks": [
+    {
+      "pytorch": "2.13.0+cu130",
+      "checks": [
+        {
+          "device": "cuda",
+          "known_idle_staging_bytes": 536870912,
+          "full_reclamation_gate": true,
+          "live_pinned_graph_replays": 3,
+          "prepared_b12x_graph_replays": 3,
+          "pointers_preserved": true,
+          "compiler_and_loader_forbidden": true
+        }
+      ],
+      "checkpoint_loaded": false,
+      "server_loaded": false
+    },
+    {
+      "pytorch": "2.13.0+cu130",
+      "checks": [
+        {
+          "device": "cuda:0",
+          "known_idle_staging_bytes": 536870912,
+          "full_reclamation_gate": true,
+          "live_pinned_graph_replays": 3,
+          "prepared_b12x_graph_replays": 3,
+          "pointers_preserved": true,
+          "compiler_and_loader_forbidden": true
+        }
+      ],
+      "checkpoint_loaded": false,
+      "server_loaded": false
+    }
+  ],
+  "proofs": [
+    {
+      "records": [
+        {
+          "version": 1,
+          "phase": "before",
+          "boundary": "post-explicit-profile",
+          "pid": 72,
+          "utc_ns": 1794373378754875340,
+          "device_index": 0,
+          "result": 18253611008,
+          "fraction": 1.0,
+          "allocated": 1452544,
+          "reserved": 4194304,
+          "pinned_owned": 537919488,
+          "pinned_active": 1048576,
+          "num_host_alloc": 2,
+          "num_host_free": 0,
+          "host": {
+            "MemFree": 121798098944,
+            "MemAvailable": 121664049152
+          },
+          "worker_sha256": "ea6dc50f79cea69ab42d0fe31982a301b1081aa5f3f79eb268edb4df943b143e",
+          "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+          "api_sha256": "ffe85913caefd73a2e2cd2866972052d926893a409f53784b348cfda9a9fc214",
+          "header_sha256": "9ddd1e13154fcebbb3de28bd1bb145ad82954fcff9b689c3f0d9241c09fb7e49"
+        },
+        {
+          "version": 1,
+          "phase": "after",
+          "boundary": "post-explicit-profile",
+          "pid": 72,
+          "utc_ns": 1794373378900070789,
+          "device_index": 0,
+          "result": 18253611008,
+          "fraction": 1.0,
+          "allocated": 1452544,
+          "reserved": 4194304,
+          "pinned_owned": 1048576,
+          "pinned_active": 1048576,
+          "num_host_alloc": 2,
+          "num_host_free": 1,
+          "host": {
+            "MemFree": 122301378560,
+            "MemAvailable": 122167599104
+          },
+          "worker_sha256": "ea6dc50f79cea69ab42d0fe31982a301b1081aa5f3f79eb268edb4df943b143e",
+          "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+          "api_sha256": "ffe85913caefd73a2e2cd2866972052d926893a409f53784b348cfda9a9fc214",
+          "header_sha256": "9ddd1e13154fcebbb3de28bd1bb145ad82954fcff9b689c3f0d9241c09fb7e49",
+          "elapsed_ns": 145242040
+        }
+      ],
+      "idle_returned_bytes": 536870912,
+      "retired_event_bytes": 0,
+      "host_available_delta": 503549952,
+      "pid": 72,
+      "inference_qualified": false,
+      "postload_trace_standin_only": true
+    },
+    {
+      "records": [
+        {
+          "version": 1,
+          "phase": "before",
+          "boundary": "post-explicit-profile",
+          "pid": 129,
+          "utc_ns": 1794373382346829437,
+          "device_index": 0,
+          "result": 18253611008,
+          "fraction": 1.0,
+          "allocated": 1452544,
+          "reserved": 4194304,
+          "pinned_owned": 537919488,
+          "pinned_active": 1048576,
+          "num_host_alloc": 2,
+          "num_host_free": 0,
+          "host": {
+            "MemFree": 121733857280,
+            "MemAvailable": 121681510400
+          },
+          "worker_sha256": "ea6dc50f79cea69ab42d0fe31982a301b1081aa5f3f79eb268edb4df943b143e",
+          "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+          "api_sha256": "ffe85913caefd73a2e2cd2866972052d926893a409f53784b348cfda9a9fc214",
+          "header_sha256": "9ddd1e13154fcebbb3de28bd1bb145ad82954fcff9b689c3f0d9241c09fb7e49"
+        },
+        {
+          "version": 1,
+          "phase": "after",
+          "boundary": "post-explicit-profile",
+          "pid": 129,
+          "utc_ns": 1794373382469888791,
+          "device_index": 0,
+          "result": 18253611008,
+          "fraction": 1.0,
+          "allocated": 1452544,
+          "reserved": 4194304,
+          "pinned_owned": 1048576,
+          "pinned_active": 1048576,
+          "num_host_alloc": 2,
+          "num_host_free": 1,
+          "host": {
+            "MemFree": 122080305152,
+            "MemAvailable": 122027958272
+          },
+          "worker_sha256": "ea6dc50f79cea69ab42d0fe31982a301b1081aa5f3f79eb268edb4df943b143e",
+          "helper_sha256": "1761e9aeb863da2cb307fc7094c30af495aa78ff9e135e9d58d81df7b6c82ac6",
+          "api_sha256": "ffe85913caefd73a2e2cd2866972052d926893a409f53784b348cfda9a9fc214",
+          "header_sha256": "9ddd1e13154fcebbb3de28bd1bb145ad82954fcff9b689c3f0d9241c09fb7e49",
+          "elapsed_ns": 123013450
+        }
+      ],
+      "idle_returned_bytes": 536870912,
+      "retired_event_bytes": 0,
+      "host_available_delta": 346447872,
+      "pid": 129,
+      "inference_qualified": false,
+      "postload_trace_standin_only": true
+    }
+  ]
+}
