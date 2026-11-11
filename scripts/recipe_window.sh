@@ -6,6 +6,11 @@ TASK="${1:?window name required}"
 [[ "$TASK" =~ ^[a-z0-9-]+$ ]] || exit 2
 cd "$ROOT"
 . "$ROOT/recipes/windows/$TASK.conf"
+case "${WINDOW_KIND:-paired}" in
+  paired) arms=(a b) ;;
+  observation) arms=(a) ;;
+  *) echo 'unknown window kind' >&2; exit 2 ;;
+esac
 OUT="$ROOT/local/ab-$TASK"
 UV=/home/nvidia/.local/bin/uv
 mkdir -p "$OUT"
@@ -101,7 +106,7 @@ for unit in vllm-b12x-watchdog.timer vllm-b12x-watchdog.service vllm-b12x-tailsc
 done
 # One explicit reset per reviewed window, never an unbounded heal loop.
 systemctl --user reset-failed vllm-b12x.service
-for arm in a b; do
+for arm in "${arms[@]}"; do
   if [ "$arm" = a ]; then
     recipe="$CONTROL_RECIPE"; expected_image="$CONTROL_IMAGE_ID"; image_tag="$CONTROL_IMAGE_TAG"; backend="$CONTROL_BACKEND"; seats="$CONTROL_SEATS"
   else
@@ -110,7 +115,7 @@ for arm in a b; do
     run_plain systemctl --user stop "b12x-$TASK-memory-a.service"
   fi
   run_plain systemctl --user stop vllm-b12x.service
-  printf '\n# --- %s %s %s ---\n# Gate: docs/gates/%s.md; frozen controls in committed window config\n# Rollback: RECIPE=%s/%s IMAGE_TAG=%s B12X_ALLOCATOR_CONF=\nRECIPE=%s/%s\nIMAGE_TAG=%s\nB12X_ALLOCATOR_CONF=\n' "$TASK" "$arm" "$(date -u +%FT%TZ)" "$TASK" "$ROOT" "$CONTROL_RECIPE" "$CONTROL_IMAGE_TAG" "$ROOT" "$recipe" "$image_tag" >> .env
+  printf '\n# --- %s %s %s ---\n# Gate: docs/gates/%s.md; frozen controls in committed window config\n# Rollback: RECIPE=%s/%s IMAGE_TAG=%s B12X_ALLOCATOR_CONF=\nRECIPE=%s/%s\nIMAGE_TAG=%s\nB12X_ALLOCATOR_CONF=\n' "$TASK" "$arm" "$(date -u +%FT%TZ)" "$TASK" "$ROOT" "${RECOVERY_RECIPE:-$CONTROL_RECIPE}" "$CONTROL_IMAGE_TAG" "$ROOT" "$recipe" "$image_tag" >> .env
   systemd-run --user --unit="b12x-$TASK-memory-$arm" /bin/bash "$ROOT/scripts/memory_guard.sh" "$OUT/memory-$arm.csv"
   deadline=$((SECONDS + 30))
   until guard_ok; do
@@ -127,6 +132,9 @@ for arm in a b; do
   # alone is insufficient evidence that the draft treatment initialized.
   for node in head worker; do
     "$UV" run --offline scripts/window_profile.py --check-boot "$OUT/$node-$arm-boot.log" --backend "$backend"
+    if [ "${WINDOW_KIND:-paired}" = observation ]; then
+      "$UV" run --offline scripts/startup_trace_receipt.py "$OUT/$node-$arm-boot.log" --require-complete > "$OUT/$node-$arm-trace.json"
+    fi
   done
   pool_formatted=$("$UV" run --offline -c 'import sys; print(f"{int(sys.argv[1]):,}")' "$KV_POOL")
   # The exact capacity is frozen in this first recipe window.
@@ -140,5 +148,9 @@ for arm in a b; do
   sha256sum "$OUT/matrix-$arm-initial.json" "$OUT/matrix-$arm.json" > "$OUT/matrix-$arm.sha256"
   docker logs vllm_node > "$OUT/head-$arm-final.log" 2>&1
 done
-"$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-b.json" > "$OUT/comparison.md" 2>&1
+if [ "${WINDOW_KIND:-paired}" = paired ]; then
+  "$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-b.json" > "$OUT/comparison.md" 2>&1
+else
+  "$UV" run --offline scripts/compare_matrix.py "$OUT/matrix-a.json" "$OUT/matrix-a.json" > "$OUT/observation-validation.md" 2>&1
+fi
 # EXIT/ExecStopPost restore the frozen control even if every gate passes.

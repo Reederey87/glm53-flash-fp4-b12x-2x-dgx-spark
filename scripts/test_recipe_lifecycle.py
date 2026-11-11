@@ -29,7 +29,7 @@ def wait_for(test, seconds=30):
     raise TimeoutError('test phase timed out')
 
 
-def scenario(mode, failure, recovery_failure='none'):
+def scenario(mode, failure, recovery_failure='none', guarded=False):
     with tempfile.TemporaryDirectory(prefix='b12x-review-recipe-') as tmp:
         root=Path(tmp); out=root/f'local/ab-{TASK}'
         out.mkdir(parents=True)
@@ -41,6 +41,9 @@ def scenario(mode, failure, recovery_failure='none'):
             (root/'scripts'/name).write_text(source)
         (root/'scripts/window_profile.py').write_text('# mock docker exec stdin\n')
         shutil.copy(SCRIPTS.parent/f'recipes/windows/{TASK}.conf',root/f'recipes/windows/{TASK}.conf')
+        if guarded:
+            with (root/f'recipes/windows/{TASK}.conf').open('a') as stream:
+                stream.write('\nRECOVERY_GUARD=1\nRECOVERY_RECIPE=recipes/glm-5.3-flash-fp4-local.yaml\n')
         recipe=root/'recipes/glm-5.3-flash-fp4-local.yaml'; recipe.write_text('fixture control\n')
         (root/f'recipes/candidates/{TASK}.yaml').write_text('fixture candidate\n')
         (root/'.env').write_text('B12X_ALLOCATOR_CONF=\n')
@@ -54,6 +57,10 @@ candidate() { grep '^RECIPE=' .env | tail -n1 | grep -q '/recipes/candidates/'; 
 case "$(basename "$0")" in
  systemctl)
   case "$*" in
+   *'show b12x-draft-b12x-recovery-memory.service -p InvocationID'*) echo fake-recovery;;
+   *'is-active --quiet b12x-draft-b12x-recovery-memory.service'*)
+    test -f "$OUT/active-recovery"
+    echo "fake-recovery $(date +%s)" > "$OUT/recovery-memory.csv.ready";;
    *'show b12x-draft-b12x-memory-a.service -p InvocationID'*) echo fake-a;;
    *'show b12x-draft-b12x-memory-b.service -p InvocationID'*) echo fake-b;;
    *'show vllm-b12x-watchdog'*|*'show vllm-b12x-tailscale'*) echo inactive;;
@@ -67,15 +74,24 @@ case "$(basename "$0")" in
     fi;;
    *'start vllm-b12x.service'*)
     if candidate && [ "$B12X_TEST_MODE" = startup ]; then touch "$OUT/phase"; exec sleep 300; fi
+    if [ -e "$OUT/active-recovery" ]; then
+      case "$B12X_TEST_RECOVERY" in
+       recovery-floor) touch "$OUT/recovery-memory.csv.abort"; exit 1;;
+       recovery-observer) rm -f "$OUT/active-recovery";;
+      esac
+    fi
     sleep .1;;
    *'start vllm-b12x-tailscale.service'*)
     touch "$OUT/proxy-active"; if [ "$B12X_TEST_RECOVERY" = proxy-failure ]; then exit 1; fi;;
    *'stop vllm-b12x-tailscale.service'*) rm -f "$OUT/proxy-active";;
+   *'stop b12x-draft-b12x-recovery-memory.service'*) rm -f "$OUT/active-recovery";;
    *'stop '*|*'start '*|*'reset-failed '*) :;;
    *) exit 99;;
   esac;;
  systemd-run)
-  case "$*" in *memory-a*) arm=a;; *memory-b*) arm=b;; *) exit 99;; esac
+  case "$*" in *memory-a*) arm=a;; *memory-b*) arm=b;; *recovery-memory*)
+   touch "$OUT/active-recovery"; echo "fake-recovery $(date +%s)" > "$OUT/recovery-memory.csv.ready"; exit 0;;
+   *) exit 99;; esac
   touch "$OUT/active-$arm"; echo "fake-$arm $(date +%s)" > "$OUT/memory-$arm.csv.ready";;
  docker)
   case "$*" in
@@ -130,12 +146,17 @@ esac
                 wait_for(lambda:(out/'rollback-phase').exists())
                 real('/usr/bin/systemctl','--user','kill','--kill-whom=main','--signal=SIGKILL',unit)
             terminal=lambda:real('/usr/bin/systemctl','--user','show',unit,'-p','ActiveState','--value').stdout.strip() in ('failed','inactive')
-            if recovery_failure=='proxy-failure':
+            if recovery_failure=='proxy-failure' or recovery_failure.startswith('recovery-'):
                 wait_for(terminal)
                 assert not (out/'proxy-active').exists()
                 assert (out/'recovery-required').exists()
                 assert (out/'recovery-failed.txt').exists()
-                return {'phase':mode,'failure':'proxy-failure','failed_closed':True}
+                if guarded:
+                    events=(out/'events').read_text()
+                    assert events.count('systemctl --user start vllm-b12x.service')==3
+                    assert 'stop vllm-b12x-watchdog.timer vllm-b12x-watchdog.service' in events
+                    assert not (out/'active-recovery').exists()
+                return {'phase':mode,'failure':recovery_failure,'guarded':guarded,'failed_closed':True}
             wait_for(lambda:(out/'recovery-success.txt').exists())
             wait_for(terminal)
             ledger=(root/'.env').read_text()
@@ -148,7 +169,8 @@ esac
             if failure!='SIGKILL' and recovery_failure!='hold-rollback':
                 assert int((out/'primary-status.txt').read_text())!=0
                 assert int((out/'recovery-status.txt').read_text())==0
-            return {'phase':mode,'failure':failure,'recovery_failure':recovery_failure,'restored':True}
+            if guarded: assert not (out/'active-recovery').exists()
+            return {'phase':mode,'failure':failure,'recovery_failure':recovery_failure,'guarded':guarded,'restored':True}
         finally:
             subprocess.run(['/usr/bin/systemctl','--user','stop',unit],capture_output=True,timeout=40)
             subprocess.run(['/usr/bin/systemctl','--user','reset-failed',unit],capture_output=True)
@@ -159,4 +181,5 @@ if __name__=='__main__':
     rows += [scenario('measurement','SIGTERM',failure) for failure in ('proxy-failure','hold-rollback')]
     rows += [scenario('isolation',failure) for failure in ('SIGTERM','SIGKILL','stop-failure')]
     rows += [scenario('measurement','control-failure')]
+    rows += [scenario('measurement','SIGTERM',failure,True) for failure in ('none','recovery-floor','recovery-observer','proxy-failure')]
     print(json.dumps({'poll_override_seconds':.1,'scenarios':rows},indent=2))
