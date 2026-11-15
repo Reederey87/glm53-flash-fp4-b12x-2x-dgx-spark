@@ -12,6 +12,21 @@ import urllib.request
 from flare_candidate import RECIPE, blockers, inspect_host, load_recipe, render
 
 
+def serving_recipe(recipe):
+    """Read only the serving-reserve arm from the append-only ledger, without shell evaluation."""
+    recipe = dict(recipe)
+    ledger = Path(recipe["runtime_root"]) / ".env"
+    if ledger.exists():
+        for line in ledger.read_text().splitlines():
+            name, sep, value = line.partition("=")
+            if sep and name.strip() == "FLARE_SERVE_RESERVE_GIB":
+                value = value.strip()
+                if not value.isascii() or not value.isdecimal() or int(value) < 1:
+                    raise ValueError("FLARE_SERVE_RESERVE_GIB must be a positive integer")
+                recipe["serve_reserve_gib"] = int(value)
+    return recipe
+
+
 def serving_command(recipe, rank, state):
     root = Path(recipe["runtime_root"])
     profile = root / "development-publisher.json"
@@ -39,6 +54,8 @@ def main():
     parser.add_argument("rank", type=int, choices=(0, 1))
     args = parser.parse_args()
     recipe = load_recipe(RECIPE)
+    if args.action == "serve":
+        recipe = serving_recipe(recipe)
     root = Path(recipe["runtime_root"])
     failures = blockers(recipe, inspect_host(recipe, args.rank))
     running = subprocess.check_output(["docker", "ps", "-q", "--filter", "name=^/vllm_node$"], text=True).strip()

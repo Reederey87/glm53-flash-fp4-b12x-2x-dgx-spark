@@ -11,7 +11,7 @@ import subprocess
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import flare_run
 from flare_candidate import RECIPE, load_recipe
-from flare_run import serving_command
+from flare_run import serving_command, serving_recipe
 
 
 class RuntimeContractTests(unittest.TestCase):
@@ -58,6 +58,28 @@ class RuntimeContractTests(unittest.TestCase):
         self.state['key_fingerprint'] = '0'*64
         with self.assertRaisesRegex(ValueError, 'fingerprint mismatch'):
             serving_command(self.recipe, 1, self.state)
+
+    def test_last_reserve_arm_changes_serving_only(self):
+        from flare_candidate import render
+        original = render(self.recipe, 0)
+        self.assertEqual(serving_recipe(self.recipe), self.recipe)
+        (self.root/'.env').write_text('# trial ledger\nFLARE_SERVE_RESERVE_GIB=4\nUNRELATED=ignored\nFLARE_SERVE_RESERVE_GIB=3\n')
+        candidate = serving_recipe(self.recipe)
+        rendered = render(candidate, 0)
+        self.assertEqual(rendered['config_toml'], original['config_toml'])
+        self.assertEqual(rendered['prepare'], original['prepare'])
+        self.assertEqual(rendered['serve'][rendered['serve'].index('--memory-limit')+1], '-3G')
+        self.assertNotIn('serve_reserve_gib', self.recipe)
+        with (self.root/'.env').open('a') as f:
+            f.write('FLARE_SERVE_RESERVE_GIB=4\n')
+        reverted = render(serving_recipe(self.recipe), 0)
+        self.assertEqual(reverted['serve'], original['serve'])
+
+    def test_invalid_reserve_arm_is_not_evaluated(self):
+        for value in ('0', '-3', '3; false', '$(false)', '3.5'):
+            (self.root/'.env').write_text('FLARE_SERVE_RESERVE_GIB='+value+'\n')
+            with self.assertRaisesRegex(ValueError, 'positive integer'):
+                serving_recipe(self.recipe)
 
 
 class ShutdownTests(unittest.TestCase):

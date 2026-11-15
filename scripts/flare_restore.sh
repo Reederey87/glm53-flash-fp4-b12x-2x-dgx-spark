@@ -5,12 +5,12 @@ ROOT=/home/nvidia/b12x-flare
 [[ "$(hostname)" == spark-a183 ]]
 exec 9>"$ROOT/local/restore.lock"
 flock -n 9 || exit 0
-units=(b12x-flare-build@0.service b12x-flare-prepare@0.service b12x-flare@0.service)
+units=(b12x-flare-qualify@0.service b12x-flare-build@0.service b12x-flare-prepare@0.service b12x-flare@0.service)
 for unit in "${units[@]}"; do
     if systemctl --user cat "$unit" >/dev/null 2>&1; then systemctl --user stop "$unit"; fi
 done
 ssh -n -o BatchMode=yes -o ConnectTimeout=10 nvidia@192.168.177.11 \
-    'set -e; for unit in b12x-flare-build@1.service b12x-flare-prepare@1.service b12x-flare@1.service; do if systemctl --user cat "$unit" >/dev/null 2>&1; then systemctl --user stop "$unit"; fi; done'
+    'set -e; for unit in b12x-flare-qualify@1.service b12x-flare-build@1.service b12x-flare-prepare@1.service b12x-flare@1.service; do if systemctl --user cat "$unit" >/dev/null 2>&1; then systemctl --user stop "$unit"; fi; done'
 # Completed core reads can leave enough page cache to fail the strict MemFree
 # gate. Advise only candidate files, after both ranks stop; never delete data or
 # relax the incumbent's memory requirement. The helper also checks the GPU lock.

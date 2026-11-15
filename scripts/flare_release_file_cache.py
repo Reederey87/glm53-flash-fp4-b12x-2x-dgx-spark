@@ -18,7 +18,7 @@ def main():
     with (root / 'local/gpu-operation.lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         for rank in (0, 1):
-            for phase in ('build', 'prepare', 'serve'):
+            for phase in ('qualify', 'build', 'prepare', 'serve'):
                 unit = f'b12x-flare{"" if phase == "serve" else "-" + phase}@{rank}.service'
                 result = subprocess.run(['systemctl', '--user', 'show', unit, '-p', 'ActiveState', '--value'],
                                         check=True, capture_output=True, text=True)

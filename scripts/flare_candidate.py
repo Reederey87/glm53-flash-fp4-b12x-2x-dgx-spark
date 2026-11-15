@@ -29,6 +29,9 @@ def load_recipe(path):
 
 def render(recipe, rank, core=None):
     """Return argv arrays and required files, not shell commands to evaluate."""
+    serving_reserve = recipe.get("serve_reserve_gib", recipe["reserve_gib"])
+    if type(serving_reserve) is not int or serving_reserve <= 0:
+        raise ValueError("serving reserve must be a positive integer GiB value")
     root = Path(recipe["runtime_root"])
     source = root / "upstream/flare"
     config = root / "config.toml"
@@ -59,7 +62,7 @@ def render(recipe, rank, core=None):
         "--gpus", "0", "--host", "127.0.0.1", "--port", str(recipe["api_port"]),
         "--served-model-name", recipe["model"], "--max-concurrency", str(recipe["concurrency"]),
         "--mtp-draft-tokens", str(recipe["mtp_drafts"]), "--no-mtp-adaptive-verification",
-        "--memory-limit", f'-{recipe["reserve_gib"]}G', "--kv-cache-limit", "memory",
+        "--memory-limit", f'-{serving_reserve}G', "--kv-cache-limit", "memory",
         "--core-cache", str(root / "cores"), "--publisher-keys", str(root / "development-publisher.json"),
         "--trust-store", str(root / "trust.toml"), "--verify-weights",
     ]

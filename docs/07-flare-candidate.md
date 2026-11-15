@@ -148,3 +148,18 @@ A pre-armed transient timer invokes this restoration if the trial overruns.
 
 Never publish `checkpoint.token`, the development signing key, runtime environment
 snapshots or raw container inspections. Transfer only the public publisher profile.
+
+## Qualification and serving reserve arms
+
+`b12x-flare-qualify@.service` builds the pinned qualification-only extension into
+an isolated import path, then runs native indexer replay and KDA state bounds.
+It must run only in an idle-cluster window with timed rollback; it never installs
+that extension into the ordinary preparation environment. The restore helper
+stops qualification units before memory recovery. GPU results remain pending.
+
+Serving reads only `FLARE_SERVE_RESERVE_GIB=<positive integer>` from the runtime
+`.env` ledger; the last assignment wins. Other ledger entries are not executed
+or imported. With no assignment, serving retains the recipe's 4 GiB reserve.
+This control does not change export configuration, checkpoint, graph catalog or
+accepted core. Do not source the ledger as a shell script. A proposed 3 GiB arm
+and its rejection/rollback criteria are in [the next gate](12-flare-qualification-gate.md).
