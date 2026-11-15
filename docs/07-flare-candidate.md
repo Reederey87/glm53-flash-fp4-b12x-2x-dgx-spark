@@ -155,7 +155,8 @@ snapshots or raw container inspections. Transfer only the public publisher profi
 an isolated import path, then runs native indexer replay and KDA state bounds.
 It must run only in an idle-cluster window with timed rollback; it never installs
 that extension into the ordinary preparation environment. The restore helper
-stops qualification units before memory recovery. GPU results remain pending.
+stops qualification units before memory recovery. The first numerical window
+failed its KDA bound; see the qualification gate and numerical receipts.
 
 Serving reads only `FLARE_SERVE_RESERVE_GIB=<positive integer>` from the runtime
 `.env` ledger; the last assignment wins. Other ledger entries are not executed

@@ -1,8 +1,27 @@
 # Status
 
-## 2026-11-15 — Matched reference and next qualification prepared
+## 2026-11-15 — First component numerical window failed; B12X restored
 
-- Extended the inactive qualification unit to 50 cases with 12 pinned upstream
+- Kit 6b48619 ran on idle SM121 after both nodes passed 114 GiB free/available;
+  the isolated qualification extension built without changing the serving CLI.
+  Weight/scale checks passed 12/12; all 31 state-transfer cases passed (19 TP2,
+  12 TP4). The original expected count 32 was corrected against pinned source
+  parameters and collected XML; no case was removed.
+- KDA failed unchanged relative-L2 < .01: TP2/width4 .03793176 and TP4/width6
+  .02955953. Later prefix-commit assertions were not reached. The four indexer
+  cases failed before replay because their old quantized-only fixture could not
+  bind NVIDIA mixed-format weights. No numerical pass or adoption is claimed.
+- Restored B12X at 21:45:42 UTC, smoke 5/5 at 21:46:30, original images on both
+  nodes, watchdog/tailnet active; safety timer disarmed. Raw logs/XML stay private;
+  sanitized receipt: `receipts/flare-qualification-20261115/numerical-first-window.json`.
+- Prepared a production-factory indexer fixture and post-failure KDA stage
+  observations, keeping original assertions and bounds. These follow-ups are
+  not yet GPU-tested; 21 local tests pass. Serving reserve remains 4 GiB.
+
+## 2026-11-15 — Matched reference and initial qualification preparation
+
+- Initially registered the inactive qualification unit for 50 cases (actual
+  pinned collection later established as 49) with 12 pinned upstream
   checkpoint byte-equality checks. The target CSF cases cover the default A4
   owner; A16 packing/arithmetic remains a distinct open gate. No GPU run yet.
 - Replayed the exact first-trial retrieval requests on restored B12X: 13/15
@@ -15,8 +34,8 @@
   requests and 90 full-budget decode requests. Candidate comparison remains open.
 - Prepared an isolated native qualification unit and a KDA operator test for
   TP2/width4 plus upstream TP4/width6 control, preserving numerical bounds. GPU
-  tests are not yet run. The unit also includes 32 upstream TP2 state-transfer
-  cases; API smoke now requires sustained-decode cancellation and observed slot
+  tests were pending at preparation time. The unit includes upstream state-transfer
+  cases (count and TP scope corrected above); API smoke now requires sustained-decode cancellation and observed slot
   release. Build/test only after the reference job is terminal and
   both nodes are idle under a new rollback timer.
 - Corrected the temperature-zero compatibility description after Exa returned

@@ -58,13 +58,19 @@ retained in `qualification/test_glm53_mtp_weights_cuda.py`.
 Each set has a bounded timeout; the overall 90-minute restoration deadline
 still applies, and interrupted or skipped cases remain unqualified.
 
-Run the unchanged upstream indexer replay cases on SM121: decode2/decode32,
+Run the upstream indexer replay cases on SM121: decode2/decode32,
 prefill65/prefill4096, poisoned scratch, inactive rows and exact native replay
-comparisons. Run `qualification/test_glm53_state_cuda.py`: the upstream
+comparisons. `qualification/test_glm53_indexer_cuda.py` uses production MLA's
+`prepare_projection` factory: the old quantized-only fixture failed to bind
+this NVIDIA checkpoint's `GroupedLinearWeights` before reaching any replay
+measurement. The four original equality/allocation checks and test cases remain
+unchanged; the first failed receipt is retained. This fixture adaptation does
+not change the serving engine or establish numerical success until rerun.
+Run `qualification/test_glm53_state_cuda.py`: the upstream
 TP4/width6 control and the deployed TP2/width4 geometry. Keep upstream bounds:
 output relative L2 < .01, recurrent/history rtol .025 / atol .002, subsequent
 output rtol .025 / atol .005. These are per-rank operator tests, not a multi-host
-collectives test. Also run all 32 unchanged upstream GLM state-transfer cases:
+collectives test. Also run all 31 unchanged upstream GLM state-transfer cases:
 TP2 immutable snapshots/forked restores, partial pages around 256/512-token
 boundaries, rejected commands preserving bytes, and MTP trailing-page aliases.
 These check raw state transfer; full-model pressure/reuse qualification remains
@@ -153,3 +159,34 @@ source review, numerical gate and deployment window, not a reserve-only trial.
 Other numeric parameters without a declared interval remain fixed at their
 prepared defaults, including neutral penalties in this core. Clients must not
 assume that a successful request means their requested distribution was honored.
+
+## First numerical window and diagnostic follow-up
+
+The 2026-11-15 first numerical window failed: TP2/width4 KDA relative L2
+0.03793176 and TP4/width6 0.02955953 both exceeded .01. The four old indexer
+fixtures failed during mixed-projection binding, before numerical replay.
+All 12 weight checks and all 31 collected state-transfer cases passed without
+skips. The registered count of 32 state cases was a counting error: pinned
+parameters contain 9 + 10 + 10 + 2 = 31 cases (19 TP2, 12 TP4). Source collection
+and XML agree; no test is dropped. The corrected total is 49 cases.
+
+Before a follow-up window, freeze the indexer fixture adaptation and KDA stage
+observations in the kit. Keep source pins, serving CLI, checkpoint, accepted core,
+reserve and all numerical bounds unchanged. Use the same idle-memory gate and a
+new 90-minute restoration timer. The indexer uses the production projection
+factory, retaining every original replay assertion. The original KDA graph
+comparison executes first. Only on failure, diagnostic eager calls clone input
+projection, convolution, gates, gated recurrence and output values, then report
+finite/error summaries without tensors. Those observations can alter timing and
+cannot replace the original result, establish a serving fix, or justify adoption.
+Restore B12X after the window; a reserve-only trial is not permitted by the
+current failed numerical result.
+
+Exa confirmed the NVIDIA mixed-projection contract in upstream preparation docs
+and the exact [state-transfer parameter lists](https://github.com/NVIDIA/hyperflare-inference/blob/main/tests/recipes/test_glm53_state_transfer_cuda.py).
+Pinned production `glm53/mla.py` uses `prepare_projection` for `qkv_a_proj`.
+The KDA investigation also reviewed vLLM's FP32 recurrence, exllamav3's recurrent
+rollback and TensorFold's shared serial/prefix state-update routine. PyTorch's
+[numerical accuracy guidance](https://docs.pytorch.org/docs/2.15/notes/numerical_accuracy.html)
+explains why batched and sliced calculations can differ; it does not authorize
+relaxing this gate. Stage measurements must establish the cause before a fix.

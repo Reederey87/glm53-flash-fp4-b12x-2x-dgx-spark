@@ -27,7 +27,7 @@ sha256sum "$ROOT/qualification/native/flare_heliopause.so" > "$RUN_DIR/extension
 sha256sum --check "$ROOT/local/build.sha256"
 export CUDA_VISIBLE_DEVICES=0 FLARE_RUN_CUDA_TESTS=1
 export FLARE_GLM53_SNAPSHOT=/home/nvidia/.cache/huggingface/hub/models--nvidia--GLM-5.3-Flash-FP4-Local/snapshots/76348ddb2be2e35e39ecfc00e75dc07703f4f3d5
-export PYTHONPATH="$ROOT/qualification/native:$PWD"
+export PYTHONPATH="$ROOT/qualification/native:$ROOT/qualification:$PWD"
 uv run --offline --no-sync python -c 'import flare_heliopause; print("Qualification extension:", flare_heliopause.__file__); assert flare_heliopause.__file__.startswith("/home/nvidia/b12x-flare/qualification/native/")'
 # Keep all result sets even if one fails. A nonzero outcome fails the unit.
 result=0
@@ -37,7 +37,7 @@ timeout --signal=TERM --kill-after=30s 900 uv run --offline --no-sync python -m 
     "$ROOT/qualification/test_glm53_mtp_weights_cuda.py" \
     --junitxml="$RUN_DIR/weights.xml" || result=1
 timeout --signal=TERM --kill-after=30s 1800 uv run --offline --no-sync python -m pytest \
-    -q -s tests/recipes/test_glm53_indexer_cuda.py \
+    -q -s "$ROOT/qualification/test_glm53_indexer_cuda.py" \
     --junitxml="$RUN_DIR/indexer.xml" || result=1
 timeout --signal=TERM --kill-after=30s 1800 uv run --offline --no-sync python -m pytest \
     -q -s "$ROOT/qualification/test_glm53_state_cuda.py" \
@@ -51,10 +51,10 @@ from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
 root = Path(sys.argv[1])
-for name, expected in [('weights.xml', 12), ('indexer.xml', 4), ('kda.xml', 2), ('state-transfer.xml', 32)]:
+for name, expected in [('weights.xml', 12), ('indexer.xml', 4), ('kda.xml', 2), ('state-transfer.xml', 31)]:
     cases = ET.parse(root / name).findall('.//testcase')
     if len(cases) != expected or any(any(c.find(tag) is not None for tag in ('skipped','failure','error')) for c in cases):
         raise SystemExit(f'{name}: expected {expected} executed passing cases')
-print('All 50 weight/numerical/replay/state-transfer cases executed and passed')
+print('All 49 weight/numerical/replay/state-transfer cases executed and passed')
 PY
 exit "$result"

@@ -9,6 +9,7 @@ Keep the upstream TP4/width6 control and all original numerical bounds.
 These are per-rank operator tests, not a two-host collective qualification.
 """
 
+import json
 import os
 from pathlib import Path
 from types import SimpleNamespace
@@ -114,6 +115,14 @@ def test_learned_kda_verification_commits_each_prefix_before_plain_decode(world,
         record_property("verification_width", verify_width)
         record_property("relative_l2", relative)
         print(f"KDA world={world} width={verify_width} relative_l2={relative}", flush=True)
+        if relative >= 1e-2:
+            from kda_diagnostics import diagnose
+
+            diagnostic = diagnose(operators, sources, metas, records, state, chain,
+                                  initial_r, initial_c, verify_width)
+            encoded = json.dumps(diagnostic, allow_nan=False)
+            record_property("stage_diagnostics", encoded)
+            print(f"KDA diagnostics world={world} width={verify_width}: {encoded}", flush=True)
         assert relative < 1e-2, relative
         for accepted in range(1, verify_width + 1):
             state.recurrent.copy_(initial_r)

@@ -50,7 +50,8 @@ scale-scratch keyword arguments; the original byte-equality checks remain intact
 The target CSF tests use the default A4 owner; they do not establish the actual
 SM121 A16 owner's packing or either activation path's arithmetic. The NVIDIA
 tests cover BF16 MLA absorption storage, mixed KDA/MLA projections, dense/shared
-weights, vocabulary and draft attention. These GPU tests are prepared, not run.
+weights, vocabulary and draft attention. All 12 checks passed on SM121 in the first numerical window. This covers
+selected checkpoint partitions, not full-model numerical equivalence.
 
 Exa's [model-preparation documentation](https://github.com/NVIDIA/hyperflare-inference/blob/main/docs/model-preparation.md)
 and pinned loader code distinguish storage precision from activation execution.
