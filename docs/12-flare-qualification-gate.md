@@ -45,6 +45,19 @@ extension through a qualification-only Python import path. Keep the ordinary
 preparation environment and accepted core unchanged. The serving CLI must retain
 its recorded hash. Do not count skipped CUDA tests as passing.
 
+First run 12 checkpoint tests derived from the pin: four NVIDIA mixed-projection
+cases, six CSF expert partition/scratch cases (TP2 and TP4), and two MTP expert
+packed-weight/scale cases. Require byte equality, with no tolerance substituted.
+The six target-expert cases use the loader's default A4 owner; they establish
+that path's packed weights and CSF reconstruction, not the deployed A16 owner's
+packing or activation arithmetic. Keep that distinction in the receipt. The
+older generic dense/attention tests target another checkpoint and are excluded.
+The MTP test's capture wrapper forwards `allocate`/`scale_scratch` keyword
+arguments used by the pinned loader; all original byte-equality assertions are
+retained in `qualification/test_glm53_mtp_weights_cuda.py`.
+Each set has a bounded timeout; the overall 90-minute restoration deadline
+still applies, and interrupted or skipped cases remain unqualified.
+
 Run the unchanged upstream indexer replay cases on SM121: decode2/decode32,
 prefill65/prefill4096, poisoned scratch, inactive rows and exact native replay
 comparisons. Run `qualification/test_glm53_state_cuda.py`: the upstream

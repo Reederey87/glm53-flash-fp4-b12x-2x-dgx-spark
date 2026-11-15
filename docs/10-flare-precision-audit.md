@@ -40,3 +40,22 @@ other rounds. This is consistent with intentional truncation, not proof that
 indexer replay is correct. Keep the warning in receipts; do not suppress it or
 change the kernel/dependency pin inside this treatment. The SM121 indexer gate
 remains required.
+
+The next qualification unit includes 12 checkpoint tests from the upstream pin:
+`test_glm53_nvidia_weights.py` (four mixed-projection cases), plus the six CSF
+partition/scratch and two MTP expert cases selected from `test_glm53_weights.py`.
+They compare packed values and scale bytes directly against the pinned snapshot.
+The MTP wrapper is adapted only to forward the pinned loader's allocation and
+scale-scratch keyword arguments; the original byte-equality checks remain intact.
+The target CSF tests use the default A4 owner; they do not establish the actual
+SM121 A16 owner's packing or either activation path's arithmetic. The NVIDIA
+tests cover BF16 MLA absorption storage, mixed KDA/MLA projections, dense/shared
+weights, vocabulary and draft attention. These GPU tests are prepared, not run.
+
+Exa's [model-preparation documentation](https://github.com/NVIDIA/hyperflare-inference/blob/main/docs/model-preparation.md)
+and pinned loader code distinguish storage precision from activation execution.
+Local vLLM's ModelOpt loader similarly selects compressed-scale retention by
+backend and A16 support. TensorFold's NVFP4 loader explicitly distinguishes
+checkpoint arithmetic from W4A16 execution; exllamav3's quantization layout is
+different. None substitutes for exact checkpoint tests and native numerical
+qualification on this candidate.

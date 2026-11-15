@@ -2,6 +2,9 @@
 
 ## 2026-11-15 — Matched reference and next qualification prepared
 
+- Extended the inactive qualification unit to 50 cases with 12 pinned upstream
+  checkpoint byte-equality checks. The target CSF cases cover the default A4
+  owner; A16 packing/arithmetic remains a distinct open gate. No GPU run yet.
 - Replayed the exact first-trial retrieval requests on restored B12X: 13/15
   exact versus Flare 11/15. Both had neighboring-record misses; this small
   stochastic sample does not prove numerical equivalence. Sanitized receipt:
