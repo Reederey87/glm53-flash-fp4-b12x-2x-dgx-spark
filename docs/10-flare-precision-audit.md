@@ -60,3 +60,49 @@ backend and A16 support. TensorFold's NVFP4 loader explicitly distinguishes
 checkpoint arithmetic from W4A16 execution; exllamav3's quantization layout is
 different. None substitutes for exact checkpoint tests and native numerical
 qualification on this candidate.
+
+## Native-activation evidence and remaining A16 boundary
+
+The native-activation component window now passes all49 registered cases:
+12 checkpoint checks, four native indexer replays, two KDA prefix/continuation
+cases and31 state-transfer cases. Both KDA relative errors are0.0 under the
+original bounds. Full-model core `df214696` subsequently passed startup and
+all seven API checks. These results retire the corresponding component/API
+gaps; they do not establish full-model numerical equivalence.
+
+Read-only inspection of that signed core reports59 execution graphs per rank,
+but `rebuild` and both ranks' `rebuild_weights` are null. Its public graph
+catalog lists shape, kind and node counts, not per-projection arithmetic.
+Therefore catalog inspection alone cannot prove all selected precision modes.
+The resolved export-plan receipt establishes the native-activation option;
+the component receipt establishes the measured KDA bindings and behavior.
+
+The A16 scale representation needs a distinct check. At the pinned FlashInfer
+revision, `moe/fused_moe/_csf_preparation.py` expands source scales and prepares
+a value table with `_nvfp4_compute_scale_factor` and
+`_process_nvfp4_packed_scales`. The latter lifts scales by a shared power of two
+and128, then zeros values below2 before encoding them. Its upstream
+`test_nvfp4_packed_scale_boundary_preserves_normals_and_discards_subnormals`
+explicitly covers the boundary. The factor is selected from the maximum across
+the projection's experts; testing a small expert subset can select a different
+factor from the deployed full layer. A byte-equality claim for lossless CSF
+storage therefore must not be extended to every A16 execution value without
+checking actual scale populations and the complete layer's factor.
+
+This is a source-identified qualification gap, not a demonstrated failure of
+this GLM checkpoint. Exa found a closely related
+[SGLang Marlin report](https://github.com/sgl-project/sglang/issues/48906)
+and [vLLM rescaling change](https://github.com/vllm-project/vllm/pull/34577).
+Their hardware/engine cases do not prove the Flare path fails. The local vLLM
+Marlin helper has the same discard boundary, but the incumbent uses B12X rather
+than that fallback. TensorFold explicitly distinguishes checkpoint arithmetic
+from W4A16 execution; exllamav3 uses a different quantization layout.
+
+Before claiming the deployed A16 path preserves this checkpoint, record the
+full-layer scale factors and affected counts, compare rank-local packed values
+and reconstructed scales against an independent checkpoint decoder, and exercise
+actual A16 plus A4-prefill replay with original numerical bounds. Retain the
+upstream native ModelOpt decoder's all-finite-scale test as a stronger alternative
+to investigate if the packed boundary affects real weights. Do not substitute
+a representation, change calibration or relax tolerances during the current
+performance window. No precision or kernel change was made by this review.

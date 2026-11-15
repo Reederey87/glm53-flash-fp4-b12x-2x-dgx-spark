@@ -1,5 +1,13 @@
 # Status
 
+## 2026-11-15 — Precision audit narrowed the remaining A16 check
+
+- Updated the audit with the49 passing component cases and verified native core
+  metadata limitations. Source review found a conditional packed-scale discard
+  boundary whose applicability to the full GLM layers is still unmeasured.
+- Exa and local source evidence distinguish this from a demonstrated checkpoint
+  failure. No engine or precision setting changed; the live matrix continues.
+
 ## 2026-11-15 — Strict matched-matrix comparison prepared
 
 - Added full-matrix validation of request identity, token counts, cold-cache
