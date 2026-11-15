@@ -1,0 +1,12 @@
+{
+  "torch": "2.14.1+cu132",
+  "cuda": "13.2",
+  "gpu": "NVIDIA GB10",
+  "capability": [
+    12,
+    1
+  ],
+  "driver": "580.178.04",
+  "compile_capture_replay": "passed",
+  "full_model_qualification": "not_run"
+}
