@@ -125,6 +125,8 @@ def inspect_host(recipe, rank):
                 missing.append(str(snapshot / name))
     tools = {name: shutil.which(name) for name in ("uv", "cargo", "cmake", "ninja", "pkg-config", "protoc", "cc")}
     tools["nvcc"] = shutil.which("nvcc") or ("/usr/local/cuda/bin/nvcc" if Path("/usr/local/cuda/bin/nvcc").is_file() else None)
+    python = Path("/home/nvidia/.local/share/uv/python/cpython-3.12.14-linux-aarch64-gnu/bin/python3")
+    tools["python31214"] = str(python) if python.is_file() else None
     native_packages = {name: command_output(["pkg-config", "--modversion", name]) for name in ("openssl", "liburing", "libibverbs", "python-3.12")}
     source_exists = source.is_dir()
     source_head = command_output(["git", "-C", str(source), "rev-parse", "HEAD"]) if source_exists else None
