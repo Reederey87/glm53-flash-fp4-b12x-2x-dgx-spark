@@ -184,16 +184,19 @@ docs/                         architecture, qualification, runbook, gate, reason
 spec/                         CHANGELOG + TODO (repo delivery rules)
 ```
 
-## Why vLLM and not Flare
+## Native Flare trial
 
-Flare (NVIDIA's `flare-local-inference`) is the other engine that targets this
-checkpoint, and its `glm53` recipe pins the same revision. A community guide
-reports 3.4–4.8M KV tokens on the same pair — **more** than this stack's 2.35M —
-with 12 seats and similar decode, but lower prefill (~1.5k vs ~2.2k tok/s) and a
-first preparation that can take over an hour and leaves a ~178 GB package on
-disk. It is not the deployment here because this service was already
-boot-verified end to end; Flare is the first candidate for the next window. See
-[`docs/06-alternatives.md`](docs/06-alternatives.md).
+On 2026-11-15 the isolated Flare candidate built and exported this checkpoint
+on both Sparks, served it natively, and passed all six API smoke checks. The
+trial retained TP2, four slots and fixed MTP-3. Its measured 2,232,064-token
+cache pool is about 5% below the incumbent's; published community capacities
+use different configurations. Short diagnostic decode reached 39–40 tok/s at
+c1 and 76 aggregate tok/s at c8, without a matched full comparison.
+
+Flare is **not adopted**. Numerical, capacity and full performance gates remain
+open; B12X is the production engine. See the [trial report](docs/11-flare-trial-20261115.md)
+for receipts, limitations and researched next steps, and the
+[candidate workflow](docs/07-flare-candidate.md) for reproducible preparation.
 
 ## Credits and licenses
 

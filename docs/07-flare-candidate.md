@@ -141,7 +141,9 @@ Start the head `b12x-flare-build@0.service` and worker build rank 1 independentl
 after the window gates. Then start head `b12x-flare-prepare@0.service`. Only after
 core acceptance, start head `b12x-flare@0.service`. Do not enable candidate units
 at boot during trials. `scripts/flare_restore.sh` stops all candidate phases on
-both nodes, starts `vllm-b12x.service`, verifies health and restores its watchdog.
+both nodes, releases completed candidate core file pages, starts
+`vllm-b12x.service` through its unchanged memory gate, verifies health and restores
+its watchdog. See [the first trial](11-flare-trial-20261115.md) for measured results.
 A pre-armed transient timer invokes this restoration if the trial overruns.
 
 Never publish `checkpoint.token`, the development signing key, runtime environment

@@ -1,19 +1,24 @@
 # Status
 
-## 2026-11-15 — Authorized native Flare trial in progress
+## 2026-11-15 — Native Flare trial completed; B12X restored
 
-- Built pinned Flare on both Sparks using candidate-owned extracted native
-  packages and locked PyTorch 2.14.1+cu132. Both GB10 compile/capture/replay
-  probes passed; this does not establish full-model correctness.
-- Staged isolated build/prepare/serve units and rollback helper under
-  `/home/nvidia/b12x-flare`. Snapshot both incumbent runtimes/image identities;
-  stopped B12X and its watchdog after a fresh legacy health/speed baseline.
-  A bounded restoration timer remains armed during the trial.
-- Corrected candidate-only cache paths after root-owned container caches blocked
-  Triton and the checkpoint loader. No host driver/kernel or model changes.
-- Added exact-token c1/2/4/8 benchmarks and native API qualification tools;
-  fifteen local tests pass. Export/native serving and full comparisons remain
-  pending. No candidate adoption.
+- Built/exported the pinned NVIDIA checkpoint on both Sparks and served it
+  through native Flare, TP2/four slots/MTP-3, loopback 8001. Cold export ~79 min;
+  59 graphs/rank. API smoke 6/6; retrieval 11/15 exact, four neighboring-record
+  misses, no corruption/error verdicts. Full numerical qualification remains open.
+- Native KV planner reports 2,232,064 tokens, about 5% below B12X. One-rep
+  exact 8k/16k c1/2/4/8 diagnostic completed; it is not the full matched speed
+  matrix. No throughput improvement or production adoption claimed.
+- Candidate-only cache isolation fixed permission collisions. Scoped completed
+  core cache release recovered physical memory without deleting data or lowering
+  the gate. Corrected an expected-shutdown/peer-failure race; 17 local tests pass.
+  Lifecycle follow-up staged atomically at kit 747819f; loaded-model stop retest
+  remains pending. No host driver/kernel or checkpoint change.
+- B12X restored through its unit at 19:53 UTC, health 200 and smoke 5/5; both
+  original image identities preserved, watchdog/tailnet active. Candidate ranks
+  stopped; safety timer disarmed. Exported core retained for future windows.
+- Evidence: `docs/11-flare-trial-20261115.md`,
+  `receipts/flare-trial-20261115/`. PR #2 remains draft for unresolved gates.
 
 ## 2026-11-15 — Approved retired model weights removed on both Sparks
 
