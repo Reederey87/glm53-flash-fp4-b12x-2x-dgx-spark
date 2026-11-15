@@ -1,5 +1,14 @@
 # Status
 
+## 2026-11-15 — Continuous serving-memory gate prepared
+
+- Added five-second two-node host-memory receipts and optional enforcement of
+  the existing 1.5GiB free / 8GiB available serving limits through the pre-armed
+  restoration service. Source-qualified through Exa and the local engines.
+- Thirty local tests pass. The monitor is not running during export and changes
+  no engine or memory settings. Native graph warmup/compilation passed; export
+  publication remains in progress under the existing rollback timer.
+
 ## 2026-11-15 — Native export running; matched retrieval tooling prepared
 
 - Frozen runtime f6a8f3e is exporting on both Sparks with native activations

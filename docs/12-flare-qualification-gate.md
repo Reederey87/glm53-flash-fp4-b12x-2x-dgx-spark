@@ -298,3 +298,23 @@ tracks actual skipped/recomputed tokens, exllamav3 pairs target/draft snapshots,
 and TensorFold shares serial/prefix KDA updates. Consequently, cache hits and
 fluent responses alone are insufficient. This client measures observed reuse
 without claiming it replaces the separate state checks.
+
+
+## Memory evidence during native serving
+
+Start `flare_memory_watch.py` only after native health200 and before measured
+requests, in a bounded user unit. Sample head and worker `/proc/meminfo` every
+five seconds, recording physical free, available and swap values in bytes.
+The previously registered limits remain MemFree>=1.5GiB and MemAvailable>=8GiB
+on both nodes. With `--restore-unit` naming the phase's pre-armed restoration
+service, a low or missing observation queues that separate service and exits1.
+It does not run restoration as a child that could be killed with the monitor.
+Without that option it is observation-only, suitable for the B12X reference.
+Stop the monitor before deliberate shutdown/peer-failure tests and report those
+intervals separately. Samples bound observed minima, not instantaneous peaks.
+
+Exa's [NVIDIA UMA guidance](https://docs.nvidia.com/dgx/dgx-spark/known-issues.html)
+explains why VRAM-only reporting is insufficient on GB10. Local vLLM, exllamav3
+and TensorFold similarly distinguish reclaimable host memory from CUDA free
+memory. This client records both host measures; it changes no allocator,
+checkpoint, KV layout, kernel or sysctl and does not globally drop caches.
