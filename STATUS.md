@@ -1,5 +1,22 @@
 # Status
 
+## 2026-11-15 — Approved retired model weights removed on both Sparks
+
+- User explicitly approved DeepSeek V4/V4.1 variants, MiMo, Inkling and previous
+  GLM EXL3 removal after the storage inventory. Deleted 631 weight payload paths
+  and 226 snapshot links per node; recipes, tokenizers and metadata remain.
+- Recovered **1,986.35 GiB per node (3.88 TiB combined)** in this second wave.
+  Free disk: head **2,836.62 GiB**, worker **2,947.48 GiB**. Retired models require
+  re-download/reconstruction before reuse. Earlier cleanup receipts are historical.
+- Verified the current NVIDIA GLM checkpoint's indexed file sizes/inodes and
+  metadata hashes unchanged; named image tags unchanged. B12X service/watchdog
+  stayed active, health HTTP 200. No candidate deployment or service restart.
+- Root-owned cache files required a constrained, no-GPU cleanup container.
+  Its initial 128 MiB limit caused exit 137; resumed the exact manifest with
+  512 MiB and verified completion. Receipt: `receipts/retired-models-cleanup-20261115.json`.
+- Separate GLM draft models, named images, stopped containers and build trees
+  remain. Native Flare dependencies and full integration qualification are pending.
+
 ## 2026-11-15 — Authorized housekeeping cleared the disk gate
 
 - Removed unused head Docker build cache, dangling images older than 30 days and

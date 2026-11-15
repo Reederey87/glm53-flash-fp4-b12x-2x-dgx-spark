@@ -96,9 +96,10 @@ native reasoning-template checks and full cache/state correctness remain require
 
 The 2026-11-15 read-only inspection found the incumbent healthy on both Sparks,
 with MTP-3, four slots, 1M context and the pinned image. The initial head disk budget failed; authorized housekeeping subsequently
-raised free space to about 850 GiB head / 961 GiB worker. Retired DeepSeek
-weights were removed with explicit permission; GLM and named rollback images
-were retained. See `receipts/flare-housekeeping-20261115.json`. Both hosts lacked Ninja,
+raised free space to about 2,837 GiB head / 2,947 GiB worker after two cleanup waves. Explicitly
+approved retired DeepSeek V4/V4.1, MiMo, Inkling and previous GLM EXL3 weights
+were removed; the current NVIDIA GLM checkpoint and named rollback images
+were retained. See `receipts/retired-models-cleanup-20261115.json`. Both hosts lacked Ninja,
 protoc and OpenSSL/liburing/Python development-package discovery. No production
 stop, dependency install, candidate build or GPU qualification was performed.
 Nine local tests passed; the vLLM adapter also parsed a live read-only scrape.
