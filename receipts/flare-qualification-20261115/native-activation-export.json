@@ -1,0 +1,81 @@
+{
+  "runtime_commit": "f6a8f3e",
+  "qualification_clients_commit": "1bb2b74",
+  "core_id": "df2146963651ee93076cf3f579fe4f8d9e19ad0f535929b0132c299fbe01a8ee",
+  "primary_sha256": "2c47847a8fa28aa375af499973e5d8f8a7259136b0b3347a1fcf7b4fb711d0c6",
+  "export_log_sha256": "9b724a1110b4b0718357aa1cc53acadebce198dd1bec0747da5ea86cd589db3a",
+  "signature_verified": true,
+  "publisher_fingerprint": "9d18db4d422c26c4a543d9987f8531c7dbbf0c9312c563d562a65576d5adcbcb",
+  "plan": {
+    "repository": "nvidia/GLM-5.3-Flash-FP4-Local",
+    "revision": "76348ddb2be2e35e39ecfc00e75dc07703f4f3d5",
+    "tensor_parallel": 2,
+    "max_concurrency": 4,
+    "prefill_chunk": 4096,
+    "context_parallel": false,
+    "language_model_only": true,
+    "native_dense_activations": true,
+    "speculation": {
+      "draft_tokens": 3,
+      "adaptive": false,
+      "mtp_only": false,
+      "packed_verification": false,
+      "draft_prefix_selection": "cpu",
+      "draft_head_quantization": null,
+      "markov_head_quantization": null,
+      "vocabulary_parallel_sampling": false
+    }
+  },
+  "model": {
+    "model_id": "nvidia/GLM-5.3-Flash-FP4-Local",
+    "identity": "4766438dbae678b47fd5d017b3d0cda15f652f0307bd0e082c499ea374de8368",
+    "served_names": [
+      "GLM-5.3-Flash"
+    ],
+    "vocabulary": 154880,
+    "input_vocabulary": 154880,
+    "max_sequence_tokens": 1048576,
+    "prefill_chunk_size": 4096,
+    "max_active": 4,
+    "max_new_tokens": null,
+    "decode_weight_bytes": null,
+    "reserve_bytes": 4294967296,
+    "queue_capacity": 16,
+    "frontend_workers": 4,
+    "max_body_bytes": 33554432,
+    "context_hint": "context is limited by the checkpoint and available cache capacity",
+    "capacity_hint": "--max-concurrency sets the request limit; a lower [memory] reserve leaves more KV pages"
+  },
+  "ranks": [
+    {
+      "rank": 0,
+      "architecture": [
+        12,
+        1
+      ],
+      "graphs": 59
+    },
+    {
+      "rank": 1,
+      "architecture": [
+        12,
+        1
+      ],
+      "graphs": 59
+    }
+  ],
+  "limitations": [
+    "Export, native startup and seven API checks passed; full-model numerical, lifecycle and speed gates remain pending.",
+    "Activation option is bound through local export provenance, not attested by the signed rebuild manifest."
+  ],
+  "native_startup": {
+    "health": 200,
+    "api_smoke_passed": 7,
+    "api_smoke_total": 7,
+    "loaded_gib_per_rank": 86.59,
+    "cache_budget_gib_per_rank": 14.97,
+    "allocated_kv_tokens": 2295552,
+    "shared_snapshot_slots": 178,
+    "incumbent_kv_tokens": 2350210
+  }
+}

@@ -1,5 +1,23 @@
 # Status
 
+## 2026-11-15 — Native-activation core exported and serving smoke passed
+
+- Export f6a8f3e completed with both ranks exit0; new core df214696 has verified
+  signatures,59 graphs/rank and exact local activation provenance. Primary hash
+  `2c47847a8fa28aa375af499973e5d8f8a7259136b0b3347a1fcf7b4fb711d0c6`.
+- Native serving is healthy on both nodes; all7 API checks passed. Cancellation
+  followed35 generated tokens, recorded one cancellation, drained all slots,
+  and subsequent generation passed. Numeric T0 clamping and string rejection
+  are verified; default reasoning remains Max. Receipts:
+  `receipts/flare-qualification-20261115/native-activation-{export,smoke}.json`.
+- At reserve4, loaded86.59GiB/rank, planned cache14.97GiB,2,295,552 tokens and
+  178 shared snapshots. Capacity remains2.33% below B12X; no adoption claim.
+  B12X is intentionally stopped during the serving trial, whose fallback is
+  armed for2026-11-16 01:10:57UTC. The memory monitor is active; speed, retrieval,
+  full-model numerical and lifecycle gates remain open. Cold concurrent
+  precheck passed4/4 with zero cached tokens; full matched speed matrix started
+  at22:46:06UTC in b12x-flare-native-full-bench-20261115T224057Z.service.
+
 ## 2026-11-15 — Continuous serving-memory gate prepared
 
 - Added five-second two-node host-memory receipts and optional enforcement of
