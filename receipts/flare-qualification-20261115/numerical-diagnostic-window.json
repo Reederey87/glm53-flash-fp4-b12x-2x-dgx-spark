@@ -1,0 +1,487 @@
+{
+  "schema": 1,
+  "kit": "e8b6ac0cdf172a72fe1be4c8dee022dad655e85e",
+  "source": "5a4e867954593b2e05bba43bc2a6eeaddca402d7",
+  "rank": 0,
+  "gpu": "SM121",
+  "result": "failed",
+  "sets": {
+    "weights": {
+      "xml_sha256": "8da3e067351e888bf1389ad7a6658fe74b6811facfb978e3185a8f6c75780e21",
+      "count": 12,
+      "cases": [
+        {
+          "name": "test_nvidia_attention_and_mlp_partitions[1-0]",
+          "outcome": "passed",
+          "duration_s": 6.926,
+          "properties": {}
+        },
+        {
+          "name": "test_nvidia_attention_and_mlp_partitions[2-1]",
+          "outcome": "passed",
+          "duration_s": 0.951,
+          "properties": {}
+        },
+        {
+          "name": "test_nvidia_attention_and_mlp_partitions[4-3]",
+          "outcome": "passed",
+          "duration_s": 0.785,
+          "properties": {}
+        },
+        {
+          "name": "test_nvidia_vocabulary_and_draft_attention",
+          "outcome": "passed",
+          "duration_s": 0.974,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[2-0]",
+          "outcome": "passed",
+          "duration_s": 4.004,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[2-1]",
+          "outcome": "passed",
+          "duration_s": 1.071,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[4-0]",
+          "outcome": "passed",
+          "duration_s": 1.02,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[4-1]",
+          "outcome": "passed",
+          "duration_s": 1.029,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[4-2]",
+          "outcome": "passed",
+          "duration_s": 0.998,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[4-3]",
+          "outcome": "passed",
+          "duration_s": 0.991,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_experts_preserve_packed_weights_and_e4m3_scales[2-1]",
+          "outcome": "passed",
+          "duration_s": 2.067,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_experts_preserve_packed_weights_and_e4m3_scales[4-3]",
+          "outcome": "passed",
+          "duration_s": 0.202,
+          "properties": {}
+        }
+      ]
+    },
+    "indexer": {
+      "xml_sha256": "517ac1620c345a1ac1d0b32d7f415a867b659817303c28413ea509ba5d53f4ec",
+      "count": 4,
+      "cases": [
+        {
+          "name": "test_glm_indexer_checkpoint_native_replay[decode-2]",
+          "outcome": "passed",
+          "duration_s": 17.166,
+          "properties": {}
+        },
+        {
+          "name": "test_glm_indexer_checkpoint_native_replay[decode-32]",
+          "outcome": "passed",
+          "duration_s": 8.207,
+          "properties": {}
+        },
+        {
+          "name": "test_glm_indexer_checkpoint_native_replay[prefill-65]",
+          "outcome": "passed",
+          "duration_s": 8.08,
+          "properties": {}
+        },
+        {
+          "name": "test_glm_indexer_checkpoint_native_replay[prefill-4096]",
+          "outcome": "passed",
+          "duration_s": 8.505,
+          "properties": {}
+        }
+      ]
+    },
+    "kda": {
+      "xml_sha256": "001462605e63b395d704040c685b6523f1b430c8a30122d4801a521f880221fa",
+      "count": 2,
+      "cases": [
+        {
+          "name": "test_learned_kda_verification_commits_each_prefix_before_plain_decode[2-4]",
+          "outcome": "failed",
+          "duration_s": 5.777,
+          "properties": {
+            "world": "2",
+            "verification_width": "4",
+            "relative_l2": "0.037931762635707855",
+            "stage_diagnostics": {
+              "scope": "post-measurement eager diagnostics; timing may differ",
+              "stages": {
+                "beta": {
+                  "shape": [
+                    4,
+                    32
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.0,
+                  "max_abs": 0.0
+                },
+                "convolution": {
+                  "shape": [
+                    4,
+                    12288
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.023885274558347908,
+                  "max_abs": 0.005859375
+                },
+                "forget_gate": {
+                  "shape": [
+                    4,
+                    32,
+                    128
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.0,
+                  "max_abs": 0.0
+                },
+                "gated_recurrence": {
+                  "shape": [
+                    4,
+                    32,
+                    128
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.028021998054590776,
+                  "max_abs": 0.0019173622131347656
+                },
+                "input_projection": {
+                  "shape": [
+                    4,
+                    12448
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.025670278683507172,
+                  "max_abs": 0.0166015625
+                },
+                "output": {
+                  "shape": [
+                    4,
+                    4096
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.037931761092455975,
+                  "max_abs": 0.0017547607421875
+                },
+                "output_gate": {
+                  "shape": [
+                    4,
+                    32,
+                    128
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.0,
+                  "max_abs": 0.0
+                }
+              }
+            }
+          },
+          "message": "AssertionError: 0.037931762635707855\nassert 0.037931762635707855 < 0.01"
+        },
+        {
+          "name": "test_learned_kda_verification_commits_each_prefix_before_plain_decode[4-6]",
+          "outcome": "failed",
+          "duration_s": 3.179,
+          "properties": {
+            "world": "4",
+            "verification_width": "6",
+            "relative_l2": "0.029559530317783356",
+            "stage_diagnostics": {
+              "scope": "post-measurement eager diagnostics; timing may differ",
+              "stages": {
+                "beta": {
+                  "shape": [
+                    6,
+                    16
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.0,
+                  "max_abs": 0.0
+                },
+                "convolution": {
+                  "shape": [
+                    6,
+                    6144
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.026587625259068475,
+                  "max_abs": 0.0029296875
+                },
+                "forget_gate": {
+                  "shape": [
+                    6,
+                    16,
+                    128
+                  ],
+                  "finite": true,
+                  "relative_l2": 1.5749346202189737e-05,
+                  "max_abs": 0.0001220703125
+                },
+                "gated_recurrence": {
+                  "shape": [
+                    6,
+                    16,
+                    128
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.029879972589209935,
+                  "max_abs": 0.0020751953125
+                },
+                "input_projection": {
+                  "shape": [
+                    6,
+                    6288
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.025581331709150158,
+                  "max_abs": 0.0146484375
+                },
+                "output": {
+                  "shape": [
+                    6,
+                    4096
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.029559530790076644,
+                  "max_abs": 0.0009765625
+                },
+                "output_gate": {
+                  "shape": [
+                    6,
+                    16,
+                    128
+                  ],
+                  "finite": true,
+                  "relative_l2": 0.0,
+                  "max_abs": 0.0
+                }
+              }
+            }
+          },
+          "message": "AssertionError: 0.029559530317783356\nassert 0.029559530317783356 < 0.01"
+        }
+      ]
+    },
+    "state-transfer": {
+      "xml_sha256": "45f61ab77c12f5662f694eb32d07b65d0ce74151d8346363c17cdf56f4b3e809",
+      "count": 31,
+      "cases": [
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[1]",
+          "outcome": "passed",
+          "duration_s": 0.558,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[3]",
+          "outcome": "passed",
+          "duration_s": 0.015,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[4]",
+          "outcome": "passed",
+          "duration_s": 0.014,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[255]",
+          "outcome": "passed",
+          "duration_s": 0.013,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[256]",
+          "outcome": "passed",
+          "duration_s": 0.013,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[257]",
+          "outcome": "passed",
+          "duration_s": 0.013,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[511]",
+          "outcome": "passed",
+          "duration_s": 0.013,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[512]",
+          "outcome": "passed",
+          "duration_s": 0.013,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[513]",
+          "outcome": "passed",
+          "duration_s": 0.013,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[operation]",
+          "outcome": "passed",
+          "duration_s": 0.014,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[direction]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[source]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[endpoint]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[count]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[page]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[duplicate]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[read_write]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[page_alias]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[peer]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[1]",
+          "outcome": "passed",
+          "duration_s": 0.035,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[2]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[4]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[255]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[256]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[257]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[258]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[511]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[512]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[513]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_shifted_draft_boundary_aliases_are_validated_across_both_saved_pages[False]",
+          "outcome": "passed",
+          "duration_s": 0.02,
+          "properties": {}
+        },
+        {
+          "name": "test_shifted_draft_boundary_aliases_are_validated_across_both_saved_pages[True]",
+          "outcome": "passed",
+          "duration_s": 0.003,
+          "properties": {}
+        }
+      ]
+    }
+  },
+  "qualification_extension_sha256": "f394b9647f45664524cc1c5538dc67defca5948fa7456473f9668060a74efba4",
+  "limitations": [
+    "Diagnostic eager clones may perturb timing; original graph comparison is measured first and still fails.",
+    "KDA fails before later prefix-commit assertions.",
+    "Indexer replay equality does not establish full-model sparse-selection accuracy.",
+    "Weight and state checks are selected components, not full-model numerical qualification."
+  ]
+}

@@ -1,5 +1,21 @@
 # Status
 
+## 2026-11-15 — Indexer replay qualified; KDA error begins in projection
+
+- Diagnostic kit e8b6ac0 passed all four SM121 indexer replay cases after using
+  production MLA's mixed-projection factory; 12 weight and 31 state checks also
+  passed. Both original KDA graph errors reproduced exactly. The first observed
+  discrepancy was input projection: relative L2 .02567028 TP2 / .02558133 TP4,
+  before convolution/recurrence. Diagnostic output error matched the original
+  graph measurement; observations alone do not establish a serving fix.
+- Restored B12X at 21:58:08 UTC; smoke5/5 at 21:58:36, unchanged image identities,
+  watchdog/tailnet active, safety timer disarmed. Receipt:
+  `receipts/flare-qualification-20261115/numerical-diagnostic-window.json`.
+- Prepared the official native-dense-activations component arm, retaining every
+  KDA bound and recording resolved projection selections. The auto-control and
+  its failed receipts remain. This arm is not yet GPU-tested or exported; the
+  accepted serving core and 4 GiB reserve are unchanged. Local tests: 21 pass.
+
 ## 2026-11-15 — First component numerical window failed; B12X restored
 
 - Kit 6b48619 ran on idle SM121 after both nodes passed 114 GiB free/available;

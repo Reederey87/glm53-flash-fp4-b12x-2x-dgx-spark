@@ -34,7 +34,8 @@ pytestmark = pytest.mark.skipif(os.environ.get("FLARE_RUN_CUDA_TESTS") != "1",
 
 @pytest.mark.parametrize("world,verify_width", [(2, 4), (4, 6)])
 @torch.no_grad()
-def test_learned_kda_verification_commits_each_prefix_before_plain_decode(world, verify_width, record_property):
+def test_learned_kda_verification_commits_each_prefix_before_plain_decode(
+        world, verify_width, record_property, native_dense_activations=False):
     snapshot = Path(os.environ.get("FLARE_GLM53_SNAPSHOT",
         "/data/checkpoint-releases/GLM-5.3-Flash-NVFP4-MXFP8-CSF-QAD"))
     manifest = inspect_indexed_checkpoint(snapshot)
@@ -60,7 +61,9 @@ def test_learned_kda_verification_commits_each_prefix_before_plain_decode(world,
     verified_output = torch.empty_like(hidden)
     operators = {}
     with RecordedPreparationSession(device=torch.device("cuda:0"), checkpoint="glm53-mtp-state",
-            workload_schema="glm-kda-prefix-v1", numerical_policy="default") as session:
+            workload_schema="glm-kda-prefix-v1", numerical_policy="default",
+            native_dense_activations=native_dense_activations) as session:
+        record_property("native_dense_activations", session.native_dense_activations)
         session.register_scratch(arena)
         for width in metas:
             operators[width] = PreparedGlmKDA(module, weights, sources[width],
@@ -71,7 +74,11 @@ def test_learned_kda_verification_commits_each_prefix_before_plain_decode(world,
             metas[verify_width].state_indices[:, 0], metas[verify_width].num_seqs, session=session, workspace=arena)
         for operator in operators.values():
             operator.functional(session=session)
-        session.tune()
+        tuning_report = session.tune()
+        selections = [{key: item[key] for key in ("name", "component", "config")}
+                      for item in tuning_report["selections"]
+                      if "input_proj" in item["name"] or "o_proj" in item["name"]]
+        record_property("projection_selections", json.dumps(selections, allow_nan=False))
         arena.release_preparation()
         operators[1](sources[1], metas[1])
         for width, meta in metas.items():

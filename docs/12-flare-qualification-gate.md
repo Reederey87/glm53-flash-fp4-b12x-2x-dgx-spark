@@ -190,3 +190,42 @@ rollback and TensorFold's shared serial/prefix state-update routine. PyTorch's
 [numerical accuracy guidance](https://docs.pytorch.org/docs/2.15/notes/numerical_accuracy.html)
 explains why batched and sliced calculations can differ; it does not authorize
 relaxing this gate. Stage measurements must establish the cause before a fix.
+
+## Native dense activation component arm — registered before execution
+
+The diagnostic rerun reproduced both KDA errors. Its first substantial stage
+error was input projection (relative L2 .02567028 TP2 / .02558133 TP4), before
+convolution/recurrence; TP2 beta, forget gate and output gate matched exactly.
+All four corrected indexer cases passed native replay. This evidence supports
+investigating projection arithmetic; it does not yet identify the selected
+kernel modes or prove a fix.
+
+Next independent variable: `RecordedPreparationSession.native_dense_activations`
+false → true, the session option wired from the official
+`--native-dense-activations` flag. It changes dense `auto` to `quantized` (A8 for
+FP8, A4 for FP4) while retaining explicit recipe and routed-MoE precision. Keep
+checkpoint/weight bytes, TP geometries, chain seed, recurrence kernels, all
+bounds and the current exported serving core unchanged. This is a component
+experiment; do not re-export or adopt from the option's availability alone.
+
+Run `test_glm53_native_activations_cuda.py`, which calls the original complete
+KDA test with that one option true. Record the effective option and resolved
+input/output projection selections. Require both TP2/width4 and TP4/width6 to
+pass the original output L2, every accepted-prefix state/history bound and
+subsequent decode checks. Retain the auto-control test and both failed receipts.
+The other 47 qualification cases remain the same. No skips or relaxed bounds.
+
+Freeze and stage this arm before a new idle-cluster window, with snapshots,
+90-minute automatic B12X restoration and the unchanged memory gate. Restore
+B12X after collection. If component results pass, a separate candidate export
+must prove the option in its preparation metadata, native lifecycle, full-model
+correctness, unchanged quantization/capacity and complete speed matrix before
+adoption is considered. No serving reserve change is combined with this arm.
+
+Research: Exa returned the [official flag contract](https://github.com/NVIDIA/hyperflare-inference/blob/main/docs/cli-design.md).
+Pinned `glm53/recipe.py` forwards the option and `components/linear.py` selects
+quantized activation mode when enabled. Local vLLM's MXFP8 backend calls native
+b12x MXFP8 linear; TensorFold distinguishes W8A16 and FP8 activation arithmetic;
+exllamav3 uses its own weight layouts. Fixed A16 arithmetic is another possible
+accuracy-oriented arm, but neither it nor native activations is assumed to
+preserve speed without measurement. No alternative engine or checkpoint is used.

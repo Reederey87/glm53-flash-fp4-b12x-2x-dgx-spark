@@ -40,7 +40,7 @@ timeout --signal=TERM --kill-after=30s 1800 uv run --offline --no-sync python -m
     -q -s "$ROOT/qualification/test_glm53_indexer_cuda.py" \
     --junitxml="$RUN_DIR/indexer.xml" || result=1
 timeout --signal=TERM --kill-after=30s 1800 uv run --offline --no-sync python -m pytest \
-    -q -s "$ROOT/qualification/test_glm53_state_cuda.py" \
+    -q -s "$ROOT/qualification/test_glm53_native_activations_cuda.py" \
     --junitxml="$RUN_DIR/kda.xml" || result=1
 timeout --signal=TERM --kill-after=30s 600 uv run --offline --no-sync python -m pytest \
     -q -s tests/recipes/test_glm53_state_transfer_cuda.py \
