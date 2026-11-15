@@ -1,5 +1,20 @@
 # Status
 
+## 2026-11-15 — Native dense activations pass all component checks
+
+- Frozen kit 6bf1900 passed all 49 SM121 checks: weights12, indexer4, KDA2,
+  state31. Both KDA geometries have output relative L2 0.0, and every original
+  prefix-state/history/subsequent-decode bound passed. Resolved blockscaled
+  input/output projections use quantized mode; BF16 partitions remain BF16.
+- B12X restored at 22:09:00 UTC; smoke5/5 and both original images verified at
+  22:10:03, watchdog/tailnet active, restoration timer disarmed. Candidate stopped.
+  Receipt: `receipts/flare-qualification-20261115/numerical-native-activation-window.json`.
+- Added the supported export option and local provenance checks binding the
+  successful resolved plan to a newly published primary hash. The old accepted
+  core cannot satisfy the new guard. This supplements the upstream signed
+  manifest, which omits this option; it is not a signed precision attestation.
+  A separate export/serving trial remains unrun; reserve stays 4 GiB.
+
 ## 2026-11-15 — Indexer replay qualified; KDA error begins in projection
 
 - Diagnostic kit e8b6ac0 passed all four SM121 indexer replay cases after using

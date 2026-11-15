@@ -8,8 +8,10 @@ import signal
 import subprocess
 import time
 import urllib.request
+import uuid
 
 from flare_candidate import RECIPE, blockers, inspect_host, load_recipe, render
+from flare_provenance import export_receipt, verify_export_receipt
 
 
 def serving_recipe(recipe):
@@ -43,6 +45,7 @@ def serving_command(recipe, rank, state):
         raise ValueError("core must belong to the isolated candidate cache")
     if rank == 0 and hashlib.sha256(core.read_bytes()).hexdigest() != state["core_primary_sha256"]:
         raise ValueError("exported primary changed after acceptance")
+    verify_export_receipt(recipe, state)
     command = render(recipe, rank, str(core))["serve"]
     return command + ["--offline", "--dangerously-approve-key", state["key_fingerprint"],
                       "--dangerously-accept-publisher", "local-development"]
@@ -77,6 +80,14 @@ def main():
         subprocess.run(ssh + ["systemctl", "--user", "start", "--no-block", unit], check=True, timeout=20)
     child = None
     stopping = False
+    export_log = None
+    previous_primaries = set()
+    if args.action == "prepare":
+        if args.rank == 0:
+            previous_primaries = {p.resolve() for p in (root / "cores/models").glob("**/model.safetensors")}
+        log_path = root / "logs" / f"export-rank{args.rank}-{uuid.uuid4().hex}.log"
+        export_log = log_path.open("x")
+        print(f"Preparation output: {log_path}", flush=True)
 
     def stop(_signum, _frame):
         nonlocal stopping
@@ -87,7 +98,8 @@ def main():
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)
     try:
-        child = subprocess.Popen(command, cwd=root / "upstream/flare")
+        output = {} if export_log is None else {"stdout": export_log, "stderr": subprocess.STDOUT}
+        child = subprocess.Popen(command, cwd=root / "upstream/flare", **output)
         deadline = time.monotonic() + 900
         ready = False
         while not stopping and child.poll() is None:
@@ -119,6 +131,11 @@ def main():
                         elif time.monotonic() > deadline:
                             raise RuntimeError("candidate readiness timed out")
             time.sleep(2)
+        if args.action == "prepare" and args.rank == 0 and not stopping and child.returncode == 0:
+            receipt = export_receipt(recipe, command, log_path, previous_primaries)
+            receipt_path = root / "local" / (log_path.stem + ".json")
+            receipt_path.write_text(json.dumps(receipt, indent=2) + "\n")
+            print(f"Export provenance awaiting acceptance: {receipt_path}", flush=True)
         return child.returncode if not stopping else 0
     finally:
         if child is not None and child.poll() is None:
@@ -130,6 +147,8 @@ def main():
                 child.wait()
         if args.rank == 0:
             subprocess.run(ssh + ["systemctl", "--user", "stop", unit], timeout=150, check=False)
+        if export_log is not None:
+            export_log.close()
 
 
 if __name__ == "__main__":

@@ -29,6 +29,9 @@ def load_recipe(path):
 
 def render(recipe, rank, core=None):
     """Return argv arrays and required files, not shell commands to evaluate."""
+    native = recipe.get("native_dense_activations", False)
+    if type(native) is not bool:
+        raise ValueError("native_dense_activations must be a boolean")
     serving_reserve = recipe.get("serve_reserve_gib", recipe["reserve_gib"])
     if type(serving_reserve) is not int or serving_reserve <= 0:
         raise ValueError("serving reserve must be a positive integer GiB value")
@@ -48,6 +51,8 @@ def render(recipe, rank, core=None):
             "--no-mtp-adaptive-verification", "--no-context-parallel",
             "--language-model-only", "--compile-workers", str(recipe["compile_workers"]),
         ]
+        if native:
+            prepare.append("--native-dense-activations")
     else:
         prepare = ignition + ["join", prepare_address, "--config", str(config),
                               "--rank", "1", "--ranks", "2"]

@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import flare_run
 from flare_candidate import RECIPE, load_recipe
 from flare_run import serving_command, serving_recipe
+from flare_provenance import export_receipt
 
 
 class RuntimeContractTests(unittest.TestCase):
@@ -31,6 +32,57 @@ class RuntimeContractTests(unittest.TestCase):
                       'key_fingerprint': hashlib.sha256(self.key).hexdigest(),
                       'core_primary': str(self.core),
                       'core_primary_sha256': hashlib.sha256(self.core.read_bytes()).hexdigest()}
+        (self.root/'local').mkdir()
+        self.receipt = self.root/'local/export.json'
+        self.plan = {'native_dense_activations': True, 'repository': self.recipe['model'],
+            'revision': self.recipe['checkpoint_revision'], 'tensor_parallel': 2,
+            'max_concurrency': 4, 'prefill_chunk': 4096, 'context_parallel': False,
+            'language_model_only': True, 'speculation': {'draft_tokens': 3, 'adaptive': False}}
+        self.receipt.write_text(json.dumps({'schema': 1, 'core_primary': str(self.core),
+            'core_primary_sha256': self.state['core_primary_sha256'],
+            'plan': self.plan, 'argv': ['--native-dense-activations'],
+            'flare_revision': self.recipe['flare_revision'],
+            'checkpoint_revision': self.recipe['checkpoint_revision']}))
+        self.state.update(export_receipt=str(self.receipt),
+                          export_receipt_sha256=hashlib.sha256(self.receipt.read_bytes()).hexdigest())
+
+    def test_old_or_mismatched_export_rejected(self):
+        old = {k:v for k,v in self.state.items() if not k.startswith('export_receipt')}
+        with self.assertRaisesRegex(ValueError, 'provenance is missing'):
+            serving_command(self.recipe, 0, old)
+        with self.assertRaisesRegex(ValueError, 'activation option differs'):
+            serving_command(dict(self.recipe, native_dense_activations=False), 1, self.state)
+        data = json.loads(self.receipt.read_text())
+        data['core_primary_sha256'] = '0'*64
+        self.receipt.write_text(json.dumps(data))
+        self.state['export_receipt_sha256'] = hashlib.sha256(self.receipt.read_bytes()).hexdigest()
+        with self.assertRaisesRegex(ValueError, 'different core'):
+            serving_command(self.recipe, 0, self.state)
+
+    def test_export_requires_resolved_plan_and_new_primary(self):
+        log = self.root/'export.log'
+        log.write_text(json.dumps({'plan': self.plan})+'\n'
+                       +'Exported cache entry: '+str(self.core.parent)+'\n')
+        command = ['ignition', 'export', '--native-dense-activations']
+        receipt = export_receipt(self.recipe, command, log, set())
+        self.assertEqual(receipt['core_primary_sha256'], self.state['core_primary_sha256'])
+        with self.assertRaisesRegex(ValueError, 'new primary'):
+            export_receipt(self.recipe, command, log, {self.core})
+        with self.assertRaisesRegex(ValueError, 'argv differs'):
+            export_receipt(self.recipe, ['ignition', 'export'], log, set())
+        log.write_text('Exported cache entry: '+str(self.core.parent)+'\n')
+        with self.assertRaisesRegex(ValueError, 'exactly one resolved plan'):
+            export_receipt(self.recipe, command, log, set())
+
+    def test_native_flag_on_export_only_and_strict_boolean(self):
+        from flare_candidate import render
+        self.assertIn('--native-dense-activations', render(self.recipe, 0)['prepare'])
+        self.assertNotIn('--native-dense-activations', render(self.recipe, 1)['prepare'])
+        self.assertNotIn('--native-dense-activations', render(self.recipe, 0)['serve'])
+        self.assertNotIn('--native-dense-activations', render(dict(self.recipe, native_dense_activations=False), 0)['prepare'])
+        for value in ('true', 1, None):
+            with self.assertRaisesRegex(ValueError, 'must be a boolean'):
+                render(dict(self.recipe, native_dense_activations=value), 0)
 
     def test_exact_acceptance_and_isolated_endpoint(self):
         cmd = serving_command(self.recipe, 0, self.state)

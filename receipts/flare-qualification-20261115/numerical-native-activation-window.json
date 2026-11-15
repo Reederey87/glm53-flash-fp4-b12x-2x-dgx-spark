@@ -1,0 +1,596 @@
+{
+  "kit_commit": "6bf1900",
+  "run": "local/qualification/20261115T220113Z-723169",
+  "arm": "native_dense_activations=True; component-only",
+  "suites": {
+    "indexer": {
+      "xml_sha256": "3c0898511fb0b6e072c8209dad1a5c68389dd64a385d9c0a2c88db336837dda6",
+      "count": 4,
+      "cases": [
+        {
+          "name": "test_glm_indexer_checkpoint_native_replay[decode-2]",
+          "outcome": "passed",
+          "duration_s": 7.497,
+          "properties": {}
+        },
+        {
+          "name": "test_glm_indexer_checkpoint_native_replay[decode-32]",
+          "outcome": "passed",
+          "duration_s": 1.229,
+          "properties": {}
+        },
+        {
+          "name": "test_glm_indexer_checkpoint_native_replay[prefill-65]",
+          "outcome": "passed",
+          "duration_s": 0.851,
+          "properties": {}
+        },
+        {
+          "name": "test_glm_indexer_checkpoint_native_replay[prefill-4096]",
+          "outcome": "passed",
+          "duration_s": 0.995,
+          "properties": {}
+        }
+      ]
+    },
+    "kda": {
+      "xml_sha256": "1f8e2632bb5978b5528c5b7a3f321bde853c88705bf41b3100d065b31c14d002",
+      "count": 2,
+      "cases": [
+        {
+          "name": "test_native_dense_kda_prefix[2-4]",
+          "outcome": "passed",
+          "duration_s": 11.941,
+          "properties": {
+            "native_dense_activations": "True",
+            "projection_selections": [
+              {
+                "name": "decode1.input_proj.part0",
+                "component": "gemm.blockscaled_precision",
+                "config": {
+                  "a16_backend": "auto",
+                  "dense_config": {
+                    "backend": "cutedsl",
+                    "evict_first": false,
+                    "large_m_unroll": false,
+                    "load_path": "tma",
+                    "programmatic_serialization": false,
+                    "split_k_slices": 1,
+                    "swap_ab": false,
+                    "target_occupancy": null,
+                    "tile_k": 256,
+                    "tile_m": 64,
+                    "tile_n": 64
+                  },
+                  "fuse_swiglu": false,
+                  "mma_warps": null,
+                  "mode": "quantized",
+                  "split_k": null,
+                  "tile_k": null,
+                  "tile_m": null,
+                  "tile_n": null
+                }
+              },
+              {
+                "name": "decode1.input_proj.part1",
+                "component": "gemm.bf16_gemv",
+                "config": {
+                  "backend": "simt",
+                  "block_threads": 256,
+                  "rows_per_tile": 1
+                }
+              },
+              {
+                "name": "decode1.o_proj",
+                "component": "gemm.blockscaled_precision",
+                "config": {
+                  "a16_backend": "auto",
+                  "dense_config": {
+                    "backend": "cutedsl",
+                    "evict_first": false,
+                    "large_m_unroll": true,
+                    "load_path": "tma",
+                    "programmatic_serialization": false,
+                    "split_k_slices": 1,
+                    "swap_ab": false,
+                    "target_occupancy": null,
+                    "tile_k": 256,
+                    "tile_m": 16,
+                    "tile_n": 64
+                  },
+                  "fuse_swiglu": false,
+                  "mma_warps": null,
+                  "mode": "quantized",
+                  "split_k": null,
+                  "tile_k": null,
+                  "tile_m": null,
+                  "tile_n": null
+                }
+              },
+              {
+                "name": "decode4.input_proj.part0",
+                "component": "gemm.blockscaled_precision",
+                "config": {
+                  "a16_backend": "auto",
+                  "dense_config": {
+                    "backend": "cutedsl",
+                    "evict_first": false,
+                    "large_m_unroll": true,
+                    "load_path": "tma",
+                    "programmatic_serialization": false,
+                    "split_k_slices": 1,
+                    "swap_ab": false,
+                    "target_occupancy": null,
+                    "tile_k": 256,
+                    "tile_m": 16,
+                    "tile_n": 64
+                  },
+                  "fuse_swiglu": false,
+                  "mma_warps": null,
+                  "mode": "quantized",
+                  "split_k": null,
+                  "tile_k": null,
+                  "tile_m": null,
+                  "tile_n": null
+                }
+              },
+              {
+                "name": "decode4.input_proj.part1",
+                "component": "gemm.bf16_gemv",
+                "config": {
+                  "backend": "simt",
+                  "block_threads": 256,
+                  "rows_per_tile": 2
+                }
+              },
+              {
+                "name": "decode4.o_proj",
+                "component": "gemm.blockscaled_precision",
+                "config": {
+                  "a16_backend": "auto",
+                  "dense_config": {
+                    "backend": "cutedsl",
+                    "evict_first": false,
+                    "large_m_unroll": true,
+                    "load_path": "tma",
+                    "programmatic_serialization": false,
+                    "split_k_slices": 1,
+                    "swap_ab": false,
+                    "target_occupancy": null,
+                    "tile_k": 256,
+                    "tile_m": 16,
+                    "tile_n": 64
+                  },
+                  "fuse_swiglu": false,
+                  "mma_warps": null,
+                  "mode": "quantized",
+                  "split_k": null,
+                  "tile_k": null,
+                  "tile_m": null,
+                  "tile_n": null
+                }
+              }
+            ],
+            "world": "2",
+            "verification_width": "4",
+            "relative_l2": "0.0"
+          }
+        },
+        {
+          "name": "test_native_dense_kda_prefix[4-6]",
+          "outcome": "passed",
+          "duration_s": 7.15,
+          "properties": {
+            "native_dense_activations": "True",
+            "projection_selections": [
+              {
+                "name": "decode1.input_proj.part0",
+                "component": "gemm.blockscaled_precision",
+                "config": {
+                  "a16_backend": "auto",
+                  "dense_config": {
+                    "backend": "cutedsl",
+                    "evict_first": false,
+                    "large_m_unroll": true,
+                    "load_path": "tma",
+                    "programmatic_serialization": false,
+                    "split_k_slices": 1,
+                    "swap_ab": false,
+                    "target_occupancy": null,
+                    "tile_k": 256,
+                    "tile_m": 64,
+                    "tile_n": 64
+                  },
+                  "fuse_swiglu": false,
+                  "mma_warps": null,
+                  "mode": "quantized",
+                  "split_k": null,
+                  "tile_k": null,
+                  "tile_m": null,
+                  "tile_n": null
+                }
+              },
+              {
+                "name": "decode1.input_proj.part1",
+                "component": "gemm.bf16_gemv",
+                "config": {
+                  "backend": "simt",
+                  "block_threads": 128,
+                  "rows_per_tile": 4
+                }
+              },
+              {
+                "name": "decode1.o_proj",
+                "component": "gemm.blockscaled_precision",
+                "config": {
+                  "a16_backend": "auto",
+                  "dense_config": {
+                    "backend": "cutedsl",
+                    "evict_first": false,
+                    "large_m_unroll": true,
+                    "load_path": "tma",
+                    "programmatic_serialization": false,
+                    "split_k_slices": 1,
+                    "swap_ab": false,
+                    "target_occupancy": null,
+                    "tile_k": 256,
+                    "tile_m": 64,
+                    "tile_n": 64
+                  },
+                  "fuse_swiglu": false,
+                  "mma_warps": null,
+                  "mode": "quantized",
+                  "split_k": null,
+                  "tile_k": null,
+                  "tile_m": null,
+                  "tile_n": null
+                }
+              },
+              {
+                "name": "decode6.input_proj.part0",
+                "component": "gemm.blockscaled_precision",
+                "config": {
+                  "a16_backend": "auto",
+                  "dense_config": {
+                    "backend": "cutedsl",
+                    "evict_first": false,
+                    "large_m_unroll": true,
+                    "load_path": "tma",
+                    "programmatic_serialization": false,
+                    "split_k_slices": 1,
+                    "swap_ab": false,
+                    "target_occupancy": null,
+                    "tile_k": 128,
+                    "tile_m": 16,
+                    "tile_n": 64
+                  },
+                  "fuse_swiglu": false,
+                  "mma_warps": null,
+                  "mode": "quantized",
+                  "split_k": null,
+                  "tile_k": null,
+                  "tile_m": null,
+                  "tile_n": null
+                }
+              },
+              {
+                "name": "decode6.input_proj.part1",
+                "component": "gemm.bf16_gemv",
+                "config": {
+                  "backend": "simt",
+                  "block_threads": 256,
+                  "rows_per_tile": 8
+                }
+              },
+              {
+                "name": "decode6.o_proj",
+                "component": "gemm.blockscaled_precision",
+                "config": {
+                  "a16_backend": "auto",
+                  "dense_config": {
+                    "backend": "cutedsl",
+                    "evict_first": false,
+                    "large_m_unroll": true,
+                    "load_path": "tma",
+                    "programmatic_serialization": false,
+                    "split_k_slices": 1,
+                    "swap_ab": false,
+                    "target_occupancy": null,
+                    "tile_k": 256,
+                    "tile_m": 64,
+                    "tile_n": 64
+                  },
+                  "fuse_swiglu": false,
+                  "mma_warps": null,
+                  "mode": "quantized",
+                  "split_k": null,
+                  "tile_k": null,
+                  "tile_m": null,
+                  "tile_n": null
+                }
+              }
+            ],
+            "world": "4",
+            "verification_width": "6",
+            "relative_l2": "0.0"
+          }
+        }
+      ]
+    },
+    "state-transfer": {
+      "xml_sha256": "7c6dfb1a7a79e3b1ffcdff1b6901a314a860aebce0afabf05c56ddd44ea5fe00",
+      "count": 31,
+      "cases": [
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[1]",
+          "outcome": "passed",
+          "duration_s": 0.568,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[3]",
+          "outcome": "passed",
+          "duration_s": 0.016,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[4]",
+          "outcome": "passed",
+          "duration_s": 0.016,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[255]",
+          "outcome": "passed",
+          "duration_s": 0.014,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[256]",
+          "outcome": "passed",
+          "duration_s": 0.014,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[257]",
+          "outcome": "passed",
+          "duration_s": 0.014,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[511]",
+          "outcome": "passed",
+          "duration_s": 0.014,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[512]",
+          "outcome": "passed",
+          "duration_s": 0.014,
+          "properties": {}
+        },
+        {
+          "name": "test_exact_snapshot_branch_restore_and_reset[513]",
+          "outcome": "passed",
+          "duration_s": 0.014,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[operation]",
+          "outcome": "passed",
+          "duration_s": 0.015,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[direction]",
+          "outcome": "passed",
+          "duration_s": 0.007,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[source]",
+          "outcome": "passed",
+          "duration_s": 0.007,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[endpoint]",
+          "outcome": "passed",
+          "duration_s": 0.007,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[count]",
+          "outcome": "passed",
+          "duration_s": 0.007,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[page]",
+          "outcome": "passed",
+          "duration_s": 0.007,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[duplicate]",
+          "outcome": "passed",
+          "duration_s": 0.007,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[read_write]",
+          "outcome": "passed",
+          "duration_s": 0.007,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[page_alias]",
+          "outcome": "passed",
+          "duration_s": 0.007,
+          "properties": {}
+        },
+        {
+          "name": "test_rejected_commands_preserve_every_state_and_cache_byte[peer]",
+          "outcome": "passed",
+          "duration_s": 0.007,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[1]",
+          "outcome": "passed",
+          "duration_s": 0.037,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[2]",
+          "outcome": "passed",
+          "duration_s": 0.005,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[4]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[255]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[256]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[257]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[258]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[511]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[512]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_trailing_partial_page_restores_at_target_page_boundaries[513]",
+          "outcome": "passed",
+          "duration_s": 0.006,
+          "properties": {}
+        },
+        {
+          "name": "test_shifted_draft_boundary_aliases_are_validated_across_both_saved_pages[False]",
+          "outcome": "passed",
+          "duration_s": 0.02,
+          "properties": {}
+        },
+        {
+          "name": "test_shifted_draft_boundary_aliases_are_validated_across_both_saved_pages[True]",
+          "outcome": "passed",
+          "duration_s": 0.003,
+          "properties": {}
+        }
+      ]
+    },
+    "weights": {
+      "xml_sha256": "8e4482c7cddca80e0f1e989bd4d72de27c869c14e7b20d33ed0eda7729be3bea",
+      "count": 12,
+      "cases": [
+        {
+          "name": "test_nvidia_attention_and_mlp_partitions[1-0]",
+          "outcome": "passed",
+          "duration_s": 7.36,
+          "properties": {}
+        },
+        {
+          "name": "test_nvidia_attention_and_mlp_partitions[2-1]",
+          "outcome": "passed",
+          "duration_s": 1.281,
+          "properties": {}
+        },
+        {
+          "name": "test_nvidia_attention_and_mlp_partitions[4-3]",
+          "outcome": "passed",
+          "duration_s": 0.905,
+          "properties": {}
+        },
+        {
+          "name": "test_nvidia_vocabulary_and_draft_attention",
+          "outcome": "passed",
+          "duration_s": 1.09,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[2-0]",
+          "outcome": "passed",
+          "duration_s": 3.986,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[2-1]",
+          "outcome": "passed",
+          "duration_s": 1.131,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[4-0]",
+          "outcome": "passed",
+          "duration_s": 1.004,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[4-1]",
+          "outcome": "passed",
+          "duration_s": 1.029,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[4-2]",
+          "outcome": "passed",
+          "duration_s": 1.034,
+          "properties": {}
+        },
+        {
+          "name": "test_actual_nvfp4_shards_and_shared_scale_storage[4-3]",
+          "outcome": "passed",
+          "duration_s": 1.038,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_experts_preserve_packed_weights_and_e4m3_scales[2-1]",
+          "outcome": "passed",
+          "duration_s": 2.293,
+          "properties": {}
+        },
+        {
+          "name": "test_mtp_experts_preserve_packed_weights_and_e4m3_scales[4-3]",
+          "outcome": "passed",
+          "duration_s": 0.194,
+          "properties": {}
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Component qualification only; no new serving core or full-model speed/accuracy result.",
+    "TP4 is a rank-local geometry check on one GB10, not a four-node deployment."
+  ],
+  "qualification_extension_sha256": "f394b9647f45664524cc1c5538dc67defca5948fa7456473f9668060a74efba4"
+}

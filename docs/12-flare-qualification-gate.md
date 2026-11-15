@@ -229,3 +229,43 @@ b12x MXFP8 linear; TensorFold distinguishes W8A16 and FP8 activation arithmetic;
 exllamav3 uses its own weight layouts. Fixed A16 arithmetic is another possible
 accuracy-oriented arm, but neither it nor native activations is assumed to
 preserve speed without measurement. No alternative engine or checkpoint is used.
+
+
+## Native dense activation export — registered before execution
+
+Component arm 6bf1900 passed49/49 with both KDA output relative errors0.0 and
+all original bounds intact. Independent variable for the next full-model arm:
+`--native-dense-activations` enabled during export. Freeze checkpoint/source pins,
+TP2, four slots, prefill4096, MTP3 fixed, CP-off, ordinary graphs, preparation and
+serving reserve4. Do not combine reserve3 or CP with this arm. Use ordinary
+export so weight payloads are checked again; retain the old core and acceptance
+file. Kernel-cache keys include the activation-mode request; compiled forwards
+and captured graphs are prepared anew by export.
+
+Exa confirmed the official [CLI contract](https://github.com/NVIDIA/hyperflare-inference/blob/main/docs/cli-design.md)
+and [weight reuse limitations](https://github.com/NVIDIA/hyperflare-inference/blob/main/docs/model-preparation.md).
+Pinned `planning.Plan.to_dict` and multi-host export print the resolved option;
+`rebuild_manifest.from_plan` omits it. The kit therefore captures each export in
+a dedicated log, requires exit0, exactly one resolved plan and newly published
+cache entry, and binds the primary hash to that plan in local provenance.
+Acceptance must name and hash this receipt on both nodes. The serving guard
+rejects a missing, changed, wrong-core or mismatched-option receipt. This is
+unsigned local operational evidence, supplementing native signature and payload
+verification; do not claim that the signed manifest attests to the option.
+Reviewed local vLLM MXFP8, FlashInfer precision-mode cache keys, exllamav3 FP16
+layouts and TensorFold W8A16/FP8 paths. No engine/kernel code is changed.
+
+Export phase: snapshot both candidate trees/acceptance and incumbent identities,
+arm automatic restoration at110minutes before stop, disarm watchdog, stop B12X
+through its unit, require both memory gates. Preparation units retain their
+90-minute timeout. Require both rank success, matching source/binary hashes,
+resolved plan and new primary evidence. Any failure restores B12X; preserve
+logs and investigate through Exa. No automatic serving/adoption at export exit.
+
+A subsequent serving phase has a separately armed150-minute restoration deadline.
+Verify the new core and fixed controls before seven API checks, cold concurrent
+retrieval, full-model state tests and the full three-repetition speed matrix
+against the completed B12X reference. Retain >2% robust-regression gate and
+memory/quality requirements above; full capacity and lifecycle gates remain.
+Do not claim speed/quality preservation from the component pass. Restore B12X
+at phase completion or failure. Adoption still requires explicit approval.

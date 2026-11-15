@@ -13,6 +13,7 @@
   "concurrency": 4,
   "prefill_chunk": 4096,
   "mtp_drafts": 3,
+  "native_dense_activations": true,
   "compile_workers": 2,
   "reserve_gib": 4,
   "head_disk_min_gib": 250,
