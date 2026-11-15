@@ -1,5 +1,13 @@
 # Status
 
+## 2026-11-15 — Full-layer scale audit prepared for an idle window
+
+- Added a CPU-only audit of every expert in selected target layers, both TP2
+  partitions, independent CSF decoding, and the full-layer A16 lifting factor.
+  It records scale counts and source hashes; it is not native replay evidence.
+- Forty local tests pass. A separate bounded idle window is registered before
+  scanning actual checkpoint values. The live serving matrix is unchanged.
+
 ## 2026-11-15 — Precision audit narrowed the remaining A16 check
 
 - Updated the audit with the49 passing component cases and verified native core

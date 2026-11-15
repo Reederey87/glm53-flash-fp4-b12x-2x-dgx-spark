@@ -384,3 +384,42 @@ which is explicitly not inverse standard TPOT. The
 [acceptance metric definitions](https://docs.vllm.ai/en/latest/features/speculative_decoding/acceptance_metrics/)
 support the accepted/drafts formulas. Local vLLM benchmark source was checked
 against these definitions. No running measurement client or engine is changed.
+
+## Full-layer scale-population audit — separate idle window
+
+`flare_scale_audit.py` addresses the source-identified packed A16 scale boundary
+in `10-flare-precision-audit.md`. It uses the pinned independent CPU CSF decoder,
+then partitions logical scales for both TP2 ranks and accumulates all288 experts
+before calculating each projection's scale-lifting factor. Gate/up share the
+W13 population; down has its own W2 population. The report binds shard headers
+and all scanned scale payloads by hash, and contains counts rather than weights.
+
+First scan target layers3,24,44, each with every expert, within a30-minute unit
+limit. This is a selected-layer investigation: zero affected counts do not clear
+the other target layers or the remaining MTP/packing/replay gates. A nonzero
+count establishes that source scales meet the pinned packed encoder's discard
+condition; it does not by itself measure native output error or prove that an
+alternative representation is selected. A later `--layers all` scan covers all
+target CSF layers3..44 and must have its own bounded window.
+
+Run only after the serving matrix/retrieval/lifecycle window closes and B12X
+restoration is verified. Snapshot the unchanged candidate/core and incumbent,
+pre-arm a45-minute B12X restoration timer, disarm the watchdog, stop B12X through
+its unit, and pass both original idle-memory gates. The new timer's restoration
+command must stop the exact transient scale-audit unit before invoking
+`flare_restore.sh`; that helper does not discover arbitrary client units. Use
+`RuntimeMaxSec=1800`, `TimeoutStopSec=30`, `KillMode=control-group` for this audit.
+The script holds the candidate operation lock and refuses active head GPU or
+incumbent units. Set `CUDA_VISIBLE_DEVICES` empty and run in the already pinned
+Flare preparation uv environment; no dependency installation or CUDA work.
+Retain partial output on timeout/failure, stop the audit unit, then restore and
+verify the incumbent before disarming the timer. No source/checkpoint, serving
+reserve, runtime quantization, or host driver/kernel changes are combined here.
+
+Exa's related [Marlin scale report](https://github.com/sgl-project/sglang/issues/48906)
+and [rescaling change](https://github.com/vllm-project/vllm/pull/34577) were checked
+against pinned FlashInfer's actual `_csf_preparation.py` and packed-scale helper.
+The local vLLM fallback shares this boundary; it is not the incumbent B12X path.
+Flare's independent CPU decoder supplies checkpoint bytes, while TensorFold and
+exllamav3 reinforce the distinction between stored quantization and execution
+arithmetic. No numerical tolerance is introduced or relaxed by this audit.
