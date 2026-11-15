@@ -55,7 +55,8 @@ def main():
             rendered = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True, **options)
             label = "Max" if effort is None else effort.capitalize()
             assert "Reasoning Effort: " + label in rendered
-            expected = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, **options)
+            expected = tokenizer.apply_chat_template(messages, tokenize=True, return_dict=False,
+                                                     add_generation_prompt=True, **options)
             response = post(base, body(messages, max_tokens=1, return_token_ids=True, **options))
             actual = response.get("prompt_token_ids")
             assert actual == expected, f"native prompt differs for {effort or 'omitted'}"

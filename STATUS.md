@@ -1,5 +1,20 @@
 # Status
 
+## 2026-11-15 — Authorized native Flare trial in progress
+
+- Built pinned Flare on both Sparks using candidate-owned extracted native
+  packages and locked PyTorch 2.14.1+cu132. Both GB10 compile/capture/replay
+  probes passed; this does not establish full-model correctness.
+- Staged isolated build/prepare/serve units and rollback helper under
+  `/home/nvidia/b12x-flare`. Snapshot both incumbent runtimes/image identities;
+  stopped B12X and its watchdog after a fresh legacy health/speed baseline.
+  A bounded restoration timer remains armed during the trial.
+- Corrected candidate-only cache paths after root-owned container caches blocked
+  Triton and the checkpoint loader. No host driver/kernel or model changes.
+- Added exact-token c1/2/4/8 benchmarks and native API qualification tools;
+  fifteen local tests pass. Export/native serving and full comparisons remain
+  pending. No candidate adoption.
+
 ## 2026-11-15 — Approved retired model weights removed on both Sparks
 
 - User explicitly approved DeepSeek V4/V4.1 variants, MiMo, Inkling and previous

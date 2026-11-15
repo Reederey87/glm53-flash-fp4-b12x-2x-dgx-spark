@@ -2,9 +2,9 @@
 
 This lane prepares a reviewable alternative to the current vLLM B12X service.
 It pins NVIDIA Flare and its FlashInfer dependency, renders separate TP2
-preparation/serving commands, and inspects host readiness. It does not install,
-stop or start services. Two-rank lifecycle management and complete native-model
-qualification remain outstanding; rendered commands are not a production entry point.
+preparation/serving commands, and inspects host readiness. Candidate-only systemd units build, prepare and
+serve through a two-rank coordinator. Native-model qualification is still a
+required gate; installation of the units does not qualify the model.
 
 ## Candidate contract
 
@@ -86,11 +86,12 @@ Flare uses accepted draft tokens, proposed verification tokens and draft-bearing
 request rounds, reporting `1 + accepted / rounds` and `accepted / proposed`.
 Zero-draft request rounds are retained separately. [API metrics](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/api.md#health-and-metrics).
 
-This change does not yet qualify the full engine comparison: the legacy speed
-script still has approximate-length, c1-only prefill. Its existing absolute
-`--gate` thresholds are historical B12X checks, not Flare adoption criteria.
-Exact token fixtures, concurrent prefill, matched repeated-run comparisons,
-native reasoning-template checks and full cache/state correctness remain required.
+`flare_bench.py` adds exact raw-token cold prefill at c1/2/4/8 and matched
+code/prose decoding, observed cache counts and run-local speculative counters.
+Both arms use temperature 1 and top-p .95 because Flare rejects temperature zero.
+`flare_smoke.py` checks native prompt tokens, reasoning, tools, structured output,
+prefix reuse and cancellation. These tools still require native hardware receipts.
+The legacy speed script is a health reference, not a fair Flare speed comparison.
 
 ## Current qualification and rollback
 
@@ -99,10 +100,14 @@ with MTP-3, four slots, 1M context and the pinned image. The initial head disk b
 raised free space to about 2,837 GiB head / 2,947 GiB worker after two cleanup waves. Explicitly
 approved retired DeepSeek V4/V4.1, MiMo, Inkling and previous GLM EXL3 weights
 were removed; the current NVIDIA GLM checkpoint and named rollback images
-were retained. See `receipts/retired-models-cleanup-20261115.json`. Both hosts lacked Ninja,
-protoc and OpenSSL/liburing/Python development-package discovery. No production
-stop, dependency install, candidate build or GPU qualification was performed.
-Nine local tests passed; the vLLM adapter also parsed a live read-only scrape.
+were retained. See `receipts/retired-models-cleanup-20261115.json`. Both hosts initially lacked native development prerequisites. The authorized
+trial extracted pinned Ubuntu packages into candidate-owned `deps/`, installed
+the locked preparation environment, and built the native CLI on both nodes.
+Both SM121 CUDA compile/capture/replay probes passed on the existing driver.
+The worker uses the same uv-managed CPython 3.12.14 as the head. Candidate cache
+paths are isolated from root-owned production container caches. Fifteen local
+tests pass. Full-model export and qualification are separate gates; see
+`08-flare-build-window.md` and `09-flare-export-gate.md` for the trial contract.
 
 Checkpoint header inspection found all 42 indexed files (177,463,841,024 bytes),
 42 CSF encoding declarations and the eleven target MLA absorption matrices in
@@ -115,9 +120,29 @@ gaps. These require applicability analysis and passing evidence before adoption.
 The historical exported-indexer corruption was fixed; preserve its reproducer
 for larger speculative catalogs. [Upstream TODO](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/TODO.txt).
 
-Return to the preserved source with `cd ../b12x`. For a future runtime rollback,
+Return to the preserved source with `cd ../b12x`. For runtime rollback,
 stop and confirm teardown of both candidate ranks, wait for both-node memory
 recovery, then start the incumbent through `vllm-b12x.service`. Verify health
 and functional smoke before restoring its watchdog and proxy. Retain snapshots,
 images and checkpoint assets throughout the window. A Git checkout is not a
 runtime rollback.
+
+## Candidate lifecycle
+
+`scripts/flare_native_deps.sh` extracts exact package versions without changing
+system packages. Source `flare_env.sh` only in candidate processes. The build
+units verify clean pinned sources and dependency locks, compile the CLI, run
+the CUDA probe and record binary/lock hashes. The prepare unit coordinates
+rank 1; export is never implicit in a serving start. The serving wrapper verifies
+the accepted core and public signing fingerprint, propagates peer failures and
+bounds readiness. Services have no automatic restart.
+
+Start the head `b12x-flare-build@0.service` and worker build rank 1 independently
+after the window gates. Then start head `b12x-flare-prepare@0.service`. Only after
+core acceptance, start head `b12x-flare@0.service`. Do not enable candidate units
+at boot during trials. `scripts/flare_restore.sh` stops all candidate phases on
+both nodes, starts `vllm-b12x.service`, verifies health and restores its watchdog.
+A pre-armed transient timer invokes this restoration if the trial overruns.
+
+Never publish `checkpoint.token`, the development signing key, runtime environment
+snapshots or raw container inspections. Transfer only the public publisher profile.
