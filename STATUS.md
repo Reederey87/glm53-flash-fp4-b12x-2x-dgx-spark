@@ -1,5 +1,20 @@
 # Status
 
+## 2026-11-15 — Flare candidate tooling; deployment prerequisite gate failed
+
+- Added a pinned Flare/FlashInfer recipe, offline command/config renderer and
+  read-only per-node readiness inspection in `scripts/flare_candidate.py`.
+  Candidate root `/home/nvidia/b12x-flare`, API port 8001; incumbent unchanged.
+- Added Flare speculative-counter support to the existing speed smoke, with
+  missing/reset/nonfinite counter rejection and zero-draft-round reporting.
+  Exact-length/concurrent prefill and native-model qualification remain pending.
+- Nine local behavioral tests pass; the vLLM adapter parsed the live incumbent
+  scrape. Both-node inventory is in `receipts/flare-preflight-20261115.json`.
+- Head disk (~183 GiB free) fails the conservative 250 GiB build/export budget;
+  both nodes lack native development prerequisites. Production remains active.
+  No candidate installation, build, export, production stop or GPU comparison
+  occurred. Unused-build-cache cleanup was proposed; no cache was removed.
+
 ## 2026-11-08 — b12x kit deployed; incumbent stopped
 
 - **Deployed:** `/home/nvidia/b12x` serves `nvidia/GLM-5.3-Flash-FP4-Local`

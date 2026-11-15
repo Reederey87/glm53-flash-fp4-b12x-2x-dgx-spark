@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-15",
+  "kind": "read-only preflight",
+  "deployment_attempted": false,
+  "recipe": "recipes/flare-glm53.json",
+  "notes": [
+    "Memory failures are expected while the incumbent is serving.",
+    "Disk floors are conservative budgets, not measured export sizes.",
+    "No candidate dependency install, build, production stop or GPU test ran.",
+    "Inventory was captured before adding the explicit FlashInfer dependency-pin check; candidate source was absent."
+  ],
+  "nodes": [
+    {
+      "hostname": "spark-a183",
+      "architecture": "aarch64",
+      "kernel": "7.0.0-1025-nvidia",
+      "rank": 0,
+      "disk_path": "/home/nvidia",
+      "disk_free_bytes": 196963356672,
+      "memory_bytes": {
+        "MemFree": 2056261632,
+        "MemAvailable": 1882370048
+      },
+      "tools": {
+        "uv": "/home/nvidia/.local/bin/uv",
+        "cargo": "/home/nvidia/.cargo/bin/cargo",
+        "cmake": "/usr/bin/cmake",
+        "ninja": null,
+        "pkg-config": "/usr/bin/pkg-config",
+        "protoc": null,
+        "cc": "/usr/bin/cc"
+      },
+      "native_packages": {
+        "openssl": null,
+        "liburing": null,
+        "libibverbs": "1.14.50.0",
+        "python-3.12": null
+      },
+      "gpu_driver": "NVIDIA GB10, 580.178.04",
+      "incumbent_state": "active",
+      "checkpoint_missing": [],
+      "source_head": null,
+      "source_dirty": null,
+      "lock_sha256": {},
+      "blockers": [
+        "free disk below conservative 250 GiB preparation budget",
+        "MemFree below 90 GiB: build/preparation must wait",
+        "MemAvailable below 100 GiB: build/preparation must wait",
+        "incumbent service is active",
+        "missing build tool: ninja",
+        "missing build tool: protoc",
+        "missing pkg-config development package: openssl",
+        "missing pkg-config development package: liburing",
+        "missing pkg-config development package: python-3.12",
+        "candidate source is absent, dirty or not at the pinned Flare revision",
+        "candidate dependency lockfiles are incomplete"
+      ]
+    },
+    {
+      "hostname": "spark-7829",
+      "architecture": "aarch64",
+      "kernel": "7.0.0-1025-nvidia",
+      "rank": 1,
+      "disk_path": "/home/nvidia",
+      "disk_free_bytes": 396231618560,
+      "memory_bytes": {
+        "MemFree": 3671121920,
+        "MemAvailable": 3212062720
+      },
+      "tools": {
+        "uv": "/home/nvidia/.local/bin/uv",
+        "cargo": "/home/nvidia/.cargo/bin/cargo",
+        "cmake": "/usr/bin/cmake",
+        "ninja": null,
+        "pkg-config": "/usr/bin/pkg-config",
+        "protoc": null,
+        "cc": "/usr/bin/cc"
+      },
+      "native_packages": {
+        "openssl": null,
+        "liburing": null,
+        "libibverbs": "1.14.50.0",
+        "python-3.12": null
+      },
+      "gpu_driver": "NVIDIA GB10, 580.178.04",
+      "incumbent_state": null,
+      "checkpoint_missing": [],
+      "source_head": null,
+      "source_dirty": null,
+      "lock_sha256": {},
+      "blockers": [
+        "MemFree below 90 GiB: build/preparation must wait",
+        "MemAvailable below 100 GiB: build/preparation must wait",
+        "missing build tool: ninja",
+        "missing build tool: protoc",
+        "missing pkg-config development package: openssl",
+        "missing pkg-config development package: liburing",
+        "missing pkg-config development package: python-3.12",
+        "candidate source is absent, dirty or not at the pinned Flare revision",
+        "candidate dependency lockfiles are incomplete"
+      ]
+    }
+  ]
+}
