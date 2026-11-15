@@ -11,11 +11,13 @@
   watchdog remain unchanged. Results are in progress, not a completed gate.
 - Prepared an isolated native qualification unit and a KDA operator test for
   TP2/width4 plus upstream TP4/width6 control, preserving numerical bounds. GPU
-  tests are not yet run; build/test only after the reference job is terminal and
+  tests are not yet run. The unit also includes 32 upstream TP2 state-transfer
+  cases; API smoke now requires sustained-decode cancellation and observed slot
+  release. Build/test only after the reference job is terminal and
   both nodes are idle under a new rollback timer.
 - Added a validated last-wins `FLARE_SERVE_RESERVE_GIB` ledger arm for serving
   only. Default and actual candidate reserve remain 4 GiB; a future 3 GiB trial
-  is pre-registered in `docs/12-flare-qualification-gate.md`. Nineteen local
+  is pre-registered in `docs/12-flare-qualification-gate.md`. Twenty-one local
   tests pass. No additional engine or reserve deployment in this follow-up.
 
 ## 2026-11-15 — Native Flare trial completed; B12X restored

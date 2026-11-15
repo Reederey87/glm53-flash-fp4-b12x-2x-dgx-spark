@@ -51,7 +51,14 @@ comparisons. Run `qualification/test_glm53_state_cuda.py`: the upstream
 TP4/width6 control and the deployed TP2/width4 geometry. Keep upstream bounds:
 output relative L2 < .01, recurrent/history rtol .025 / atol .002, subsequent
 output rtol .025 / atol .005. These are per-rank operator tests, not a multi-host
-collectives test. Fail on nonfinite values, bound violations, skipped cases or
+collectives test. Also run all 32 unchanged upstream GLM state-transfer cases:
+TP2 immutable snapshots/forked restores, partial pages around 256/512-token
+boundaries, rejected commands preserving bytes, and MTP trailing-page aliases.
+These check raw state transfer; full-model pressure/reuse qualification remains
+separate. The next native smoke must cancel during at least 32 generated tokens
+of active decode and observe one cancellation with zero active, inflight and
+retiring slots within ten seconds before successful subsequent generation.
+Fail on nonfinite values, bound violations, skipped cases or
 missing native qualification support. Preserve failures and investigate through
 Exa before changing code or kernels. No threshold relaxation.
 
@@ -104,3 +111,11 @@ KDA replay/cache ownership were reviewed; none supplies a drop-in fix for Flare'
 compiled gather contract. The operator gates address the pinned upstream
 [numerical TODO](https://github.com/NVIDIA/hyperflare-inference/blob/main/docs/TODO.txt),
 not an assumption that all upstream configurations are broken.
+
+The cancellation and raw state-transfer checks follow pinned upstream
+[protocol tests](https://github.com/NVIDIA/hyperflare-inference/blob/main/tests/server/test_protocols.py)
+and [GLM state-transfer tests](https://github.com/NVIDIA/hyperflare-inference/blob/main/tests/recipes/test_glm53_state_transfer_cuda.py).
+Exa's model-preparation documentation distinguishes full hybrid continuation
+state from KV-only reuse. Local vLLM disconnect handling, exllamav3 page/state
+release and TensorFold cancellation/state ownership were reviewed before the
+stronger test was implemented. Live qualification is still required.
