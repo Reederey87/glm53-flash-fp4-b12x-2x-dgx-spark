@@ -13,6 +13,10 @@ export PROTOC="$FLARE_DEPS/usr/bin/protoc"
 export BUILD_NVEP=0 FLASHINFER_BUILD_NO_PIP=1 CUTE_DSL_ARCH=sm_121a
 export CARGO_BUILD_JOBS=2 MAX_JOBS=2 UV_CONCURRENT_BUILDS=1
 export CUDA_HOME=/usr/local/cuda
+# The checkpoint loader uses XDG rather than Ignition's kernel-cache setting.
+export XDG_CACHE_HOME="$FLARE_ROOT/cache"
+# Preserve uv's existing downloaded dependencies while isolating runtime caches.
+export UV_CACHE_DIR=/home/nvidia/.cache/uv
 # Standalone probes run before Ignition installs its own isolated cache paths.
 export TRITON_CACHE_DIR="$FLARE_ROOT/kernels/probe/triton"
 export TORCHINDUCTOR_CACHE_DIR="$FLARE_ROOT/kernels/probe/inductor"
