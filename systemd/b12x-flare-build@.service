@@ -1,0 +1,14 @@
+[Unit]
+Description=Isolated Flare build and CUDA probe, rank %i
+
+[Service]
+Type=oneshot
+Environment=HOME=/home/nvidia
+WorkingDirectory=/home/nvidia/b12x-flare
+ExecStart=/bin/bash /home/nvidia/b12x-flare/scripts/flare_build.sh %i
+TimeoutStartSec=5400
+TimeoutStopSec=120
+KillMode=control-group
+Restart=no
+StandardOutput=append:/home/nvidia/b12x-flare/logs/build-rank%i.log
+StandardError=append:/home/nvidia/b12x-flare/logs/build-rank%i.log
