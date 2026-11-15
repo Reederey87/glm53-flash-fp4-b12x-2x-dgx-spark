@@ -269,3 +269,32 @@ against the completed B12X reference. Retain >2% robust-regression gate and
 memory/quality requirements above; full capacity and lifecycle gates remain.
 Do not claim speed/quality preservation from the component pass. Restore B12X
 at phase completion or failure. Adoption still requires explicit approval.
+
+## Cold concurrent and forked-prefix retrieval client
+
+`flare_retrieval.py` retains the pinned upstream fixture/classifier (SHA256
+`5a25550356fe1490e0a28bbfa755efe2bec822695b21922a6ed533d2e5aa4098`) and adds
+barrier-synchronized cold requests and different suffixes after a shared warm
+prefix. Run sizes8000/60000 (fixture sizes, not token lengths), c4/c8, three reps,
+T1/top-p.95, four-slot cap, 1024 maximum completion tokens. Use the same run ID
+on candidate and reference so request hashes match. Record actual prompt and
+completion counts, cache observations, per-batch speculative counter deltas,
+graph shapes and verdicts. No raw request/response text is written by this client.
+
+Require observed cached_tokens=0 for cold requests and >0 for every fork. Stop
+and retain the batch on corrupt/error responses, missing/reset/nonadvancing
+metrics or a cache-observation failure. Neighbor/misplaced results are retained
+as accuracy misses for the matched reference comparison, not relabeled passes.
+These observations do not establish byte-equivalent hybrid state, a long-context
+capacity pass, or accuracy equivalence. The ordinary/speculative comparison and
+pressure/page-boundary checks remain distinct gates. Run only after the new core
+has passed native startup and API smoke; the current export is unchanged.
+
+Exa sources: the [upstream defect analysis](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/glm-batched-speculation-defect.md)
+and [pinned retrieval design](https://github.com/NVIDIA/spark-local-inference/blob/main/scripts/repro_glm_batched_speculation.py).
+The former distinguishes inactive planned rows from live request count and
+neighboring-record misses from corrupt output. Local vLLM's hybrid-prefix test
+tracks actual skipped/recomputed tokens, exllamav3 pairs target/draft snapshots,
+and TensorFold shares serial/prefix KDA updates. Consequently, cache hits and
+fluent responses alone are insufficient. This client measures observed reuse
+without claiming it replaces the separate state checks.

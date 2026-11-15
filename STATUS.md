@@ -1,5 +1,14 @@
 # Status
 
+## 2026-11-15 — Native export running; matched retrieval tooling prepared
+
+- Frozen runtime f6a8f3e is exporting on both Sparks with native activations
+  confirmed in its resolved plan. B12X is intentionally stopped; automatic
+  restoration is armed for 2026-11-16 00:04:22 UTC. Both memory gates passed.
+- Added a pinned-fixture cold/forked retrieval client with observed cache checks,
+  per-run speculative deltas, graph shapes and sanitized receipts. All27 local
+  tests pass; no live retrieval claim yet. The running export bytes are unchanged.
+
 ## 2026-11-15 — Native dense activations pass all component checks
 
 - Frozen kit 6bf1900 passed all 49 SM121 checks: weights12, indexer4, KDA2,
