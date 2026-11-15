@@ -1,0 +1,9 @@
+libssl-dev=3.0.13-0ubuntu3.16
+libssl3t64=3.0.13-0ubuntu3.16
+liburing-dev=2.5-1build1
+liburing2=2.5-1build1
+protobuf-compiler=3.21.12-8.2ubuntu0.4
+libprotoc32t64=3.21.12-8.2ubuntu0.4
+libprotobuf32t64=3.21.12-8.2ubuntu0.4
+ninja-build=1.11.1-2
+libpython3.12-dev=3.12.3-1ubuntu0.17
