@@ -119,3 +119,24 @@ Exa's model-preparation documentation distinguishes full hybrid continuation
 state from KV-only reuse. Local vLLM disconnect handling, exllamav3 page/state
 release and TensorFold cancellation/state ownership were reviewed before the
 stronger test was implemented. Live qualification is still required.
+
+## Sampling compatibility clarification
+
+Exa returned conflicting upstream API text: an older logprob paragraph says
+temperature zero is rejected, while the sampling section says it is clamped.
+Pinned `helios/src/server/request.rs::sampling_parameters` and its boundary tests
+resolve this: numeric values are clamped before validation. The GLM recipe
+permits temperature .95–1 and top-p .95–1, so temperature zero becomes .95; it
+does not request greedy decoding. `/v1/models` exposes these ranges. The first
+trial did not establish a native HTTP rejection, and earlier kit wording has
+been corrected. Both benchmark arms remain explicitly at temperature 1/top-p .95.
+
+In the next native smoke, verify that numeric zero is accepted and a string
+temperature is rejected, while recording the signed advertised ranges. Client
+workflows requiring actual greedy decoding remain incompatible; do not silently
+describe clamping as parity. A change to sampler semantics would require its own
+source review, numerical gate and deployment window, not a reserve-only trial.
+
+Other numeric parameters without a declared interval remain fixed at their
+prepared defaults, including neutral penalties in this core. Clients must not
+assume that a successful request means their requested distribution was honored.

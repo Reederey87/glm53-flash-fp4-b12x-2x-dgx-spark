@@ -15,6 +15,10 @@
   cases; API smoke now requires sustained-decode cancellation and observed slot
   release. Build/test only after the reference job is terminal and
   both nodes are idle under a new rollback timer.
+- Corrected the temperature-zero compatibility description after Exa returned
+  conflicting upstream prose: pinned native source clamps numeric zero to .95,
+  rather than providing greedy decoding. Added a seventh API smoke case for
+  numeric-zero acceptance and malformed-type rejection; live rerun is pending.
 - Added a validated last-wins `FLARE_SERVE_RESERVE_GIB` ledger arm for serving
   only. Default and actual candidate reserve remain 4 GiB; a future 3 GiB trial
   is pre-registered in `docs/12-flare-qualification-gate.md`. Twenty-one local

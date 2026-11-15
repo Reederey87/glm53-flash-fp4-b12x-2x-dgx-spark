@@ -34,7 +34,7 @@ before adoption. Do not count a skipped qualification-only native test as passin
 
 Performance collection uses `flare_bench.py` with the same checkpoint tokenizer,
 seed, prompts, budgets and sampling on both engines: **temperature 1, top-p .95**.
-Flare rejects temperature zero; the earlier greedy incumbent smoke is a health
+the Flare core does not preserve greedy temperature-zero semantics; the earlier greedy incumbent smoke is a health
 reference and is not a fair performance comparator. Exact raw-token prefill at
 8192/16384/32768/65536/131072 runs at c1/2/4/8; every request must report its exact
 length and zero cached tokens. Record actual decode lengths, per-request TTFT and

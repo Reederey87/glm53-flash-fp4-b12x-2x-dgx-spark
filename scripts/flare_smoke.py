@@ -4,6 +4,7 @@ import json
 import math
 from pathlib import Path
 import time
+import urllib.error
 import urllib.request
 
 from spec_metrics import SAMPLE
@@ -119,6 +120,25 @@ def main():
         return entry
 
     check("identity_and_context", identity)
+
+    def sampling_contract():
+        entry = identity()
+        bounds = entry["flare"]["sampling_ranges"]["temperature"]
+        assert abs(bounds["min"] - .95) < 1e-6 and bounds["max"] == 1, bounds
+        messages = [{"role": "user", "content": "Say hello."}]
+        response = post(base, body(messages, temperature=0, max_tokens=1))
+        assert response["usage"]["completion_tokens"] == 1
+        try:
+            post(base, body(messages, temperature="0", max_tokens=1))
+        except urllib.error.HTTPError as error:
+            assert error.code == 400, error.code
+        else:
+            raise AssertionError("malformed string temperature was accepted")
+        return {"numeric_zero_http": 200, "malformed_string_http": 400,
+                "advertised_temperature_range": bounds,
+                "semantics": "pinned native source clamps zero to the advertised minimum; not greedy decoding"}
+
+    check("sampling_range_contract", sampling_contract)
 
     def reasoning():
         from transformers import AutoTokenizer

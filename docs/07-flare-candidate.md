@@ -88,7 +88,7 @@ Zero-draft request rounds are retained separately. [API metrics](https://github.
 
 `flare_bench.py` adds exact raw-token cold prefill at c1/2/4/8 and matched
 code/prose decoding, observed cache counts and run-local speculative counters.
-Both arms use temperature 1 and top-p .95 because Flare rejects temperature zero.
+Both arms use temperature 1 and top-p .95 because the Flare core does not preserve greedy temperature-zero semantics.
 `flare_smoke.py` checks native prompt tokens, reasoning, tools, structured output,
 prefix reuse and cancellation. These tools still require native hardware receipts.
 The legacy speed script is a health reference, not a fair Flare speed comparison.
