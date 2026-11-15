@@ -1,5 +1,14 @@
 # Status
 
+## 2026-11-15 — Strict matched-matrix comparison prepared
+
+- Added full-matrix validation of request identity, token counts, cold-cache
+  observations, timing and per-run speculative rates. Reports preserve all
+  repetitions and distinguish separated regressions from noisy median changes.
+- Thirty-six local tests pass, including rejection of incomplete/mismatched
+  evidence. No running client or engine changed; final comparison waits for
+  the native matrix to finish.
+
 ## 2026-11-15 — Loaded lifecycle qualification prepared
 
 - Added a guarded candidate-only client for rank-zero shutdown and injected worker

@@ -357,3 +357,30 @@ FlashInfer synchronizes collective resources before close, and TensorFold closes
 its HTTP server in a SIGTERM cleanup path. These support the checks; they do not
 prove this two-host run correct. No engine or launch configuration changes are
 combined with these tests.
+
+## Comparing completed matrices
+
+`flare_compare.py` accepts only complete matched three- or five-repetition
+matrices. It rejects missing/duplicate rows, different manifests/request hashes,
+unequal prompt counts, noncold or inexact prefills, decode lengths other than200,
+invalid timing, and speculative rates inconsistent with their measured deltas.
+It retains every repetition and reports per-request and aggregate rates
+separately. Within each repetition, per-request rates use the batch median;
+across repetitions the comparison uses the median again. Concurrency8 still
+has four execution slots, so its TTFT includes queuing.
+
+For descriptive separation, label a regression robust when even the best
+candidate repetition is below98% of the worst reference repetition. A median
+regression greater than2% whose ranges overlap remains inconclusive and requires
+more repetitions; it is not called a pass. This supplements the existing2%
+gate, without claiming a confidence interval from three observations. A speed
+report cannot override separate quality, capacity, memory or lifecycle failures.
+
+Exa's [official benchmark definitions](https://docs.vllm.ai/en/stable/benchmarking/cli/)
+distinguish aggregate throughput from per-request latency and explain that
+speculative streaming emits token bursts. The already frozen client includes
+the first burst in its decode numerator; both engines use that same definition,
+which is explicitly not inverse standard TPOT. The
+[acceptance metric definitions](https://docs.vllm.ai/en/latest/features/speculative_decoding/acceptance_metrics/)
+support the accepted/drafts formulas. Local vLLM benchmark source was checked
+against these definitions. No running measurement client or engine is changed.
