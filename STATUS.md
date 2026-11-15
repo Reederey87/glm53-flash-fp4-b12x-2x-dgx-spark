@@ -11,7 +11,8 @@
   `receipts/flare-qualification-20261115/retrieval-matched-b12x.json`.
 - Started the full three-repetition exact-token B12X reference matrix as bounded
   client unit `b12x-flare-reference-bench.service`; production configuration and
-  watchdog remain unchanged. Results are in progress, not a completed gate.
+  watchdog remain unchanged. Completed at 21:30:56 UTC: all 84 rows validated, 225 exact cold-prefill
+  requests and 90 full-budget decode requests. Candidate comparison remains open.
 - Prepared an isolated native qualification unit and a KDA operator test for
   TP2/width4 plus upstream TP4/width6 control, preserving numerical bounds. GPU
   tests are not yet run. The unit also includes 32 upstream TP2 state-transfer
