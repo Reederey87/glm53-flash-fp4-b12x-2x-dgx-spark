@@ -1,0 +1,14 @@
+[Unit]
+Description=Isolated Flare export/join, rank %i
+
+[Service]
+Type=oneshot
+Environment=HOME=/home/nvidia
+WorkingDirectory=/home/nvidia/b12x-flare
+ExecStart=/bin/bash /home/nvidia/b12x-flare/scripts/flare_run.sh prepare %i
+TimeoutStartSec=5400
+TimeoutStopSec=180
+KillMode=control-group
+Restart=no
+StandardOutput=append:/home/nvidia/b12x-flare/logs/prepare-rank%i.log
+StandardError=append:/home/nvidia/b12x-flare/logs/prepare-rank%i.log
