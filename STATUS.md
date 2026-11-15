@@ -1,5 +1,14 @@
 # Status
 
+## 2026-11-15 — Loaded lifecycle qualification prepared
+
+- Added a guarded candidate-only client for rank-zero shutdown and injected worker
+  loss during observed active decode. Each requires terminal rank states, closed
+  HTTP streams and released operation locks; the explicit rollback timer remains
+  armed. Exa and the pinned local engines informed the pre-registered checks.
+- Thirty-two local tests pass. The live speed matrix remains undisturbed; neither
+  lifecycle check has run yet. No engine, checkpoint or serving knobs changed.
+
 ## 2026-11-15 — Native-activation core exported and serving smoke passed
 
 - Export f6a8f3e completed with both ranks exit0; new core df214696 has verified

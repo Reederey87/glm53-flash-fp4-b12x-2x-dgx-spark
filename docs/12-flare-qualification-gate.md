@@ -318,3 +318,42 @@ explains why VRAM-only reporting is insufficient on GB10. Local vLLM, exllamav3
 and TensorFold similarly distinguish reclaimable host memory from CUDA free
 memory. This client records both host measures; it changes no allocator,
 checkpoint, KV layout, kernel or sysctl and does not globally drop caches.
+
+## Loaded shutdown and peer-loss checks — registered before execution
+
+After the performance and retrieval clients terminate, stop the enforcing memory
+monitor while retaining the scheduled B12X restoration timer. Run
+`flare_lifecycle.py --action graceful` in its own bounded client unit. It refuses
+active benchmark/retrieval/preparation/qualification units, an active incumbent,
+memory enforcement, missing restoration scheduling, or nonidle request gauges.
+Keep the stream open until at least 32 generated tokens and a nonzero active
+request gauge are observed, then queue a stop of the head serving unit only.
+Require both ranks terminal within 180 seconds, both unit results success with
+exit status zero, HTTP stream closure and both operation locks released. Capture
+unit states and timing; a closed connection alone is not a clean-stop pass.
+
+Use the scoped candidate cache-release helper and unchanged idle-memory gate
+before restarting the same core through the head unit. After health and a fresh
+API smoke, the independent failure-injection check uses the same active-decode
+condition, then sends SIGKILL to the worker candidate unit's entire control group.
+Require head failure with nonzero status, both ranks terminal within 180 seconds,
+closed HTTP stream and released operation locks. This deliberately lost worker
+cannot establish successful CUDA drain; it checks fail-stop propagation and
+process cleanup. Capture the native logs separately. Stop this client and restore
+B12X through the existing helper, then verify both original image digests,
+health, five API checks, watchdog and tailnet before disarming restoration.
+Do not start a lifecycle check unless enough of the serving window remains for
+its restart and restoration; any timeout or unexpected result retains a failed
+receipt and restores the incumbent before Exa-guided troubleshooting.
+
+Exa's [multi-host lifecycle guidance](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/multi-host.md)
+stops rank zero before peers, and the
+[upstream qualification TODO](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/TODO.txt)
+distinguishes socket coordination from threaded executor proofs. Pinned native
+`serve_peer` retains resource owners when drain is unconfirmed; rank zero closes
+the server before releasing transport. Local vLLM distinguishes requested stop
+from engine death, exllamav3 drains transfer queues before releasing states,
+FlashInfer synchronizes collective resources before close, and TensorFold closes
+its HTTP server in a SIGTERM cleanup path. These support the checks; they do not
+prove this two-host run correct. No engine or launch configuration changes are
+combined with these tests.
