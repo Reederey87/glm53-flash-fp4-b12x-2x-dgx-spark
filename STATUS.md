@@ -1,5 +1,19 @@
 # Status
 
+## 2026-11-15 — Authorized housekeeping cleared the disk gate
+
+- Removed unused head Docker build cache, dangling images older than 30 days and
+  unreferenced uv cache files. All named image tags were verified unchanged.
+- Explicit user authorization then covered retired DeepSeek V4.1 EXL3 shards,
+  Engram parts/assembled weights and head source shards on both nodes. Retained
+  recipes/metadata; restoring these DeepSeek weights now requires re-download.
+- Observed DeepSeek cleanup recovered about 592 GiB per node; free space is now
+  about 850 GiB head / 961 GiB worker. Hard-linked file sizes are not additive.
+  Receipt: `receipts/flare-housekeeping-20261115.json`.
+- Incumbent service/watchdog remain active, health HTTP 200. GLM weights, B12X
+  runtime and rollback images are preserved. Disk task removed from shared TODO;
+  native dependencies, lifecycle and GPU qualification remain outstanding.
+
 ## 2026-11-15 — Flare candidate tooling; deployment prerequisite gate failed
 
 - Added a pinned Flare/FlashInfer recipe, offline command/config renderer and

@@ -1,0 +1,1199 @@
+{
+  "date": "2026-11-15",
+  "authorization": "User authorized unused housekeeping, then explicitly authorized dropping DeepSeek model-weight shards.",
+  "research": [
+    "https://docs.docker.com/reference/cli/docker/builder/prune/",
+    "https://docs.docker.com/reference/cli/docker/image/prune/",
+    "https://huggingface.co/docs/huggingface_hub/en/guides/manage-cache"
+  ],
+  "nodes": {
+    "head": {
+      "host": "spark-a183",
+      "before_deepseek_free_bytes": 277191520256,
+      "after_deepseek_free_bytes": 912967843840,
+      "observed_free_increase_bytes": 635776323584,
+      "deleted_paths": [
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/01f728f501a6715d977bb04ea831cc2845bd02a84c626c5a3c00f6db935acf6e",
+          "bytes": 4293844252,
+          "allocated_bytes": 4293849088,
+          "inode": 12468378,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/02b5933152bf865e06dd69b9e7be013cd105cd45ba127d52d1f904a3ca3f2945",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12469341,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/076ef357cca67e915af209c0c2a4a7ed9ff6c4637b7f73d5d484e06047794b2c",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 12468340,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/0a1a27f14009ad9ccb3bddd10a55f98a3dcec8c3918e1f9969c82f1007dd3bb0",
+          "bytes": 4292470308,
+          "allocated_bytes": 4292476928,
+          "inode": 12468331,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/0c33910e5a59c2787d1bc1891ca5961248e1db94e7919c562afbf4cedba2f5b2",
+          "bytes": 101380404312,
+          "allocated_bytes": 101380419584,
+          "inode": 12468238,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/0cb8a7e807210d9571217c382a48ad5460cfd9fa691b7246b30009e1b3600f22",
+          "bytes": 4292470620,
+          "allocated_bytes": 4292476928,
+          "inode": 12468364,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/0dc83addbcf9ef4335486cca46633f33131322d97568d8aef77d64a54e3ab71f",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12469344,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/174fef528430dd49ff93332688896909f939289db23d81e62d6a7b72fe8480fd",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 12468355,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/1ac6638e79eb9a6ff74428b786d85c8fd26fdfb0570fe227ae0c76c7eb89c1be",
+          "bytes": 4293848932,
+          "allocated_bytes": 4293853184,
+          "inode": 12468286,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/27fa22ce35927a345dc87af1db9c85956c5b546d625b125fb8146b01b03df376",
+          "bytes": 4293847988,
+          "allocated_bytes": 4293853184,
+          "inode": 12468259,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/2cbc2d5eadc3a01b7cb3213f5ade6d467b3618459311a1694d77c4cd4f334521",
+          "bytes": 3642909368,
+          "allocated_bytes": 3642916864,
+          "inode": 12468218,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/3286b6712dae3512ad7d2f2156b483624feb905ffd77ee58b0deed119fc08275",
+          "bytes": 686798728,
+          "allocated_bytes": 686804992,
+          "inode": 12468399,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/37e0336b484aca786b1580042dc44bda89bf65acb5b8a1986c77412a26f117ee",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12468898,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/3b24a2efac073ca0987a551e256acde6c2c8f31aaa9d3dc8077e2cd382ce5ba3",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12468892,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/3cf5a08d5de4805980174c47e7c827405c058309bf80f03d77d55af2731c0979",
+          "bytes": 4294985064,
+          "allocated_bytes": 4294991872,
+          "inode": 12468358,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/42efd5dacde4e84903efd7be8aeb6ac833b75e2d27bec586764e5c3060152197",
+          "bytes": 4292913880,
+          "allocated_bytes": 4292919296,
+          "inode": 12468243,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/437c5139b096f23b9954bd25b5e062d0b1964c50f12fddd60ddd2c64622996c3",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12469347,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/44b3bc659cb882ccd9d0fd595d907e81aacbe1cb0e7a92fe57d084a102a38219",
+          "bytes": 4291480016,
+          "allocated_bytes": 4291485696,
+          "inode": 12468295,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/490ac88af655136a8b591ea4eba316f50d54b7f8fe1a2130e864c95701d7fb3f",
+          "bytes": 4292470276,
+          "allocated_bytes": 4292476928,
+          "inode": 12468283,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/4a595e2c7581c8f585a5d5cf6d6f62b87a7cc1c40a6142ef87ee1ebc9ad25415",
+          "bytes": 4293847964,
+          "allocated_bytes": 4293853184,
+          "inode": 12468262,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/4b78e1e078b13fbdb217865d2459def1d4aeb98114e5df1564571bda5f62e73a",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12468891,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/4d5a3f9206c1cbeee9a400ab6995bcd4208822e6810f31e0efe9082698730f28",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12469346,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/51963f0d97a22a0df719340d34f324e8431646b1b3c559895434b65e3589ce9f",
+          "bytes": 4293847972,
+          "allocated_bytes": 4293853184,
+          "inode": 12468346,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/520d439dbafda9b68f074c97090e66c0b3281d50505b0d38922bf528f1106c9b",
+          "bytes": 4292283116,
+          "allocated_bytes": 4292288512,
+          "inode": 12468390,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/53a9ae8a11bb665f382cc8fce0c12a01fcc9d9914b0ae9cc6ce70dfaf6673924",
+          "bytes": 4294985064,
+          "allocated_bytes": 4294991872,
+          "inode": 12468343,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/612eb8dd13c13b43727f74b6d3bb84d213e6904fb3323fa9289e0c1f7c908c55",
+          "bytes": 4293847972,
+          "allocated_bytes": 4293853184,
+          "inode": 12468289,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/617c27f7f44769dae6e1270f9bd538826f58e57ee559fac6ebad8afb37894843",
+          "bytes": 4293844252,
+          "allocated_bytes": 4293849088,
+          "inode": 12468393,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/658f462f2c136a89c68b0745724df202da14a9148c342e21e61af898977e70d0",
+          "bytes": 4293846436,
+          "allocated_bytes": 4293853184,
+          "inode": 12468375,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/65b10c23252ddf93627b0783b68f044babb5c5f5848d872c67dcc38ba2c2944b",
+          "bytes": 4290223664,
+          "allocated_bytes": 4290228224,
+          "inode": 12468216,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/6a7bea1b35c579ff57c45308a8b5757872ef7af58e3e413e6e50ea5b424c6241",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 12468280,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/6dfae805e0c514773b1a62c790b51a932b2fc74a6ce7e8d3d39d3ec6c2edea76",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 12468372,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/70ec89b2ea1e39b3c7de91d3663cdfa21d4ff49d59a69b1624a2500eb315e430",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 12468265,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/7866ffceab874fcf15b8d3b670385758a24b04b3d73a809b665420caa29e997e",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12468895,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/7af57378584542bda009cb8be96dfeb245c4e4017ff6fc0a6249bb62746eb704",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12468897,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/7cd3068fff4136d32d351d570be1a91be3d1f1c64e02c4e7fbd2a7f71786069f",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 12468328,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/82fb2b7e8ecaf60c305df4214c92b1be43573f6f154860d1b92e538cae57eb4c",
+          "bytes": 4293848316,
+          "allocated_bytes": 4293853184,
+          "inode": 12468304,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/84d18a981f87e58080a9a26c8fca29d2c3d676d4c2d6a478af5ea57ef1e196fc",
+          "bytes": 4292470900,
+          "allocated_bytes": 4292476928,
+          "inode": 12468349,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/869d182af27e16f93f06efc093ad157840cdc741cc52bd519eedc0b1edbcc7d7",
+          "bytes": 4293848604,
+          "allocated_bytes": 4293853184,
+          "inode": 12468367,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/87328889abb048e7761cda1a2f66c2300a24e6f2d939b3a257ee4b8d7187a2ee",
+          "bytes": 4293847972,
+          "allocated_bytes": 4293853184,
+          "inode": 12468298,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/8a850db831575d8e2d35c1245604b8d570b91544545fa2f952d2856482bd4936",
+          "bytes": 4293844212,
+          "allocated_bytes": 4293849088,
+          "inode": 12468387,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/8c57670edf4609ff533e0b27cb76a75281137012d55a754ed2600bcf621ce60d",
+          "bytes": 4292470420,
+          "allocated_bytes": 4292476928,
+          "inode": 12468268,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/8d1d47a1c4eb708014fffeef0bd12c6875cfe7d1132468e69c1ead423a68c9d0",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12468899,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/949b7d55bf7ae15ff0e55a29a81e809e6f65cb87f19f71ac9ff5adda3cf31ad0",
+          "bytes": 4294985064,
+          "allocated_bytes": 4294991872,
+          "inode": 12468310,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/9849ad18f55683d835bf06438448b2722cdbedb0e014bce311db68c4f291aae8",
+          "bytes": 4293846932,
+          "allocated_bytes": 4293853184,
+          "inode": 12468337,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/999c7db4687eddc73deff7008a50c5b52caeed5c005eb91b3a6970a215d1e391",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 12468322,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/9d9998b2ce2d39f3d62dab8b3bfbeac1f613682a020fd603a8871b8062915a39",
+          "bytes": 4291564188,
+          "allocated_bytes": 4291571712,
+          "inode": 12468246,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/9da08b07cdf5f0f15e0e36d495d24b0c89c0057651de1cb8da9dc014fab7316a",
+          "bytes": 4293847956,
+          "allocated_bytes": 4293853184,
+          "inode": 12468361,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/9ecd9bc00c8c045104d639dfdd8d6de4fe0457ce05ad8885baab062d059b0c9e",
+          "bytes": 101377628616,
+          "allocated_bytes": 101377642496,
+          "inode": 12468235,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/a03a30283371fe45f149faf6483e69dd2bdaebbc1328df089462bcdad2156e48",
+          "bytes": 4293847972,
+          "allocated_bytes": 4293853184,
+          "inode": 12468277,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/a7fca9749364ae647b62307f2a20b0d3a236a6812831e53de5f326da10dcbcd9",
+          "bytes": 4292470900,
+          "allocated_bytes": 4292476928,
+          "inode": 12468301,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/b5c1cf6dfb4109cf2b9839a6acda753875f88b4f1779d020460315ed097cd62c",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12468906,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/bad1c18cca9151af0ce324fe892bf9a19e055c133ce82908d5aa7c6d3b8d1e02",
+          "bytes": 4292285012,
+          "allocated_bytes": 4292292608,
+          "inode": 12468292,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/be3ba17a2caba98249736423a8d7e6ef7dde6d71ff9d365e20ef74a9ea81b62b",
+          "bytes": 4292466868,
+          "allocated_bytes": 4292472832,
+          "inode": 12468253,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/ccaae02f446fc78d1ab16613752076e37671a229b022e252ef0b317286137f71",
+          "bytes": 4293848612,
+          "allocated_bytes": 4293853184,
+          "inode": 12468319,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/ce4379f2e1bae25bd166ed27839c2e39e618d85171fa51214c4592abd70650f8",
+          "bytes": 4293848308,
+          "allocated_bytes": 4293853184,
+          "inode": 12468352,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/cea9f6b30c5346c128d92dc9ff705c47a26c2e5655b965c0392233f27e7119ba",
+          "bytes": 891113472,
+          "allocated_bytes": 891117568,
+          "inode": 12469332,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/d07481a8dc31982e9a2006690d56a69f15597cfc1a5b8ad6da00baced15bc6a0",
+          "bytes": 4293847980,
+          "allocated_bytes": 4293853184,
+          "inode": 12468274,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/d8f39fe9623c63dc1f5041ac9810e2545fd6b84e1e04125433c7fc9a152fa378",
+          "bytes": 4293847940,
+          "allocated_bytes": 4293853184,
+          "inode": 12468256,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/d9db1a9815a66b57423ae6cc8b010d6dfb082de5e2ed57a694bc0f556f261aa9",
+          "bytes": 4293845172,
+          "allocated_bytes": 4293853184,
+          "inode": 12468384,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/d9fe784ccfbf3047337d2b92c237ff358da8b81caacb7bafeb3b7db7d61da3f0",
+          "bytes": 4293847964,
+          "allocated_bytes": 4293853184,
+          "inode": 12468313,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/df2836cd435d837f998645c8e824c5cd9d21bd796c864277fb2b77ff47621848",
+          "bytes": 4294985024,
+          "allocated_bytes": 4294991872,
+          "inode": 12468325,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/e017cb6c0644cd6aeab73b9c1f8a7e1a8fd40b14ceee96bfbb324637e277e8a9",
+          "bytes": 4292470612,
+          "allocated_bytes": 4292476928,
+          "inode": 12468316,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/e071a47c15bfe5a32ffd3ebdfc51f916b37591fca9d2976fe099bc1947b3ff1a",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 12468307,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/e91d393f8f760b768013d5f03e2b79abb215693712895031d949d5bd34a7587c",
+          "bytes": 4295120288,
+          "allocated_bytes": 4295127040,
+          "inode": 12468396,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/ea93ebc52be456ed0a6a23fe6140a24f03a006a09453156d5f54de9492155fba",
+          "bytes": 4292466436,
+          "allocated_bytes": 4292472832,
+          "inode": 12468381,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/eeea4969c2fd54d85db5a7b361c1f64a76d2544506edf096ac612a73a5220188",
+          "bytes": 4294446736,
+          "allocated_bytes": 4294451200,
+          "inode": 12468271,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/f02a92ef1aa8d84b34ee4556bc82c803edffc7adf47e0f2a7583dd3506535cd2",
+          "bytes": 889671680,
+          "allocated_bytes": 889675776,
+          "inode": 12468903,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/f0c44d4000a99977c4c66cdc5f630832260d260b8f726f86e5abb0a6c57a4553",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589938688,
+          "inode": 12468902,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/ffb716c129bb37845a1ccaa77e051207ee751c4ae57617be367ebca968666848",
+          "bytes": 4293845308,
+          "allocated_bytes": 4293853184,
+          "inode": 12468334,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/vllm-dsv41-flash-exl3/engram-src/model-00047-of-00048.safetensors",
+          "bytes": 101535150936,
+          "allocated_bytes": 101535166464,
+          "inode": 12461865,
+          "links": 2
+        },
+        {
+          "path": "/home/nvidia/.cache/vllm-dsv41-flash-exl3/engram-src/model-00048-of-00048.safetensors",
+          "bytes": 101537926640,
+          "allocated_bytes": 101537939456,
+          "inode": 12461855,
+          "links": 2
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/engram-page15-v1/engram-layer-01-rank0-page15.bin",
+          "bytes": 52429279232,
+          "allocated_bytes": 52429287424,
+          "inode": 13893635,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/engram-page15-v1/engram-layer-14-rank0-page15.bin",
+          "bytes": 52430721024,
+          "allocated_bytes": 52430729216,
+          "inode": 13893636,
+          "links": 1
+        }
+      ],
+      "removed_snapshot_links": [
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/draft/model-00001-of-00002.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/draft/model-00002-of-00002.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/engrams/engram-layer-01.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/engrams/engram-layer-14.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00001-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00002-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00003-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00004-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00005-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00006-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00007-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00008-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00009-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00010-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00011-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00012-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00013-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00014-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00015-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00016-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00017-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00018-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00019-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00020-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00021-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00022-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00023-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00024-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00025-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00026-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00027-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00028-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00029-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00030-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00031-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00032-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00033-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00034-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00035-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00036-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00037-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00038-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00039-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00040-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00041-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00042-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00043-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00044-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00045-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00046-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00047-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00048-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00049-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00050-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00051-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank0-page15.bin.part-00000",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank0-page15.bin.part-00001",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank0-page15.bin.part-00002",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank0-page15.bin.part-00003",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank0-page15.bin.part-00004",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank0-page15.bin.part-00005",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank0-page15.bin.part-00006",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank0-page15.bin.part-00000",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank0-page15.bin.part-00001",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank0-page15.bin.part-00002",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank0-page15.bin.part-00003",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank0-page15.bin.part-00004",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank0-page15.bin.part-00005",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank0-page15.bin.part-00006"
+      ]
+    },
+    "worker": {
+      "host": "spark-7829",
+      "before_deepseek_free_bytes": 396231516160,
+      "after_deepseek_free_bytes": 1032010850304,
+      "observed_free_increase_bytes": 635779334144,
+      "deleted_paths": [
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/13/13b5cc59c82078715db6abc3ed6c64af1d901a444548a33146ba7f6db9435a92",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754638,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/25/250dbf3161c7f1b58e84b692b2db57aaabfcf2349f9a8e737e9a6f09e714df66",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589942784,
+          "inode": 56754640,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/2c/2c5c47e87e5e59db61a31c166bbb7babd9758cb6d3f6bc5e1f8a9bb0e10dd31f",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754642,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/2d/2d0e118d05be272048d48cce6194c47003c8fe7f67bc8129a41f417380683ea0",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754631,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/5f/5f56a28cdcf6387469736b0fb2ae8ebd2c710c836aa0cf0215a808a8027ca5ad",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754625,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/66/6670ef71f79fde318a14c7602a394d134c0ab017d96d9e35ada6a15fd9f0310f",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754622,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/70/70666003bfe4d2873c39029e3b20f98881a0865fe43c26767c451aa49268d950",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754644,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/79/79b0a26ee249a57e49818162271eca2021be920036b134cb3c7cd8cdf67b8dd4",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754650,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/88/88fb279250a584b71738a47c02429176d06cacdef0dc656d7d075be6316f1172",
+          "bytes": 891838464,
+          "allocated_bytes": 891842560,
+          "inode": 56754658,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/ab/ab729b7108d396daf842acc94f648897956ebe8164fbd752531c24e12d666d4f",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754646,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/b6/b6cc8da08cd8b7262c8baa8869a7e90cfe35ae87977eb94eba4e7c1bfe8454fb",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754635,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/ce/cea373dd4235182840c171a19698cf7be30139286754c4a7d25df2025f596055",
+          "bytes": 890408960,
+          "allocated_bytes": 890413056,
+          "inode": 56754637,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/d5/d573e4fae190c2439b08aa8e88726d745b1fd5059b89186c7ad3a390848f74e1",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754623,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/blobs/d8/d861b0d2cc31f1820a522fce674be3ad91140c4cef686a8fef942060da0a50ab",
+          "bytes": 8589934592,
+          "allocated_bytes": 8589946880,
+          "inode": 56754636,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/01f728f501a6715d977bb04ea831cc2845bd02a84c626c5a3c00f6db935acf6e",
+          "bytes": 4293844252,
+          "allocated_bytes": 4293849088,
+          "inode": 56754484,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/076ef357cca67e915af209c0c2a4a7ed9ff6c4637b7f73d5d484e06047794b2c",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 56754486,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/0a1a27f14009ad9ccb3bddd10a55f98a3dcec8c3918e1f9969c82f1007dd3bb0",
+          "bytes": 4292470308,
+          "allocated_bytes": 4292476928,
+          "inode": 56754488,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/0c33910e5a59c2787d1bc1891ca5961248e1db94e7919c562afbf4cedba2f5b2",
+          "bytes": 101380404312,
+          "allocated_bytes": 101380419584,
+          "inode": 56754489,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/0cb8a7e807210d9571217c382a48ad5460cfd9fa691b7246b30009e1b3600f22",
+          "bytes": 4292470620,
+          "allocated_bytes": 4292476928,
+          "inode": 56754490,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/174fef528430dd49ff93332688896909f939289db23d81e62d6a7b72fe8480fd",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 56754496,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/1ac6638e79eb9a6ff74428b786d85c8fd26fdfb0570fe227ae0c76c7eb89c1be",
+          "bytes": 4293848932,
+          "allocated_bytes": 4293853184,
+          "inode": 56754497,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/27fa22ce35927a345dc87af1db9c85956c5b546d625b125fb8146b01b03df376",
+          "bytes": 4293847988,
+          "allocated_bytes": 4293853184,
+          "inode": 56754500,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/2cbc2d5eadc3a01b7cb3213f5ade6d467b3618459311a1694d77c4cd4f334521",
+          "bytes": 3642909368,
+          "allocated_bytes": 3642916864,
+          "inode": 56754501,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/3286b6712dae3512ad7d2f2156b483624feb905ffd77ee58b0deed119fc08275",
+          "bytes": 686798728,
+          "allocated_bytes": 686804992,
+          "inode": 56754502,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/3cf5a08d5de4805980174c47e7c827405c058309bf80f03d77d55af2731c0979",
+          "bytes": 4294985064,
+          "allocated_bytes": 4294991872,
+          "inode": 56754504,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/42efd5dacde4e84903efd7be8aeb6ac833b75e2d27bec586764e5c3060152197",
+          "bytes": 4292913880,
+          "allocated_bytes": 4292919296,
+          "inode": 56754510,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/44b3bc659cb882ccd9d0fd595d907e81aacbe1cb0e7a92fe57d084a102a38219",
+          "bytes": 4291480016,
+          "allocated_bytes": 4291485696,
+          "inode": 56754511,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/490ac88af655136a8b591ea4eba316f50d54b7f8fe1a2130e864c95701d7fb3f",
+          "bytes": 4292470276,
+          "allocated_bytes": 4292476928,
+          "inode": 56754514,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/4a595e2c7581c8f585a5d5cf6d6f62b87a7cc1c40a6142ef87ee1ebc9ad25415",
+          "bytes": 4293847964,
+          "allocated_bytes": 4293853184,
+          "inode": 56754516,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/51963f0d97a22a0df719340d34f324e8431646b1b3c559895434b65e3589ce9f",
+          "bytes": 4293847972,
+          "allocated_bytes": 4293853184,
+          "inode": 56754519,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/520d439dbafda9b68f074c97090e66c0b3281d50505b0d38922bf528f1106c9b",
+          "bytes": 4292283116,
+          "allocated_bytes": 4292288512,
+          "inode": 56754520,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/53a9ae8a11bb665f382cc8fce0c12a01fcc9d9914b0ae9cc6ce70dfaf6673924",
+          "bytes": 4294985064,
+          "allocated_bytes": 4294991872,
+          "inode": 56754521,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/612eb8dd13c13b43727f74b6d3bb84d213e6904fb3323fa9289e0c1f7c908c55",
+          "bytes": 4293847972,
+          "allocated_bytes": 4293853184,
+          "inode": 56754528,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/617c27f7f44769dae6e1270f9bd538826f58e57ee559fac6ebad8afb37894843",
+          "bytes": 4293844252,
+          "allocated_bytes": 4293849088,
+          "inode": 56754529,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/658f462f2c136a89c68b0745724df202da14a9148c342e21e61af898977e70d0",
+          "bytes": 4293846436,
+          "allocated_bytes": 4293853184,
+          "inode": 56754530,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/65b10c23252ddf93627b0783b68f044babb5c5f5848d872c67dcc38ba2c2944b",
+          "bytes": 4290223664,
+          "allocated_bytes": 4290228224,
+          "inode": 56754531,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/6a7bea1b35c579ff57c45308a8b5757872ef7af58e3e413e6e50ea5b424c6241",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 56754536,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/6dfae805e0c514773b1a62c790b51a932b2fc74a6ce7e8d3d39d3ec6c2edea76",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 56754538,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/70ec89b2ea1e39b3c7de91d3663cdfa21d4ff49d59a69b1624a2500eb315e430",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 56754540,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/7cd3068fff4136d32d351d570be1a91be3d1f1c64e02c4e7fbd2a7f71786069f",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 56754546,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/82fb2b7e8ecaf60c305df4214c92b1be43573f6f154860d1b92e538cae57eb4c",
+          "bytes": 4293848316,
+          "allocated_bytes": 4293853184,
+          "inode": 56754550,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/84d18a981f87e58080a9a26c8fca29d2c3d676d4c2d6a478af5ea57ef1e196fc",
+          "bytes": 4292470900,
+          "allocated_bytes": 4292476928,
+          "inode": 56754551,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/869d182af27e16f93f06efc093ad157840cdc741cc52bd519eedc0b1edbcc7d7",
+          "bytes": 4293848604,
+          "allocated_bytes": 4293853184,
+          "inode": 56754552,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/87328889abb048e7761cda1a2f66c2300a24e6f2d939b3a257ee4b8d7187a2ee",
+          "bytes": 4293847972,
+          "allocated_bytes": 4293853184,
+          "inode": 56754553,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/8a850db831575d8e2d35c1245604b8d570b91544545fa2f952d2856482bd4936",
+          "bytes": 4293844212,
+          "allocated_bytes": 4293849088,
+          "inode": 56754554,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/8c57670edf4609ff533e0b27cb76a75281137012d55a754ed2600bcf621ce60d",
+          "bytes": 4292470420,
+          "allocated_bytes": 4292476928,
+          "inode": 56754555,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/949b7d55bf7ae15ff0e55a29a81e809e6f65cb87f19f71ac9ff5adda3cf31ad0",
+          "bytes": 4294985064,
+          "allocated_bytes": 4294991872,
+          "inode": 56754558,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/9849ad18f55683d835bf06438448b2722cdbedb0e014bce311db68c4f291aae8",
+          "bytes": 4293846932,
+          "allocated_bytes": 4293853184,
+          "inode": 56754560,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/999c7db4687eddc73deff7008a50c5b52caeed5c005eb91b3a6970a215d1e391",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 56754562,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/9d9998b2ce2d39f3d62dab8b3bfbeac1f613682a020fd603a8871b8062915a39",
+          "bytes": 4291564188,
+          "allocated_bytes": 4291571712,
+          "inode": 56754565,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/9da08b07cdf5f0f15e0e36d495d24b0c89c0057651de1cb8da9dc014fab7316a",
+          "bytes": 4293847956,
+          "allocated_bytes": 4293853184,
+          "inode": 56754566,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/9ecd9bc00c8c045104d639dfdd8d6de4fe0457ce05ad8885baab062d059b0c9e",
+          "bytes": 101377628616,
+          "allocated_bytes": 101377642496,
+          "inode": 56754568,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/a03a30283371fe45f149faf6483e69dd2bdaebbc1328df089462bcdad2156e48",
+          "bytes": 4293847972,
+          "allocated_bytes": 4293853184,
+          "inode": 56754570,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/a7fca9749364ae647b62307f2a20b0d3a236a6812831e53de5f326da10dcbcd9",
+          "bytes": 4292470900,
+          "allocated_bytes": 4292476928,
+          "inode": 56754573,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/bad1c18cca9151af0ce324fe892bf9a19e055c133ce82908d5aa7c6d3b8d1e02",
+          "bytes": 4292285012,
+          "allocated_bytes": 4292292608,
+          "inode": 56754579,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/be3ba17a2caba98249736423a8d7e6ef7dde6d71ff9d365e20ef74a9ea81b62b",
+          "bytes": 4292466868,
+          "allocated_bytes": 4292472832,
+          "inode": 56754581,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/ccaae02f446fc78d1ab16613752076e37671a229b022e252ef0b317286137f71",
+          "bytes": 4293848612,
+          "allocated_bytes": 4293853184,
+          "inode": 56754582,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/ce4379f2e1bae25bd166ed27839c2e39e618d85171fa51214c4592abd70650f8",
+          "bytes": 4293848308,
+          "allocated_bytes": 4293853184,
+          "inode": 56754583,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/d07481a8dc31982e9a2006690d56a69f15597cfc1a5b8ad6da00baced15bc6a0",
+          "bytes": 4293847980,
+          "allocated_bytes": 4293853184,
+          "inode": 56754585,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/d8f39fe9623c63dc1f5041ac9810e2545fd6b84e1e04125433c7fc9a152fa378",
+          "bytes": 4293847940,
+          "allocated_bytes": 4293853184,
+          "inode": 56754590,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/d9db1a9815a66b57423ae6cc8b010d6dfb082de5e2ed57a694bc0f556f261aa9",
+          "bytes": 4293845172,
+          "allocated_bytes": 4293853184,
+          "inode": 56754591,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/d9fe784ccfbf3047337d2b92c237ff358da8b81caacb7bafeb3b7db7d61da3f0",
+          "bytes": 4293847964,
+          "allocated_bytes": 4293853184,
+          "inode": 56754593,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/df2836cd435d837f998645c8e824c5cd9d21bd796c864277fb2b77ff47621848",
+          "bytes": 4294985024,
+          "allocated_bytes": 4294991872,
+          "inode": 56754596,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/e017cb6c0644cd6aeab73b9c1f8a7e1a8fd40b14ceee96bfbb324637e277e8a9",
+          "bytes": 4292470612,
+          "allocated_bytes": 4292476928,
+          "inode": 56754597,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/e071a47c15bfe5a32ffd3ebdfc51f916b37591fca9d2976fe099bc1947b3ff1a",
+          "bytes": 4293847996,
+          "allocated_bytes": 4293853184,
+          "inode": 56754598,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/e91d393f8f760b768013d5f03e2b79abb215693712895031d949d5bd34a7587c",
+          "bytes": 4295120288,
+          "allocated_bytes": 4295127040,
+          "inode": 56754600,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/ea93ebc52be456ed0a6a23fe6140a24f03a006a09453156d5f54de9492155fba",
+          "bytes": 4292466436,
+          "allocated_bytes": 4292472832,
+          "inode": 56754601,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/eeea4969c2fd54d85db5a7b361c1f64a76d2544506edf096ac612a73a5220188",
+          "bytes": 4294446736,
+          "allocated_bytes": 4294451200,
+          "inode": 56754603,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/blobs/ffb716c129bb37845a1ccaa77e051207ee751c4ae57617be367ebca968666848",
+          "bytes": 4293845308,
+          "allocated_bytes": 4293853184,
+          "inode": 56754612,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/engram-page15-v1/engram-layer-01-rank1-page15.bin",
+          "bytes": 52430016512,
+          "allocated_bytes": 52430024704,
+          "inode": 58753333,
+          "links": 1
+        },
+        {
+          "path": "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/engram-page15-v1/engram-layer-14-rank1-page15.bin",
+          "bytes": 52431446016,
+          "allocated_bytes": 52431454208,
+          "inode": 58753334,
+          "links": 1
+        }
+      ],
+      "removed_snapshot_links": [
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/draft/model-00001-of-00002.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/draft/model-00002-of-00002.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/engrams/engram-layer-01.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/engrams/engram-layer-14.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00001-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00002-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00003-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00004-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00005-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00006-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00007-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00008-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00009-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00010-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00011-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00012-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00013-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00014-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00015-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00016-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00017-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00018-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00019-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00020-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00021-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00022-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00023-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00024-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00025-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00026-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00027-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00028-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00029-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00030-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00031-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00032-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00033-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00034-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00035-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00036-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00037-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00038-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00039-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00040-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00041-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00042-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00043-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00044-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00045-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00046-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00047-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00048-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00049-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00050-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/5571a3c9ee09f9495e9118b54e022ac591b85373/model-00051-of-00051.safetensors",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank1-page15.bin.part-00000",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank1-page15.bin.part-00001",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank1-page15.bin.part-00002",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank1-page15.bin.part-00003",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank1-page15.bin.part-00004",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank1-page15.bin.part-00005",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-01-rank1-page15.bin.part-00006",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank1-page15.bin.part-00000",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank1-page15.bin.part-00001",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank1-page15.bin.part-00002",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank1-page15.bin.part-00003",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank1-page15.bin.part-00004",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank1-page15.bin.part-00005",
+        "/home/nvidia/.cache/huggingface/hub/models--coolbho3k--DeepSeek-V4.1-Flash-EXL3-3bpw/snapshots/93a185660c42c90e26c326239ce8c8fd95179d64/engram-page15-v1/engram-layer-14-rank1-page15.bin.part-00006"
+      ]
+    }
+  },
+  "incumbent": {
+    "service": "active",
+    "watchdog": "active",
+    "health_http": 200,
+    "stopped": false
+  },
+  "preserved": [
+    "GLM checkpoint repositories",
+    "all named Docker image tags",
+    "B12X runtime and rollback assets",
+    "DeepSeek recipes and metadata"
+  ],
+  "limitations": [
+    "DeepSeek weight restoration requires downloading the removed weights again.",
+    "Native dependencies and GPU qualification remain outstanding."
+  ],
+  "head_cache_cleanup": {
+    "docker_build_cache": "pruned; zero remaining",
+    "dangling_images": "pruned only older than 720h; named tag lists identical before/after",
+    "uv_cache": "pruned 105.2 MiB unreferenced files",
+    "note": "Docker reported reclaim accounting includes shared layers; do not sum it as observed physical disk recovery."
+  }
+}

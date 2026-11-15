@@ -95,8 +95,10 @@ native reasoning-template checks and full cache/state correctness remain require
 ## Current qualification and rollback
 
 The 2026-11-15 read-only inspection found the incumbent healthy on both Sparks,
-with MTP-3, four slots, 1M context and the pinned image. The head had about
-183 GiB free and failed the 250 GiB disk budget. Both hosts lacked Ninja,
+with MTP-3, four slots, 1M context and the pinned image. The initial head disk budget failed; authorized housekeeping subsequently
+raised free space to about 850 GiB head / 961 GiB worker. Retired DeepSeek
+weights were removed with explicit permission; GLM and named rollback images
+were retained. See `receipts/flare-housekeeping-20261115.json`. Both hosts lacked Ninja,
 protoc and OpenSSL/liburing/Python development-package discovery. No production
 stop, dependency install, candidate build or GPU qualification was performed.
 Nine local tests passed; the vLLM adapter also parsed a live read-only scrape.
