@@ -187,14 +187,20 @@ spec/                         CHANGELOG + TODO (repo delivery rules)
 ## Native Flare trial
 
 On 2026-11-15 the isolated Flare candidate built and exported this checkpoint
-on both Sparks, served it natively, and passed all six API smoke checks. The
-trial retained TP2, four slots and fixed MTP-3. Its measured 2,232,064-token
-cache pool is about 5% below the incumbent's; published community capacities
-use different configurations. Short diagnostic decode reached 39–40 tok/s at
-c1 and 76 aggregate tok/s at c8, without a matched full comparison.
+on both Sparks. The current native-activation core passes all seven API smoke
+checks, and its component qualification passed 49 cases without skips or relaxed
+bounds. It retains TP2, four slots, fixed MTP-3, 4096-token prefill and a 4 GiB
+reserve. Its measured 2,295,552-token cache pool is 2.33% below B12X's 2,350,210;
+published community capacities use different configurations.
+
+The original auto-precision core's failed KDA receipts are retained. A matched
+three-repetition speed comparison is in progress; short diagnostic generations
+are not evidence of overall speed preservation.
 
 Flare is **not adopted**. Numerical, capacity and full performance gates remain
-open; B12X is the production engine. See the [trial report](docs/11-flare-trial-20261115.md)
+open; B12X remains the incumbent and is stopped only for bounded candidate
+windows with automatic restoration. See the [first trial report](docs/11-flare-trial-20261115.md)
+and [subsequent qualification gates](docs/12-flare-qualification-gate.md)
 for receipts, limitations and researched next steps, and the
 [candidate workflow](docs/07-flare-candidate.md) for reproducible preparation.
 

@@ -19,6 +19,8 @@ Record the exported primary hash and verified metadata, graph catalog, native
 binary hashes, public signing fingerprint and capacity inventory. Accept only
 that locally generated fingerprint under `local-development`, storing the exact
 profile and primary hashes in private `local/accepted-core.json` on both nodes.
+The current wrapper also requires the matching export-provenance path and hash;
+follow the [exact export acceptance fields](07-flare-candidate.md#accepting-the-exact-new-export).
 Start `b12x-flare@0.service`; it coordinates the worker's unit. Health must return
 200 within 900 seconds; model ID must be the NVIDIA checkpoint's ID and reported
 context at least 1,000,000. Run `flare_smoke.py` in the locked preparation

@@ -21,6 +21,11 @@ correctness controls. The native API binds loopback port 8001 and preserves
 rendezvous ports are 29630 and 29800. This is an engine comparison; internal
 arithmetic/scheduling differences must be measured, not attributed to one flag.
 
+The current candidate also enables `native_dense_activations` during export.
+This supported preparation option passed the registered KDA component bounds;
+it does not turn the model into an unquantized checkpoint or qualify all numerical
+paths. The original auto-precision core and its failed KDA receipts are retained.
+
 Flare prepares CUDA graphs with Ignition and serves exported cores through its
 Rust runtime. The upstream GLM recipe supports this checkpoint and multi-host
 TP2. [Preparation](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/model-preparation.md),
@@ -106,7 +111,11 @@ the locked preparation environment, and built the native CLI on both nodes.
 Both SM121 CUDA compile/capture/replay probes passed on the existing driver.
 The worker uses the same uv-managed CPython 3.12.14 as the head. Candidate cache
 paths are isolated from root-owned production container caches. Fifteen local
-tests pass. Full-model export and qualification are separate gates; see
+tests passed at that prerequisite stage; the current kit has 40 passing local
+tests. The subsequent native-activation export passed startup and all seven API
+checks, and its component window passed 49 cases without skips. Full-model
+quality, capacity, lifecycle and the complete speed comparison remain separate;
+see
 `08-flare-build-window.md` and `09-flare-export-gate.md` for the trial contract.
 
 Checkpoint header inspection found all 42 indexed files (177,463,841,024 bytes),
@@ -137,6 +146,59 @@ rank 1; export is never implicit in a serving start. The serving wrapper verifie
 the accepted core and public signing fingerprint, propagates peer failures and
 bounds readiness. Services have no automatic restart.
 
+### Accepting the exact new export
+
+A successful head preparation unit prints `Export provenance awaiting acceptance`
+with a unique `local/export-rank0-<id>.json` path. Both preparation ranks must have
+exited successfully before proceeding. That receipt records the new primary's
+hash, resolved plan, export argv and source pins. Use the receipt from that exact
+completed export, not whichever log happens to be newest.
+
+Inspect the primary with the pinned native CLI and the explicit public profile:
+
+```bash
+cd /home/nvidia/b12x-flare
+source scripts/flare_env.sh
+upstream/flare/flare-cli/target/release/flare inspect /absolute/export/path/model.safetensors \
+  --json --graphs --publisher-keys development-publisher.json \
+  --trust-store trust.toml --core-cache cores > local/reviewed-core-inspect.json
+```
+
+Require verified signatures, the intended core ID, both SM121 ranks and the
+registered model, graph catalog, context, concurrency and speculation settings.
+Review the resolved plan in the local export receipt as well: this pin's signed
+rebuild metadata does not attest to `native_dense_activations`. The receipt is
+unsigned local provenance, supplementing signature verification. Full payload
+verification runs again at native startup through `--verify-weights`.
+
+After this review, snapshot any previous acceptance file and prepare
+`local/accepted-core.json` with these fields:
+
+| Field | Value to record |
+| --- | --- |
+| `core_primary` | Absolute new primary path under the isolated `cores/` tree |
+| `core_primary_sha256` | SHA256 of that primary, matching the export receipt |
+| `core_id` | Core ID from verified native inspection |
+| `publisher_profile_sha256` | SHA256 of the exact `development-publisher.json` bytes |
+| `key_fingerprint` | SHA256 of the profile's 32 public-key bytes; exactly one `local-development` profile |
+| `export_receipt` | Absolute matching receipt path under the candidate's `local/` directory |
+| `export_receipt_sha256` | SHA256 of that exact receipt file |
+
+Transfer the public profile, accepted state and export receipt to the same paths
+on the worker. Stage temporary files and rename them atomically; preserve the
+previous acceptance snapshot. The primary path identifies the head's export;
+the peer obtains its rank payloads through the native distribution protocol.
+Never transfer the private signing key. Acceptance of this locally generated
+key is distinct from an authenticated NVIDIA publisher identity, as described
+in the [upstream signing contract](https://github.com/NVIDIA/hyperflare-inference/blob/main/docs/cli-design.md#signing-and-local-development).
+
+The serving wrapper rejects missing or changed provenance, wrong primary/profile
+hashes, mismatched pins or a different resolved preparation plan. A successful
+guard check still does not replace native signature/payload verification or the
+hardware qualification gates. Start only through the head serving unit after
+the registered snapshots, timer and memory checks; do not execute the renderer's
+bare serving argv as a deployment entry point.
+
 Start the head `b12x-flare-build@0.service` and worker build rank 1 independently
 after the window gates. Then start head `b12x-flare-prepare@0.service`. Only after
 core acceptance, start head `b12x-flare@0.service`. Do not enable candidate units
@@ -156,7 +218,8 @@ an isolated import path, then runs native indexer replay and KDA state bounds.
 It must run only in an idle-cluster window with timed rollback; it never installs
 that extension into the ordinary preparation environment. The restore helper
 stops qualification units before memory recovery. The first numerical window
-failed its KDA bound; see the qualification gate and numerical receipts.
+failed its KDA bound; the subsequent native-activation arm passed all 49 cases
+under the original bounds. See the qualification gate and retained receipts.
 
 Serving reads only `FLARE_SERVE_RESERVE_GIB=<positive integer>` from the runtime
 `.env` ledger; the last assignment wins. Other ledger entries are not executed

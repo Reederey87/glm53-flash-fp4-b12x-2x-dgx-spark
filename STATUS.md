@@ -1,5 +1,13 @@
 # Status
 
+## 2026-11-15 — Reproduction guide aligned with current acceptance guards
+
+- Documented all seven accepted-core fields, the exact export receipt, verified
+  native inspection, public-profile handling and atomic transfer to the peer.
+  Exa signing documentation confirms local signature trust is not NVIDIA identity.
+- Updated the README to the native-activation core and current evidence. No
+  runtime or measurement client changed; the full speed matrix remains active.
+
 ## 2026-11-15 — Full-layer scale audit prepared for an idle window
 
 - Added a CPU-only audit of every expert in selected target layers, both TP2
