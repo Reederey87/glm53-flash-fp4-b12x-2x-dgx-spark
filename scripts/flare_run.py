@@ -73,10 +73,19 @@ def main():
         child = subprocess.Popen(command, cwd=root / "upstream/flare")
         deadline = time.monotonic() + 900
         ready = False
-        while child.poll() is None:
+        while not stopping and child.poll() is None:
             if args.rank == 0:
-                peer = subprocess.run(ssh + ["systemctl", "--user", "show", unit, "--property=ActiveState", "--value"],
-                                      text=True, capture_output=True, timeout=20)
+                try:
+                    peer = subprocess.run(ssh + ["systemctl", "--user", "show", unit, "--property=ActiveState", "--value"],
+                                          text=True, capture_output=True, timeout=20)
+                except subprocess.TimeoutExpired:
+                    if stopping:
+                        break
+                    raise
+                # systemd sends SIGTERM to the whole control group. The peer
+                # check can be interrupted while both ranks shut down normally.
+                if stopping:
+                    break
                 if peer.returncode != 0 or peer.stdout.strip() in ("failed", "deactivating"):
                     raise RuntimeError("peer failed or became unreachable")
                 if args.action == "serve":

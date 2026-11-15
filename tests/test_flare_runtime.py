@@ -4,8 +4,12 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import Mock, patch
+import signal
+import subprocess
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+import flare_run
 from flare_candidate import RECIPE, load_recipe
 from flare_run import serving_command
 
@@ -54,6 +58,46 @@ class RuntimeContractTests(unittest.TestCase):
         self.state['key_fingerprint'] = '0'*64
         with self.assertRaisesRegex(ValueError, 'fingerprint mismatch'):
             serving_command(self.recipe, 1, self.state)
+
+
+class ShutdownTests(unittest.TestCase):
+    def run_peer_failure(self, *, shutdown=False, timeout=False):
+        handlers = {}
+        recipe = load_recipe(RECIPE)
+        child = Mock(returncode=None)
+        child.poll.side_effect = lambda: child.returncode
+        child.terminate.side_effect = lambda: setattr(child, 'returncode', -signal.SIGTERM)
+
+        def run(command, **kwargs):
+            if '--property=ActiveState' in command:
+                if shutdown:
+                    handlers[signal.SIGTERM](signal.SIGTERM, None)
+                if timeout:
+                    raise subprocess.TimeoutExpired(command, 20)
+                return subprocess.CompletedProcess(command, 255, '', 'connection closed')
+            return subprocess.CompletedProcess(command, 0, '', '')
+
+        with patch.object(sys, 'argv', ['flare_run.py', 'serve', '0']), \
+             patch.object(flare_run, 'load_recipe', return_value=recipe), \
+             patch.object(flare_run, 'inspect_host', return_value={}), \
+             patch.object(flare_run, 'blockers', return_value=[]), \
+             patch.object(flare_run, 'serving_command', return_value=['fake-native-server']), \
+             patch.object(Path, 'read_text', return_value='{}'), \
+             patch.object(subprocess, 'check_output', return_value=''), \
+             patch.object(subprocess, 'run', side_effect=run), \
+             patch.object(subprocess, 'Popen', return_value=child), \
+             patch.object(signal, 'signal', side_effect=lambda signum, fn: handlers.update({signum: fn})):
+            return flare_run.main()
+
+    def test_sigterm_during_peer_check_is_clean_shutdown(self):
+        self.assertEqual(self.run_peer_failure(shutdown=True), 0)
+        self.assertEqual(self.run_peer_failure(shutdown=True, timeout=True), 0)
+
+    def test_unexpected_peer_failure_remains_fatal(self):
+        with self.assertRaisesRegex(RuntimeError, 'peer failed'):
+            self.run_peer_failure()
+        with self.assertRaises(subprocess.TimeoutExpired):
+            self.run_peer_failure(timeout=True)
 
 
 if __name__ == '__main__':
