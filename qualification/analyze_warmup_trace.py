@@ -50,6 +50,11 @@ def arm(directory, label):
 
 
 def compare(directory):
+    # Validate matched bodies and retain every timing point even though this
+    # experiment's decision is limited to the native discovery mechanism.
+    points = flare_mixed_compare.compare(*[
+        flare_mixed_compare.load(directory / f'{label}-mixed.jsonl', 'latency')
+        for label in ('0-latency', '1-latency')])
     baseline, candidate = [json.loads((directory / f'{label}-warmup-mechanism.json').read_text())
                            for label in ('0-latency', '1-latency')]
     passed = (baseline['intervening_discovery_prefills'] > 0
@@ -57,6 +62,7 @@ def compare(directory):
         and candidate['first_4k_terminal_tail_s'] <= baseline['first_4k_terminal_tail_s'] * .5
         and 0 < candidate['warmup_wall_s'] <= 300)
     result = {'baseline': baseline, 'candidate': candidate, 'mechanism_gate_passed': passed,
+              'matched_http_points': points,
               'scope': 'one fresh start per arm, traced; startup mechanism only, no adoption or performance pass'}
     (directory / 'warmup-mechanism-comparison.json').write_text(json.dumps(result, indent=2) + '\n')
     (directory / 'diagnosis-complete.txt').write_text('Both traced arms complete; mechanism result retained.\n')
