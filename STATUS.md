@@ -1,3 +1,8 @@
+## 2026-11-16 UTC — Complete target replay passed; vocabulary reference prepared
+
+- Both capacities65/4096 passed on both ranks in fresh processes with127 healthy memory samples and unchanged runtime hashes (docs/48). Independent B12X recovery/fresh5/5 closed08:07:54 UTC; fallback disarmed.
+- Docs/49 prepares actual checkpoint MXFP8/A16 vocabulary reference against raw-byte FP64 dots and independent Gloo gather, retaining upstream bounds and replay assertions. No serving artifact or production ownership change.
+
 ## 2026-11-16 UTC — Isolated full-target retry started
 
 - Aborted target window independently restored B12X/fresh5/5 at07:49:53 UTC and disarmed fallback. target-isolated-window-20261116T190000Z now runs the unchanged45-layer fixture with fresh per-capacity processes, per-case memory gates, notify/watchdog protection and90-minute fallback; no target result yet.

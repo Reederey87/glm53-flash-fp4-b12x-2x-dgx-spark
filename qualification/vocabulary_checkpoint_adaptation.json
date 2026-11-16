@@ -1,0 +1,76 @@
+{
+  "source": "tests/components/test_vocabulary_cuda.py",
+  "source_sha256": "48195f7f741632c181e0c0a5d827baac3dce2e7526703d92d2fd959c7b141663",
+  "upstream_commit": "5a4e867954593b2e05bba43bc2a6eeaddca402d7",
+  "exact_substitutions": [
+    [
+      "        create_all_gather_runtime,",
+      "        create_roce_runtime,\n        warmup_wait,"
+    ],
+    [
+      "    torch.cuda.set_device(rank)",
+      "    torch.cuda.set_device(0)"
+    ],
+    [
+      "    device = torch.device(\"cuda\", rank)",
+      "    device = torch.device(\"cuda:0\")"
+    ],
+    [
+      "timeout=timedelta(minutes=2))",
+      "timeout=timedelta(minutes=15))"
+    ],
+    [
+      "    coordinator = CollectivePreparation(group)",
+      "    coordinator = CollectivePreparation(group, timeout=timedelta(minutes=15))\n    assert coordinator.spans_hosts"
+    ],
+    [
+      "    hidden, capacity = 256, 4",
+      "    hidden, capacity = 4096, 16"
+    ],
+    [
+      "    full_weight = torch.randn(vocab, hidden, dtype=torch.bfloat16, device=device) * .0625\n    weight = torch.zeros(width, hidden, dtype=torch.bfloat16, device=device)\n    valid_columns = min(width, vocab - rank * width)\n    weight[:valid_columns].copy_(full_weight[rank * width:rank * width + valid_columns])",
+      "    weight, reference_weight = load_checkpoint_head(rank, world, device)\n    valid_columns = min(width, vocab - rank * width)\n    assert valid_columns == width == 77440"
+    ],
+    [
+      "    runtime = create_all_gather_runtime(group, device, max_rows=capacity,\n        columns=width * world * (output.element_size() // 2))",
+      "    runtime = create_roce_runtime(group, device, max_tokens=1, pipe_tokens=1,\n        hidden_size=hidden, gather_bytes=capacity * width * output.element_size())"
+    ],
+    [
+      "                compile_workers=2) as session:",
+      "                native_dense_activations=True, compile_workers=2) as session:"
+    ],
+    [
+      "            for rows in (4, 1):",
+      "            for rows in (16, 4, 1):"
+    ],
+    [
+      "                    runtime=runtime, session=session, coordinator=coordinator, name=f\"head{rows}\", row_indices=indices)",
+      "                    runtime=runtime, session=session, coordinator=coordinator, name=f\"head{rows}\", row_indices=indices)\n                assert heads[rows].projection.activation_mode == \"a16\""
+    ],
+    [
+      "                compiled[rows]()\n                torch.cuda.synchronize(device)",
+      "                with warmup_wait(runtime, coordinator):\n                    compiled[rows]()\n                torch.cuda.synchronize(device)"
+    ],
+    [
+      "                with session.capture(), torch.cuda.graph(graph, stream=stream, pool=pool):",
+      "                with runtime.capture(stream=stream), session.capture(), torch.cuda.graph(graph, stream=stream, pool=pool):"
+    ],
+    [
+      "            bundle = PreparedExecution(device=rank,",
+      "            bundle = PreparedExecution(device=0,"
+    ],
+    [
+      "enumerate(((1, 13), (4, 8), (1, 31), (4, 17)))",
+      "enumerate(((1, 13), (4, 8), (16, 8), (1, 31), (4, 17), (16, 17)))"
+    ],
+    [
+      "                expected = (source[:rows].float() @ full_weight.float().T).to(output_dtype)",
+      "                expected = checkpoint_reference(source[:rows], reference_weight, group, world, output_dtype)"
+    ],
+    [
+      "                torch.testing.assert_close(result, expected,",
+      "                print(json.dumps({\"rank\": rank, \"indexed\": indexed, \"rows\": rows,\n                    \"repetitions\": repetitions, \"max_abs_error\": (result.float()-expected.float()).abs().max().item(),\n                    \"finite\": bool(torch.isfinite(result).all())}), flush=True)\n                assert torch.isfinite(result).all()\n                torch.testing.assert_close(result, expected,"
+    ]
+  ],
+  "case_count_per_rank": 2
+}

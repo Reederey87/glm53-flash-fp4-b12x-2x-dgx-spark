@@ -1,0 +1,407 @@
+TP2: Load weights started
+b12x routing checkpoint shards: 0/42 shards routed, 0.00 GB selected on rank 0, 0:00
+b12x routing checkpoint shards: 42/42 shards routed, 0.00 GB selected on rank 0, 0:03
+b12x reading and scattering weights: 42/42 shards routed, 0.00 GB selected on rank 0, 0:03
+b12x reading and scattering weights: 42/42 shards routed, 12.82 GB selected on rank 0, 0:13
+b12x reading and scattering weights: 42/42 shards routed, 30.03 GB selected on rank 0, 0:23
+b12x reading and scattering weights: 42/42 shards routed, 47.24 GB selected on rank 0, 0:34
+b12x reading and scattering weights: 42/42 shards routed, 64.45 GB selected on rank 0, 0:44
+b12x reading and scattering weights: 42/42 shards routed, 81.65 GB selected on rank 0, 0:55
+b12x weights loaded: 92.41 GB selected on rank 0 · 119.80 GB physical reads; 61.29 s total loading; ROUTE 3.06s · SETUP 0.00s · PLAN 0.00s · READ 58.23s · SYNC 0.00s
+TP2: Load weights complete in 61.29s
+TP2: declared prefill layer 1/45
+TP2: declared prefill layer 2/45
+TP2: declared prefill layer 3/45
+TP2: declared prefill layer 4/45
+TP2: declared prefill layer 5/45
+TP2: declared prefill layer 6/45
+TP2: declared prefill layer 7/45
+TP2: declared prefill layer 8/45
+TP2: declared prefill layer 9/45
+TP2: declared prefill layer 10/45
+TP2: declared prefill layer 11/45
+TP2: declared prefill layer 12/45
+TP2: declared prefill layer 13/45
+TP2: declared prefill layer 14/45
+TP2: declared prefill layer 15/45
+TP2: declared prefill layer 16/45
+TP2: declared prefill layer 17/45
+TP2: declared prefill layer 18/45
+TP2: declared prefill layer 19/45
+TP2: declared prefill layer 20/45
+TP2: declared prefill layer 21/45
+TP2: declared prefill layer 22/45
+TP2: declared prefill layer 23/45
+TP2: declared prefill layer 24/45
+TP2: declared prefill layer 25/45
+TP2: declared prefill layer 26/45
+TP2: declared prefill layer 27/45
+TP2: declared prefill layer 28/45
+TP2: declared prefill layer 29/45
+TP2: declared prefill layer 30/45
+TP2: declared prefill layer 31/45
+TP2: declared prefill layer 32/45
+TP2: declared prefill layer 33/45
+TP2: declared prefill layer 34/45
+TP2: declared prefill layer 35/45
+TP2: declared prefill layer 36/45
+TP2: declared prefill layer 37/45
+TP2: declared prefill layer 38/45
+TP2: declared prefill layer 39/45
+TP2: declared prefill layer 40/45
+TP2: declared prefill layer 41/45
+TP2: declared prefill layer 42/45
+TP2: declared prefill layer 43/45
+TP2: declared prefill layer 44/45
+TP2: declared prefill layer 45/45
+TP2: declared decode layer 1/45
+TP2: declared decode layer 2/45
+TP2: declared decode layer 3/45
+TP2: declared decode layer 4/45
+TP2: declared decode layer 5/45
+TP2: declared decode layer 6/45
+TP2: declared decode layer 7/45
+TP2: declared decode layer 8/45
+TP2: declared decode layer 9/45
+TP2: declared decode layer 10/45
+TP2: declared decode layer 11/45
+TP2: declared decode layer 12/45
+TP2: declared decode layer 13/45
+TP2: declared decode layer 14/45
+TP2: declared decode layer 15/45
+TP2: declared decode layer 16/45
+TP2: declared decode layer 17/45
+TP2: declared decode layer 18/45
+TP2: declared decode layer 19/45
+TP2: declared decode layer 20/45
+TP2: declared decode layer 21/45
+TP2: declared decode layer 22/45
+TP2: declared decode layer 23/45
+TP2: declared decode layer 24/45
+TP2: declared decode layer 25/45
+TP2: declared decode layer 26/45
+TP2: declared decode layer 27/45
+TP2: declared decode layer 28/45
+TP2: declared decode layer 29/45
+TP2: declared decode layer 30/45
+TP2: declared decode layer 31/45
+TP2: declared decode layer 32/45
+TP2: declared decode layer 33/45
+TP2: declared decode layer 34/45
+TP2: declared decode layer 35/45
+TP2: declared decode layer 36/45
+TP2: declared decode layer 37/45
+TP2: declared decode layer 38/45
+TP2: declared decode layer 39/45
+TP2: declared decode layer 40/45
+TP2: declared decode layer 41/45
+TP2: declared decode layer 42/45
+TP2: declared decode layer 43/45
+TP2: declared decode layer 44/45
+TP2: declared decode layer 45/45
+TP2: autotuning complete text forwards
+TP2: compiling prefill
+TP2: compiling decode
+TP2: native prefill completed at position 0
+TP2: native decode completed at position 65
+TP2: native decode completed at position 66
+TP2: native decode completed at position 67
+TP2: weight bytes 87458463744; operator scratch bytes 0
+.
+=============================== warnings summary ===============================
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  qualification/test_glm53_target_roce_cuda.py:357: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/norm/mhc/_kernels.py:20: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[65]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 54 warnings in 379.60s (0:06:19)
+TP2: Load weights started
+b12x routing checkpoint shards: 0/42 shards routed, 0.00 GB selected on rank 0, 0:00
+b12x routing checkpoint shards: 42/42 shards routed, 0.00 GB selected on rank 0, 0:03
+b12x reading and scattering weights: 42/42 shards routed, 0.00 GB selected on rank 0, 0:03
+b12x reading and scattering weights: 42/42 shards routed, 14.97 GB selected on rank 0, 0:13
+b12x reading and scattering weights: 42/42 shards routed, 30.03 GB selected on rank 0, 0:23
+b12x reading and scattering weights: 42/42 shards routed, 45.16 GB selected on rank 0, 0:33
+b12x reading and scattering weights: 42/42 shards routed, 62.28 GB selected on rank 0, 0:43
+b12x reading and scattering weights: 42/42 shards routed, 77.35 GB selected on rank 0, 0:53
+b12x weights loaded: 92.41 GB selected on rank 0 · 119.80 GB physical reads; 63.21 s total loading; ROUTE 3.10s · SETUP 0.00s · PLAN 0.00s · READ 60.11s · SYNC 0.00s
+TP2: Load weights complete in 63.21s
+TP2: declared prefill layer 1/45
+TP2: declared prefill layer 2/45
+TP2: declared prefill layer 3/45
+TP2: declared prefill layer 4/45
+TP2: declared prefill layer 5/45
+TP2: declared prefill layer 6/45
+TP2: declared prefill layer 7/45
+TP2: declared prefill layer 8/45
+TP2: declared prefill layer 9/45
+TP2: declared prefill layer 10/45
+TP2: declared prefill layer 11/45
+TP2: declared prefill layer 12/45
+TP2: declared prefill layer 13/45
+TP2: declared prefill layer 14/45
+TP2: declared prefill layer 15/45
+TP2: declared prefill layer 16/45
+TP2: declared prefill layer 17/45
+TP2: declared prefill layer 18/45
+TP2: declared prefill layer 19/45
+TP2: declared prefill layer 20/45
+TP2: declared prefill layer 21/45
+TP2: declared prefill layer 22/45
+TP2: declared prefill layer 23/45
+TP2: declared prefill layer 24/45
+TP2: declared prefill layer 25/45
+TP2: declared prefill layer 26/45
+TP2: declared prefill layer 27/45
+TP2: declared prefill layer 28/45
+TP2: declared prefill layer 29/45
+TP2: declared prefill layer 30/45
+TP2: declared prefill layer 31/45
+TP2: declared prefill layer 32/45
+TP2: declared prefill layer 33/45
+TP2: declared prefill layer 34/45
+TP2: declared prefill layer 35/45
+TP2: declared prefill layer 36/45
+TP2: declared prefill layer 37/45
+TP2: declared prefill layer 38/45
+TP2: declared prefill layer 39/45
+TP2: declared prefill layer 40/45
+TP2: declared prefill layer 41/45
+TP2: declared prefill layer 42/45
+TP2: declared prefill layer 43/45
+TP2: declared prefill layer 44/45
+TP2: declared prefill layer 45/45
+TP2: declared decode layer 1/45
+TP2: declared decode layer 2/45
+TP2: declared decode layer 3/45
+TP2: declared decode layer 4/45
+TP2: declared decode layer 5/45
+TP2: declared decode layer 6/45
+TP2: declared decode layer 7/45
+TP2: declared decode layer 8/45
+TP2: declared decode layer 9/45
+TP2: declared decode layer 10/45
+TP2: declared decode layer 11/45
+TP2: declared decode layer 12/45
+TP2: declared decode layer 13/45
+TP2: declared decode layer 14/45
+TP2: declared decode layer 15/45
+TP2: declared decode layer 16/45
+TP2: declared decode layer 17/45
+TP2: declared decode layer 18/45
+TP2: declared decode layer 19/45
+TP2: declared decode layer 20/45
+TP2: declared decode layer 21/45
+TP2: declared decode layer 22/45
+TP2: declared decode layer 23/45
+TP2: declared decode layer 24/45
+TP2: declared decode layer 25/45
+TP2: declared decode layer 26/45
+TP2: declared decode layer 27/45
+TP2: declared decode layer 28/45
+TP2: declared decode layer 29/45
+TP2: declared decode layer 30/45
+TP2: declared decode layer 31/45
+TP2: declared decode layer 32/45
+TP2: declared decode layer 33/45
+TP2: declared decode layer 34/45
+TP2: declared decode layer 35/45
+TP2: declared decode layer 36/45
+TP2: declared decode layer 37/45
+TP2: declared decode layer 38/45
+TP2: declared decode layer 39/45
+TP2: declared decode layer 40/45
+TP2: declared decode layer 41/45
+TP2: declared decode layer 42/45
+TP2: declared decode layer 43/45
+TP2: declared decode layer 44/45
+TP2: declared decode layer 45/45
+TP2: autotuning complete text forwards
+TP2: compiling prefill
+TP2: compiling decode
+TP2: native prefill completed at position 0
+TP2: native decode completed at position 4096
+TP2: native decode completed at position 4097
+TP2: native decode completed at position 4098
+TP2: weight bytes 87458463744; operator scratch bytes 0
+.
+=============================== warnings summary ===============================
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  qualification/test_glm53_target_roce_cuda.py:357: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/norm/mhc/_kernels.py:20: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+qualification/test_glm53_target_roce_cuda.py::test_two_host_target_replay[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 54 warnings in 275.97s (0:04:35)
+{"rank": 0, "cases": 2, "bad_cases": [], "passed": true, "expert_weight_owner": "a16", "calibrated_a4_prefill": true, "fresh_process_per_capacity": true, "scope": "complete45-layer target native TP2 RoCE replay; not mathematical-reference or MTP acceptance"}

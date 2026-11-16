@@ -40,3 +40,18 @@ Aborted-window recovery independently closed07:49:53 UTC: both original images,
 fresh5/5 smoke, API/watchdog/tailnet and restore/smoke exit0. Fallback disarmed.
 The isolated retry then started with both-node source hashes verified; no result
 is claimed yet.
+
+## Result
+
+Both complete45-layer cases passed on both ranks, actual pytest/wrapper exits0.
+Case65 took378.986/378.539s; case4096 took275.360/274.438s (XML testcase times).
+Distinct case processes and pre-second-load memory above113GiB free were retained.
+All127 memory samples were healthy; runtime hashes were unchanged. Controller
+gate passed08:01:19 UTC. These are native target replay results, not an independent
+full-model mathematical reference or MTP acceptance.
+
+Independent B12X recovery closed08:07:54 UTC: both original images running, API200,
+watchdog/tailnet active and fresh5/5 smoke. Restore invocation
+`bc17a4bcdb3a4f21be009f85af0880f4` and smoke invocation
+`cedfe28744e54df5a0b73c5c4edc3f5c` both ended with actual exit0/PID0.
+Fallback disarmed only after these checks. Receipts: `target-isolated-*`.
