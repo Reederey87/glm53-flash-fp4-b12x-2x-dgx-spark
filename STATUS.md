@@ -2,7 +2,7 @@
 
 ## 2026-11-16 UTC — Bounded mixed gate remains unresolved
 
-- Both arms completed 75 requests/9 cases. Of 61 points, 25 have adverse medians with overlapping repetition ranges; none is a separated regression. Small-prompt TTFT improves, but decoder0 p95 gap rises from 0.101s to 0.349s. Full matrix was not started; automatic B12X restoration began 05:16:26 UTC. See docs/32 and retained paired receipts.
+- Both arms completed 75 requests/9 cases. Of 61 points, 25 have adverse medians with overlapping repetition ranges; none is a separated regression. Small-prompt TTFT improves, but decoder0 p95 gap rises from 0.101s to 0.349s. Full matrix was not started; automatic B12X restoration began 05:16:26 UTC and was verified05:23:10 UTC with fresh5/5 smoke, original images and watchdog/tailnet; fallback then disarmed. See docs/32 and retained paired receipts.
 - Native scheduling is unchanged while the delivery-gap distributions and arrival-phase patterns are investigated with Exa. The separately guarded 54-case expert numerical window is frozen for execution only after this window closes with verified B12X restoration.
 
 ## 2026-11-16 UTC — Fresh scheduler comparison and remaining gate tooling
