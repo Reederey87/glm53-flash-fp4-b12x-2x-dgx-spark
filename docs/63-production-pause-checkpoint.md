@@ -88,3 +88,13 @@ production/watchdog tests pass, including delayed dispatch and subsequent failur
 The first memory guard remained running during B12X recovery and stopped at a
 B12X startup memory-floor breach; its sample is retained, not counted as a
 healthy Flare production observation.
+
+The 11:37 retry started both ranks, reported 2,339,328 cache tokens and passed
+API7/7. Its activation controller then exited7 on an immediate external proxy
+health connection, before the Type=exec proxy finished binding. Rollback ran
+automatically; both native ranks exited cleanly. This is an endpoint readiness
+race, not a failed model smoke. The next frozen controller retries connection
+refusal with a 60-second retry budget and 5-second per-transfer timeout. Exa
+checked [curl's official retry contract](https://everything.curl.dev/usingcurl/downloads/retry.html).
+The proxy's asynchronous bind and vLLM/TensorFold startup health loops support
+bounded polling. No proxy, model, numerical bound or serving knob is changed.
