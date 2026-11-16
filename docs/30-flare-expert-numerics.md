@@ -68,3 +68,7 @@ runtime supervisor, ledger and accepted-core hashes matched. This closes the
 selected component arithmetic/replay gate, not full-model equivalence.
 Restoration was queued automatically; independent B12X smoke/closure follows.
 Receipts: `expert-numerics-*` in `receipts/flare-qualification-20261115/`.
+
+Window closed05:32:52 UTC after independent fresh5/5 B12X smoke, original images
+on both nodes, active API/watchdog/tailnet and no native processes. Restoration
+and fallback-disarm receipts are retained alongside the numerical results.

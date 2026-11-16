@@ -1,9 +1,13 @@
 # Status
 
+## 2026-11-16 UTC — Bounded native diagnostic started
+
+- Registered docs/33 diagnostic is running with unchanged artifact127424e9/binaryb2eb310b, core and wrapper. Both policies trace identically on head; one repetition is diagnostic only. Both runtime snapshots retained and60-minute fallback armed before B12X stop. No production adoption or new engine change.
+
 ## 2026-11-16 UTC — Expert arithmetic and replay gate passes
 
 - All 54 pinned SM121 cases passed in166.71s: declared A16/A4 poisoned replay8, calibrated A4 float64 reference21, compressed/native expert replay24, planned live-count A16 replay1. No skips or relaxed bounds; pytest exit0 and XML retained. Supervisor, accepted-core and both runtime ledgers unchanged.
-- B12X restoration and fresh smoke are queued; fallback stays armed until independent closure. These are component results. Full-model/state/capacity and mixed performance remain open; next native diagnostic is registered in docs/33 with the same scheduler binary.
+- B12X restoration independently verified05:32:52 UTC: fresh5/5 smoke, both original images, API/watchdog/tailnet and absent native PIDs. Fallback disarmed only after these checks. These are component results. Full-model/state/capacity and mixed performance remain open; next native diagnostic is registered in docs/33 with the same scheduler binary.
 
 ## 2026-11-16 UTC — Bounded mixed gate remains unresolved
 
