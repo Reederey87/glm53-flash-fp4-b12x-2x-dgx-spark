@@ -3,6 +3,7 @@
 ## 2026-11-16 UTC — Mixed native diagnosis complete; bounded correction prepared
 
 - Both captures are complete and loss-free with matched25 requests/360658 prompt tokens. Latency selected measured3072-token prefill steps taking1.38–1.43s during decode, explaining native/client gaps near1.5s. Balanced used smaller steps. The earlier36s late-short delay did not recur and is not claimed reproduced.
+- B12X restoration verified04:13 UTC: both original images, fresh5/5 smoke, API and watchdog/tailnet active, native ranks inactive. Fallback disarmed04:13:37 UTC.
 - Prepared bounded prompt promotion with balanced selection while decoders are active, plus native CPU counterexample/regressions. Exa and local source review, exact limits and the next guarded gate are in docs/26. Native candidate tests/build/performance are pending.
 
 ## 2026-11-16 UTC — Observer built; matched mixed capture running
