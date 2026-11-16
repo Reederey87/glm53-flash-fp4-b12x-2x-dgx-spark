@@ -31,20 +31,29 @@ def near(actual, expected):
 
 
 def load(path, policy):
+    return _load(path, policy, 3)
+
+
+def load_diagnostic(path, policy):
+    """Validate one complete repetition, without making a performance verdict."""
+    return _load(path, policy, 1)
+
+
+def _load(path, policy, repetitions):
     records = [json.loads(line) for line in path.read_text().splitlines()]
     manifest = records[0]['manifest']
-    for name, expected in {'schema': 1, 'policy': policy, 'reps': 3, 'slot_cap': 4,
+    for name, expected in {'schema': 1, 'policy': policy, 'reps': repetitions, 'slot_cap': 4,
                            'temperature': 1, 'top_p': .95}.items():
         if manifest.get(name) != expected:
             raise ValueError('mixed manifest differs from the registered workload')
-    if records[-1] != {'complete': True, 'cases': 9, 'requests': 75}:
+    if records[-1] != {'complete': True, 'cases': 3*repetitions, 'requests': 25*repetitions}:
         raise ValueError('missing mixed completion footer')
-    expected_keys = {(rep, case, name) for rep in range(3)
+    expected_keys = {(rep, case, name) for rep in range(repetitions)
                      for case, items in CASES.items() for name in items}
     rows, cases, hashes = {}, {}, set()
     for row in records[1:-1]:
         case_key = row.get('rep'), row.get('case')
-        if case_key not in {(rep, case) for rep in range(3) for case in CASES}:
+        if case_key not in {(rep, case) for rep in range(repetitions) for case in CASES}:
             raise ValueError('unexpected mixed case')
         if row.get('event') == 'case_complete':
             if case_key in cases:
@@ -84,7 +93,7 @@ def load(path, policy):
             near(row['delivery_gap_max_s'], gaps[-1])
         elif row['delivery_gap_p95_s'] is not None or row['delivery_gap_max_s'] is not None:
             raise ValueError('invented within-burst delivery gaps')
-    if rows.keys() != expected_keys or len(cases) != 9:
+    if rows.keys() != expected_keys or len(cases) != 3*repetitions:
         raise ValueError('incomplete mixed request or case coverage')
     for (rep, case), result in cases.items():
         cohort = [rows[rep, case, name] for name in CASES[case]]
@@ -111,6 +120,8 @@ def distribution(reference, candidate, higher_better=False):
 def compare(reference, candidate):
     bm, br, bc = reference
     cm, cr, cc = candidate
+    if bm.get('reps') != 3 or cm.get('reps') != 3:
+        raise ValueError('performance comparison requires three repetitions')
     if {k: v for k, v in bm.items() if k != 'policy'} != {k: v for k, v in cm.items() if k != 'policy'}:
         raise ValueError('mixed arm manifests differ')
     groups = defaultdict(lambda: [[], []])

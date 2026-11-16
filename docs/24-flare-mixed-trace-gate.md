@@ -64,3 +64,12 @@ Automatically restore B12X after both captures or on error. Retain original
 images, health200, fresh smoke5/5 and watchdog/tailnet verification before
 appending rollback selection and disarming fallback. No production adoption,
 boot change or merge until all previously registered gates pass.
+
+## Result
+
+Balanced client25/25, cases3/3 and37 memory samples passed. Both native exits0
+without forced kill. Capture reported one unclassified lost update despite
+consecutive completion fences1..399; the registered zero-loss gate failed.
+Latency did not run. Automatic B12X restoration began at03:19 UTC. Docs/25
+registers the corrected observer and fresh two-arm retry; this failed capture
+is not accepted retrospectively.

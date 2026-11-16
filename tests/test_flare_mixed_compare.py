@@ -7,7 +7,7 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from flare_mixed_bench import summarize, validate_overlap
-from flare_mixed_compare import CASES, compare, distribution, load
+from flare_mixed_compare import CASES, compare, distribution, load, load_diagnostic
 
 
 def fixture(policy):
@@ -46,6 +46,13 @@ class MixedComparisonTests(unittest.TestCase):
         rows[-1] = {'complete': True, 'cases': 3, 'requests': 25}
         with self.assertRaises(ValueError):
             self.read(rows, 'latency')
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/'diagnostic.jsonl'
+            path.write_text(''.join(json.dumps(r)+'\n' for r in rows))
+            diagnostic = load_diagnostic(path, 'latency')
+            self.assertEqual(len(diagnostic[1]), 25)
+            with self.assertRaisesRegex(ValueError, 'three repetitions'):
+                compare(diagnostic, diagnostic)
 
     def read(self, records, policy='balanced'):
         with tempfile.TemporaryDirectory() as directory:

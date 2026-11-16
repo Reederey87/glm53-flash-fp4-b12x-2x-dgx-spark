@@ -21,7 +21,7 @@ index 28435231..0bfd1678 100644
 @@ -780,6 +782,10 @@ pub struct Run {
          value_parser = ["balanced", "throughput", "latency"], help_heading = "Serving options")]
      pub scheduler_policy: String,
- 
+
 +    /// Record rank-zero completion telemetry for at most 600 seconds and 16 MiB; output must not exist.
 +    #[arg(long, value_name = "PATH", conflicts_with_all = ["hosts", "stage_only"], help_heading = "Serving options")]
 +    pub scheduler_trace: Option<PathBuf>,
@@ -30,7 +30,7 @@ index 28435231..0bfd1678 100644
      #[arg(long, value_name = "VALUE", value_parser = scheduler_coefficient, help_heading = "Serving options")]
      pub scheduler_terminal_value: Option<f64>,
 @@ -1546,6 +1552,9 @@ mod tests {
- 
+
      #[test]
      fn scheduling_preference_is_explicit_and_validated() {
 +        assert!(run(&["flare", "run", "model.safetensors"]).scheduler_trace.is_none());
@@ -65,7 +65,7 @@ index e7ef6714..47807fb5 100644
 @@ -527,6 +530,16 @@ fn serve_peer(
      }
  }
- 
+
 +fn start_observation(server: &Server, trace: Option<&std::path::Path>) -> Option<std::io::Error> {
 +    if let Some(path) = trace {
 +        return server.start_scheduler_trace(path).err();
@@ -173,18 +173,18 @@ index a1b7c67a..bc3f3110 100644
 +++ b/helios/src/server/dashboard.rs
 @@ -7,6 +7,7 @@
  //! Terminal rendering consumes bounded telemetry independently of execution.
- 
+
  mod scheduler;
 +mod capture;
- 
+
  use std::{
      collections::VecDeque,
 diff --git a/helios/src/server/dashboard/capture.rs b/helios/src/server/dashboard/capture.rs
 new file mode 100644
-index 00000000..51962fbe
+index 00000000..f20309f3
 --- /dev/null
 +++ b/helios/src/server/dashboard/capture.rs
-@@ -0,0 +1,239 @@
+@@ -0,0 +1,260 @@
 +/*
 + * SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 + * SPDX-FileCopyrightText: Copyright (c) 2026 Flare community contributors
@@ -260,13 +260,14 @@ index 00000000..51962fbe
 +            "clock": "server monotonic nanoseconds", "started_at_ns": monotonic_ns(),
 +            "scope": "native graph completion observations; not GPU start/end timestamps",
 +            "max_seconds": MAX_DURATION.as_secs(), "max_bytes": MAX_BYTES,
-+            "max_completions": MAX_COMPLETIONS, "graphs": graphs,
++            "max_completions": MAX_COMPLETIONS, "poll_interval_ms": 5000, "graphs": graphs,
 +        }))? {
 +            return Err(io::Error::other("scheduler graph catalog exceeds trace byte bound"));
 +        }
 +        output.writer.flush()?;
 +        let (stop, receiver) = mpsc::channel();
-+        let dropped_before = metrics.scheduler_trace.dropped.load(Ordering::Relaxed);
++        let dropped_before = (metrics.scheduler_trace.dropped.load(Ordering::Relaxed),
++                              metrics.scheduler_trace.dropped_completions.load(Ordering::Relaxed));
 +        metrics.scheduler_trace.start();
 +        let observed = metrics.clone();
 +        let thread = thread::Builder::new().name("flare-scheduler-capture".into()).spawn(move || {
@@ -285,7 +286,7 @@ index 00000000..51962fbe
 +}
 +
 +fn collect<W: Write>(metrics: &Metrics, output: &mut Output<W>, stop: Receiver<()>,
-+                     duration: Duration, limit: usize, dropped_before: u64) -> io::Result<()> {
++                     duration: Duration, limit: usize, dropped_before: (u64, u64)) -> io::Result<()> {
 +    let started = Instant::now();
 +    let mut samples = VecDeque::with_capacity(TRACE_CAPACITY);
 +    let mut completions = 0;
@@ -294,7 +295,7 @@ index 00000000..51962fbe
 +    loop {
 +        let remaining = duration.saturating_sub(started.elapsed());
 +        let stopping = if remaining.is_zero() { true } else {
-+            match stop.recv_timeout(remaining.min(Duration::from_millis(500))) {
++            match stop.recv_timeout(remaining.min(Duration::from_secs(5))) {
 +                Ok(()) | Err(RecvTimeoutError::Disconnected) => { reason = "stopped"; true }
 +                Err(RecvTimeoutError::Timeout) => started.elapsed() >= duration,
 +            }
@@ -332,9 +333,13 @@ index 00000000..51962fbe
 +        if stopping || truncated { break; }
 +    }
 +    metrics.scheduler_trace.stop();
-+    let dropped = metrics.scheduler_trace.dropped.load(Ordering::Relaxed).saturating_sub(dropped_before);
++    let dropped = metrics.scheduler_trace.dropped.load(Ordering::Relaxed).saturating_sub(dropped_before.0);
++    let dropped_completions = metrics.scheduler_trace.dropped_completions.load(Ordering::Relaxed)
++        .saturating_sub(dropped_before.1);
 +    output.finish(json!({"event": "complete", "at_ns": monotonic_ns(),
 +        "completions": completions, "dropped_updates": dropped, "truncated": truncated,
++        "dropped_completions": dropped_completions,
++        "dropped_other_updates": dropped.saturating_sub(dropped_completions),
 +        "reason": if truncated { "limit" } else { reason },
 +        "complete": !truncated && dropped == 0,
 +    }))
@@ -366,7 +371,7 @@ index 00000000..51962fbe
 +        let (stop, receiver) = mpsc::channel();
 +        stop.send(()).unwrap();
 +        let mut output = Output { writer: Vec::new(), bytes: 0, limit: bytes };
-+        collect(metrics, &mut output, receiver, Duration::from_secs(1), limit, 0).unwrap();
++        collect(metrics, &mut output, receiver, Duration::from_secs(1), limit, (0, 0)).unwrap();
 +        String::from_utf8(output.writer).unwrap().lines()
 +            .map(|line| serde_json::from_str(line).unwrap()).collect()
 +    }
@@ -395,6 +400,22 @@ index 00000000..51962fbe
 +    }
 +
 +    #[test]
++    fn capture_distinguishes_completion_loss_without_waiving_other_loss() {
++        let metrics = fixture(3);
++        metrics.scheduler_trace.dropped.fetch_add(1, Ordering::Relaxed);
++        let rows = record(&metrics, 100, MAX_BYTES);
++        let footer = rows.last().unwrap();
++        assert_eq!(footer["complete"], false);
++        assert_eq!(footer["dropped_completions"], 0);
++        assert_eq!(footer["dropped_other_updates"], 1);
++        let rows = record(&fixture(TRACE_CAPACITY + 1), 2000, MAX_BYTES);
++        let footer = rows.last().unwrap();
++        assert_eq!(footer["complete"], false);
++        assert_eq!(footer["dropped_completions"], 1);
++        assert_eq!(footer["dropped_other_updates"], 0);
++    }
++
++    #[test]
 +    fn capture_reports_io_failure_without_a_success_footer() {
 +        struct Broken;
 +        impl Write for Broken {
@@ -403,7 +424,7 @@ index 00000000..51962fbe
 +        }
 +        let (_sender, receiver) = mpsc::channel();
 +        let mut output = Output { writer: Broken, bytes: 0, limit: MAX_BYTES };
-+        assert!(collect(&fixture(1), &mut output, receiver, Duration::ZERO, 100, 0).is_err());
++        assert!(collect(&fixture(1), &mut output, receiver, Duration::ZERO, 100, (0, 0)).is_err());
 +    }
 +
 +    #[test]
@@ -436,9 +457,9 @@ index d010607c..686f08a8 100644
 +            token_counts: [0; crate::execution::REQUEST_LANES],
          }
      }
- 
+
 diff --git a/helios/src/server/metrics/scheduler.rs b/helios/src/server/metrics/scheduler.rs
-index 772c5df0..33dee33c 100644
+index 772c5df0..712557d7 100644
 --- a/helios/src/server/metrics/scheduler.rs
 +++ b/helios/src/server/metrics/scheduler.rs
 @@ -40,6 +40,8 @@ pub(in crate::server) struct GraphSample {
@@ -448,11 +469,19 @@ index 772c5df0..33dee33c 100644
 +    pub start_positions: [u64; REQUEST_LANES],
 +    pub token_counts: [usize; REQUEST_LANES],
  }
- 
+
  #[derive(Clone, Copy)]
-@@ -115,13 +117,19 @@ impl SchedulerMetrics {
+@@ -93,6 +95,7 @@ pub(in crate::server) struct SchedulerMetrics {
+     enabled: AtomicBool,
+     pub detail_requested: AtomicBool,
+     pub dropped: AtomicU64,
++    pub dropped_completions: AtomicU64,
+     pub execution_ns: [AtomicU64; 4],
+     pub executions: [AtomicU64; 4],
+ }
+@@ -115,13 +118,19 @@ impl SchedulerMetrics {
      }
- 
+
      pub fn start(&self) {
 -        self.buffer.get_or_init(|| {
 +        let buffer = self.buffer.get_or_init(|| {
@@ -471,21 +500,43 @@ index 772c5df0..33dee33c 100644
          self.detail_requested.store(true, Ordering::Relaxed);
          self.enabled.store(true, Ordering::Relaxed);
      }
-@@ -139,7 +147,10 @@ impl SchedulerMetrics {
+@@ -131,7 +140,7 @@ impl SchedulerMetrics {
+         self.detail_requested.store(false, Ordering::Relaxed);
+     }
+
+-    fn write(&self, update: impl FnOnce(&mut TraceBuffer)) {
++    fn write(&self, completion: bool, update: impl FnOnce(&mut TraceBuffer)) {
+         if !self.enabled.load(Ordering::Relaxed) {
+             return;
+         }
+@@ -139,14 +148,18 @@ impl SchedulerMetrics {
              return;
          };
          if let Ok(mut trace) = buffer.try_lock() {
 -            update(&mut trace);
+-        } else {
 +            // A stopped consumer drains once; a late producer must not refill it.
 +            if self.enabled.load(Ordering::Relaxed) {
 +                update(&mut trace);
 +            }
-         } else {
++        } else if self.enabled.load(Ordering::Relaxed) {
              self.dropped.fetch_add(1, Ordering::Relaxed);
++            if completion { self.dropped_completions.fetch_add(1, Ordering::Relaxed); }
          }
-@@ -178,8 +189,12 @@ impl SchedulerMetrics {
+     }
+
+     pub fn submitted(&self, at_ns: u64, graph: usize, plan: &ScheduledPlan, feedback: bool) {
+-        self.write(|trace| {
++        self.write(false, |trace| {
+             trace.dispatch = Some(Dispatch {
+                 at_ns,
+                 graph,
+@@ -176,20 +189,27 @@ impl SchedulerMetrics {
+             .unwrap_or(if timing.queued { 0 } else { timing.wall_ns });
+         self.execution_ns[reason].fetch_add(duration, Ordering::Relaxed);
          self.executions[reason].fetch_add(1, Ordering::Relaxed);
-         self.write(|trace| {
+-        self.write(|trace| {
++        self.write(true, |trace| {
              let mut generations = [0; REQUEST_LANES];
 +            let mut start_positions = [0; REQUEST_LANES];
 +            let mut token_counts = [0; REQUEST_LANES];
@@ -496,7 +547,11 @@ index 772c5df0..33dee33c 100644
              }
              if trace.samples.len() == TRACE_CAPACITY {
                  trace.samples.pop_front();
-@@ -190,6 +205,8 @@ impl SchedulerMetrics {
+                 self.dropped.fetch_add(1, Ordering::Relaxed);
++                self.dropped_completions.fetch_add(1, Ordering::Relaxed);
+             }
+             trace.samples.push_back(GraphSample {
+                 at_ns,
                  fence,
                  graph,
                  generations,
@@ -505,7 +560,33 @@ index 772c5df0..33dee33c 100644
                  wall_ns: timing.wall_ns,
                  queued: timing.queued,
                  selection,
-@@ -279,7 +296,8 @@ mod tests {
+@@ -210,7 +230,7 @@ impl SchedulerMetrics {
+         {
+             return;
+         }
+-        self.write(|trace| trace.detail = detail());
++        self.write(false, |trace| trace.detail = detail());
+     }
+
+     pub fn drain(
+@@ -266,6 +286,10 @@ mod tests {
+         let lock = metrics.buffer.get().unwrap().lock().unwrap();
+         metrics.completed(0, Fence(1), 3, &step, timing, SubmittedTiming::default(), 0.0);
+         assert_eq!(metrics.dropped.load(Ordering::Relaxed), 1);
++        assert_eq!(metrics.dropped_completions.load(Ordering::Relaxed), 1);
++        metrics.details(SchedulerDetail::default);
++        assert_eq!(metrics.dropped.load(Ordering::Relaxed), 2);
++        assert_eq!(metrics.dropped_completions.load(Ordering::Relaxed), 1);
+         drop(lock);
+         for at in 0..TRACE_CAPACITY + 3 {
+             let selection = SubmittedTiming { retained_ns: 100 + at as u64, ..Default::default() };
+@@ -275,11 +299,13 @@ mod tests {
+         metrics.drain(&mut samples);
+         assert_eq!(samples.len(), TRACE_CAPACITY);
+         assert_eq!(samples.front().unwrap().at_ns, 3);
+-        assert_eq!(metrics.dropped.load(Ordering::Relaxed), 4);
++        assert_eq!(metrics.dropped.load(Ordering::Relaxed), 5);
++        assert_eq!(metrics.dropped_completions.load(Ordering::Relaxed), 4);
          assert!(
              samples
                  .iter()
