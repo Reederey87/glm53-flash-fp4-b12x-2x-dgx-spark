@@ -1,5 +1,10 @@
 # Status
 
+## 2026-11-16 UTC — Fresh scheduler comparison and remaining gate tooling
+
+- Fresh balanced completed75 requests/9 cases,109 memory samples and both native exits0/no forced kill. Bounded-latency started with7/7 API checks and enforcing memory monitor; measured pool2,331,392 tokens remains below adoption target. The180-minute fallback stays armed; no adoption decision.
+- Local production readiness now enforces the measured2,350,210-token floor on boot/recovery. Registered54 pinned expert arithmetic/replay cases and a matched12-request long-output client; neither GPU workload has run. Local suite78 tests passes; see docs/27,30–31.
+
 ## 2026-11-16 UTC — Loaded lifecycle correction passes
 
 - Corrected wrapper passed loaded graceful shutdown in9.75s: both actual native exits0, no forced kill, stream closed and operation locks released. Worker exited naturally about1s after head. Injected worker SIGKILL passed in3.32s: head native exit1, no forced kill, visible failure and released locks. Both fresh starts passed7/7 API smoke.
