@@ -129,9 +129,11 @@ def test_checkpoint_mtp_feedback(capacity, record_property):
             oracle_weight = raw['eh_proj'].to(device=device, dtype=torch.float64)
             norm_weights = {key: raw[key].to(device) for key in ('enorm', 'hnorm', 'input_layernorm')}
             for case, gain, count in (('normal', 1., capacity), ('small', .001, capacity),
-                                      ('large', 1000., capacity), ('partial', 1., max(1, capacity // 2))):
+                                      ('large', 1000., capacity), ('partial', 1., max(1, capacity // 2)),
+                                      ('empty', 1., 0)):
                 ids.copy_(torch.randint(0, weights['embedding'].shape[0], ids.shape, generator=generator, device=device))
-                positions.copy_(torch.arange(capacity, device=device) % 257)
+                offset = {'normal': 0, 'small': 1, 'large': 255, 'partial': 0, 'empty': 1}[case]
+                positions.copy_((torch.arange(capacity, device=device) + offset) % 257)
                 live.fill_(count)
                 hidden.normal_(generator=generator).mul_(gain)
                 hidden[count:].zero_()

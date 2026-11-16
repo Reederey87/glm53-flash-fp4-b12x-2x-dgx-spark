@@ -41,8 +41,9 @@ BF16 GEMV `rtol=.01, atol=.01` against a FP64 dot on the same observed normalize
 input, rounded to BF16. Do not turn an accumulated end-to-end error into a new
 or relaxed component bound.
 
-Each capacity runs normal, small, large and partially occupied inputs, five
-native replays each. Poison outputs before replay; require finite results,
+Each capacity runs normal, small, large, partially occupied and entirely inactive
+inputs, five native replays each. Position offsets0/1/255 exercise both masked
+and real embedding lookup even at capacity1. Poison outputs before replay; require finite results,
 matching native completion fences, unchanged inputs and no allocated/freed
 allocation or segment counters across replay. Retain every case's maximum
 error and norm ULPs. Both four-case pytest receipts and real unit exit0 are
@@ -58,3 +59,6 @@ exported-core equivalence or full-model numerical acceptance.
 
 Status: prepared locally; GPU execution pending. Pinned prefix AST, bound-source
 hashes, Python syntax and shell syntax checked.
+
+Fixtures and controllers are now staged under the candidate qualification tree
+on both nodes; all source-manifest hashes match. GPU execution remains pending.

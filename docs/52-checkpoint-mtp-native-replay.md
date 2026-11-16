@@ -52,3 +52,6 @@ notifying memory guard keeps1.5GiB-free/8GiB-available floors, and an independen
 fresh5/5 smoke are independently verified. No serving or boot ownership changes.
 
 Status: prepared locally; Python and shell syntax checked; not run on GPUs.
+
+Fixtures and controllers are now staged under the candidate qualification tree
+on both nodes; all source-manifest hashes match. GPU execution remains pending.

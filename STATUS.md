@@ -617,3 +617,7 @@
 ## 2026-11-16 UTC — Capacity controller frozen locally
 
 - Docs/54 freezes the two-arm reserve controller, exact wrapper hashes and restoration of original wrapper bytes. Requires successful ABBA and closed MTP gates; new wrappers remain unstaged.93 local tests pass. Exa statistical-method follow-up retains the current ABBA decision rules unchanged.
+
+## 2026-11-16 UTC — Numerical fixtures staged, not executed
+
+- Staged docs/51–52 fixtures/controllers under`/home/nvidia/b12x-flare/qualification` on both Sparks and verified every manifest hash. Active ABBA runtime files remain unchanged. Both users have linger enabled; B12X remains boot owner and only the current ABBA restore timer is armed.
