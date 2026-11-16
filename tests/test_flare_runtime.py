@@ -133,7 +133,7 @@ class RuntimeContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'positive integer'):
                 serving_recipe(self.recipe)
 
-    def native_arm(self):
+    def native_arm(self, trace=False):
         patch = self.root/'qualification/flare-prefill-latency.patch'
         patch.parent.mkdir()
         patch.write_bytes(b'host policy fixture')
@@ -143,11 +143,16 @@ class RuntimeContractTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(name.encode())
             locks[name] = hashlib.sha256(path.read_bytes()).hexdigest()
-        data = json.dumps({'schema': 1, 'kind': 'prefill-latency',
+        manifest = {'schema': 1, 'kind': 'prefill-latency',
             'flare_revision': self.recipe['flare_revision'],
             'patch_sha256': hashlib.sha256(patch.read_bytes()).hexdigest(),
             'binary_sha256': hashlib.sha256(b'native executable fixture').hexdigest(),
-            'lock_sha256': locks}).encode()
+            'lock_sha256': locks}
+        if trace:
+            capture = patch.with_name('flare-scheduler-trace.patch')
+            capture.write_bytes(b'trace fixture')
+            manifest.update(trace_patch_sha256=hashlib.sha256(capture.read_bytes()).hexdigest(), trace_schema=1)
+        data = json.dumps(manifest).encode()
         arm = hashlib.sha256(data).hexdigest()
         directory = self.root/'native'/arm
         directory.mkdir(parents=True)
@@ -155,6 +160,36 @@ class RuntimeContractTests(unittest.TestCase):
         (directory/'flare').write_bytes(b'native executable fixture')
         (self.root/'.env').write_text(f'FLARE_NATIVE_ARM={arm}\nFLARE_SCHEDULER_POLICY=latency\n')
         return directory
+
+    def test_trace_is_explicit_head_only_and_cannot_overwrite(self):
+        self.native_arm(trace=True)
+        with (self.root/'.env').open('a') as f:
+            f.write('FLARE_SCHEDULER_TRACE=probe.jsonl\n')
+        recipe = serving_recipe(self.recipe)
+        head = serving_command(recipe, 0, self.state)
+        self.assertEqual(head[head.index('--scheduler-trace')+1], str(self.root/'local/probe.jsonl'))
+        self.assertNotIn('--scheduler-trace', serving_command(recipe, 1, self.state))
+        (self.root/'local/probe.jsonl').write_text('retained evidence')
+        with self.assertRaisesRegex(ValueError, 'must not exist'):
+            serving_command(recipe, 0, self.state)
+        with (self.root/'.env').open('a') as f:
+            f.write('FLARE_SCHEDULER_TRACE=off\n')
+        self.assertNotIn('--scheduler-trace', serving_command(serving_recipe(self.recipe), 0, self.state))
+
+    def test_trace_requires_verified_contract_and_rejects_path_escape(self):
+        self.native_arm()
+        with self.assertRaisesRegex(ValueError, 'lacks the qualified trace contract'):
+            serving_command(dict(serving_recipe(self.recipe), scheduler_trace='probe.jsonl'), 0, self.state)
+        for value in ('../escape.jsonl', '/tmp/probe.jsonl', '$(false).jsonl'):
+            (self.root/'.env').write_text('FLARE_SCHEDULER_TRACE='+value+'\n')
+            with self.assertRaisesRegex(ValueError, 'local JSONL filename'):
+                serving_recipe(self.recipe)
+
+    def test_trace_patch_mutation_rejected_even_with_capture_off(self):
+        self.native_arm(trace=True)
+        (self.root/'qualification/flare-scheduler-trace.patch').write_bytes(b'changed')
+        with self.assertRaisesRegex(ValueError, 'trace patch digest mismatch'):
+            serving_command(serving_recipe(self.recipe), 1, self.state)
 
     def test_native_policy_arm_preserves_core_export_and_has_explicit_rollback(self):
         from flare_candidate import render

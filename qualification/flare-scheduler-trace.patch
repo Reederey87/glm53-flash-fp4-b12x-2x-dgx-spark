@@ -1,0 +1,517 @@
+diff --git a/flare-cli/src/cli.rs b/flare-cli/src/cli.rs
+index 28435231..0bfd1678 100644
+--- a/flare-cli/src/cli.rs
++++ b/flare-cli/src/cli.rs
+@@ -480,6 +480,7 @@ impl OrbitPush {
+             stage_only: false,
+             api_key_file: None,
+             scheduler_policy: "balanced".into(),
++            scheduler_trace: None,
+             scheduler_terminal_value: None,
+             scheduler_terminal_age_price: None,
+             scheduler_checkpoint_extra_work_fraction: None,
+@@ -664,6 +665,7 @@ impl OrbitRun {
+                 .scheduler_policy
+                 .clone()
+                 .unwrap_or_else(|| "balanced".into()),
++            scheduler_trace: None,
+             scheduler_terminal_value: self.scheduler_terminal_value,
+             scheduler_terminal_age_price: self.scheduler_terminal_age_price,
+             scheduler_checkpoint_extra_work_fraction: self.scheduler_checkpoint_extra_work_fraction,
+@@ -780,6 +782,10 @@ pub struct Run {
+         value_parser = ["balanced", "throughput", "latency"], help_heading = "Serving options")]
+     pub scheduler_policy: String,
+ 
++    /// Record rank-zero completion telemetry for at most 600 seconds and 16 MiB; output must not exist.
++    #[arg(long, value_name = "PATH", conflicts_with_all = ["hosts", "stage_only"], help_heading = "Serving options")]
++    pub scheduler_trace: Option<PathBuf>,
++
+     /// Value per terminal retirement in prompt-token units [default: 256].
+     #[arg(long, value_name = "VALUE", value_parser = scheduler_coefficient, help_heading = "Serving options")]
+     pub scheduler_terminal_value: Option<f64>,
+@@ -1546,6 +1552,9 @@ mod tests {
+ 
+     #[test]
+     fn scheduling_preference_is_explicit_and_validated() {
++        assert!(run(&["flare", "run", "model.safetensors"]).scheduler_trace.is_none());
++        assert_eq!(run(&["flare", "run", "model.safetensors", "--scheduler-trace", "trace.jsonl"])
++            .scheduler_trace, Some(PathBuf::from("trace.jsonl")));
+         assert_eq!(run(&["flare", "run", "model.safetensors", "--scheduler-policy", "latency"])
+             .scheduler_policy, "latency");
+         assert_eq!(
+diff --git a/flare-cli/src/main.rs b/flare-cli/src/main.rs
+index e7ef6714..47807fb5 100644
+--- a/flare-cli/src/main.rs
++++ b/flare-cli/src/main.rs
+@@ -151,6 +151,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
+     }
+     let bind = args.bind_address();
+     if args.rank.is_some_and(|rank| rank != 0) {
++        if args.scheduler_trace.is_some() {
++            return Err("--scheduler-trace applies only to rank zero".into());
++        }
+         args.serving.select_gpus(1);
+     }
+     if !args.gpus.is_empty() {
+@@ -292,7 +295,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
+     config["api_key"] = key.into();
+     config["thinking_token_budget"] = serde_json::json!(configuration.thinking_token_budget());
+     phase.finish(config["model_id"].as_str().unwrap_or_default());
+-    serve(owner, config, progress, cluster, routing)?;
++    serve(owner, config, progress, cluster, routing, args.scheduler_trace)?;
+     #[cfg(unix)]
+     if let Some(peers) = launched {
+         peers.finish().map_err(|e| e.to_string())?;
+@@ -527,6 +530,16 @@ fn serve_peer(
+     }
+ }
+ 
++fn start_observation(server: &Server, trace: Option<&std::path::Path>) -> Option<std::io::Error> {
++    if let Some(path) = trace {
++        return server.start_scheduler_trace(path).err();
++    }
++    if let Err(error) = server.start_dashboard() {
++        eprintln!("Could not start dashboard: {error}");
++    }
++    None
++}
++
+ fn serve(
+     owner: NativeModel,
+     config: serde_json::Value,
+@@ -536,9 +549,10 @@ fn serve(
+         Vec<flare_helios::execution::RankStream>,
+     )>,
+     routing: cluster::Routing,
++    trace: Option<std::path::PathBuf>,
+ ) -> Result<(), Box<dyn std::error::Error>> {
+     if cluster.is_none() {
+-        return serve_local(owner, config, progress);
++        return serve_local(owner, config, progress, trace);
+     }
+     // SAFETY: This executable loads a trusted core and retains its resources
+     // until the native server confirms every replay stream has drained.
+@@ -594,10 +608,8 @@ fn serve(
+         libc::signal(libc::SIGTERM, stop as *const () as libc::sighandler_t);
+     }
+     progress.finish_animation();
+-    if let Err(error) = server.start_dashboard() {
+-        eprintln!("Could not start dashboard: {error}");
+-    }
+-    while !STOP.load(Ordering::Relaxed) && server.wait(Duration::from_millis(250)) {}
++    let observation_error = start_observation(&server, trace.as_deref());
++    while observation_error.is_none() && !STOP.load(Ordering::Relaxed) && server.wait(Duration::from_millis(250)) {}
+     server.stop_dashboard();
+     // Allow the terminal multiplexer to finish restoring the main screen.
+     std::thread::sleep(Duration::from_millis(50));
+@@ -615,6 +627,9 @@ fn serve(
+     if let Some(error) = shutdown.error {
+         return Err(error.into());
+     }
++    if let Some(error) = observation_error {
++        return Err(error.into());
++    }
+     if !STOP.load(Ordering::Relaxed) {
+         return Err("native server stopped unexpectedly".into());
+     }
+@@ -631,6 +646,7 @@ fn serve_local(
+     owner: NativeModel,
+     config: serde_json::Value,
+     mut progress: StartupProgress,
++    trace: Option<std::path::PathBuf>,
+ ) -> Result<(), Box<dyn std::error::Error>> {
+     let phase = progress.phase("Load tokenizer", None);
+     let mut loaded = flare_helios::server::LoadedSession::new(owner, config)?;
+@@ -646,10 +662,8 @@ fn serve_local(
+         libc::signal(libc::SIGTERM, stop as *const () as libc::sighandler_t);
+     }
+     progress.finish_animation();
+-    if let Err(error) = server.start_dashboard() {
+-        eprintln!("Could not start dashboard: {error}");
+-    }
+-    while !STOP.load(Ordering::Relaxed) && server.wait(Duration::from_millis(250)) {}
++    let observation_error = start_observation(server, trace.as_deref());
++    while observation_error.is_none() && !STOP.load(Ordering::Relaxed) && server.wait(Duration::from_millis(250)) {}
+     server.stop_dashboard();
+     std::thread::sleep(Duration::from_millis(50));
+     let phase = progress.phase("Shut down server", None);
+@@ -663,6 +677,9 @@ fn serve_local(
+     if let Some(error) = shutdown.error {
+         return Err(error.into());
+     }
++    if let Some(error) = observation_error {
++        return Err(error.into());
++    }
+     if !STOP.load(Ordering::Relaxed) {
+         return Err("native server stopped unexpectedly".into());
+     }
+diff --git a/helios/src/server.rs b/helios/src/server.rs
+index 7c84af2c..b7629b86 100644
+--- a/helios/src/server.rs
++++ b/helios/src/server.rs
+@@ -455,6 +455,17 @@ impl Server {
+         }
+         Ok(dashboard.is_some())
+     }
++    /// Records bounded completion observations without enabling terminal rendering.
++    /// The output contains request identities and counts, never prompt or output tokens.
++    pub fn start_scheduler_trace(&self, path: &std::path::Path) -> std::io::Result<()> {
++        let _control = self.control.lock().unwrap_or_else(|e| e.into_inner());
++        let mut dashboard = self.dashboard.lock().unwrap_or_else(|e| e.into_inner());
++        if dashboard.is_some() || !self.healthy() {
++            return Err(std::io::Error::other("scheduler telemetry is already owned or the server is unhealthy"));
++        }
++        *dashboard = Some(dashboard::Dashboard::capture(self.model.metrics_handle(), path)?);
++        Ok(())
++    }
+     pub fn stop_dashboard(&self) {
+         self.dashboard
+             .lock()
+diff --git a/helios/src/server/dashboard.rs b/helios/src/server/dashboard.rs
+index a1b7c67a..bc3f3110 100644
+--- a/helios/src/server/dashboard.rs
++++ b/helios/src/server/dashboard.rs
+@@ -7,6 +7,7 @@
+ //! Terminal rendering consumes bounded telemetry independently of execution.
+ 
+ mod scheduler;
++mod capture;
+ 
+ use std::{
+     collections::VecDeque,
+diff --git a/helios/src/server/dashboard/capture.rs b/helios/src/server/dashboard/capture.rs
+new file mode 100644
+index 00000000..51962fbe
+--- /dev/null
++++ b/helios/src/server/dashboard/capture.rs
+@@ -0,0 +1,239 @@
++/*
++ * SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
++ * SPDX-FileCopyrightText: Copyright (c) 2026 Flare community contributors
++ * SPDX-License-Identifier: Apache-2.0
++ */
++
++use super::{Dashboard, Metrics, Telemetry};
++use crate::server::{metrics::scheduler::TRACE_CAPACITY, observation::monotonic_ns};
++use serde_json::{Value, json};
++use std::{
++    collections::VecDeque,
++    fs::OpenOptions,
++    io::{self, BufWriter, Write},
++    path::Path,
++    sync::{Arc, atomic::Ordering, mpsc::{self, Receiver, RecvTimeoutError}},
++    thread,
++    time::{Duration, Instant},
++};
++
++const MAX_BYTES: usize = 16 * 1024 * 1024;
++const MAX_COMPLETIONS: usize = 16_384;
++const MAX_DURATION: Duration = Duration::from_secs(600);
++const FOOTER_RESERVE: usize = 4096;
++
++struct Output<W> {
++    writer: W,
++    bytes: usize,
++    limit: usize,
++}
++
++impl<W: Write> Output<W> {
++    fn record(&mut self, value: Value) -> io::Result<bool> {
++        let mut bytes = serde_json::to_vec(&value)?;
++        bytes.push(b'\n');
++        if bytes.len() > self.limit.saturating_sub(FOOTER_RESERVE).saturating_sub(self.bytes) {
++            return Ok(false);
++        }
++        self.writer.write_all(&bytes)?;
++        self.bytes += bytes.len();
++        Ok(true)
++    }
++
++    fn finish(&mut self, value: Value) -> io::Result<()> {
++        let mut bytes = serde_json::to_vec(&value)?;
++        bytes.push(b'\n');
++        if bytes.len() > self.limit.saturating_sub(self.bytes) {
++            return Err(io::Error::other("scheduler trace footer exceeds its byte bound"));
++        }
++        self.writer.write_all(&bytes)?;
++        self.writer.flush()
++    }
++}
++
++impl Dashboard {
++    pub(in crate::server) fn capture(metrics: Arc<Metrics>, path: &Path) -> io::Result<Self> {
++        let mut options = OpenOptions::new();
++        options.write(true).create_new(true);
++        #[cfg(unix)]
++        {
++            use std::os::unix::fs::OpenOptionsExt;
++            options.mode(0o600);
++        }
++        let file = options.open(path)?;
++        let mut output = Output { writer: BufWriter::new(file), bytes: 0, limit: MAX_BYTES };
++        let catalog = metrics.scheduler_trace.catalog.get()
++            .ok_or_else(|| io::Error::other("scheduler graph catalog is not initialized"))?;
++        let graphs: Vec<_> = catalog.iter().enumerate().map(|(index, g)| json!({
++            "graph": index, "name": g.name, "kind": format!("{:?}", g.kind),
++            "batch_capacity": g.batch, "token_capacity": g.tokens,
++            "prefill_capacity": g.prefill, "packed_token_capacity": g.packed,
++        })).collect();
++        if !output.record(json!({"event": "manifest", "schema": 1,
++            "clock": "server monotonic nanoseconds", "started_at_ns": monotonic_ns(),
++            "scope": "native graph completion observations; not GPU start/end timestamps",
++            "max_seconds": MAX_DURATION.as_secs(), "max_bytes": MAX_BYTES,
++            "max_completions": MAX_COMPLETIONS, "graphs": graphs,
++        }))? {
++            return Err(io::Error::other("scheduler graph catalog exceeds trace byte bound"));
++        }
++        output.writer.flush()?;
++        let (stop, receiver) = mpsc::channel();
++        let dropped_before = metrics.scheduler_trace.dropped.load(Ordering::Relaxed);
++        metrics.scheduler_trace.start();
++        let observed = metrics.clone();
++        let thread = thread::Builder::new().name("flare-scheduler-capture".into()).spawn(move || {
++            let _telemetry = Telemetry(&observed);
++            if let Err(error) = collect(&observed, &mut output, receiver, MAX_DURATION,
++                                       MAX_COMPLETIONS, dropped_before) {
++                // An absent footer makes an I/O failure incomplete evidence.
++                eprintln!("Scheduler trace failed: {error}");
++            }
++        });
++        match thread {
++            Ok(thread) => Ok(Self { stop, thread: Some(thread) }),
++            Err(error) => { metrics.scheduler_trace.stop(); Err(error) }
++        }
++    }
++}
++
++fn collect<W: Write>(metrics: &Metrics, output: &mut Output<W>, stop: Receiver<()>,
++                     duration: Duration, limit: usize, dropped_before: u64) -> io::Result<()> {
++    let started = Instant::now();
++    let mut samples = VecDeque::with_capacity(TRACE_CAPACITY);
++    let mut completions = 0;
++    let mut reason = "duration";
++    let mut truncated = false;
++    loop {
++        let remaining = duration.saturating_sub(started.elapsed());
++        let stopping = if remaining.is_zero() { true } else {
++            match stop.recv_timeout(remaining.min(Duration::from_millis(500))) {
++                Ok(()) | Err(RecvTimeoutError::Disconnected) => { reason = "stopped"; true }
++                Err(RecvTimeoutError::Timeout) => started.elapsed() >= duration,
++            }
++        };
++        if stopping { metrics.scheduler_trace.stop(); }
++        let (detail, _) = metrics.scheduler_trace.drain(&mut samples);
++        for sample in samples.drain(..) {
++            if completions >= limit { truncated = true; break; }
++            let lanes: Vec<_> = sample.generations.iter().enumerate()
++                .filter(|(_, generation)| **generation != 0)
++                .map(|(slot, generation)| json!({"slot": slot, "generation": generation,
++                    "start_position": sample.start_positions[slot], "tokens": sample.token_counts[slot]}))
++                .collect();
++            if !output.record(json!({"event": "completion", "at_ns": sample.at_ns,
++                "fence": sample.fence.0, "graph": sample.graph, "lanes": lanes,
++                "gpu_ns": sample.gpu_ns, "wall_ns": sample.wall_ns, "queued": sample.queued,
++                "selected_at_ns": sample.selection.selected_at_ns,
++                "commit_ns": sample.selection.commit_ns, "estimate_ns": sample.selection.retained_ns,
++                "timing_origin": format!("{:?}", sample.selection.origin),
++            }))? { truncated = true; break; }
++            completions += 1;
++        }
++        let requests: Vec<_> = detail.requests.iter().flatten().map(|r| json!({
++            "slot": r.handle.slot, "generation": r.handle.generation,
++            "phase": format!("{:?}", r.phase), "consumed": r.consumed,
++            "prompt": r.prompt, "generated": r.generated,
++            "last_progress_ns": r.last_progress_ns, "last_output_ns": r.last_output_ns,
++            "published_deliveries": r.published_deliveries,
++        })).collect();
++        if !truncated && !output.record(json!({"event": "state", "sampled_at_ns": detail.at_ns,
++            "observed_at_ns": monotonic_ns(), "outstanding": detail.outstanding, "requests": requests}))? {
++            truncated = true;
++        }
++        output.writer.flush()?;
++        if stopping || truncated { break; }
++    }
++    metrics.scheduler_trace.stop();
++    let dropped = metrics.scheduler_trace.dropped.load(Ordering::Relaxed).saturating_sub(dropped_before);
++    output.finish(json!({"event": "complete", "at_ns": monotonic_ns(),
++        "completions": completions, "dropped_updates": dropped, "truncated": truncated,
++        "reason": if truncated { "limit" } else { reason },
++        "complete": !truncated && dropped == 0,
++    }))
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    use crate::{cache::Fence, execution::{ExecutionTiming, GraphKind},
++        scheduler::{RequestHandle, ScheduledLane, ScheduledStep, SubmittedTiming}};
++
++    fn fixture(count: usize) -> Metrics {
++        let metrics = Metrics::default();
++        metrics.scheduler_trace.start();
++        for n in 0..count {
++            let step = ScheduledStep { draft_tokens: 0, packed_token_capacity: 0,
++                kind: GraphKind::Prefill, batch_capacity: 1, token_capacity: 4096,
++                mixed: None, requires_feedback: true,
++                lanes: vec![ScheduledLane { request: RequestHandle { slot: 3, generation: 9 },
++                    start_position: n as u64 * 4096, tokens: 4096 }],
++            };
++            metrics.scheduler_trace.completed(n as u64 + 10, Fence(n as u64 + 1), 2,
++                &step, ExecutionTiming::default(), SubmittedTiming::default(), 0.);
++        }
++        metrics
++    }
++
++    fn record(metrics: &Metrics, limit: usize, bytes: usize) -> Vec<Value> {
++        let (stop, receiver) = mpsc::channel();
++        stop.send(()).unwrap();
++        let mut output = Output { writer: Vec::new(), bytes: 0, limit: bytes };
++        collect(metrics, &mut output, receiver, Duration::from_secs(1), limit, 0).unwrap();
++        String::from_utf8(output.writer).unwrap().lines()
++            .map(|line| serde_json::from_str(line).unwrap()).collect()
++    }
++
++    #[test]
++    fn capture_retains_order_generations_and_final_batch() {
++        let rows = record(&fixture(3), 100, MAX_BYTES);
++        let completions: Vec<_> = rows.iter().filter(|r| r["event"] == "completion").collect();
++        assert_eq!(completions.len(), 3);
++        for (n, row) in completions.iter().enumerate() {
++            assert_eq!(row["fence"], n + 1);
++            assert_eq!(row["lanes"], json!([{"slot":3,"generation":9,"start_position":n*4096,"tokens":4096}]));
++        }
++        let footer = rows.last().unwrap();
++        assert_eq!(footer["complete"], true);
++        assert_eq!(footer["reason"], "stopped");
++    }
++
++    #[test]
++    fn capture_overflow_and_output_limits_are_incomplete() {
++        for (count, limit, bytes) in [(TRACE_CAPACITY + 1, 2000, MAX_BYTES),
++                                     (3, 2, MAX_BYTES), (3, 100, FOOTER_RESERVE)] {
++            let rows = record(&fixture(count), limit, bytes);
++            assert_eq!(rows.last().unwrap()["complete"], false);
++        }
++    }
++
++    #[test]
++    fn capture_reports_io_failure_without_a_success_footer() {
++        struct Broken;
++        impl Write for Broken {
++            fn write(&mut self, _: &[u8]) -> io::Result<usize> { Err(io::Error::other("write failed")) }
++            fn flush(&mut self) -> io::Result<()> { Ok(()) }
++        }
++        let (_sender, receiver) = mpsc::channel();
++        let mut output = Output { writer: Broken, bytes: 0, limit: MAX_BYTES };
++        assert!(collect(&fixture(1), &mut output, receiver, Duration::ZERO, 100, 0).is_err());
++    }
++
++    #[test]
++    fn capture_file_is_exclusive_and_stops_with_its_owner() {
++        let path = std::env::temp_dir().join(format!("flare-trace-{}-{}.jsonl", std::process::id(), monotonic_ns()));
++        let metrics = Arc::new(Metrics::default());
++        metrics.scheduler_trace.catalog.set(Vec::new()).ok().unwrap();
++        let capture = Dashboard::capture(metrics.clone(), &path).unwrap();
++        let before = std::fs::read(&path).unwrap();
++        assert!(Dashboard::capture(metrics.clone(), &path).is_err());
++        assert!(std::fs::read(&path).unwrap().starts_with(&before));
++        drop(capture);
++        let rows: Vec<Value> = std::fs::read_to_string(&path).unwrap().lines()
++            .map(|line| serde_json::from_str(line).unwrap()).collect();
++        assert_eq!(rows.first().unwrap()["event"], "manifest");
++        assert_eq!(rows.last().unwrap()["complete"], true);
++        assert!(!metrics.scheduler_trace.detail_requested.load(Ordering::Relaxed));
++        std::fs::remove_file(path).unwrap();
++    }
++}
+diff --git a/helios/src/server/dashboard/scheduler.rs b/helios/src/server/dashboard/scheduler.rs
+index d010607c..686f08a8 100644
+--- a/helios/src/server/dashboard/scheduler.rs
++++ b/helios/src/server/dashboard/scheduler.rs
+@@ -559,6 +559,8 @@ mod tests {
+             selection: Default::default(),
+             credit_after_ns: 0.0,
+             generations,
++            start_positions: [0; crate::execution::REQUEST_LANES],
++            token_counts: [0; crate::execution::REQUEST_LANES],
+         }
+     }
+ 
+diff --git a/helios/src/server/metrics/scheduler.rs b/helios/src/server/metrics/scheduler.rs
+index 772c5df0..33dee33c 100644
+--- a/helios/src/server/metrics/scheduler.rs
++++ b/helios/src/server/metrics/scheduler.rs
+@@ -40,6 +40,8 @@ pub(in crate::server) struct GraphSample {
+     pub selection: SubmittedTiming,
+     pub credit_after_ns: f64,
+     pub generations: [u64; REQUEST_LANES],
++    pub start_positions: [u64; REQUEST_LANES],
++    pub token_counts: [usize; REQUEST_LANES],
+ }
+ 
+ #[derive(Clone, Copy)]
+@@ -115,13 +117,19 @@ impl SchedulerMetrics {
+     }
+ 
+     pub fn start(&self) {
+-        self.buffer.get_or_init(|| {
++        let buffer = self.buffer.get_or_init(|| {
+             Mutex::new(TraceBuffer {
+                 samples: VecDeque::with_capacity(TRACE_CAPACITY),
+                 detail: SchedulerDetail::default(),
+                 dispatch: None,
+             })
+         });
++        {
++            let mut trace = buffer.lock().unwrap_or_else(|e| e.into_inner());
++            trace.samples.clear();
++            trace.detail = SchedulerDetail::default();
++            trace.dispatch = None;
++        }
+         self.detail_requested.store(true, Ordering::Relaxed);
+         self.enabled.store(true, Ordering::Relaxed);
+     }
+@@ -139,7 +147,10 @@ impl SchedulerMetrics {
+             return;
+         };
+         if let Ok(mut trace) = buffer.try_lock() {
+-            update(&mut trace);
++            // A stopped consumer drains once; a late producer must not refill it.
++            if self.enabled.load(Ordering::Relaxed) {
++                update(&mut trace);
++            }
+         } else {
+             self.dropped.fetch_add(1, Ordering::Relaxed);
+         }
+@@ -178,8 +189,12 @@ impl SchedulerMetrics {
+         self.executions[reason].fetch_add(1, Ordering::Relaxed);
+         self.write(|trace| {
+             let mut generations = [0; REQUEST_LANES];
++            let mut start_positions = [0; REQUEST_LANES];
++            let mut token_counts = [0; REQUEST_LANES];
+             for lane in &step.lanes {
+                 generations[lane.request.slot as usize] = lane.request.generation;
++                start_positions[lane.request.slot as usize] = lane.start_position;
++                token_counts[lane.request.slot as usize] = lane.tokens;
+             }
+             if trace.samples.len() == TRACE_CAPACITY {
+                 trace.samples.pop_front();
+@@ -190,6 +205,8 @@ impl SchedulerMetrics {
+                 fence,
+                 graph,
+                 generations,
++                start_positions,
++                token_counts,
+                 wall_ns: timing.wall_ns,
+                 queued: timing.queued,
+                 selection,
+@@ -279,7 +296,8 @@ mod tests {
+         assert!(
+             samples
+                 .iter()
+-                .all(|s| s.gpu_ns == Some(25) && s.generations[7] == 11 && s.generations[0] == 0)
++                .all(|s| s.gpu_ns == Some(25) && s.generations[7] == 11 && s.generations[0] == 0
++                    && s.start_positions[7] == 10 && s.token_counts[7] == 1 && s.token_counts[0] == 0)
+         );
+         assert!(samples.iter().all(|sample| {
+             sample.fence.0 == sample.at_ns + 1

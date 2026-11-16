@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -83,6 +84,17 @@ def render(recipe, rank, core=None):
     ]
     if "scheduler_policy" in recipe:
         serving += ["--scheduler-policy", policy]
+    trace = recipe.get("scheduler_trace", "off")
+    if trace != "off":
+        if not isinstance(trace, str) or re.fullmatch(r"[a-z0-9][a-z0-9.-]{0,100}\.jsonl", trace) is None:
+            raise ValueError("scheduler trace must be a local JSONL filename")
+        if arm == "upstream":
+            raise ValueError("scheduler trace requires a verified native arm")
+        if rank == 0:
+            path = root / "local" / trace
+            if path.parent.resolve() != (root / "local").resolve() or path.exists() or path.is_symlink():
+                raise ValueError("scheduler trace output must not exist")
+            serving += ["--scheduler-trace", str(path)]
     # JSON string quoting is valid TOML basic-string quoting for these paths.
     q = json.dumps
     config_text = (

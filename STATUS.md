@@ -1,5 +1,12 @@
 # Status
 
+## 2026-11-16 UTC — Bounded native completion capture prepared
+
+- Added a separate observer patch using Flare's existing nonblocking telemetry,
+  with explicit CLI activation, bounded output and incomplete-capture detection.
+- Launcher coverage passes 52 local tests. Native Rust tests, release build and
+  live order capture are registered in docs/20 and remain unrun; B12X is active.
+
 ## 2026-11-16 UTC — Full scale audit passed; additional Exa qualification
 
 - All42 layers and19,025,362,944 scales pass the packed-boundary population

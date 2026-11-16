@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import signal
 import subprocess
@@ -36,6 +37,11 @@ def serving_recipe(recipe):
                 if value != "upstream" and (len(value) != 64 or any(c not in "0123456789abcdef" for c in value)):
                     raise ValueError("FLARE_NATIVE_ARM must be upstream or a manifest SHA256")
                 recipe["native_arm"] = value
+            elif sep and name.strip() == "FLARE_SCHEDULER_TRACE":
+                value = value.strip()
+                if value != "off" and re.fullmatch(r"[a-z0-9][a-z0-9.-]{0,100}\.jsonl", value) is None:
+                    raise ValueError("FLARE_SCHEDULER_TRACE must be off or a local JSONL filename")
+                recipe["scheduler_trace"] = value
     return recipe
 
 
@@ -60,6 +66,13 @@ def verify_native_arm(recipe, command):
     patch = root / "qualification/flare-prefill-latency.patch"
     if hashlib.sha256(patch.read_bytes()).hexdigest() != data.get("patch_sha256"):
         raise ValueError("native arm patch digest mismatch")
+    trace_digest = data.get("trace_patch_sha256")
+    if trace_digest is not None:
+        trace_patch = root / "qualification/flare-scheduler-trace.patch"
+        if hashlib.sha256(trace_patch.read_bytes()).hexdigest() != trace_digest:
+            raise ValueError("native arm trace patch digest mismatch")
+    if recipe.get("scheduler_trace", "off") != "off" and (not trace_digest or data.get("trace_schema") != 1):
+        raise ValueError("native arm lacks the qualified trace contract")
     for name in ("helios/Cargo.lock", "flare-cli/Cargo.lock"):
         actual = hashlib.sha256((root / "upstream/flare" / name).read_bytes()).hexdigest()
         if data.get("lock_sha256", {}).get(name) != actual:
