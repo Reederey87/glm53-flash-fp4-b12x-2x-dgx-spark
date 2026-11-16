@@ -459,7 +459,7 @@ index d010607c..686f08a8 100644
      }
 
 diff --git a/helios/src/server/metrics/scheduler.rs b/helios/src/server/metrics/scheduler.rs
-index 772c5df0..712557d7 100644
+index 772c5df0..7622f03a 100644
 --- a/helios/src/server/metrics/scheduler.rs
 +++ b/helios/src/server/metrics/scheduler.rs
 @@ -40,6 +40,8 @@ pub(in crate::server) struct GraphSample {
@@ -596,3 +596,12 @@ index 772c5df0..712557d7 100644
          );
          assert!(samples.iter().all(|sample| {
              sample.fence.0 == sample.at_ns + 1
+@@ -326,7 +352,7 @@ mod tests {
+             commit_ns: 100,
+         };
+         metrics.start();
+-        metrics.write(|trace| {
++        metrics.write(false, |trace| {
+             trace.dispatch = Some(Dispatch {
+                 at_ns: 80, graph: 9, requests: 1, estimate_ns: 999, feedback: false,
+             });
