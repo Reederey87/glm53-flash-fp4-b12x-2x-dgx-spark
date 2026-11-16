@@ -19,7 +19,7 @@ systemctl --user stop vllm-b12x-watchdog.timer vllm-b12x.service
 [[ -z $(docker ps -q --filter name=vllm_node) ]]
 [[ -z $(ssh -n nvidia@192.168.177.11 docker ps -q --filter name=vllm_node) ]]
 ENV_FILE=/home/nvidia/b12x/.env "$r/scripts/wait_memory.sh" 600 </dev/null
-systemd-run --user --unit=b12x-flare-target-roce-memory-20261116T130000Z --property=Type=exec --property=RuntimeMaxSec=4800 "$uv" run --offline --no-project --python /usr/bin/python3 "$r/scripts/flare_memory_watch.py" --out "$w/memory.jsonl" --seconds 4800 --restore-unit "$restore"
+systemd-run --user --unit=b12x-flare-target-roce-memory-20261116T130000Z --property=Type=notify --property=NotifyAccess=all --property=TimeoutStartSec=30 --property=WatchdogSec=30 --property=LimitCORE=0 --property=OnFailure="$restore" --property=RuntimeMaxSec=4800 "$uv" run --offline --no-project --python /usr/bin/python3 "$r/scripts/flare_memory_watch.py" --out "$w/memory.jsonl" --seconds 4800 --restore-unit "$restore"
 ssh -n nvidia@192.168.177.11 "systemd-run --user --unit=b12x-flare-target-roce-rank1-20261116T130000Z --property=Type=exec --property=RemainAfterExit=yes --property=RuntimeMaxSec=3900 --property=StandardOutput=append:$w/rank1.log --property=StandardError=append:$w/rank1.log /bin/bash $r/qualification/run_target_roce.sh 1 $w/rank1"
 systemd-run --user --unit=b12x-flare-target-roce-rank0-20261116T130000Z --property=Type=exec --property=RemainAfterExit=yes --property=RuntimeMaxSec=3900 --property=StandardOutput=append:"$w/rank0.log" --property=StandardError=append:"$w/rank0.log" /bin/bash "$r/qualification/run_target_roce.sh" 0 "$w/rank0"
 end=$((SECONDS+4200))

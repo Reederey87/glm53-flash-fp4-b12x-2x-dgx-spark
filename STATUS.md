@@ -1,5 +1,10 @@
 # Status
 
+## 2026-11-16 UTC — Aborted layer retry; memory guard readiness corrected
+
+- The layer-a16 monitor rejected the numeric label before sampling, while Type=exec allowed ranks to start. Aborted immediately on detecting the missing guard; inspected free memory exceeded100GiB on both nodes. No qualified result is claimed. B12X restoration is running.
+- Added native systemd readiness/heartbeat notifications and registered CPU-only startup-failure/stall probes.83 local tests pass. New alphabetic layer-native retry retains exact numerical fixture and uses Type=notify,30-second watchdog and OnFailure restoration; docs/44.
+
 ## 2026-11-16 UTC — Stress recovery verified; deployed A16 layer gate running
 
 - Independent stress-window B12X recovery passed fresh5/5 smoke, original images on both nodes, API/watchdog/tailnet and absent native PIDs. Closure receipts retained and fallback disarmed. Frozen docs/42 nine-case A16/calibrated-A4 layer gate is now running on both nodes, with source hashes verified and its90-minute fallback armed. Full-target docs/43 remains gated on success and verified recovery.

@@ -2,8 +2,10 @@
 import argparse
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
 import re
+import socket
 import subprocess
 import time
 
@@ -41,6 +43,21 @@ def queue_restore(unit):
     subprocess.run(['systemctl', '--user', 'start', '--no-block', unit], check=True, timeout=20)
 
 
+def notify_healthy(sample, ready):
+    """Signal readiness/heartbeat only after a flushed, healthy two-host sample."""
+    if sample.get('observation_error') or sample.get('violations'):
+        return ready
+    address = os.environ.get('NOTIFY_SOCKET')
+    if address:
+        if address.startswith('@'):
+            address = '\0' + address[1:]
+        message = ('WATCHDOG=1' if ready else 'READY=1\nWATCHDOG=1').encode()
+        with socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM) as connection:
+            connection.connect(address)
+            connection.sendall(message)
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
@@ -53,6 +70,7 @@ def main():
         parser.error('invalid restoration service name')
     args.out.parent.mkdir(parents=True, exist_ok=True)
     deadline = time.monotonic() + args.seconds
+    ready = False
     with args.out.open('x') as output:
         while time.monotonic() < deadline:
             sample = {'time': datetime.now(timezone.utc).isoformat(), 'nodes': {}}
@@ -71,6 +89,7 @@ def main():
                 print('Memory qualification failed; queueing the pre-armed B12X restoration', flush=True)
                 queue_restore(args.restore_unit)
                 return 1
+            ready = notify_healthy(sample, ready)
             time.sleep(5)
     return 0
 
