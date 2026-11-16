@@ -1,3 +1,7 @@
+## 2026-11-16 UTC — Isolated full-target retry started
+
+- Aborted target window independently restored B12X/fresh5/5 at07:49:53 UTC and disarmed fallback. target-isolated-window-20261116T190000Z now runs the unchanged45-layer fixture with fresh per-capacity processes, per-case memory gates, notify/watchdog protection and90-minute fallback; no target result yet.
+
 ## 2026-11-16 UTC — Full-target lifecycle adaptation corrected
 
 - Aborted first-case autotuning at07:43:07 UTC after finding that upstream uses fresh GPU processes per capacity; no target pass/failure claimed. Docs/48 preserves that isolation with separate uv/pytest children, per-case memory gates/XML/exits and the unchanged numerical fixture. B12X restoration is underway.

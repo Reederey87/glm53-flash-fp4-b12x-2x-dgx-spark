@@ -35,3 +35,8 @@ incomplete. The prior clean9/9 representative-layer gate remains required, as do
 independent recovery and fallback disarm for the aborted target window. After
 this retry, independently verify B12X recovery/fresh5/5 before closing fallback.
 No serving image/core, numerical bound, host driver or kernel changes.
+
+Aborted-window recovery independently closed07:49:53 UTC: both original images,
+fresh5/5 smoke, API/watchdog/tailnet and restore/smoke exit0. Fallback disarmed.
+The isolated retry then started with both-node source hashes verified; no result
+is claimed yet.

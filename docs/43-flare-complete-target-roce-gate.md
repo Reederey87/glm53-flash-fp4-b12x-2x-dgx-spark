@@ -52,3 +52,9 @@ before disarming fallback. A timeout remains an incomplete test, never a pass.
 Window started07:38 UTC after docs/47 passed and independently closed. Source
 hashes match on both hosts; the notify memory monitor is ready before model
 loading. No complete-target result is claimed yet.
+
+This initial window was aborted during first-case autotuning to preserve upstream
+per-case GPU process isolation. No target test completed. All53 observed memory
+samples were healthy (minimum26.56GiB free). Docs/48 records the unchanged-fixture
+isolated retry. Initial-window B12X recovery/fresh5/5 closed07:49:53 UTC and its
+fallback was disarmed before retry.
