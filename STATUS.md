@@ -609,3 +609,7 @@
 ## 2026-11-16 UTC — Public generation comparison prepared
 
 - Added docs/53 and50 frozen public chat/tool/JSON/long-passage cases, each with separate64-token probe and1024-budget semantic phase.91 local tests pass; no hardware result or numerical-equivalence claim.
+
+## 2026-11-16 UTC — Capacity stress client prepared
+
+- Docs/54 registers a separate4→3.875GiB reserve comparison and two concurrent exact-million-token requests with observed occupancy, cold cache and64 outputs. Two focused tests pass; controller/staging/GPU execution remain pending.
