@@ -6,30 +6,34 @@ merged into main and pushed to GitHub. Production adoption is already authorized
 after qualification. This document records readiness; it does not declare the
 current trial production-ready or waive any existing gate.
 
-## Latest candidate — rejected for production
+## Latest candidate — qualification in progress
 
-- Native manifest: `406f7d0387b39d6e2c0945c297f82e771df7fba792725f38a46503c34f930a63`.
-- Native executable: `6686043d88badbdbb2d152d3d6174a3ca1405fddcc2e6dc34097a3d8667d50c4`.
-- Flare source: `5a4e867954593b2e05bba43bc2a6eeaddca402d7` with separately recorded
-  prefill-order and bounded-observer patches; dependency locks unchanged.
+- Native manifest: `127424e92c1e5845697d85f3c34ce93fa632dd48bf3be491c868c50a9deb0243`.
+- Native executable: `b2eb310b9ec9009fa499086777d9ed90105b323db70da527242286dc0de026b9`.
+- Flare base: `5a4e867954593b2e05bba43bc2a6eeaddca402d7`; bounded scheduler source
+  frozen at `0c8f805fae82b768591fc908a936a7efec672234` in this kit.
 - Native-activation core: `df2146963651ee93076cf3f579fe4f8d9e19ad0f535929b0132c299fbe01a8ee`.
 - NVIDIA checkpoint: `76348ddb2be2e35e39ecfc00e75dc07703f4f3d5`.
-- TP2,4slots,MTP3,chunk4096,CP-off,reserve4. Compare balanced versus latency;
-  disable tracing for serving performance. Preserve omitted reasoning effort=Max.
+- Supervisor SHA: `41b65a5a4bc39af18de9310d4096752809c223bea7ca4994cf8c2aa6f97e8793`.
+- TP2, four slots, MTP3, chunk4096, CP-off, reserve4, tracing off, reasoning=Max
+  when omitted. Fresh balanced versus bounded-latency comparison: docs/29.
+
+The earlier age-policy artifact406f7d03 is rejected by the mixed performance
+case. Its equal-long-prompt diagnostic gains do not qualify it for production.
 
 ## Evidence required for the decision
 
 | Requirement | Current evidence | Remaining decision evidence |
 | --- | --- | --- |
-| API and model identity | Balanced7/7 API checks; exact core/binary on both ranks | Same checks on selected final arm and production endpoint |
-| Prompt latency and decode speed | Balanced native trace confirms interleaving; complete balanced mixed control75 requests/9 cases | Latency trace improves completion order, but untraced mixed gate fails decode gaps and late short arrivals. Correct and requalify; full speed gate remains open |
-| Numerical correctness | Native activation component49/49; full scale population audit19,025,362,944 values | Full-model arithmetic, A16/A4, sparse-selection and speculative-state qualification |
-| Context and capacity | Candidate2,295,552 KV tokens versus incumbent2,350,210 | Resolve2.33% capacity shortfall and verify long-context admission/retrieval |
-| Memory | Completed controls passed sampled bounds | Selected arm passes full workload and lifecycle recovery bounds |
-| Shutdown and peer loss | Actual idle native exits0/no forced kill; corrected coordinated-peer checker | Loaded graceful shutdown and injected peer failure with invocation-bound evidence |
-| Production ownership | Isolated runtime and tested B12X restoration | One cluster startup owner, bounded watchdog, compatible endpoint and disabled conflicting startup |
-| Reboot | Existing trial fallback is transient | Persistent fallback, new boot IDs, both ranks, generation and watchdog recovery |
-| Git delivery | Draft PR2 carries committed source and receipts | Resolve applicable checks/review; merge into main and synchronize/push main after production verification |
+| API and model identity | Seven checks passed on latest balanced startup; exact core/binary on both ranks | Selected final arm and production endpoint |
+| Prompt latency and decode | Bounded native tests/build passed; original age policy failed mixed service | Fresh paired75-request mixed comparison, then84-row full speed gate and long prompts with substantial outputs |
+| Numerical correctness | Native activation49/49; full scale audit19,025,362,944 values | A16/A4 arithmetic/replay and applicable full-model, sparse and speculative qualification |
+| Context and capacity | Actual fresh pool2,335,232 tokens at reserve4; varies with startup memory | At least2,350,210 plus long-context admission/retrieval and hybrid-state reuse |
+| Memory | Enforcing two-node memory monitor active in fresh comparison | Selected arm's complete workload bounds |
+| Shutdown and peer loss | Loaded graceful9.75s: both native exits0; injected peer failure3.32s: head exit1; no forced kills; streams closed and locks released | Confirm final selected artifact remains covered; production watchdog recovery |
+| Production ownership | Local owner/watchdog/pin/fallback code; seven focused tests and static unit verifier passed | Install/qualify one startup owner, compatible endpoint, disabled conflicting startup |
+| Reboot | B12X restoration verified04:53 UTC; trial fallback active during next comparison | Persistent fallback, new boot IDs, both ranks, generation and watchdog recovery |
+| Git delivery | Draft PR2 retains source and receipts | Checks/review, merge into main and synchronize/push after production verification |
 
 ## Production recovery design under review
 
