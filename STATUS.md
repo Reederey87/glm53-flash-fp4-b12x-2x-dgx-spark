@@ -2,8 +2,8 @@
 
 ## 2026-11-16 UTC — Bounded window stopped on native peer shutdown
 
-- Balanced completed and validated all75 requests/9 mixed cases, but transition failed: head native exit0; worker received SIGTERM and returned-15. The latency arm and full matrix did not run. B12X restoration started automatically04:33:51 UTC; fresh closure verification is pending.
-- Exa and pinned upstream launch/Orbit source require up to30s peer drain after the head exits. The wrapper previously stopped the worker immediately. Prepared a bounded natural-drain correction without masking native failures; tests and independent loaded-lifecycle gate in docs/28.
+- Balanced completed and validated all75 requests/9 mixed cases, but transition failed: head native exit0; worker received SIGTERM and returned-15. The latency arm and full matrix did not run. B12X restoration started automatically04:33:51 UTC; verified04:41 UTC with both original images, fresh5/5 smoke and watchdog/tailnet. Fallback disarmed04:41:20 UTC.
+- Exa and pinned upstream launch/Orbit source require up to30s peer drain after the head exits. The wrapper previously stopped the worker immediately. Prepared a bounded natural-drain correction without masking native failures; 75 local tests pass; independent loaded-lifecycle gate in docs/28 is running under a60-minute fallback.
 
 ## 2026-11-16 UTC — Bounded scheduler built; untraced mixed gate running
 
