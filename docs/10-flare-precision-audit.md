@@ -114,3 +114,22 @@ The subsequent [full-layer audit](19-flare-full-scale-audit.md) completed all42
 target layers:19,025,362,944 scales, zero below the boundary, with independently
 validated populations and retained exit0. Actual A16/A4-prefill packing/replay
 and full-model arithmetic remain separate requirements.
+
+## Next native replay evidence identified through Exa
+
+Exa located the [calibrated A4-prefill change](https://github.com/local-inference-lab/flashinfer/commit/dc374043340660a8917238e41d4fbed2e2a0a0ee)
+and [SM12x W4A16 test coverage](https://github.com/flashinfer-ai/flashinfer/pull/4255).
+Local FlashInfer HEAD is exactly the deployed pin4fd836d. Its
+`tests/experimental/b12x/moe/test_w4a16_a4_prefill.py` includes native calibrated
+replay and float64-emulation tests; `test_nvfp4_csf.py` includes poisoned shared
+scratch, compressed/native output equality and planned A16 live-count replay.
+These are concrete candidates for an idle GPU qualification window with original
+assertions, rather than another scale-population audit. No such run has passed yet.
+
+The local Flare `test_glm53_moe_sm103_cuda.py` also supplies a checkpoint-based
+clamped-SwiGLU reference, but explicitly targets SM103 and cannot be counted as
+SM121 coverage by bypassing its skip. Any GB10 fixture must use the actual TP2
+owner, all288 expert scale population for factor selection, and explicit
+`PreparedGlmMoe` A4-prefill binding. Retain actual checkpoint packing/reference
+evidence separately from synthetic operator tests. The current latency window
+does not change kernels, quantization or precision.

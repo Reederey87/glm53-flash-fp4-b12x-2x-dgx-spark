@@ -113,6 +113,18 @@ A separate 4 GiB serving-reserve block is the revert. Restore the incumbent afte
 the trial unless production adoption is explicitly approved. Keep the tested core
 and runtime snapshots; never overwrite an executing launcher.
 
+Subsequent Exa review of the [native CLI memory contract](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/cli-design.md)
+and pinned `helios/src/runtime_core/limits.rs` establishes binary size suffixes
+and fractional suffixed sizes (the parser tests1.5GiB). Thus the whole-GiB
+restriction belongs to this kit's current ledger parser, not the native engine.
+Before the later capacity window, evaluate a smaller reserve reduction than the
+registered4→3GiB arm, using measured cache bytes and full-workload memory minima.
+An eighth-GiB increment could avoid surrendering an unnecessary full GiB, but is
+not yet a qualified setting or implemented launcher option. Freeze any such
+parser change and register the exact reserve, predicted capacity and unchanged
+memory/accuracy/performance gates before its restart. Do not apply it during the
+latency-policy window or assume startup reserve equals sampled MemFree.
+
 ## Research basis and stronger option
 
 Exa located the [runtime memory controls](https://github.com/NVIDIA/hyperflare-inference/blob/main/docs/model-preparation.md):
