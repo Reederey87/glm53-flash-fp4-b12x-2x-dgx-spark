@@ -65,3 +65,24 @@ defines locked/offline dependency behavior, isolated target directories and
 separate build/test thread limits. [systemd resource controls](https://freedesktop.org/software/systemd/man/latest/systemd.resource-control.html)
 bound this unit's CPU, memory and swap; these are not host-wide settings.
 The hardware prefill regression remains open regardless of a diagnostic pass.
+
+## First attempt: dependency preparation failed
+
+The frozen fixture at kit commit `cfa5b721bcb4694711f27043b5c2d603bd7c4abc`
+was staged in a detached worker worktree. The retained unit exited at
+2026-11-16 00:54:25 UTC with main-process status 101: the offline registry lacks
+`rcgen`, required by the `flare-selene-manager` test dependency. Compilation and
+the diagnostic did not run. There are no scheduler trace results to interpret.
+
+The unit's actual loaded/failed state, exit code and resource limits are retained
+in `receipts/flare-qualification-20261115/scheduler-prefill-terminal.txt`; its
+log and unchanged preparation-source hash are adjacent. The unit was stopped
+and MainPID=0 verified. No dependency was installed and no serving file changed.
+The head's independent scale audit continued.
+
+For a future separately registered attempt, [Cargo's fetch contract](https://doc.rust-lang.org/cargo/commands/cargo-fetch.html)
+supports fetching the existing lockfile's dependencies before an offline test.
+Use `cargo fetch --locked --target aarch64-unknown-linux-gnu` in the isolated
+worktree, verify Cargo.lock unchanged, then repeat the bounded offline test.
+Do not remove test dependencies or alter the lockfile to bypass this failure.
+Dependency preparation and the test rerun remain open.

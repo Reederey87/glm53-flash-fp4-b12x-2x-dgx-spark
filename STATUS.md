@@ -1,5 +1,12 @@
 # Status
 
+## 2026-11-16 UTC — Worker scheduler diagnostic stopped before compilation
+
+- The isolated CPU diagnostic failed offline dependency resolution (`rcgen`
+  missing), with retained exit101. No test ran and no dependencies were installed.
+- Recorded the failure and unchanged preparation source in docs/15 and receipts;
+  stopped its exact worker unit, verified MainPID=0. Head scale audit continues.
+
 ## 2026-11-16 UTC — Full scale scan active; scheduler diagnostic frozen
 
 - The head is scanning all 42 routed-expert layers under the registered
