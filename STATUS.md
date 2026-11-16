@@ -1,5 +1,16 @@
 # Status
 
+## 2026-11-16 UTC — Mixed native diagnosis complete; bounded correction prepared
+
+- Both captures are complete and loss-free with matched25 requests/360658 prompt tokens. Latency selected measured3072-token prefill steps taking1.38–1.43s during decode, explaining native/client gaps near1.5s. Balanced used smaller steps. The earlier36s late-short delay did not recur and is not claimed reproduced.
+- Prepared bounded prompt promotion with balanced selection while decoders are active, plus native CPU counterexample/regressions. Exa and local source review, exact limits and the next guarded gate are in docs/26. Native candidate tests/build/performance are pending.
+
+## 2026-11-16 UTC — Observer built; matched mixed capture running
+
+- Native dashboard/capture13, metrics4, scheduler-filter316, config2 and CLI1 tests pass (2 manual benchmarks ignored). Both locks unchanged; release artifactde4c3f7c / binary7c27ae5e is verified on both nodes.
+- An artifact-selection uv invocation failed before serving; retained it and restored B12X. Closure verified03:47 UTC, fresh smoke5/5; prior fallback disarmed03:47:29 UTC. Actual launcher/provenance preflight passed on both nodes.
+- Serving-only window035000Z passed idle-memory gates and balanced is healthy with enforcing memory capture. No native scheduler change or adoption; zero-loss gate stays strict.
+
 ## 2026-11-16 UTC — Mixed trace rejected on telemetry loss
 
 - Balanced diagnostic client completed25 requests/3 cases;37 memory samples and both native exits passed. Trace retained fences1..399 but reported one unclassified lost update, so its zero-loss gate failed and latency did not run. B12X restoration verified03:28 UTC: original images, health200, fresh smoke5/5 and watchdog/tailnet active; fallback disarmed03:28:03 UTC.

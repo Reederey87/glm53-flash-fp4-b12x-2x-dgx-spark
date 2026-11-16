@@ -113,3 +113,16 @@ step or dynamic artifact discovery occurs after production stop. Keep all prior
 controls, both cold arms, zero-loss/contiguity gates, memory enforcement and
 verified B12X restoration. Verify helpers/CLI syntax and both artifact hashes
 before entering the window. This is a diagnostic, never an adoption verdict.
+
+Serving-only preflight passed on both nodes using the actual launcher provenance
+checks while B12X was healthy. B12X closure was verified03:47:28 UTC with both
+original images, health200, fresh5/5 smoke and watchdog/tailnet active; the prior
+fallback was disarmed03:47:29 UTC. The new60-minute guarded window passed both
+idle-memory gates and started balanced on artifactde4c3f7c. Native trace and
+mixed-client validation are in progress; no production decision yet.
+
+Both captures completed with zero lost updates, complete contiguous histories,
+matching request bodies and work. Balanced414/native records, latency402;37/36
+memory samples passed. Both native exits0/no forced kill in each arm. Native
+graph timing evidence and its limits are recorded in docs/26. Automatic B12X
+restoration completed; final fresh smoke/closure is being retained.

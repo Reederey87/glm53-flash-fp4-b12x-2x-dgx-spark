@@ -1,0 +1,322 @@
+diff --git a/flare-cli/src/cli.rs b/flare-cli/src/cli.rs
+index c1bf06e1..28435231 100644
+--- a/flare-cli/src/cli.rs
++++ b/flare-cli/src/cli.rs
+@@ -571,9 +571,9 @@ pub struct OrbitRun {
+     #[arg(long, value_name = "ALIAS", value_parser = served_model_name, help_heading = "Serving options")]
+     pub served_model_name: Option<String>,
+ 
+-    /// Favor throughput or output cadence [default: saved group or balanced].
++    /// Choose balanced, throughput, or completion-oriented prompt latency.
+     #[arg(long, value_name = "MODE",
+-        value_parser = ["balanced", "throughput"], help_heading = "Serving options")]
++        value_parser = ["balanced", "throughput", "latency"], help_heading = "Serving options")]
+     pub scheduler_policy: Option<String>,
+ 
+     /// Value per terminal retirement in prompt-token units [default: 256].
+@@ -775,9 +775,9 @@ pub struct Run {
+     #[arg(long, value_name = "PATH", help_heading = "Serving options")]
+     pub api_key_file: Option<PathBuf>,
+ 
+-    /// Favor token throughput or balance it with output cadence; both retain token-service fairness.
++    /// Choose balanced, throughput, or completion-oriented prompt latency.
+     #[arg(long, value_name = "MODE", default_value = "balanced",
+-        value_parser = ["balanced", "throughput"], help_heading = "Serving options")]
++        value_parser = ["balanced", "throughput", "latency"], help_heading = "Serving options")]
+     pub scheduler_policy: String,
+ 
+     /// Value per terminal retirement in prompt-token units [default: 256].
+@@ -1546,6 +1546,8 @@ mod tests {
+ 
+     #[test]
+     fn scheduling_preference_is_explicit_and_validated() {
++        assert_eq!(run(&["flare", "run", "model.safetensors", "--scheduler-policy", "latency"])
++            .scheduler_policy, "latency");
+         assert_eq!(
+             run(&[
+                 "flare",
+diff --git a/helios/src/scheduler/policy.rs b/helios/src/scheduler/policy.rs
+index 10367ac4..3a40e34b 100644
+--- a/helios/src/scheduler/policy.rs
++++ b/helios/src/scheduler/policy.rs
+@@ -13,6 +13,8 @@ use super::{
+ 
+ #[derive(Clone, Copy, Debug)]
+ pub struct PolicyConfig {
++    /// Favor remaining prefill work with arrival-time aging; separate graphs only.
++    pub prefill_completion: bool,
+     pub output_token_value: f64,
+     pub token_fairness: f64,
+     pub delivery_fairness: f64,
+@@ -28,6 +30,7 @@ pub struct PolicyConfig {
+ impl Default for PolicyConfig {
+     fn default() -> Self {
+         Self {
++            prefill_completion: false,
+             output_token_value: 64.0,
+             token_fairness: 16.0,
+             delivery_fairness: 4.0,
+@@ -43,6 +46,11 @@ impl Default for PolicyConfig {
+ }
+ 
+ impl PolicyConfig {
++    /// Keep balanced decode/terminal pricing, but favor prompt completion.
++    pub fn latency() -> Self {
++        Self { prefill_completion: true, ..Self::default() }
++    }
++
+     /// Prefer token throughput with token-service fairness, without pricing
+     /// the frequency of output bursts or their age separately.
+     pub fn throughput() -> Self {
+@@ -204,6 +212,9 @@ impl RequestScheduler {
+         if self.submitted != Fence(0) || self.slots.iter().any(|s| s.request.is_some()) {
+             return Err("scheduling policy must be configured before admission".into());
+         }
++        if policy.prefill_completion && !self.mixed_catalog.is_empty() {
++            return Err("latency policy requires separate prefill and decode graphs".into());
++        }
+         if !policy.checkpoint_extra_work_fraction.is_finite()
+             || !(0.0..=1.0).contains(&policy.checkpoint_extra_work_fraction) {
+             return Err("checkpoint extra work fraction must be finite and within 0..=1".into());
+@@ -872,7 +883,12 @@ impl RequestScheduler {
+         if count == 0 {
+             return;
+         }
+-        let selected = best_cohort::<REQUEST_LANES>(&offers[..count], batch);
++        let selected = if self.policy.prefill_completion && kind.is_prefill() {
++            self.completion_prefill(kind, &offers[..count])
++                .unwrap_or_else(|| best_cohort::<REQUEST_LANES>(&offers[..count], batch))
++        } else {
++            best_cohort::<REQUEST_LANES>(&offers[..count], batch)
++        };
+         let expected = offers[..count]
+             .iter()
+             .filter(|(s, _)| selected & (1 << s) != 0)
+@@ -929,6 +945,33 @@ impl RequestScheduler {
+         });
+     }
+ 
++    /// Rank eligible prompts by arrival time plus estimated remaining service.
++    /// Subtracting now from every key gives remaining service minus request age.
++    /// Unlike pure shortest-remaining-work, an old prompt can outrank continually
++    /// arriving short prompts. With bounded positive cost estimates and finite
++    /// active slots it eventually wins prompt service; this is not a wall-clock
++    /// deadline or a guarantee under arbitrary decode overload.
++    ///
++    /// Use one shared full-chunk estimate for all request/shape choices. Unknown
++    /// timing retains the original discovery policy. Only cohort membership
++    /// changes: graph cost, token prices, decode/terminal competition, feedback
++    /// barriers and refresh budgets remain the existing scheduler's decisions.
++    fn completion_prefill(&self, kind: GraphKind, offers: &[(usize, f64)]) -> Option<u64> {
++        let (capacity, duration) = self.prefill_catalog(kind).iter().rev()
++            .find_map(|&capacity| self.costs.duration(kind, 1, capacity)
++                .filter(|&duration| duration > 0).map(|duration| (capacity, duration)))?;
++        let selected = offers.iter().map(|&(slot, _)| slot).min_by_key(|&slot| {
++            let request = self.slots[slot].request.as_ref().unwrap();
++            let remaining = (request.prompt_tokens as u64).saturating_sub(request.scheduled_consumed);
++            let arrival = request.accounting.arrival_ns;
++            // Integer cross-multiplication avoids dividing or rounding short tails.
++            let virtual_finish = u128::from(arrival) * capacity as u128
++                + u128::from(remaining) * u128::from(duration);
++            (virtual_finish, arrival, slot)
++        })?;
++        Some(1u64 << selected)
++    }
++
+     pub(super) fn candidates(
+         &self,
+         output: &mut Vec<Candidate>,
+diff --git a/helios/src/scheduler/policy_tests.rs b/helios/src/scheduler/policy_tests.rs
+index f980e67b..008289fd 100644
+--- a/helios/src/scheduler/policy_tests.rs
++++ b/helios/src/scheduler/policy_tests.rs
+@@ -13,6 +13,9 @@ const MS: u64 = 1_000_000;
+ #[path = "planning_tests.rs"]
+ mod planning_tests;
+ 
++#[path = "prefill_latency_tests.rs"]
++mod prefill_latency_tests;
++
+ #[test]
+ fn padding_pruning_keeps_three_requests_on_batch_four_and_two_requests_on_batch_two() {
+     let mut s = engine(8, false);
+@@ -1358,7 +1361,9 @@ fn two_long_decodes_keep_both_streams_flowing() {
+ 
+ #[test]
+ fn long_prefill_and_low_acceptance_decode_both_make_progress() {
++    for policy in [PolicyConfig::default(), PolicyConfig::latency()] {
+     let mut s = interactive_engine(2, true);
++    s.configure_policy(policy).unwrap();
+     let decode = add(&mut s, 1, 64, 4096);
+     ready(&mut s, &[decode]);
+     for _ in 0..128 {
+@@ -1389,6 +1394,7 @@ fn long_prefill_and_low_acceptance_decode_both_make_progress() {
+     gap = gap.max(s.now_ns - last);
+     assert!(prefill_chunks >= 8);
+     assert!(gap < 300 * MS, "output gap={} ms", gap / MS);
++    }
+ }
+ 
+ #[test]
+@@ -2796,7 +2802,7 @@ fn feedback_window_engine(rows: Option<usize>, policy: PolicyConfig) -> RequestS
+ #[test]
+ fn feedback_prefill_tails_progress_before_existing_generations_finish() {
+     for rows in [None, Some(1), Some(2)] {
+-        for policy in [PolicyConfig::throughput(), PolicyConfig::default()] {
++        for policy in [PolicyConfig::throughput(), PolicyConfig::default(), PolicyConfig::latency()] {
+             let mut s = feedback_window_engine(rows, policy);
+             for capacity in [64, 128, 256, 512] {
+                 set_cost(&mut s, GraphKind::Prefill, 1, capacity, 31 * MS);
+diff --git a/helios/src/scheduler/prefill_latency_tests.rs b/helios/src/scheduler/prefill_latency_tests.rs
+new file mode 100644
+index 00000000..f9c9d682
+--- /dev/null
++++ b/helios/src/scheduler/prefill_latency_tests.rs
+@@ -0,0 +1,120 @@
++//! CPU regressions for completion-oriented, age-aware prompt selection.
++use super::*;
++
++fn trace(policy: PolicyConfig, lengths: &[usize]) -> (Vec<usize>, Vec<usize>) {
++    let mut s = interactive_engine(lengths.len(), false);
++    s.configure_policy(policy).unwrap();
++    let handles: Vec<_> = lengths.iter().enumerate()
++        .map(|(i, &length)| add(&mut s, i as u32 + 1, length, 1)).collect();
++    let mut order = Vec::new();
++    let mut first_chunk = vec![0; lengths.len()];
++    let mut chunks = 0;
++    for _ in 0..1024 {
++        if handles.iter().all(|&h| s.request(h).is_err()) { break; }
++        let plan = step(&mut s, 0);
++        if plan.kind.is_prefill() { chunks += 1; }
++        for (i, &handle) in handles.iter().enumerate() {
++            if first_chunk[i] == 0 && s.request(handle).is_ok_and(|r| r.generated_tokens > 0) {
++                first_chunk[i] = chunks;
++                order.push(i);
++            }
++        }
++    }
++    assert!(handles.iter().all(|&h| s.request(h).is_err()), "all requests must retire");
++    assert!(first_chunk.iter().all(|&n| n > 0));
++    (order, first_chunk)
++}
++
++#[test]
++fn equal_long_prompts_complete_earlier_without_extra_prompt_work() {
++    for count in [1, 2, 4] {
++        let lengths = vec![32768; count];
++        let (_, balanced) = trace(PolicyConfig::default(), &lengths);
++        let (order, latency) = trace(PolicyConfig::latency(), &lengths);
++        assert_eq!(order, (0..count).collect::<Vec<_>>());
++        assert_eq!(latency, (1..=count).map(|i| i * 8).collect::<Vec<_>>());
++        assert_eq!(*latency.last().unwrap(), count * 8);
++        if count > 1 { assert!(latency[0] < balanced[0]); }
++        println!("PREFILL_LATENCY count={count} balanced_chunks={balanced:?} latency_chunks={latency:?}");
++    }
++}
++
++#[test]
++fn unequal_prompts_favor_less_remaining_work() {
++    let (order, _) = trace(PolicyConfig::latency(), &[32768, 4096, 8192, 16384]);
++    assert_eq!(order, vec![1, 2, 3, 0]);
++}
++
++#[test]
++fn continuing_short_arrivals_do_not_starve_an_old_long_prompt() {
++    let mut s = interactive_engine(4, false);
++    s.configure_policy(PolicyConfig::latency()).unwrap();
++    let long = add(&mut s, 1, 32768, 1);
++    let mut short = Vec::new();
++    let mut admitted = 0;
++    let mut first_progress = None;
++    for _ in 0..4096 {
++        if s.request(long).is_err() { break; }
++        short.retain(|&h| s.request(h).is_ok());
++        while short.len() < 3 {
++            admitted += 1;
++            // Distinct contents avoid prefix reuse in this scheduling test.
++            short.push(add(&mut s, 1 + admitted, 64, 1));
++        }
++        step(&mut s, 0);
++        if first_progress.is_none() && s.request(long).is_ok_and(|r| r.consumed_tokens > 0) {
++            first_progress = Some(s.now_ns);
++        }
++    }
++    assert!(admitted >= 8, "exercise sustained arrivals, not one fixed batch");
++    assert!(first_progress.is_some_and(|ns| ns < 2_000 * MS));
++    assert!(s.request(long).is_err(), "old long request must finish despite short arrivals");
++    assert!(s.now_ns < 4_000 * MS, "synthetic service bound: {}", s.now_ns);
++    for h in short { if s.request(h).is_ok() { s.cancel(h).unwrap(); } }
++    for _ in 0..64 {
++        if s.slots.iter().all(|slot| slot.request.is_none()) { break; }
++        step(&mut s, 0);
++    }
++    assert!(s.slots.iter().all(|slot| slot.request.is_none()));
++}
++
++#[test]
++fn cancelled_favored_prompt_does_not_block_remaining_requests() {
++    let mut s = interactive_engine(2, false);
++    s.configure_policy(PolicyConfig::latency()).unwrap();
++    let cancelled = add(&mut s, 1, 8192, 1);
++    let remaining = add(&mut s, 2, 32768, 1);
++    for _ in 0..16 {
++        let plan = step(&mut s, 0);
++        if plan.kind.is_prefill() && plan.lanes[0].request == cancelled { break; }
++    }
++    assert!(s.request(cancelled).unwrap().consumed_tokens > 0);
++    s.cancel(cancelled).unwrap();
++    for _ in 0..128 {
++        if s.slots.iter().all(|slot| slot.request.is_none()) { break; }
++        step(&mut s, 0);
++    }
++    assert!(s.request(cancelled).is_err());
++    assert!(s.request(remaining).is_err());
++}
++
++#[test]
++fn unmeasured_prompt_shapes_retain_discovery_and_make_progress() {
++    let mut s = interactive_engine(2, false);
++    s.configure_policy(PolicyConfig::latency()).unwrap();
++    for capacity in [64, 128, 256, 512, 1024, 2048, 4096] {
++        set_cost(&mut s, GraphKind::Prefill, 1, capacity, 0);
++    }
++    let handles = [add(&mut s, 1, 4096, 1), add(&mut s, 2, 8192, 1)];
++    for _ in 0..256 {
++        if handles.iter().all(|&h| s.request(h).is_err()) { break; }
++        let plan = s.plan().expect("unknown estimates must not block discovery");
++        let duration = if plan.kind.is_prefill() { (2 + plan.token_capacity as u64 / 64) * MS }
++            else { plan.estimated_duration_ns().max(MS / 10) };
++        let fence = Fence(s.submitted.0 + 1);
++        s.commit(&plan, fence).unwrap();
++        s.advance_to(s.now_ns + duration).unwrap();
++        complete_timed(&mut s, &plan, fence, 0, true, gpu_time(duration));
++    }
++    assert!(handles.iter().all(|&h| s.request(h).is_err()));
++}
+diff --git a/helios/src/server/config.rs b/helios/src/server/config.rs
+index 33c17f45..6c9d9303 100644
+--- a/helios/src/server/config.rs
++++ b/helios/src/server/config.rs
+@@ -316,7 +316,8 @@ impl Bootstrap {
+             None => crate::scheduler::PolicyConfig::default(),
+             Some(Value::String(value)) if value == "balanced" => crate::scheduler::PolicyConfig::default(),
+             Some(Value::String(value)) if value == "throughput" => crate::scheduler::PolicyConfig::throughput(),
+-            Some(_) => return Err("scheduler_policy must be balanced or throughput".into()),
++            Some(Value::String(value)) if value == "latency" => crate::scheduler::PolicyConfig::latency(),
++            Some(_) => return Err("scheduler_policy must be balanced, throughput or latency".into()),
+         };
+         for (name, coefficient) in [
+             ("scheduler_terminal_value", &mut scheduling_policy.terminal_value),
+@@ -717,10 +718,11 @@ mod tests {
+         let loaded = Bootstrap::load(&legacy.to_string(), &manifest).unwrap();
+         assert_eq!(loaded.frontend.prompt_encoder(), PromptEncoder::Jinja);
+         assert_eq!(loaded.server.scheduling_policy.adaptive_verification_alpha, 1.0);
+-        for preference in ["balanced", "throughput"] {
++        for preference in ["balanced", "throughput", "latency"] {
+             let mut configured = legacy.clone();
+             configured["scheduler_policy"] = preference.into();
+             let defaults = Bootstrap::load(&configured.to_string(), &manifest).unwrap();
++            assert_eq!(defaults.server.scheduling_policy.prefill_completion, preference == "latency");
+             assert_eq!(defaults.server.scheduling_policy.terminal_value, 256.0);
+             assert_eq!(defaults.server.scheduling_policy.terminal_age_price, 1.0);
+             assert_eq!(defaults.server.scheduling_policy.checkpoint_extra_work_fraction, 0.05);
