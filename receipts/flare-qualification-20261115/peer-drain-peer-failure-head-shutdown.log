@@ -1,0 +1,25 @@
+[    OK    ] Allocate cache.  15.0 GiB · 2335232 KV tokens · 181 shared snapshot slots · limited by memory  0.8s
+[ PENDING  ] Read model configuration.  0.0s
+[    OK    ] Read model configuration.  nvidia/GLM-5.3-Flash-FP4-Local  0.0s
+[ PENDING  ] Load tokenizer.  0.0s
+[ PENDING  ] Connect RoCE transport.  0.0s
+[    OK    ] Connect RoCE transport.  2 rails per peer: rank 1 roceP2p1s0f1,rocep1s0f1  0.1s
+[ PENDING  ] Join host prefix stores.  0.0s
+[    OK    ] Join host prefix stores.  none  0.0s
+[    OK    ] Load tokenizer.  154880 token vocabulary  0.5s
+[ PENDING  ] Start server.  0.0s
+[flare] frame completion wait: WFET
+[    OK    ] Start server.  http://127.0.0.1:8001 · 1048576 tokens/request  0.5s
+Candidate health HTTP 200; hardware qualification remains required
+[Mon, 16 Nov 2026 04:45:35 GMT] request_id=chatcmpl-3ded6c5780309012-13 stage=stream code=server_error message="tensor-parallel peer disconnected"
+[ PENDING  ] Shut down server.  0.0s
+[  FAILED  ] Shut down server.  0.0s
+Error: "native replay did not drain: tensor-parallel peer disconnected"
+{"schema": 1, "event": "native_exit", "action": "serve", "rank": 0, "invocation_id": "70a55ae103564ffaa1b6052f19281d45", "native_pid": 1163932, "native_returncode": 1, "shutdown_requested": false, "forced_kill": false, "time": "2026-11-16T04:45:36.830052+00:00"}
+Traceback (most recent call last):
+  File "/home/nvidia/b12x-flare/scripts/flare_run.py", line 276, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/nvidia/b12x-flare/scripts/flare_run.py", line 241, in main
+    raise RuntimeError("peer failed or became unreachable")
+RuntimeError: peer failed or became unreachable

@@ -1,0 +1,25 @@
+[    OK    ] Load weights.  83.4 GiB  8.8s
+[ PENDING  ] Prepare kernels.  0.0s
+[    OK    ] Prepare kernels.  2008 kernels  0.5s
+[ PENDING  ] Prepare execution.  0.0s
+[    OK    ] Prepare execution.  concurrency 4  0.4s
+[ PENDING  ] Plan cache.  0.0s
+[    OK    ] Plan cache.  per GPU: 87.46 GiB loaded · 14.98 GiB cache budget · reserve 4GiB  0.0s
+[ PENDING  ] Allocate cache.  0.0s
+[    OK    ] Allocate cache.  15.0 GiB · 2323456 KV tokens · 180 shared snapshot slots · limited by memory  0.9s
+[ PENDING  ] Read model configuration.  0.0s
+[    OK    ] Read model configuration.  nvidia/GLM-5.3-Flash-FP4-Local  0.0s
+[ PENDING  ] Load tokenizer.  0.0s
+[ PENDING  ] Connect RoCE transport.  0.0s
+[    OK    ] Connect RoCE transport.  2 rails per peer: rank 1 roceP2p1s0f1,rocep1s0f1  0.1s
+[ PENDING  ] Join host prefix stores.  0.0s
+[    OK    ] Join host prefix stores.  none  0.0s
+[    OK    ] Load tokenizer.  154880 token vocabulary  0.5s
+[ PENDING  ] Start server.  0.0s
+[flare] frame completion wait: WFET
+[    OK    ] Start server.  http://127.0.0.1:8001 · 1048576 tokens/request  0.6s
+Candidate health HTTP 200; hardware qualification remains required
+[ PENDING  ] Shut down server.  0.0s
+[    OK    ] Shut down server.  6.6s
+{"schema": 1, "event": "native_exit", "action": "serve", "rank": 0, "invocation_id": "45c0b3587427495e9914dbd6abd3a1fc", "native_pid": 1163220, "native_returncode": 0, "shutdown_requested": true, "forced_kill": false, "time": "2026-11-16T04:43:49.159772+00:00"}
+{"event": "peer_drain", "unit": "b12x-flare@1.service", "outcome": "inactive", "elapsed_s": 1.6735285069953534}
