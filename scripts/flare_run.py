@@ -15,7 +15,7 @@ from flare_provenance import export_receipt, verify_export_receipt
 
 
 def serving_recipe(recipe):
-    """Read only the serving-reserve arm from the append-only ledger, without shell evaluation."""
+    """Read explicit serving arms from the append-only ledger without shell evaluation."""
     recipe = dict(recipe)
     ledger = Path(recipe["runtime_root"]) / ".env"
     if ledger.exists():
@@ -26,7 +26,48 @@ def serving_recipe(recipe):
                 if not value.isascii() or not value.isdecimal() or int(value) < 1:
                     raise ValueError("FLARE_SERVE_RESERVE_GIB must be a positive integer")
                 recipe["serve_reserve_gib"] = int(value)
+            elif sep and name.strip() == "FLARE_SCHEDULER_POLICY":
+                value = value.strip()
+                if value not in ("balanced", "throughput", "latency"):
+                    raise ValueError("FLARE_SCHEDULER_POLICY must be balanced, throughput or latency")
+                recipe["scheduler_policy"] = value
+            elif sep and name.strip() == "FLARE_NATIVE_ARM":
+                value = value.strip()
+                if value != "upstream" and (len(value) != 64 or any(c not in "0123456789abcdef" for c in value)):
+                    raise ValueError("FLARE_NATIVE_ARM must be upstream or a manifest SHA256")
+                recipe["native_arm"] = value
     return recipe
+
+
+def verify_native_arm(recipe, command):
+    """Verify an immutable host-policy binary without replacing the pinned exporter."""
+    arm = recipe.get("native_arm", "upstream")
+    if arm == "upstream":
+        return
+    root = Path(recipe["runtime_root"]).resolve()
+    directory = root / "native" / arm
+    manifest = directory / "manifest.json"
+    binary = directory / "flare"
+    if any(not path.resolve().is_relative_to(directory) for path in (manifest, binary)):
+        raise ValueError("native arm files must remain in their immutable directory")
+    if hashlib.sha256(manifest.read_bytes()).hexdigest() != arm:
+        raise ValueError("native arm manifest digest mismatch")
+    data = json.loads(manifest.read_text())
+    if data.get("schema") != 1 or data.get("kind") != "prefill-latency":
+        raise ValueError("unsupported native arm manifest")
+    if data.get("flare_revision") != recipe["flare_revision"]:
+        raise ValueError("native arm source revision mismatch")
+    patch = root / "qualification/flare-prefill-latency.patch"
+    if hashlib.sha256(patch.read_bytes()).hexdigest() != data.get("patch_sha256"):
+        raise ValueError("native arm patch digest mismatch")
+    for name in ("helios/Cargo.lock", "flare-cli/Cargo.lock"):
+        actual = hashlib.sha256((root / "upstream/flare" / name).read_bytes()).hexdigest()
+        if data.get("lock_sha256", {}).get(name) != actual:
+            raise ValueError("native arm dependency lock mismatch")
+    if hashlib.sha256(binary.read_bytes()).hexdigest() != data.get("binary_sha256"):
+        raise ValueError("native arm binary digest mismatch")
+    if str(binary) != command[0]:
+        raise ValueError("native arm executable path mismatch")
 
 
 def serving_command(recipe, rank, state):
@@ -47,6 +88,7 @@ def serving_command(recipe, rank, state):
         raise ValueError("exported primary changed after acceptance")
     verify_export_receipt(recipe, state)
     command = render(recipe, rank, str(core))["serve"]
+    verify_native_arm(recipe, command)
     return command + ["--offline", "--dangerously-approve-key", state["key_fingerprint"],
                       "--dangerously-accept-publisher", "local-development"]
 

@@ -133,6 +133,76 @@ class RuntimeContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'positive integer'):
                 serving_recipe(self.recipe)
 
+    def native_arm(self):
+        patch = self.root/'qualification/flare-prefill-latency.patch'
+        patch.parent.mkdir()
+        patch.write_bytes(b'host policy fixture')
+        locks = {}
+        for name in ('helios/Cargo.lock', 'flare-cli/Cargo.lock'):
+            path = self.root/'upstream/flare'/name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(name.encode())
+            locks[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+        data = json.dumps({'schema': 1, 'kind': 'prefill-latency',
+            'flare_revision': self.recipe['flare_revision'],
+            'patch_sha256': hashlib.sha256(patch.read_bytes()).hexdigest(),
+            'binary_sha256': hashlib.sha256(b'native executable fixture').hexdigest(),
+            'lock_sha256': locks}).encode()
+        arm = hashlib.sha256(data).hexdigest()
+        directory = self.root/'native'/arm
+        directory.mkdir(parents=True)
+        (directory/'manifest.json').write_bytes(data)
+        (directory/'flare').write_bytes(b'native executable fixture')
+        (self.root/'.env').write_text(f'FLARE_NATIVE_ARM={arm}\nFLARE_SCHEDULER_POLICY=latency\n')
+        return directory
+
+    def test_native_policy_arm_preserves_core_export_and_has_explicit_rollback(self):
+        from flare_candidate import render
+        original = render(self.recipe, 0)
+        directory = self.native_arm()
+        recipe = serving_recipe(self.recipe)
+        for rank in (0, 1):
+            cmd = serving_command(recipe, rank, self.state)
+            self.assertEqual(cmd[0], str(directory/'flare'))
+            self.assertEqual(cmd[cmd.index('--scheduler-policy')+1], 'latency')
+            self.assertIn('--verify-weights', cmd)
+        updated = render(recipe, 0)
+        self.assertEqual(updated['prepare'], original['prepare'])
+        self.assertEqual(updated['config_toml'], original['config_toml'])
+        with (self.root/'.env').open('a') as f:
+            f.write('FLARE_NATIVE_ARM=upstream\nFLARE_SCHEDULER_POLICY=balanced\n')
+        reverted = serving_command(serving_recipe(self.recipe), 0, self.state)
+        self.assertEqual(reverted[0], original['serve'][0])
+        self.assertEqual(reverted[reverted.index('--scheduler-policy')+1], 'balanced')
+
+    def test_native_arm_rejects_mutated_artifacts_and_symlinks(self):
+        directory = self.native_arm()
+        recipe = serving_recipe(self.recipe)
+        for path in (directory/'manifest.json', directory/'flare',
+                     self.root/'qualification/flare-prefill-latency.patch',
+                     self.root/'upstream/flare/helios/Cargo.lock'):
+            original = path.read_bytes()
+            path.write_bytes(original + b'changed')
+            with self.assertRaisesRegex(ValueError, 'mismatch'):
+                serving_command(recipe, 0, self.state)
+            path.write_bytes(original)
+        binary = directory/'flare'
+        outside = self.root/'outside-binary'
+        binary.rename(outside)
+        binary.symlink_to(outside)
+        with self.assertRaisesRegex(ValueError, 'immutable directory'):
+            serving_command(recipe, 1, self.state)
+
+    def test_invalid_native_arm_and_policy_are_rejected_without_evaluation(self):
+        from flare_candidate import render
+        for line in ('FLARE_NATIVE_ARM=../../b12x', 'FLARE_NATIVE_ARM=$(false)',
+                     'FLARE_NATIVE_ARM='+'A'*64, 'FLARE_SCHEDULER_POLICY=latency; false'):
+            (self.root/'.env').write_text(line+'\n')
+            with self.assertRaises(ValueError):
+                serving_recipe(self.recipe)
+        with self.assertRaisesRegex(ValueError, 'verified native arm'):
+            render(dict(self.recipe, scheduler_policy='latency'), 0)
+
 
 class ShutdownTests(unittest.TestCase):
     def run_peer_failure(self, *, shutdown=False, timeout=False):

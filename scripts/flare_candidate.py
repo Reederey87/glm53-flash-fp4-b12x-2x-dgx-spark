@@ -57,6 +57,16 @@ def render(recipe, rank, core=None):
         prepare = ignition + ["join", prepare_address, "--config", str(config),
                               "--rank", "1", "--ranks", "2"]
     binary = source / "flare-cli/target/release/flare"
+    arm = recipe.get("native_arm", "upstream")
+    if arm != "upstream":
+        if not isinstance(arm, str) or len(arm) != 64 or any(c not in "0123456789abcdef" for c in arm):
+            raise ValueError("native arm must be upstream or a manifest SHA256")
+        binary = root / "native" / arm / "flare"
+    policy = recipe.get("scheduler_policy", "balanced")
+    if policy not in ("balanced", "throughput", "latency"):
+        raise ValueError("unsupported scheduler policy")
+    if policy == "latency" and arm == "upstream":
+        raise ValueError("latency policy requires a verified native arm")
     serving = [str(binary), "run"]
     if rank == 0:
         if core is not None and not Path(core).is_absolute():
@@ -71,6 +81,8 @@ def render(recipe, rank, core=None):
         "--core-cache", str(root / "cores"), "--publisher-keys", str(root / "development-publisher.json"),
         "--trust-store", str(root / "trust.toml"), "--verify-weights",
     ]
+    if "scheduler_policy" in recipe:
+        serving += ["--scheduler-policy", policy]
     # JSON string quoting is valid TOML basic-string quoting for these paths.
     q = json.dumps
     config_text = (

@@ -1,5 +1,14 @@
 # Status
 
+## 2026-11-16 UTC — Prompt-latency candidate passes native CPU coverage
+
+- Added opt-in age-aware prompt completion ordering; at four equal prompts,
+  first outputs move from chunks29/30/31/32 to8/16/24/32 in the native selector.
+- Worker tests:317 scheduler,2 config,1 CLI passed;2 manual planning benchmarks
+  ignored, not passing evidence. Both Cargo locks unchanged; serving untouched.
+- Added immutable native-binary selection and append-only policy rollback;
+  45 local tests pass. Release build and live latency qualification remain open.
+
 ## 2026-11-16 UTC — Production authorization and scheduler fix priority
 
 - User explicitly authorized adoption after qualification, boot/watchdog ownership

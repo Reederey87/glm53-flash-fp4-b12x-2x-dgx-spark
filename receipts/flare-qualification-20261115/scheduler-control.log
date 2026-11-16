@@ -1,0 +1,443 @@
+   Compiling flare-selene v0.1.0 (/home/nvidia/b12x-flare/local/scheduler-lab-20261116T005600Z/selene)
+   Compiling turbojpeg-sys v1.2.0
+   Compiling io-uring v0.7.15
+   Compiling yasna v0.6.0
+   Compiling unicode-general-category v1.1.0
+   Compiling blake2 v0.10.6
+   Compiling fancy-regex v0.19.2
+   Compiling fancy-regex v0.14.0
+   Compiling tokio-rustls v0.26.6
+   Compiling itertools v0.13.0
+   Compiling hashbrown v0.15.5
+   Compiling jsonschema-regex v0.58.6
+   Compiling strum_macros v0.26.4
+   Compiling thiserror-impl v1.0.69
+   Compiling async-stream-impl v0.3.6
+   Compiling flare-eos v0.1.0 (/home/nvidia/b12x-flare/local/scheduler-lab-20261116T005600Z/eos)
+   Compiling llguidance v1.9.1
+   Compiling indoc v2.0.8
+   Compiling twox-hash v2.1.5
+   Compiling memo-map v0.3.4
+   Compiling unicode-width v0.1.14
+   Compiling data-encoding v2.11.1
+   Compiling jsonschema v0.58.6
+   Compiling unicode-truncate v1.1.0
+   Compiling minijinja v2.24.0
+   Compiling instability v0.3.10
+   Compiling async-stream v0.3.6
+   Compiling thiserror v1.0.69
+   Compiling strum v0.26.3
+   Compiling lru v0.12.5
+   Compiling jsonschema v0.29.1
+   Compiling zstd-safe v7.3.0
+   Compiling rcgen v0.14.10
+   Compiling crossterm v0.28.1
+   Compiling sha2-asm v0.6.4
+   Compiling brotli-decompressor v5.0.3
+   Compiling derivre v0.3.13
+   Compiling toktrie v1.9.1
+   Compiling compact_str v0.8.2
+   Compiling miniz_oxide v0.8.9
+   Compiling fdeflate v0.3.7
+   Compiling cpufeatures v0.2.17
+   Compiling quick-error v2.0.1
+   Compiling cassowary v0.3.0
+   Compiling gcd v2.3.0
+   Compiling data-url v0.3.2
+   Compiling flare-helios v0.1.0 (/home/nvidia/b12x-flare/local/scheduler-lab-20261116T005600Z/helios)
+   Compiling byteorder-lite v0.1.0
+   Compiling xxhash-rust v0.8.19
+   Compiling deepseek-recipe v0.2.0 (https://github.com/local-inference-lab/deepseek-recipe?rev=6d09e9be68dbf4ae488f6b22ee9114dcf9ea6270#6d09e9be)
+   Compiling image-webp v0.2.4
+   Compiling turbojpeg v1.5.1
+   Compiling ratatui v0.29.0
+   Compiling sha2 v0.10.9
+   Compiling png v0.18.1
+   Compiling brotli v8.0.4
+   Compiling flare-selene-manager v0.1.0 (/home/nvidia/b12x-flare/local/scheduler-lab-20261116T005600Z/selene-manager)
+   Compiling zstd v0.13.3
+   Compiling minijinja-contrib v2.24.0
+   Compiling deepseek-recipe-encoding v0.2.0 (https://github.com/local-inference-lab/deepseek-recipe?rev=6d09e9be68dbf4ae488f6b22ee9114dcf9ea6270#6d09e9be)
+   Compiling libloading v0.8.9
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+  --> src/frontend/images/conditioned.rs:58:14
+   |
+58 |             .fetch_update(Relaxed, Relaxed, |used| {
+   |              ^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+   |
+58 -             .fetch_update(Relaxed, Relaxed, |used| {
+58 +             .try_update(Relaxed, Relaxed, |used| {
+   |
+
+warning: unused import: `ModelOutput`
+    --> src/grammar.rs:1135:27
+     |
+1135 |             Event, Input, ModelOutput, OutputConfig, OutputPipeline, Termination,
+     |                           ^^^^^^^^^^^
+     |
+     = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> src/offload/transfer.rs:784:13
+    |
+784 |         let mut pool =
+    |             ----^^^^
+    |             |
+    |             help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `generation`
+    --> src/server/runtime/phase_tests.rs:2777:5
+     |
+2777 |     generation: u64,
+     |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_generation`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `validate_chat_template` is never used
+  --> src/frontend/mod.rs:29:15
+   |
+29 | pub(crate) fn validate_chat_template(source: &str) -> Result<()> {
+   |               ^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:534:13
+    |
+534 |             worker.admit().unwrap();
+    |             ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+    |
+534 |             let _ = worker.admit().unwrap();
+    |             +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:600:5
+    |
+600 |     worker.admit().unwrap();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+600 |     let _ = worker.admit().unwrap();
+    |     +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:608:5
+    |
+608 |     worker.admit().unwrap();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+608 |     let _ = worker.admit().unwrap();
+    |     +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:628:5
+    |
+628 |     worker.admit().unwrap();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+628 |     let _ = worker.admit().unwrap();
+    |     +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:670:5
+    |
+670 |     worker.admit().unwrap();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+670 |     let _ = worker.admit().unwrap();
+    |     +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:749:9
+    |
+749 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+749 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:771:9
+    |
+771 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+771 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:829:9
+    |
+829 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+829 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:832:9
+    |
+832 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+832 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:911:9
+    |
+911 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+911 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:932:9
+    |
+932 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+932 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:945:17
+    |
+945 |                 worker.admit().unwrap();
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+945 |                 let _ = worker.admit().unwrap();
+    |                 +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:950:17
+    |
+950 |                 worker.admit().unwrap();
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+950 |                 let _ = worker.admit().unwrap();
+    |                 +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:984:9
+    |
+984 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+984 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:998:13
+    |
+998 |             worker.admit().unwrap();
+    |             ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+998 |             let _ = worker.admit().unwrap();
+    |             +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:1010:13
+     |
+1010 |             worker.admit().unwrap();
+     |             ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+1010 |             let _ = worker.admit().unwrap();
+     |             +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:1034:9
+     |
+1034 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+1034 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:1037:9
+     |
+1037 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+1037 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:2332:5
+     |
+2332 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+2332 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:2937:9
+     |
+2937 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+2937 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:2967:5
+     |
+2967 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+2967 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:2983:5
+     |
+2983 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+2983 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3004:5
+     |
+3004 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3004 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3022:5
+     |
+3022 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3022 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3104:5
+     |
+3104 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3104 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3285:9
+     |
+3285 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3285 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3301:9
+     |
+3301 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3301 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3336:5
+     |
+3336 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3336 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3682:13
+     |
+3682 |             worker.admit().unwrap();
+     |             ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3682 |             let _ = worker.admit().unwrap();
+     |             +++++++
+
+warning: `flare-helios` (lib test) generated 34 warnings (run `cargo fix --lib -p flare-helios --tests` to apply 3 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 55.39s
+     Running unittests src/lib.rs (target/debug/deps/flare_helios-fc5d7326ed97d2f6)
+
+running 1 test
+test scheduler::policy_tests::b12x_prefill_trace::pure_prefill_presets_have_the_same_service_prefix ... B12X_PREFILL_TRACE {"policy":"balanced","active_requests":1,"prompt_tokens_per_request":32768,"output_budget":1,"prefill_chunk":4096,"fixture":"pinned interactive_engine; ordinary graphs; synthetic costs; one in-flight submission","qualification":"CPU scheduling behavior only; not GPU speed or full native runtime causality","first_output_synthetic_ns":[528100000],"first_output_prefill_dispatch":[8],"consumed_at_first_output":[32768],"prefill_slots":[0,0,0,0,0,0,0,0],"prefix_at_first_output":[0,0,0,0,0,0,0,0],"dispatches":10}
+B12X_PREFILL_TRACE {"policy":"throughput","active_requests":1,"prompt_tokens_per_request":32768,"output_budget":1,"prefill_chunk":4096,"fixture":"pinned interactive_engine; ordinary graphs; synthetic costs; one in-flight submission","qualification":"CPU scheduling behavior only; not GPU speed or full native runtime causality","first_output_synthetic_ns":[528100000],"first_output_prefill_dispatch":[8],"consumed_at_first_output":[32768],"prefill_slots":[0,0,0,0,0,0,0,0],"prefix_at_first_output":[0,0,0,0,0,0,0,0],"dispatches":10}
+B12X_PREFILL_TRACE {"policy":"balanced","active_requests":2,"prompt_tokens_per_request":32768,"output_budget":1,"prefill_chunk":4096,"fixture":"pinned interactive_engine; ordinary graphs; synthetic costs; one in-flight submission","qualification":"CPU scheduling behavior only; not GPU speed or full native runtime causality","first_output_synthetic_ns":[990100000,1056200000],"first_output_prefill_dispatch":[15,16],"consumed_at_first_output":[32768,28672],"prefill_slots":[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],"prefix_at_first_output":[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],"dispatches":19}
+B12X_PREFILL_TRACE {"policy":"throughput","active_requests":2,"prompt_tokens_per_request":32768,"output_budget":1,"prefill_chunk":4096,"fixture":"pinned interactive_engine; ordinary graphs; synthetic costs; one in-flight submission","qualification":"CPU scheduling behavior only; not GPU speed or full native runtime causality","first_output_synthetic_ns":[990100000,1056200000],"first_output_prefill_dispatch":[15,16],"consumed_at_first_output":[32768,28672],"prefill_slots":[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],"prefix_at_first_output":[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],"dispatches":19}
+B12X_PREFILL_TRACE {"policy":"balanced","active_requests":4,"prompt_tokens_per_request":32768,"output_budget":1,"prefill_chunk":4096,"fixture":"pinned interactive_engine; ordinary graphs; synthetic costs; one in-flight submission","qualification":"CPU scheduling behavior only; not GPU speed or full native runtime causality","first_output_synthetic_ns":[1914100000,1980200000,2046300000,2112400000],"first_output_prefill_dispatch":[29,30,31,32],"consumed_at_first_output":[32768,28672,28672,28672],"prefill_slots":[0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3],"prefix_at_first_output":[0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0],"dispatches":37}
+B12X_PREFILL_TRACE {"policy":"throughput","active_requests":4,"prompt_tokens_per_request":32768,"output_budget":1,"prefill_chunk":4096,"fixture":"pinned interactive_engine; ordinary graphs; synthetic costs; one in-flight submission","qualification":"CPU scheduling behavior only; not GPU speed or full native runtime causality","first_output_synthetic_ns":[1914100000,1980200000,2046300000,2112400000],"first_output_prefill_dispatch":[29,30,31,32],"consumed_at_first_output":[32768,28672,28672,28672],"prefill_slots":[0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3],"prefix_at_first_output":[0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0,1,2,3,0],"dispatches":37}
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1017 filtered out; finished in 1.11s
+

@@ -58,7 +58,16 @@ This adopts TensorFold's remaining-work preference with the research's continuou
 arrival aging instead of its fixed skipped-chunk guard. New CPU regressions cover
 equal/unequal prompts, ongoing short arrivals, cancellation, unmeasured graphs;
 existing decode-progress and two-in-flight feedback regressions also exercise
-the new mode. CLI/config parsing is explicit. These treatment tests are pending.
+the new mode. CLI/config parsing is explicit.
+
+The worker treatment passed317 scheduler tests,2 configuration tests and1 CLI
+parsing test. Two upstream manual CPU planning benchmarks were ignored (mixed
+tails and packed planning); they are not counted as passes. Equal prompts change
+first-output chunk positions from29/30/31/32 to8/16/24/32, with unchanged total
+prompt work. Sustained short arrivals, cancellation, unknown cost discovery,
+decode progress and two-in-flight feedback tests pass. Both lockfiles remained
+unchanged, and retained terminal status is exit0. Logs and terminal evidence are
+in `receipts/flare-qualification-20261115/scheduler-{control,latency-*}*`.
 
 After freezing the patch, run it only in the detached worker test tree under a
 new retained CPU unit with the same20-minute/8GiB limits and deadline checks.
@@ -66,6 +75,27 @@ Run all `scheduler::` library tests, configuration tests, the frozen control
 fixture and the CLI policy parsing test offline/locked, single test thread.
 Capture test counts and failures; no skipped case is passing evidence. The
 serving binary and preparation source remain unchanged until this stage passes.
+
+## Native release build and serving selection
+
+After CPU tests pass, a new bounded worker CPU unit may build the release CLI
+from a fresh detached source tree at the same pin plus exactly the frozen patch.
+Verify the full diff, patch hash and lockfile hashes. Use the existing isolated
+build environment and `cargo build --release --locked --offline --jobs2`, with
+an isolated target directory. No CUDA build, package preparation or source/core
+mutation. Use the same20-minute CPU/memory limits, require at least25 minutes
+before timed restoration, and stop this exact build unit before an earlier
+restore. A successful release build remains unqualified for serving.
+
+Store the binary under `native/<manifest-sha256>/flare` beside `manifest.json`.
+The manifest binds schema1, kind `prefill-latency`, base source revision, patch,
+binary and both Cargo lock hashes, plus compiler identity. The launcher verifies
+these bytes and rejects escaped symlinks. The append-only ledger selects
+`FLARE_NATIVE_ARM=<manifest-sha256>` and `FLARE_SCHEDULER_POLICY=latency` on both
+nodes. Revert by appending `FLARE_NATIVE_ARM=upstream` and
+`FLARE_SCHEDULER_POLICY=balanced`; the original exporter/CLI remains intact.
+All45 local launcher/qualification tests pass, including tampered artifacts,
+unsafe ledger values, explicit rollback and unchanged export/core controls.
 
 First establish the unchanged selector's service order. Exa's
 [upstream scheduling design](https://github.com/NVIDIA/spark-local-inference/blob/main/docs/scheduling-runtime-design.md)
