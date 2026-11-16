@@ -48,3 +48,13 @@ minutes. The fallback must stop the exact qualification unit before restoration.
 Afterward require original B12X images, fresh 5/5 smoke, health, watchdog/tailnet
 and no native processes before disarming. Record concrete unit names and time
 before starting. This registration alone is not a test result.
+
+Concrete window: `expert-numerics-window-20261116T053000Z`. Setup refuses until
+the bounded-retry window has independent B12X restoration and timer-disarm
+receipts. The exact window and memory units use the
+`b12x-flare-expert-numerics-{window,memory}-20261116T053000Z` prefix; the
+60-minute restoration helper stops both before restoring B12X. The client unit
+has a 50-minute runtime limit. Head-only tests leave the worker idle; the
+two-node memory monitor remains enforcing. Snapshot both runtime ledgers,
+supervisor/core acceptance hashes and rollback images, and require them unchanged
+after testing. Helpers are in `qualification/windows/expert-numerics-20261116/`.
