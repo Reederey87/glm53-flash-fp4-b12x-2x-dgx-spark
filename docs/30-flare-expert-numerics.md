@@ -1,0 +1,50 @@
+# Remaining expert arithmetic gate
+
+This registers the remaining A16/A4 component check without changing the native
+binary, accepted core, checkpoint, source pins or numerical bounds. It does not
+complete the separate full-model and state/capacity gates.
+
+Exa reviewed the primary [FlashInfer CSF tests](https://github.com/flashinfer-ai/flashinfer/blob/1bdba872/tests/utils/test_csf_scales.py),
+[CSF representation](https://github.com/flashinfer-ai/flashinfer/blob/1bdba872/flashinfer/quantization/csf.py)
+and [Flare qualification backlog](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/TODO.txt).
+The direct pinned-file fetch timed out; the clean local FlashInfer tree at
+4fd836dcda0998b875129aad76774ca073df10c8 supplies the exact installed revision.
+Current web results do not replace this source pin. Reviewed its precision/replay
+tests, local vLLM's expert activation/calibration handling, TensorFold's explicit
+checkpoint A4/A8 arithmetic and exllamav3's shape/dtype-specific recurrent-state
+ownership. None is a substitute for hardware results on this recipe. Changing
+kernel precision or adopting another engine is a separate candidate.
+
+`qualification/run_expert_numerics.sh` selects54 unchanged upstream cases:
+
+- Eight declared-precision poisoned-scale replays,128/4096 tokens, both ID
+  dtypes and implicit/explicit declarations. A16 inline/expanded equality at128;
+  at4096, original max-absolute0.0625 and RMSE1.1e-4; A4 relative error<0.004.
+- Twenty-one A4 float64-emulation cases, retaining calibrated scales, SwiGLU
+  variants and original relative error<0.004.
+- Twenty-four native expert compressed/plain comparisons with poisoned shared
+  scratch, A4/A16, live counts1/17/33 and four intermediate widths.
+- One planned A16 scale-expansion replay across live counts.
+
+Require every selected case to execute and pass, with zero skips and exact count.
+Retain failures, source hashes, environment, test exit and XML. Synthetic
+component agreement plus the full checkpoint-scale audit does not establish
+full-model output equivalence. The two-local-GPU launcher-ownership test is not
+selected because each Spark has one GPU; it is not described as passed.
+
+The test-only archive is produced by `git archive` from the exact FlashInfer pin
+for tests/experimental/b12x and its package init files. Its SHA256 is
+`af1c134345ab093c5912b699bce7a246d0b988267ef5958b1ded89b53e4c7414`.
+Extract into a new immutable qualification directory and record/check every file
+hash before execution. Use the existing Flare venv through uv, with no sync or
+dependency installation. The script verifies the installed dependency's direct
+URL revision and actual SM121 GPU before running. It never changes the serving
+extension or accepted core.
+
+Execution must wait until the active performance window closes. A separate
+60-minute B12X restoration timer, snapshots, idle containers/ranks,90GiB free
+and100GiB available on both nodes precede the test unit. The test timeout is40
+minutes. The fallback must stop the exact qualification unit before restoration.
+Afterward require original B12X images, fresh5/5 smoke, health, watchdog/tailnet
+and no native processes before disarming. Record concrete unit names and time
+before starting. This registration alone is not a test result.
