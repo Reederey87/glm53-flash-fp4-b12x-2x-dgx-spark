@@ -73,3 +73,7 @@ consecutive completion fences1..399; the registered zero-loss gate failed.
 Latency did not run. Automatic B12X restoration began at03:19 UTC. Docs/25
 registers the corrected observer and fresh two-arm retry; this failed capture
 is not accepted retrospectively.
+
+B12X restoration verified03:28 UTC with original images, health200, fresh5/5
+smoke, watchdog/tailnet active and both native ranks inactive. Fallback disarmed
+03:28:03 UTC; both ledgers append upstream/balanced/trace-off rollback selection.
