@@ -22,3 +22,11 @@ on both ranks and require both wrapper and pytest actual exits0. Start only
 after independently verified previous B12X restoration and fallback disarm.
 The complete-target setup now depends on this corrected window's9/9 gate,
 restoration and fallback receipts; it cannot use the prior wrapper failure.
+
+## Clean rerun result
+
+At07:31:28 UTC, both ranks completed9/9 cases and the controller recorded the
+layer gate pass. Actual pytest and wrapper exits are0 on both ranks; runtimes
+83.46s/83.72s. All19 memory samples passed and runtime/core hashes remained
+unchanged. Receipts use `layer-verified-*`. Independent B12X restoration remains
+a separate closure step before the complete-target window.

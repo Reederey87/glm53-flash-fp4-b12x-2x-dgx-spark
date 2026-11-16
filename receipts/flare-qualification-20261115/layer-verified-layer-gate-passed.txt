@@ -1,0 +1,1 @@
+2026-11-16T07:31:28Z Both ranks passed all9 complete-layer cases; full-model gates remain.

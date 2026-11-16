@@ -1,3 +1,7 @@
+## 2026-11-16 UTC — Representative complete-layer gate passed
+
+- Corrected-name rerun passes9/9 cases on both ranks in83.46s/83.72s; actual pytest/wrapper exits0,19 healthy memory samples and unchanged runtime hashes. Controller gate receipt07:31:28 UTC is retained in layer-verified-*; independent B12X recovery is underway before complete-target replay.
+
 ## 2026-11-16 UTC — Layer wrapper retry and verified recovery
 
 - Initial same-selection window independently restored both original B12X images and passed fresh5/5 smoke at07:29:37 UTC; fallback disarmed. The corrected-name wrapper now runs the identical nine-case fixture behind the tested memory guard; complete-target files are staged but remain gated.
