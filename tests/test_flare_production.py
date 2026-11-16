@@ -6,10 +6,27 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from flare_watchdog import decision, WINDOW
-from flare_production import fingerprints, validate_pin, rollback_due, validate_capacity
+from flare_production import fingerprints, validate_pin, rollback_due, validate_capacity, capacity_floor
 
 
 class ProductionSafetyTests(unittest.TestCase):
+    def test_provisional_release_requires_explicit_approval_and_retained_gaps(self):
+        decision = {'status': 'approved-provisional', 'approved_by_user': True,
+                    'minimum_kv_tokens': 2300000, 'open_gates': ['performance', 'capacity']}
+        self.assertEqual(capacity_floor(decision), 2300000)
+        self.assertEqual(capacity_floor({'status': 'qualified'}), 2350210)
+        for change in ({'approved_by_user': False}, {'open_gates': []},
+                       {'open_gates': ['']}, {'minimum_kv_tokens': 2000000},
+                       {'status': 'pending'}):
+            with self.assertRaises(ValueError):
+                capacity_floor({**decision, **change})
+        observed = 'flare_total_kv_pages 9122\nflare_kv_page_tokens 256\nflare_total_kv_tokens 2335232\n'
+        self.assertEqual(validate_capacity(observed, capacity_floor(decision))['flare_total_kv_tokens'], 2335232)
+        with self.assertRaises(ValueError):
+            validate_capacity(observed)
+        with self.assertRaises(ValueError):
+            validate_capacity(observed.replace('9122', '8984').replace('2335232', '2299904'), 2300000)
+
     def test_production_start_requires_observed_cache_floor(self):
         def scrape(pages, tokens):
             return f'flare_total_kv_pages {pages}\nflare_kv_page_tokens 256\nflare_total_kv_tokens {tokens}\n'

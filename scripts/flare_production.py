@@ -31,9 +31,24 @@ def validate_pin(pin, decision_bytes, actual, rank):
     decision = json.loads(decision_bytes)
     if (pin.get('schema') != 1 or pin.get('decision_sha256') != digest(decision_bytes) or
             pin.get('ranks', {}).get(str(rank)) != actual or
-            decision.get('status') != 'qualified' or
             decision.get('native_arm') != actual['native_arm']):
         raise ValueError('production pin or qualification decision does not match runtime')
+    capacity_floor(decision)
+    return decision
+
+
+def capacity_floor(decision):
+    """Keep full qualification distinct from an explicitly approved release."""
+    if decision.get('status') == 'qualified':
+        return 2350210
+    if (decision.get('status') == 'approved-provisional'
+            and decision.get('approved_by_user') is True
+            and decision.get('minimum_kv_tokens') == 2300000
+            and isinstance(decision.get('open_gates'), list)
+            and decision['open_gates']
+            and all(isinstance(g, str) and g.strip() for g in decision['open_gates'])):
+        return 2300000
+    raise ValueError('production requires qualification or explicit provisional approval with open gates')
 
 
 def rollback_due(pending, now):
@@ -44,7 +59,7 @@ def rollback_due(pending, now):
     return now >= deadline
 
 
-def validate_capacity(scrape):
+def validate_capacity(scrape, minimum_tokens=2350210):
     """Enforce the registered pool floor on every production start/recovery."""
     names = ('flare_total_kv_pages', 'flare_kv_page_tokens', 'flare_total_kv_tokens')
     values = {}
@@ -58,8 +73,10 @@ def validate_capacity(scrape):
     pages, page_tokens, tokens = (values[name] for name in names)
     if pages <= 0 or page_tokens <= 0 or pages * page_tokens != tokens:
         raise ValueError('inconsistent production cache geometry')
-    if tokens < 2350210:
-        raise ValueError(f'production cache capacity {tokens} is below the 2350210-token gate')
+    if type(minimum_tokens) is not int or minimum_tokens not in (2300000, 2350210):
+        raise ValueError('invalid production capacity floor')
+    if tokens < minimum_tokens:
+        raise ValueError(f'production cache capacity {tokens} is below the {minimum_tokens}-token gate')
     return values
 
 
@@ -88,7 +105,7 @@ def main():
     if args.action == 'fingerprints':
         print(json.dumps(actual))
         return
-    validate_pin(json.loads((ROOT / 'local/production-pin.json').read_text()),
+    decision = validate_pin(json.loads((ROOT / 'local/production-pin.json').read_text()),
                  (ROOT / 'local/production-decision.json').read_bytes(), actual, args.rank)
     if recipe.get('scheduler_trace', 'off') != 'off':
         raise ValueError('production tracing must be off')
@@ -108,8 +125,9 @@ def main():
             with urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=3) as response:
                 if response.status == 200 and states == ['active', 'active']:
                     with urllib.request.urlopen('http://127.0.0.1:8001/metrics', timeout=5) as metrics:
-                        capacity = validate_capacity(metrics.read().decode())
-                    print(json.dumps({'ranks': states, 'health': 200, 'capacity': capacity}), flush=True)
+                        capacity = validate_capacity(metrics.read().decode(), capacity_floor(decision))
+                    print(json.dumps({'ranks': states, 'health': 200, 'capacity': capacity,
+                                      'release_status': decision['status']}), flush=True)
                     return
         except OSError:
             pass
