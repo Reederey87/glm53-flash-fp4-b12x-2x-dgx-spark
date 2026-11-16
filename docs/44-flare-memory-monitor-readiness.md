@@ -44,3 +44,9 @@ all nine cases and bounds remain exactly those frozen in docs/42. Both-node sour
 manifests now include the notify-capable monitor. Keep90-minute fallback and all
 existing memory/termination limits. Full-target docs/43 now requires this retry's
 9/9 pass and closure and uses the same verified notify/watchdog protection.
+
+CPU probes passed at06:58:19 UTC. Retained terminal evidence shows healthy exit0,
+invalid startup exit2, stalled service Result=watchdog, and both receipt fallback
+services exit0. All probe timers/units were stopped. Aborted-window B12X recovery
+subsequently verified with fresh5/5 smoke and original images before closing its
+fallback. The protected layer-native retry is running; no numerical result yet.

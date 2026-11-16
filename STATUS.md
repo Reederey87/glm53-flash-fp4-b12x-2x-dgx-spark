@@ -1,5 +1,10 @@
 # Status
 
+## 2026-11-16 UTC — Monitor fault probes pass; protected layer retry running
+
+- CPU-only notify probe passed06:58:19 UTC: first healthy sample established readiness, two healthy observations completed, invalid startup exited2 and triggered its receipt fallback, heartbeat stall produced Result=watchdog and triggered its separate fallback. Probe units/timers cleaned up.
+- Aborted-window B12X recovery independently passed5/5 smoke, original images and API/watchdog/tailnet; fallback disarmed. The unchanged A16 fixture is running under docs/44 with alphabetic labels, verified monitor hashes on both nodes, Type=notify/WatchdogSec30/OnFailure and a90-minute fallback.
+
 ## 2026-11-16 UTC — Aborted layer retry; memory guard readiness corrected
 
 - The layer-a16 monitor rejected the numeric label before sampling, while Type=exec allowed ranks to start. Aborted immediately on detecting the missing guard; inspected free memory exceeded100GiB on both nodes. No qualified result is claimed. B12X restoration is running.
