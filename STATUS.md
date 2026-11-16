@@ -1,5 +1,12 @@
 # Status
 
+## 2026-11-16 UTC — Production authorization and scheduler fix priority
+
+- User explicitly authorized adoption after qualification, boot/watchdog ownership
+  and controlled reboot verification. Recorded the full requirements in TODO.
+- Registered a separate worker CPU prerequisite window to fetch locked test
+  dependencies after the offline attempt ended; serving artifacts remain frozen.
+
 ## 2026-11-16 UTC — Worker scheduler diagnostic stopped before compilation
 
 - The isolated CPU diagnostic failed offline dependency resolution (`rcgen`
