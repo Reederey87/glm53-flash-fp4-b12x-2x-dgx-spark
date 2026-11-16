@@ -19,29 +19,30 @@ def serving_recipe(recipe):
     """Read explicit serving arms from the append-only ledger without shell evaluation."""
     recipe = dict(recipe)
     ledger = Path(recipe["runtime_root"]) / ".env"
+    values = {}
     if ledger.exists():
         for line in ledger.read_text().splitlines():
             name, sep, value = line.partition("=")
-            if sep and name.strip() == "FLARE_SERVE_RESERVE_GIB":
-                value = value.strip()
-                if not value.isascii() or not value.isdecimal() or int(value) < 1:
-                    raise ValueError("FLARE_SERVE_RESERVE_GIB must be a positive integer")
-                recipe["serve_reserve_gib"] = int(value)
-            elif sep and name.strip() == "FLARE_SCHEDULER_POLICY":
-                value = value.strip()
-                if value not in ("balanced", "throughput", "latency"):
-                    raise ValueError("FLARE_SCHEDULER_POLICY must be balanced, throughput or latency")
-                recipe["scheduler_policy"] = value
-            elif sep and name.strip() == "FLARE_NATIVE_ARM":
-                value = value.strip()
-                if value != "upstream" and (len(value) != 64 or any(c not in "0123456789abcdef" for c in value)):
-                    raise ValueError("FLARE_NATIVE_ARM must be upstream or a manifest SHA256")
-                recipe["native_arm"] = value
-            elif sep and name.strip() == "FLARE_SCHEDULER_TRACE":
-                value = value.strip()
-                if value != "off" and re.fullmatch(r"[a-z0-9][a-z0-9.-]{0,100}\.jsonl", value) is None:
-                    raise ValueError("FLARE_SCHEDULER_TRACE must be off or a local JSONL filename")
-                recipe["scheduler_trace"] = value
+            if sep and name.strip() in {"FLARE_SERVE_RESERVE_GIB", "FLARE_SCHEDULER_POLICY",
+                                       "FLARE_NATIVE_ARM", "FLARE_SCHEDULER_TRACE"}:
+                values[name.strip()] = value.strip()
+    for name, value in values.items():
+        if name == "FLARE_SERVE_RESERVE_GIB":
+            if not value.isascii() or not value.isdecimal() or int(value) < 1:
+                raise ValueError("FLARE_SERVE_RESERVE_GIB must be a positive integer")
+            recipe["serve_reserve_gib"] = int(value)
+        elif name == "FLARE_SCHEDULER_POLICY":
+            if value not in ("balanced", "throughput", "latency"):
+                raise ValueError("FLARE_SCHEDULER_POLICY must be balanced, throughput or latency")
+            recipe["scheduler_policy"] = value
+        elif name == "FLARE_NATIVE_ARM":
+            if value != "upstream" and (len(value) != 64 or any(c not in "0123456789abcdef" for c in value)):
+                raise ValueError("FLARE_NATIVE_ARM must be upstream or a manifest SHA256")
+            recipe["native_arm"] = value
+        elif name == "FLARE_SCHEDULER_TRACE":
+            if value != "off" and re.fullmatch(r"[a-z0-9][a-z0-9.-]{0,100}\.jsonl", value) is None:
+                raise ValueError("FLARE_SCHEDULER_TRACE must be off or a local JSONL filename")
+            recipe["scheduler_trace"] = value
     return recipe
 
 

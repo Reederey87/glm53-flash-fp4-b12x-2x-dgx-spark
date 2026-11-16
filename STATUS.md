@@ -9,7 +9,11 @@
   the authorized window; B12X is stopped and fallback is armed for04:57 UTC.
 - Added four passing trace-validation tests. Native dashboard/capture12 and
   scheduler-filter316 tests passed (including four metrics tests); two manual
-  planning benchmarks were ignored. Config2 passed; CLI/build are in progress.
+  planning benchmarks were ignored. Config2 and CLI1 passed; release build passed
+  with retained exit0. Immutable artifact406f7d03 is verified on both nodes.
+- Serving preflight found that historical invalid ledger values prevented later
+  corrections. Validation now applies to final assignments only, without shell
+  evaluation;57 local tests pass. Neither rank had started during those failures.
 
 ## 2026-11-16 UTC — Full scale audit passed; additional Exa qualification
 

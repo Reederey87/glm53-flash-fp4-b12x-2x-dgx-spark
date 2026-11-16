@@ -133,6 +133,20 @@ class RuntimeContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'positive integer'):
                 serving_recipe(self.recipe)
 
+    def test_effective_assignment_can_correct_an_invalid_historical_arm(self):
+        (self.root/'.env').write_text('FLARE_SERVE_RESERVE_GIB=$(false)\n'
+            'FLARE_SCHEDULER_POLICY=invalid\nFLARE_NATIVE_ARM=invalid\n'
+            'FLARE_SCHEDULER_TRACE=BAD.jsonl\nFLARE_SERVE_RESERVE_GIB=4\n'
+            'FLARE_SCHEDULER_POLICY=balanced\nFLARE_NATIVE_ARM=upstream\n'
+            'FLARE_SCHEDULER_TRACE=off\n')
+        recipe = serving_recipe(self.recipe)
+        self.assertEqual([recipe[k] for k in ('serve_reserve_gib','scheduler_policy','native_arm','scheduler_trace')],
+                         [4,'balanced','upstream','off'])
+        with (self.root/'.env').open('a') as file:
+            file.write('FLARE_SCHEDULER_TRACE=BAD.jsonl\n')
+        with self.assertRaisesRegex(ValueError,'local JSONL filename'):
+            serving_recipe(self.recipe)
+
     def native_arm(self, trace=False):
         patch = self.root/'qualification/flare-prefill-latency.patch'
         patch.parent.mkdir()

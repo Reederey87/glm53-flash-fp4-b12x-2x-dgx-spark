@@ -79,3 +79,25 @@ work for all four slot generations. Joint completions share the same cumulative
 work boundary; no lane order or HTTP-to-slot mapping is invented. Four validator
 tests cover service ordering, joint completion and deliberately incomplete or
 corrupt observations. Together with the existing 52 local tests, these pass.
+
+## Frozen built artifact
+
+Worker tests and release build completed successfully with retained exit0.
+The scheduler filter passed316 tests (including four scheduler-metrics tests),
+with two manual planning benchmarks ignored; dashboard/capture12, config2 and
+CLI1 passed. Both dependency locks are unchanged. Manifest
+`406f7d0387b39d6e2c0945c297f82e771df7fba792725f38a46503c34f930a63`
+and binary
+`6686043d88badbdbb2d152d3d6174a3ca1405fddcc2e6dc34097a3d8667d50c4`
+are verified on both nodes. This supersedes the earlier docs/18 binary for both
+policy arms; the latency patch and prepared core remain unchanged.
+
+Preflight refused an uppercase trace filename before serving. A later lowercase
+assignment exposed an existing parser defect: earlier invalid assignments were
+validated before last-wins resolution. The corrected parser first resolves each
+effective value, then validates it without shell evaluation. The regression test
+covers corrected historical values and rejects an invalid final value. All57
+local tests pass. The ledgers retain the rejected assignment and its correction.
+The Exa review used the [Bash parameter and builtin contract](https://man7.org/linux/man-pages/man1/bash.1.html);
+this parser intentionally accepts only the kit's literal setting subset. No
+command substitution or shell expansion is introduced.
