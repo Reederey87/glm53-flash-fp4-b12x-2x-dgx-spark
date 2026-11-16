@@ -123,3 +123,13 @@ unrequested head exit, native failure, forced kill and missing/stale evidence.
 No native shutdown protocol or performance/numerical bound changed. The next
 window must freeze this checker and requalify the loaded path; the latency
 trace, mixed treatment and full speed matrix remain unrun.
+
+B12X restoration was independently verified at02:37 UTC: both ranks on original
+image3b5da79c, health200, fresh smoke5/5 with retained exit0, watchdog and tailnet
+active. Both native units were inactive with no main process. The fallback timer
+was disarmed only after these checks, at02:37:27 UTC. Receipts:
+`scheduler-restored-runtime.txt`, `scheduler-restored-smoke.txt` and
+`scheduler-window-closed.txt`. Both ledgers append upstream/balanced/trace-off.
+The corrected lifecycle checker is committed locally for the next frozen window;
+the stopped runtime still has the prior checker. Stage the corrected bytes before
+loaded qualification. No adoption, boot changes or driver/kernel updates occurred.

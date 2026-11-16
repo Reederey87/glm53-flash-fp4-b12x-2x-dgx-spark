@@ -18,7 +18,9 @@
   incorrectly required a local stop signal on the already-drained worker,
   triggering restoration before latency activation. Exa/pinned `serve_peer`
   confirms coordinated exit; the checker now accepts that shape while retaining
-  actual exit0/no-kill requirements. Restoration verification is in progress.
+  actual exit0/no-kill requirements. B12X restored and verified02:37 UTC: original
+  images, health200, fresh smoke5/5, watchdog/tailnet active. Fallback disarmed
+  at02:37:27 UTC. Corrected lifecycle checker awaits staging in the next window.
 
 ## 2026-11-16 UTC — Bounded native completion capture prepared
 
