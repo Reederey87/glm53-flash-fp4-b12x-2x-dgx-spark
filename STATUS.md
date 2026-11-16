@@ -1,5 +1,12 @@
 # Status
 
+## 2026-11-16 UTC — Additional Exa evidence for latency qualification
+
+- Compared primary aging, cross-GPU scheduling, Sarathi and current vLLM sources.
+  Evidence supports a waiting-time hypothesis but does not predict this GPU/model.
+- Documented mixed-arrival/decode-gap checks and limits in docs/17; no change to
+  the frozen treatment or its numerical/performance acceptance thresholds.
+
 ## 2026-11-16 UTC — Prompt-latency candidate passes native CPU coverage
 
 - Added opt-in age-aware prompt completion ordering; at four equal prompts,
