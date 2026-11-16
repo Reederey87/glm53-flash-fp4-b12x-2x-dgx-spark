@@ -37,6 +37,36 @@ audit remains unchanged. A failed prerequisite is not a scheduler test result.
 
 ## Candidate and acceptance requirements
 
+The unchanged native control has now passed. At four32768-token prompts, both
+balanced and throughput select slots0,1,2,3 repeatedly and produce first outputs
+after prefill dispatches29,30,31,32. This is production-selector CPU evidence
+with synthetic costs, not an on-GPU trace. The missing protoc error was resolved
+by using the candidate's existing isolated build environment; no host install.
+
+`qualification/flare-prefill-latency.patch` proposes opt-in `latency` scheduling.
+For separate prefill graphs it chooses the eligible request with lowest
+`arrival_time + remaining_tokens * measured_full_chunk_time / chunk_tokens`.
+Equivalently, this favors less remaining service minus accumulated request age.
+Shared positive measured costs keep continual new short arrivals from permanently
+dominating an old request; there is no unconditional wall-clock bound under
+decode overload. Unknown timing retains normal discovery. Decode and terminal
+prices, graph shapes, costs, feedback barriers and refresh budgets are retained.
+Mixed-prefill catalogs reject this mode rather than silently using another rule.
+Balanced and throughput behavior remains unchanged.
+
+This adopts TensorFold's remaining-work preference with the research's continuous
+arrival aging instead of its fixed skipped-chunk guard. New CPU regressions cover
+equal/unequal prompts, ongoing short arrivals, cancellation, unmeasured graphs;
+existing decode-progress and two-in-flight feedback regressions also exercise
+the new mode. CLI/config parsing is explicit. These treatment tests are pending.
+
+After freezing the patch, run it only in the detached worker test tree under a
+new retained CPU unit with the same20-minute/8GiB limits and deadline checks.
+Run all `scheduler::` library tests, configuration tests, the frozen control
+fixture and the CLI policy parsing test offline/locked, single test thread.
+Capture test counts and failures; no skipped case is passing evidence. The
+serving binary and preparation source remain unchanged until this stage passes.
+
 First establish the unchanged selector's service order. Exa's
 [upstream scheduling design](https://github.com/NVIDIA/spark-local-inference/blob/main/docs/scheduling-runtime-design.md)
 retains prompt-token fairness in both presets; changing to throughput alone is
