@@ -72,3 +72,10 @@ then restore B12X. Verify original images, health, fresh five-check smoke and
 watchdog/tailnet before disarming fallback. Ledger rollback is native arm upstream,
 balanced policy and trace off. Numerical, long-context and capacity gates remain
 required before authorized production adoption and reboot qualification.
+
+The offline validator `scripts/flare_trace_check.py` requires complete cold client
+receipts, loss-free native output, coherent fences/clocks and contiguous prompt
+work for all four slot generations. Joint completions share the same cumulative
+work boundary; no lane order or HTTP-to-slot mapping is invented. Four validator
+tests cover service ordering, joint completion and deliberately incomplete or
+corrupt observations. Together with the existing 52 local tests, these pass.

@@ -5,7 +5,11 @@
 - Added a separate observer patch using Flare's existing nonblocking telemetry,
   with explicit CLI activation, bounded output and incomplete-capture detection.
 - Launcher coverage passes 52 local tests. Native Rust tests, release build and
-  live order capture are registered in docs/20 and remain unrun; B12X is active.
+  live order capture are registered in docs/20. The worker build is running in
+  the authorized window; B12X is stopped and fallback is armed for04:57 UTC.
+- Added four passing trace-validation tests. Native dashboard/capture12 and
+  scheduler-filter316 tests passed (including four metrics tests); two manual
+  planning benchmarks were ignored. Config2 passed; CLI/build are in progress.
 
 ## 2026-11-16 UTC — Full scale audit passed; additional Exa qualification
 
