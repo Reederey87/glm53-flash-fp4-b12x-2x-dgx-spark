@@ -58,3 +58,22 @@ B12X using the pre-armed helper. Verify both original images, health200, fresh
 smoke5/5 and watchdog/tailnet before disarming fallback. Append
 upstream/balanced/trace-off rollback selection. No boot changes or adoption until
 all existing requirements are satisfied; the user's adoption authorization persists.
+
+## Native diagnostic result
+
+The latency trace completed with exact matching request hashes and524288 total
+prompt tokens, zero dropped updates/truncation and contiguous complete histories.
+Prompt completions occurred at131072/262144/393216/524288 cohort tokens, versus
+520576/521472/522240/524288 in balanced. Sorted client TTFT changed from
+233.52/234.21/234.88/235.96s to59.86/118.81/178.45/236.87s. Mean diagnostic TTFT
+decreased36.71%, with approximately unchanged last completion. This confirms
+the intended completion order; it is not the untraced performance verdict.
+All61 memory samples passed. Both actual native children exited0 without forced
+kill, with matching invocation identities; this was idle shutdown after the
+probe, not the loaded-shutdown gate. Receipts are `latency-*` under the existing
+qualification directory, including raw trace, client rows and comparison.
+
+The fresh trace-off restart verifies the same executable and latency argv on
+both ranks. API smoke passed7/7, and the matched75-request mixed client is live.
+The restoration deadline remains05:41:30 UTC. The full84-row performance gate,
+loaded lifecycle and broader production requirements remain open.

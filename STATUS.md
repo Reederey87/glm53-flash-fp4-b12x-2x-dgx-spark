@@ -9,6 +9,10 @@
 - Automatic B12X restoration is armed for05:41:30 UTC. Production adoption,
   boot/reboot checks and merge to main remain the explicit final target, recorded
   in docs/23; no existing qualification requirement is waived.
+- Latency native trace passed: matching524288-token work finishes at25/50/75/100%
+  instead of99.29/99.46/99.61/100%. TTFT59.86/118.81/178.45/236.87s; diagnostic
+  mean improves36.71%.61 memory observations and both actual native exits pass.
+  Trace-off restart passed7 API checks; matched mixed workload is running.
 
 ## 2026-11-16 UTC — Native interleaving confirmed; stronger exit evidence
 

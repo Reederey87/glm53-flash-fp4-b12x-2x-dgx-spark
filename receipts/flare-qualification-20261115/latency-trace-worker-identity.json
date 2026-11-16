@@ -1,0 +1,1 @@
+{"time": "2026-11-16T02:43:52.475524+00:00", "rank": 1, "pid": 2123373, "binary_sha256": "6686043d88badbdbb2d152d3d6174a3ca1405fddcc2e6dc34097a3d8667d50c4", "policy": "latency", "trace": false, "reserve_gib": 4, "slots": 4, "mtp_drafts": 3}
