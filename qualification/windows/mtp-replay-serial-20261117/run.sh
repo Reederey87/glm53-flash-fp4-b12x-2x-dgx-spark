@@ -8,8 +8,8 @@ uv=/home/nvidia/.local/bin/uv
 systemctl --user is-active --quiet b12x-flare-mtp-replay-serial-restore-20261117T050000Z.timer
 sha256sum --check "$w/runtime-source.sha256"
 ssh -n nvidia@192.168.177.11 "sha256sum --check $w/runtime-source.sha256"
-PYTHONPATH="$r/qualification:$r/upstream/flare" CUDA_VISIBLE_DEVICES= "$uv" run --offline --no-project --python "$r/upstream/flare/.venv/bin/python" python -m mtp_replay_metadata_preflight > "$w/rank0-metadata-preflight.json"
-ssh -n nvidia@192.168.177.11 "PYTHONPATH=$r/qualification:$r/upstream/flare CUDA_VISIBLE_DEVICES= $uv run --offline --no-project --python $r/upstream/flare/.venv/bin/python python -m mtp_replay_metadata_preflight" > "$w/rank1-metadata-preflight.json"
+PYTHONPATH="$r/qualification:$r/upstream/flare" CUDA_VISIBLE_DEVICES= "$uv" run --offline --no-project --python "$r/upstream/flare/.venv/bin/python" python -m mtp_replay_metadata_preflight > "$w/rank0-metadata-preflight.jsonl"
+ssh -n nvidia@192.168.177.11 "PYTHONPATH=$r/qualification:$r/upstream/flare CUDA_VISIBLE_DEVICES= $uv run --offline --no-project --python $r/upstream/flare/.venv/bin/python python -m mtp_replay_metadata_preflight" > "$w/rank1-metadata-preflight.jsonl"
 curl --fail --silent --max-time 10 http://127.0.0.1:8000/metrics > "$w/incumbent-before.metrics"
 "$uv" run --offline --no-project --python /usr/bin/python3 python - "$w/incumbent-before.metrics" <<'PY'
 import sys
