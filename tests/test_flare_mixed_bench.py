@@ -1,13 +1,43 @@
 import copy
+import io
+import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'scripts'))
-from flare_mixed_bench import summarize, validate_overlap
+from flare_mixed_bench import observe, summarize, validate_overlap
 
 
 class MixedObservationTests(unittest.TestCase):
+    def test_failed_output_keeps_usage_and_finish_reason_before_rejection(self):
+        rows = []
+        usage = {'prompt_tokens': 3, 'completion_tokens': 1,
+                 'prompt_tokens_details': {'cached_tokens': 0}}
+        events = [{'choices': [{'text': 'x', 'finish_reason': None}]},
+                  {'choices': [{'text': '', 'finish_reason': 'stop'}], 'usage': usage}]
+        wire = ''.join('data: '+json.dumps(e)+'\n' for e in events)+'data: [DONE]\n'
+        with patch('flare_mixed_bench.urllib.request.urlopen', return_value=io.BytesIO(wire.encode())):
+            with self.assertRaisesRegex(ValueError, 'before the registered budget'):
+                observe('http://example.test', '/v1/completions',
+                        {'prompt': [1, 2, 3], 'max_tokens': 256}, 0, journal=rows.append)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['usage'], usage)
+        self.assertEqual(rows[0]['finish_reasons'], ['stop'])
+        self.assertTrue(rows[0]['done'])
+        self.assertNotIn('text', rows[0])
+
+    def test_transport_failure_keeps_partial_observation(self):
+        rows = []
+        with patch('flare_mixed_bench.urllib.request.urlopen', side_effect=TimeoutError):
+            with self.assertRaises(TimeoutError):
+                observe('http://example.test', '/v1/completions',
+                        {'max_tokens': 256}, 0, journal=rows.append)
+        self.assertEqual(rows[0]['error_type'], 'TimeoutError')
+        self.assertFalse(rows[0]['done'])
+        self.assertIsNone(rows[0]['usage'])
+
     def setUp(self):
         self.body = {'prompt': [11, 22, 33], 'max_tokens': 4}
         self.usage = {'prompt_tokens': 3, 'completion_tokens': 4,

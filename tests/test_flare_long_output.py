@@ -12,7 +12,7 @@ from spec_metrics import COUNTERS, counter_delta
 
 
 def fixture(policy):
-    records = [{'manifest': {'schema': 1, 'policy': policy, 'reps': 3,
+    records = [{'manifest': {'schema': 2, 'ignore_eos': True, 'policy': policy, 'reps': 3,
         'lengths': list(LENGTHS), 'output_budget': 256, 'temperature': 1,
         'top_p': .95, 'slot_cap': 4, 'run_id': 'test', 'tokenizer_sha256': 'a'*64}}]
     for rep in range(3):
@@ -37,6 +37,7 @@ class LongOutputTests(unittest.TestCase):
         self.assertEqual(a, bodies(list(range(1000, 2000)), 'trial', 0))
         self.assertEqual([len(r['prompt']) for r in a], list(LENGTHS))
         self.assertEqual({r['max_tokens'] for r in a}, {256})
+        self.assertTrue(all(r['ignore_eos'] is True for r in a))
         self.assertEqual(len({tuple(r['prompt'][:256]) for r in a}), 4)
 
     def test_complete_comparison_and_corrupt_evidence_rejection(self):
@@ -46,9 +47,10 @@ class LongOutputTests(unittest.TestCase):
                 path.write_text(''.join(json.dumps(r)+'\n' for r in records))
             write(b, fixture('balanced')); write(c, fixture('latency'))
             self.assertEqual(len(compare(b, c)['points']), 17)
-            for change in ('partial', 'cached', 'short', 'hash', 'counter', 'timing'):
+            for change in ('partial', 'cached', 'short', 'hash', 'counter', 'timing', 'eos-policy'):
                 rows = fixture('latency')
                 row = rows[1]['requests'][0]
+                if change == 'eos-policy': rows[0]['manifest']['ignore_eos'] = False
                 if change == 'partial': rows.pop()
                 if change == 'cached': row['cached_tokens'] = 256
                 if change == 'short': row['completion_tokens'] = 1

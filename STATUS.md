@@ -1,5 +1,10 @@
 # Status
 
+## 2026-11-16 UTC — Long-output failure retained; two-host layer gate running
+
+- Balanced rep0 completed four256-output requests; rep1 stopped on a short output, and latency did not run. All45 memory samples passed; both native exits0 without forced kill. B12X restoration independently verified06:17:25 UTC with fresh5/5 smoke, both original images and API/watchdog/tailnet; fallback disarmed. EOS cause cannot be proved because the old client discarded failed-batch observations.
+- Exa and pinned API support `ignore_eos` for fixed budgets without altering sampling. Prepared a versioned fixture and flushed per-request diagnostics; all81 local tests pass. Retry registered in docs/40. Two-host layer replay (docs/39) is now running with the exact private extension staged only to worker qualification, source checks passed and90-minute fallback armed.
+
 ## 2026-11-16 UTC — Long-output comparison running
 
 - Frozen docs/37 window started after verified MLA closure. Preflight caught an older comparator before B12X stop; staged the reviewed helper (only diagnostic-loader additions; distribution rule unchanged). Balanced7/7 API checks passed; pool2,343,168 remains below floor. First four cold prompts completed256 outputs each; all memory samples pass so far. Separate two-host complete-layer replay adaptation is prepared but unrun (docs/39).

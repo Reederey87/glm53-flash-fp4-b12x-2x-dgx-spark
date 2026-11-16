@@ -43,36 +43,49 @@ def summarize(body, start, end, deliveries, usage, done, text_hash):
             'delivery_gap_max_s': max(gaps) if gaps else None}
 
 
-def observe(base, route, body, epoch, ready=None):
+def observe(base, route, body, epoch, ready=None, journal=None):
     start = time.monotonic()-epoch
     usage, done, deliveries = None, False, []
     output_hash = hashlib.sha256()
     request = urllib.request.Request(base+route, json.dumps(body).encode(), {'Content-Type': 'application/json'})
-    with urllib.request.urlopen(request, timeout=600) as response:
-        for raw in response:
-            line = raw.decode().strip()
-            if not line.startswith('data:'):
-                continue
-            payload = line[5:].strip()
-            if payload == '[DONE]':
-                done = True
-                break
-            event = json.loads(payload)
-            if 'error' in event:
-                raise ValueError(str(event['error']))
-            if event.get('usage'):
-                usage = event['usage']
-            pieces = []
-            for choice in event.get('choices', []):
-                delta = choice.get('delta') or {}
-                pieces.append(choice.get('text') or delta.get('content') or
-                              delta.get('reasoning_content') or delta.get('reasoning') or '')
-            piece = ''.join(pieces)
-            if piece:
-                deliveries.append(time.monotonic()-epoch)
-                output_hash.update(piece.encode())
-                if ready is not None:
-                    ready.set()
+    finish_reasons, error_type = [], None
+    try:
+        with urllib.request.urlopen(request, timeout=600) as response:
+            for raw in response:
+                line = raw.decode().strip()
+                if not line.startswith('data:'):
+                    continue
+                payload = line[5:].strip()
+                if payload == '[DONE]':
+                    done = True
+                    break
+                event = json.loads(payload)
+                if 'error' in event:
+                    raise ValueError(str(event['error']))
+                if event.get('usage'):
+                    usage = event['usage']
+                pieces = []
+                for choice in event.get('choices', []):
+                    if choice.get('finish_reason') is not None:
+                        finish_reasons.append(choice['finish_reason'])
+                    delta = choice.get('delta') or {}
+                    pieces.append(choice.get('text') or delta.get('content') or
+                                  delta.get('reasoning_content') or delta.get('reasoning') or '')
+                piece = ''.join(pieces)
+                if piece:
+                    deliveries.append(time.monotonic()-epoch)
+                    output_hash.update(piece.encode())
+                    if ready is not None:
+                        ready.set()
+    except Exception as error:
+        error_type = type(error).__name__
+        raise
+    finally:
+        if journal is not None:
+            journal({'input_sha256': digest(body), 'output_sha256': output_hash.hexdigest(),
+                     'start_s': start, 'end_s': time.monotonic()-epoch,
+                     'delivery_times_s': deliveries, 'usage': usage, 'done': done,
+                     'finish_reasons': finish_reasons, 'error_type': error_type})
     return summarize(body, start, time.monotonic()-epoch, deliveries, usage, done, output_hash.hexdigest())
 
 

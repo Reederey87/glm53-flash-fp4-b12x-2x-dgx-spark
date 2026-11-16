@@ -20,7 +20,7 @@ BUDGET = 256
 
 def bodies(vocab, run_id, rep):
     return [{'model': 'nvidia/GLM-5.3-Flash-FP4-Local', 'temperature': 1,
-             'top_p': .95, 'seed': 20261116 + rep, 'stream': True,
+             'top_p': .95, 'ignore_eos': True, 'seed': 20261116 + rep, 'stream': True,
              'stream_options': {'include_usage': True}, 'max_tokens': BUDGET,
              'prompt': prompt_ids(vocab, length, [run_id, 'long-output', rep, i])}
             for i, length in enumerate(LENGTHS)]
@@ -29,7 +29,7 @@ def bodies(vocab, run_id, rep):
 def load(path):
     records = [json.loads(line) for line in path.read_text().splitlines()]
     manifest = records[0]['manifest']
-    if (manifest.get('schema') != 1 or manifest.get('reps') != 3 or
+    if (manifest.get('schema') != 2 or manifest.get('ignore_eos') is not True or manifest.get('reps') != 3 or
             manifest.get('lengths') != list(LENGTHS) or manifest.get('output_budget') != BUDGET or
             manifest.get('temperature') != 1 or manifest.get('top_p') != .95 or
             manifest.get('slot_cap') != 4 or manifest.get('policy') not in ('balanced', 'latency')):
@@ -114,11 +114,16 @@ def main():
         return
     vocab = vocabulary(args.tokenizer)
     base = args.base.rstrip('/')
-    with args.out.open('x') as out:
+    with args.out.open('x') as out, args.out.with_suffix('.requests.jsonl').open('x') as raw_out:
+        raw_lock = threading.Lock()
+        def journal(rep, index, row):
+            with raw_lock:
+                raw_out.write(json.dumps({'rep': rep, 'request_index': index, **row}, allow_nan=False)+'\n')
+                raw_out.flush()
         def emit(row):
             out.write(json.dumps(row, allow_nan=False) + '\n')
             out.flush()
-        emit({'manifest': {'schema': 1, 'policy': args.policy, 'run_id': args.run_id,
+        emit({'manifest': {'schema': 2, 'ignore_eos': True, 'policy': args.policy, 'run_id': args.run_id,
             'tokenizer_sha256': hashlib.sha256(args.tokenizer.read_bytes()).hexdigest(),
             'reps': 3, 'lengths': LENGTHS, 'output_budget': BUDGET,
             'temperature': 1, 'top_p': .95, 'slot_cap': 4}})
@@ -133,11 +138,13 @@ def main():
             barrier = threading.Barrier(4)
             before = counters()
             epoch = time.monotonic()
-            def worker(body):
+            def worker(item):
+                index, body = item
                 barrier.wait(timeout=10)
-                return observe(base, '/v1/completions', body, epoch)
+                return observe(base, '/v1/completions', body, epoch,
+                               journal=lambda row: journal(rep, index, row))
             with ThreadPoolExecutor(4) as pool:
-                rows = list(pool.map(worker, items))
+                rows = list(pool.map(worker, enumerate(items)))
             wall = time.monotonic() - epoch
             after = counters()
             emit({'rep': rep, 'requests': rows, 'wall_s': wall,
