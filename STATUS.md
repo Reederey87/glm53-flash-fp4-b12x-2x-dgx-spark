@@ -1,5 +1,10 @@
 # Status
 
+## 2026-11-16 UTC — Bounded window stopped on native peer shutdown
+
+- Balanced completed and validated all75 requests/9 mixed cases, but transition failed: head native exit0; worker received SIGTERM and returned-15. The latency arm and full matrix did not run. B12X restoration started automatically04:33:51 UTC; fresh closure verification is pending.
+- Exa and pinned upstream launch/Orbit source require up to30s peer drain after the head exits. The wrapper previously stopped the worker immediately. Prepared a bounded natural-drain correction without masking native failures; tests and independent loaded-lifecycle gate in docs/28.
+
 ## 2026-11-16 UTC — Bounded scheduler built; untraced mixed gate running
 
 - Original age-policy control reproduced the late-short assertion failure; its other6 tests passed. Bounded native scheduler320, dashboard13, metrics4, config2 and CLI1 checks passed (2 manual benchmarks ignored), then release build passed with unchanged locks. Artifact127424e9 / binaryb2eb310b is verified on both nodes. A mistyped commit suffix in the invocation was corrected in a new immutable manifest after checking frozen Git input hashes; original provenance retained.

@@ -135,6 +135,40 @@ def finish_child(child, root, action, rank, invocation, stopping):
     return code if code >= 0 else 128 - code
 
 
+def stop_peer(ssh, unit, allow_drain):
+    """Match upstream's head-first shutdown and 30-second natural peer drain.
+
+    A successful head exit does not mean peer resource teardown has finished.
+    Sending the worker SIGTERM immediately can kill it before its coordinated
+    exit. Failed heads still request immediate peer cleanup.
+    """
+    if allow_drain:
+        started = time.monotonic()
+        deadline = started + 30
+        outcome = 'deadline'
+        while (remaining := deadline - time.monotonic()) > 0:
+            try:
+                peer = subprocess.run(ssh + ['systemctl', '--user', 'show', unit,
+                                            '--property=ActiveState', '--value'],
+                                      text=True, capture_output=True,
+                                      timeout=min(5, remaining))
+            except subprocess.TimeoutExpired:
+                outcome = 'probe_timeout'
+                break
+            if peer.returncode != 0:
+                outcome = 'probe_failed'
+                break
+            if peer.stdout.strip() in ('inactive', 'failed'):
+                outcome = peer.stdout.strip()
+                break
+            time.sleep(min(1, max(0, deadline - time.monotonic())))
+        print(json.dumps({'event': 'peer_drain', 'unit': unit, 'outcome': outcome,
+                          'elapsed_s': time.monotonic() - started}), flush=True)
+    # Still clean up on a timeout or failed peer; its real native exit remains
+    # authoritative and a forced/signal exit cannot pass the graceful gate.
+    subprocess.run(ssh + ['systemctl', '--user', 'stop', unit], timeout=65, check=False)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("prepare", "serve"))
@@ -166,6 +200,7 @@ def main():
     if args.rank == 0:
         subprocess.run(ssh + ["systemctl", "--user", "start", "--no-block", unit], check=True, timeout=20)
     child = None
+    exit_code = None
     stopping = False
     export_log = None
     previous_primaries = set()
@@ -230,7 +265,7 @@ def main():
         finally:
             try:
                 if args.rank == 0:
-                    subprocess.run(ssh + ["systemctl", "--user", "stop", unit], timeout=150, check=False)
+                    stop_peer(ssh, unit, args.action == 'serve' and stopping and exit_code == 0)
             finally:
                 if export_log is not None:
                     export_log.close()

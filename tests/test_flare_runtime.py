@@ -254,6 +254,34 @@ class RuntimeContractTests(unittest.TestCase):
 
 
 class ShutdownTests(unittest.TestCase):
+    def test_clean_head_allows_peer_to_exit_before_stop(self):
+        commands = []
+        states = iter(('active', 'active', 'inactive'))
+        def run(command, **kwargs):
+            commands.append(command)
+            return subprocess.CompletedProcess(command, 0,
+                next(states) if 'show' in command else '', '')
+        with patch.object(subprocess, 'run', side_effect=run), patch.object(flare_run.time, 'sleep'):
+            flare_run.stop_peer(['ssh', 'peer'], 'worker.service', True)
+        self.assertEqual([c[4] for c in commands], ['show', 'show', 'show', 'stop'])
+
+    def test_peer_drain_is_bounded_and_failed_head_skips_it(self):
+        clock = [0.0]
+        def sleep(seconds):
+            clock[0] += seconds
+        def run(command, **kwargs):
+            return subprocess.CompletedProcess(command, 0, 'active', '')
+        with patch.object(subprocess, 'run', side_effect=run) as process, \
+             patch.object(flare_run.time, 'monotonic', side_effect=lambda: clock[0]), \
+             patch.object(flare_run.time, 'sleep', side_effect=sleep):
+            flare_run.stop_peer(['ssh', 'peer'], 'worker.service', True)
+            self.assertEqual(clock[0], 30)
+            self.assertIn('stop', process.call_args.args[0])
+            process.reset_mock()
+            flare_run.stop_peer(['ssh', 'peer'], 'worker.service', False)
+            process.assert_called_once()
+            self.assertIn('stop', process.call_args.args[0])
+
     def run_peer_failure(self, *, shutdown=False, timeout=False, native_code=0):
         handlers = {}
         recipe = load_recipe(RECIPE)
