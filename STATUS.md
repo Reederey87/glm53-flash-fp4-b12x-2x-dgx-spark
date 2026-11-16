@@ -1,3 +1,7 @@
+## 2026-11-16 UTC — Deployed-mode layer failure retained; stage diagnostic prepared
+
+- Both ranks passed5 cases then failed layer3/prefill4096 exact attention comparison:5,954,429/16,777,216 values differ, maxabs0.001953125. All69 memory samples passed. Original B12X restoration and fresh5/5 smoke verified07:11:54 UTC; fallback disarmed. Docs/45 freezes matched-state eager/graph/native stage diagnostics with unchanged assertions; production remains unqualified.
+
 # Status
 
 ## 2026-11-16 UTC — Monitor fault probes pass; protected layer retry running
