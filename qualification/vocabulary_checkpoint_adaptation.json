@@ -70,6 +70,10 @@
     [
       "                torch.testing.assert_close(result, expected,",
       "                print(json.dumps({\"rank\": rank, \"indexed\": indexed, \"rows\": rows,\n                    \"repetitions\": repetitions, \"max_abs_error\": (result.float()-expected.float()).abs().max().item(),\n                    \"finite\": bool(torch.isfinite(result).all())}), flush=True)\n                assert torch.isfinite(result).all()\n                torch.testing.assert_close(result, expected,"
+    ],
+    [
+      "GraphSignature(\"decode\", rows, 1)",
+      "(GraphSignature(\"speculative\", 4, 4) if rows == 16 else GraphSignature(\"decode\", rows, 1))"
     ]
   ],
   "case_count_per_rank": 2

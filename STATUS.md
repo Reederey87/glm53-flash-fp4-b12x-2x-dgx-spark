@@ -1,3 +1,7 @@
+## 2026-11-16 UTC — Vocabulary test descriptor corrected
+
+- Initial checkpoint-head test stopped before numerical comparison because16 physical rows were described as16 requests against four executor slots. Both failed exits retained; automatic B12X restoration underway. Docs/49 retry uses batch4/width4 for that component graph, retaining all operands, bounds and original assertions.
+
 ## 2026-11-16 UTC — Complete target replay passed; vocabulary reference prepared
 
 - Both capacities65/4096 passed on both ranks in fresh processes with127 healthy memory samples and unchanged runtime hashes (docs/48). Independent B12X recovery/fresh5/5 closed08:07:54 UTC; fallback disarmed.

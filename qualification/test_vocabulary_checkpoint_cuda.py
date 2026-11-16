@@ -81,7 +81,7 @@ def _rank(rank, world, rendezvous, vocab, indexed=False, output_dtype=torch.bflo
                 graphs[f"head{rows}"] = graph
             session.freeze()
             bundle = PreparedExecution(device=0, graphs=graphs,
-                signatures={f"head{rows}": GraphSignature("decode", rows, 1) for rows in heads},
+                signatures={f"head{rows}": (GraphSignature("speculative", 4, 4) if rows == 16 else GraphSignature("decode", rows, 1)) for rows in heads},
                 buffers=control,
                 resources=(heads, compiled, runtime, session, stream, pool, weight))
             worker = bundle.start_executor()

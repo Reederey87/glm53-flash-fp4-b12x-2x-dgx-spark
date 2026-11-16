@@ -49,3 +49,27 @@ Snapshot both runtime ledgers/hashes before stopping B12X; no concurrent client
 work may be active. After the fixture, restore the original B12X images and
 independently verify5/5 smoke, API, watchdog and tailnet before fallback disarm.
 No result is claimed until those receipts exist.
+
+## Initial descriptor failure and frozen retry
+
+The initial direct case failed before native execution: `unsupported graph
+capacities: head16`. The inherited component signature described16 independent
+decode requests while the executor owns four slots. Weight-byte/scale checks,
+tuning and capture completed, but no native numerical result was produced.
+Both failed test exits remain retained; B12X restoration started automatically.
+
+Exa rechecked the upstream [execution descriptor](https://github.com/NVIDIA/flare-local-inference/blob/main/ignition/preparation/execution.py)
+and [core contract](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/core-design.md).
+The pinned Rust manifest validator requires batch capacity within owned slots.
+Speculative signatures separately describe batch and verification width. Local
+Flare validation, vLLM scheduled/speculative token accounting, exllamav3 batch/chunk
+limits and TensorFold served-shape contracts confirm the distinction. Raising the
+executor slot count would misrepresent the deployed four-slot envelope.
+
+The retry `vocabulary-verified-window-20261116T210000Z` changes only the16-row
+descriptor to speculative batch4/width4. One/four-row ordinary decode descriptors
+remain. It is still a component-only graph: this does not assert that speculation
+or token commit is executed by the vocabulary test. Same kernels, raw FP64 oracle,
+row shapes, repetitions, bounds and every original assertion. The declared
+substitution is covered by full decorated-method AST equality. Require independent
+initial-window recovery before starting; retain all initial failed receipts.
