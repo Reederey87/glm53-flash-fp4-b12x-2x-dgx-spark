@@ -1,5 +1,14 @@
 # Status
 
+## 2026-11-16 UTC — Full scale scan active; scheduler diagnostic frozen
+
+- The head is scanning all 42 routed-expert layers under the registered
+  70-minute CPU limit after both idle-memory gates. B12X is intentionally stopped;
+  automatic restoration is armed for 02:10:40 UTC.
+- Added a CPU-only production-selector diagnostic for the two existing scheduler
+  presets. It will run in a separate worker test worktree with cached dependencies
+  and resource limits; no serving binary or runtime configuration changes.
+
 ## 2026-11-16 UTC — Selected-layer CPU scale audit completed
 
 - On the idle head, independently decoded every expert in layers 3, 24 and 44
