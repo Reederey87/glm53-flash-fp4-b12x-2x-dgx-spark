@@ -2,7 +2,7 @@
 
 ## 2026-11-16 UTC — MLA diagnostic return defect isolated
 
-- Initial six-case MLA gate failed only attended-stage comparisons; expanded/final outputs and other assertions passed. Exact pinned forward computes attention but leaves its diagnostic attended field at zero. Prepared a qualification-only binding of the actual tensor, with full-method AST identity after removing that single binding; all original numerical assertions remain. No serving source/core changed. Failed receipts retained; B12X restoration pending. See docs/38.
+- Initial six-case MLA gate failed only attended-stage comparisons; expanded/final outputs and other assertions passed. Exact pinned forward computes attention but leaves its diagnostic attended field at zero. Prepared a qualification-only binding of the actual tensor, with full-method AST identity after removing that single binding; all original numerical assertions remain. No serving source/core changed. Failed receipts retained; B12X restoration verified05:57:20 UTC with fresh5/5 smoke, original images and API/watchdog/tailnet; fallback disarmed. Corrected observation retry started under its separate60-minute fallback. See docs/38.
 
 ## 2026-11-16 UTC — Native MLA replay window started
 

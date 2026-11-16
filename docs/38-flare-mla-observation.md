@@ -55,3 +55,7 @@ has50minutes; pytest40minutes. Existing idle and serving memory gates remain.
 Fallback stops the exact runner/monitor before restoring. Independently verify
 B12X before disarming. Only all six passing corrected observations close this
 component gate; full-model equivalence remains unproven.
+
+Initial failed window restoration verified05:57:20 UTC with fresh5/5 smoke,
+original images, active API/watchdog/tailnet and no native PIDs; fallback disarmed.
+Corrected observation retry started after source SHA checks and its own timer.
