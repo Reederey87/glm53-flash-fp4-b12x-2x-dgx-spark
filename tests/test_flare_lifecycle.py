@@ -32,6 +32,8 @@ class LifecycleEvidenceTests(unittest.TestCase):
         clean = {'ActiveState': 'inactive', 'MainPID': '0', 'Result': 'success', 'ExecMainStatus': '0'}
         failed = dict(clean, ActiveState='failed', Result='exit-code', ExecMainStatus='1')
         check_result('graceful', [clean, clean], [self.native, self.native])
+        check_result('graceful', [clean, clean],
+                     [self.native, dict(self.native, shutdown_requested=False)])
         with self.assertRaisesRegex(ValueError, 'not clean'):
             check_result('graceful', [failed, clean], [self.native, self.native])
         with self.assertRaisesRegex(ValueError, 'not reported'):
@@ -42,7 +44,7 @@ class LifecycleEvidenceTests(unittest.TestCase):
         clean = {'ActiveState': 'inactive', 'MainPID': '0', 'Result': 'success', 'ExecMainStatus': '0'}
         for evidence in ([], [self.native], [self.native, dict(self.native, native_returncode=-9)],
                          [self.native, dict(self.native, forced_kill=True)],
-                         [self.native, dict(self.native, shutdown_requested=False)]):
+                         [dict(self.native, shutdown_requested=False), self.native]):
             with self.assertRaisesRegex(ValueError, 'native children'):
                 check_result('graceful', [clean, clean], evidence)
 

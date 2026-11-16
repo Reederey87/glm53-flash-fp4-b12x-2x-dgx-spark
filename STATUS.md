@@ -13,6 +13,12 @@
 - The untraced balanced restart passed7 API checks; matched mixed workloads are
   running with memory enforcement. Added the strict offline75-request comparator
   after Exa measurement review;65 local tests pass.
+- Balanced mixed control completed and validated75/75 requests,9/9 cases and114
+  memory samples. Native children both exited0 without forced kill. A verifier
+  incorrectly required a local stop signal on the already-drained worker,
+  triggering restoration before latency activation. Exa/pinned `serve_peer`
+  confirms coordinated exit; the checker now accepts that shape while retaining
+  actual exit0/no-kill requirements. Restoration verification is in progress.
 
 ## 2026-11-16 UTC — Bounded native completion capture prepared
 

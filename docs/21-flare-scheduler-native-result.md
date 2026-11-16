@@ -95,3 +95,31 @@ rate separately from inverse amortized TPOT `(tokens-1)/(elapsed-TTFT)`; neither
 invents token timestamps inside a burst. Four additional tests reject incomplete,
 corrupt or mismatched evidence and exercise both metric directions. All65 local
 tests pass. This offline tool does not alter the already frozen live client.
+
+## Untraced balanced control and guarded restoration
+
+The balanced control passed7 API checks, then all75 mixed requests and9 cases
+across three repetitions. The strict comparator independently validated the
+complete receipt. All114 memory observations passed; minimum MemFree was
+2,259,763,200bytes on the head and2,487,926,784bytes on the worker. Each overlap
+case retained progress from both decoders. The balanced control alone does not
+demonstrate improvement from latency policy.
+
+On the idle transition, both actual native children exited0 without forced kill.
+The head recorded a requested shutdown; the worker recorded no local signal
+because it had already exited through coordinated native drain. The transition
+verifier incorrectly required a local signal on both ranks, triggering automatic
+B12X restoration at02:31 UTC before the latency policy was selected. Preserve
+these receipts and do not count this as a loaded-shutdown run.
+
+Exa's [upstream coordinated-stop contract](https://github.com/NVIDIA/spark-local-inference/blob/main/docs/orbit.md)
+and pinned `flare-cli/src/main.rs::serve_peer` explain the behavior: rank zero
+drains the group; peers can exit before a later explicit stop. The peer returns
+success only after drain and transfer-service completion, with no shutdown error.
+The corrected lifecycle checker requires a requested head shutdown and actual
+exit0/no forced kill on both ranks, allowing either local-signal state on the
+worker. Regression coverage includes that observed shape and still rejects an
+unrequested head exit, native failure, forced kill and missing/stale evidence.
+No native shutdown protocol or performance/numerical bound changed. The next
+window must freeze this checker and requalify the loaded path; the latency
+trace, mixed treatment and full speed matrix remain unrun.

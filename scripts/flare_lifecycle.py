@@ -72,8 +72,10 @@ def check_result(action, states, native):
     if action == 'graceful':
         if any(s['Result'] != 'success' or s['ExecMainStatus'] != '0' for s in states):
             raise ValueError('intentional shutdown was not clean on both ranks')
-        if len(native) != 2 or any(n['native_returncode'] != 0 or n['forced_kill'] or
-                                   not n['shutdown_requested'] for n in native):
+        # Rank zero initiates coordinated native drain. The worker may exit0
+        # before its supervisor receives a local SIGTERM; that is normal.
+        if (len(native) != 2 or not native[0]['shutdown_requested'] or
+                any(n['native_returncode'] != 0 or n['forced_kill'] for n in native)):
             raise ValueError('actual native children did not exit cleanly')
     elif states[0]['Result'] == 'success' or states[0]['ExecMainStatus'] == '0':
         raise ValueError('unexpected peer loss was not reported as head failure')
