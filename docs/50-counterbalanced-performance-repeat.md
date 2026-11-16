@@ -69,3 +69,13 @@ smoke before fallback disarm. No production boot ownership changes here.
 The frozen controller started08:26:28 UTC after docs/49 recovery closed, invocation
 `fb7139ba1ca54aec93e8ce59f6e0ee8c`. Both ledgers/hashes and original images were
 snapshotted; the120-minute fallback is armed. No performance result yet.
+
+Additional Exa methodological review during the running window covered
+[effect-size confidence intervals](https://arxiv.org/pdf/2007.10899) and
+[randomized multiple interleaved trials](https://dl.acm.org/doi/10.1145/3030207.3030229).
+They reinforce the distinction between iterations within a start and independent
+starts, and between uncertainty in a ratio and a single point estimate. They do
+not turn overlapping ranges or a nonsignificant difference into equivalence.
+Any later statistical design needs a fixed replication plan, chosen effect
+threshold and uncertainty method before its measurements. The present80-point
+ABBA gate, its thresholds and all four required starts remain unchanged.

@@ -3,7 +3,7 @@ set -euo pipefail
 r=/home/nvidia/b12x-flare
 w=$r/local/mtp-replay-window-20261117T000000Z
 prior=$r/local/mtp-feedback-window-20261116T230000Z
-[[ -f "$prior/restoration-verified.txt" && -f "$prior/fallback-disarmed.txt" ]]
+[[ -f "$prior/restoration-verified.txt" && -f "$prior/fallback-disarmed.txt" && -f "$prior/mtp-feedback-gate-passed.txt" ]]
 [[ -f "$r/local/layer-verified-window-20261116T180000Z/layer-gate-passed.txt" ]]
 mkdir "$w"
 cp -n "$r/.env" "$w/head-env-before.private"

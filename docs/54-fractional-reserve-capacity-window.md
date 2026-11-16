@@ -54,6 +54,18 @@ pass the production capacity validator. A stronger long-term sizing solution
 would explicitly reserve the required physical pool after accounting for peak
 host allocations; it needs a separate native-memory change and qualification.
 
-Status: stress client prepared locally. Two focused tests reject unobserved
-concurrency, short/cached work and invalid metrics. Window controller, exact
-wrapper freeze/staging and hardware execution remain pending.
+The local controller is now frozen for `capacity-window-20261117T010000Z`.
+It requires ABBA `repeat_gate_passed=true` and independently closed successful
+docs/52 before changing runtime files. Policy is bounded latency throughout.
+Wrapper SHA8487477a39531194002fd429474c77ad1cffc37f2dab531ccf9b1dd1a8d509f3
+and candidate-helper SHAf3401039506fc8e4d3a30ef8cff90784b61e3abbf607e86609b3d660873a128e
+are frozen; full staged/head/worker manifests are in the window directory.
+Restore first stops both native ranks, appends reserve4/upstream/balanced/trace-off
+and atomically restores both old wrapper files before restoring B12X. The new
+diagnostic clients need no rollback because they are not startup entry points.
+The controller limit is80minutes, continuous guard85minutes, fallback90minutes;
+each stress client has an external40-minute timeout with a30-second kill grace.
+
+Status: controller/client prepared locally, shell/Python syntax checked;93 local
+tests pass. No new wrapper has been staged or installed. Hardware execution and
+independent restoration remain pending.
