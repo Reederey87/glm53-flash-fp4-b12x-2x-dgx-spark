@@ -1,5 +1,9 @@
 # Status
 
+## 2026-11-16 UTC — Complete-layer gate finds output mismatch
+
+- Both ranks passed layer0 decode2/prefill65/prefill4096, then failed layer3 decode2 final output:2192/32768 values outside original rtol0.01/atol0.001, max absolute0.015625. State, rank equality, routing and recorded intermediate checks passed before this assertion. Both pytest exits1; all memory observations passed. Automatic B12X restoration is running. No bound or serving code changed. Matched-state repeatability diagnostic registered in docs/41; failed receipts retained.
+
 ## 2026-11-16 UTC — Long-output failure retained; two-host layer gate running
 
 - Balanced rep0 completed four256-output requests; rep1 stopped on a short output, and latency did not run. All45 memory samples passed; both native exits0 without forced kill. B12X restoration independently verified06:17:25 UTC with fresh5/5 smoke, both original images and API/watchdog/tailnet; fallback disarmed. EOS cause cannot be proved because the old client discarded failed-batch observations.
