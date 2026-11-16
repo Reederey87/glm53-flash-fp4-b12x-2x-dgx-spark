@@ -1,12 +1,31 @@
 import sys
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from flare_lifecycle import check_result
+from flare_lifecycle import check_result, state
 
 
 class LifecycleEvidenceTests(unittest.TestCase):
+    # Actual six-field shape returned by systemd on the head during the trial.
+    observed = ('MainPID=760169\nResult=success\nExecMainCode=0\nExecMainStatus=0\n'
+                'ActiveState=active\nSubState=running\n')
+
+    def test_observed_systemd_state_is_accepted(self):
+        with patch('flare_lifecycle.command', return_value=self.observed):
+            result = state(0)
+        self.assertEqual(result['ActiveState'], 'active')
+        self.assertEqual(result['MainPID'], '760169')
+
+    def test_incomplete_or_substituted_state_is_rejected(self):
+        for text in (self.observed.replace('Result=success\n', ''),
+                     self.observed.replace('Result=success', 'Unrelated=success'),
+                     self.observed.replace('Result=success', 'Result=')):
+            with self.subTest(text=text), patch('flare_lifecycle.command', return_value=text):
+                with self.assertRaisesRegex(ValueError, 'missing unit state'):
+                    state(0)
+
     def test_failure_cannot_be_mistaken_for_clean_stop(self):
         clean = {'ActiveState': 'inactive', 'MainPID': '0', 'Result': 'success', 'ExecMainStatus': '0'}
         failed = dict(clean, ActiveState='failed', Result='exit-code', ExecMainStatus='1')

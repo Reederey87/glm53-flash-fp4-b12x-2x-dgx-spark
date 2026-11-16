@@ -20,6 +20,7 @@ BASE = 'http://127.0.0.1:8001'
 SSH = ['ssh', '-n', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=5',
        'nvidia@192.168.177.11']
 UNITS = ('b12x-flare@0.service', 'b12x-flare@1.service')
+STATE_FIELDS = ('ActiveState', 'SubState', 'MainPID', 'Result', 'ExecMainCode', 'ExecMainStatus')
 GAUGES = ('flare_active_requests', 'flare_http_inflight_requests',
           'flare_retiring_request_slots')
 
@@ -31,10 +32,9 @@ def command(rank, args):
 
 def state(rank):
     text = command(rank, ['systemctl', '--user', 'show', UNITS[rank],
-                         '-p', 'ActiveState', '-p', 'SubState', '-p', 'MainPID',
-                         '-p', 'Result', '-p', 'ExecMainCode', '-p', 'ExecMainStatus'])
+                         '--all', '--property=' + ','.join(STATE_FIELDS)])
     result = dict(line.split('=', 1) for line in text.splitlines() if '=' in line)
-    if len(result) != 7:
+    if result.keys() != set(STATE_FIELDS) or any(not value for value in result.values()):
         raise ValueError('missing unit state evidence')
     return result
 

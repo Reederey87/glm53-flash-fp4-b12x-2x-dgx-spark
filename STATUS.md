@@ -1,5 +1,19 @@
 # Status
 
+## 2026-11-16 UTC — Full native matrix completed; latency gate failed
+
+- Collected and validated all 84 matched rows per engine, 315 matching request
+  hashes, 225 cold prefills and 90 full 200-token decodes. Aggregate decode
+  improves 7.4–13.9%; 14/20 per-request prefill points regress beyond the gate.
+  Full measurements and the Exa-guided scheduler investigation are in docs/13.
+- Serving memory passed 1,035 observations on both nodes. The loaded lifecycle
+  client failed before sending a signal because its property count was wrong;
+  fixed exact-field validation locally, with 42 tests passing. Hardware rerun
+  remains open. Both Flare ranks subsequently stopped cleanly for B12X restoration.
+- B12X restoration verified at 00:22 UTC: original image on both nodes, health
+  200, smoke 5/5, watchdog and tailnet active. The restoration timer is disarmed;
+  candidate ranks remain stopped and no production adoption occurred.
+
 ## 2026-11-15 — Reproduction guide aligned with current acceptance guards
 
 - Documented all seven accepted-core fields, the exact export receipt, verified

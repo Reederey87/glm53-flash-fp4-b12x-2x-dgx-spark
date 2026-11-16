@@ -193,11 +193,13 @@ bounds. It retains TP2, four slots, fixed MTP-3, 4096-token prefill and a 4 GiB
 reserve. Its measured 2,295,552-token cache pool is 2.33% below B12X's 2,350,210;
 published community capacities use different configurations.
 
-The original auto-precision core's failed KDA receipts are retained. A matched
-three-repetition speed comparison is in progress; short diagnostic generations
-are not evidence of overall speed preservation.
+The original auto-precision core's failed KDA receipts are retained. The complete
+matched three-repetition matrix validates 84 rows per engine: aggregate decode
+improves 7.4–13.9%, but concurrent prefill fails the per-request latency gate at
+14 of 20 points. Similar aggregate prefill throughput does not offset that
+regression. See the [measured result](docs/13-flare-native-serving-result.md).
 
-Flare is **not adopted**. Numerical, capacity and full performance gates remain
+Flare is **not adopted**. Numerical, capacity and performance-preservation gates remain
 open; B12X remains the incumbent and is stopped only for bounded candidate
 windows with automatic restoration. See the [first trial report](docs/11-flare-trial-20261115.md)
 and [subsequent qualification gates](docs/12-flare-qualification-gate.md)

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/nvidia/b12x-flare/scripts/flare_lifecycle.py", line 152, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/nvidia/b12x-flare/scripts/flare_lifecycle.py", line 78, in main
+    initial = [state(rank) for rank in (0, 1)]
+               ^^^^^^^^^^^
+  File "/home/nvidia/b12x-flare/scripts/flare_lifecycle.py", line 38, in state
+    raise ValueError('missing unit state evidence')
+ValueError: missing unit state evidence
