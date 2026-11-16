@@ -605,3 +605,7 @@
 ## 2026-11-16 UTC — Complete MTP replay gate prepared
 
 - Added docs/52 and a five-case, two-host draft/absorption Python-versus-Rust replay fixture using checkpoint layer45. Requires exact observed stages/state and retains same-selection assertions; GPU execution remains pending after docs/51. No runtime change.
+
+## 2026-11-16 UTC — Public generation comparison prepared
+
+- Added docs/53 and50 frozen public chat/tool/JSON/long-passage cases, each with separate64-token probe and1024-budget semantic phase.91 local tests pass; no hardware result or numerical-equivalence claim.
