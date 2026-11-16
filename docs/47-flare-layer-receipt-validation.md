@@ -30,3 +30,8 @@ layer gate pass. Actual pytest and wrapper exits are0 on both ranks; runtimes
 83.46s/83.72s. All19 memory samples passed and runtime/core hashes remained
 unchanged. Receipts use `layer-verified-*`. Independent B12X restoration remains
 a separate closure step before the complete-target window.
+
+Independent B12X restoration completed07:38:16 UTC with original images on
+both nodes, fresh5/5 smoke, API200, active watchdog/tailnet and no native/test
+processes. Both restore/smoke processes have actual exit0. Fallback was then
+disarmed; the complete-target gate started in its separate protected window.

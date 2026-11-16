@@ -1,4 +1,4 @@
-# Complete target replay on two Sparks — registered, unrun
+# Complete target replay on two Sparks — registered gate
 
 The pinned checkpoint has45 target layers: three dense and42 routed expert
 layers. Its vocabulary is154880, hidden width4096, and the vocabulary head stores
@@ -48,3 +48,7 @@ Both GPU locks and idle90GiB free/100GiB available gates apply. Abort below
 Restore B12X on completion or failure and independently verify original images,
 fresh5/5 smoke, healthy API/watchdog/tailnet and absent test/native processes
 before disarming fallback. A timeout remains an incomplete test, never a pass.
+
+Window started07:38 UTC after docs/47 passed and independently closed. Source
+hashes match on both hosts; the notify memory monitor is ready before model
+loading. No complete-target result is claimed yet.

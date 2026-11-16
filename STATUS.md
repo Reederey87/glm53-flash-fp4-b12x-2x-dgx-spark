@@ -1,3 +1,7 @@
+## 2026-11-16 UTC — Layer qualification closed; full target replay started
+
+- Independent B12X recovery/fresh5/5 verified07:38:16 UTC; layer fallback disarmed. The frozen complete45-layer target fixture is now loading on both ranks behind verified notify/watchdog/memory protection and its90-minute fallback. No production ownership or serving artifact change.
+
 ## 2026-11-16 UTC — Representative complete-layer gate passed
 
 - Corrected-name rerun passes9/9 cases on both ranks in83.46s/83.72s; actual pytest/wrapper exits0,19 healthy memory samples and unchanged runtime hashes. Controller gate receipt07:31:28 UTC is retained in layer-verified-*; independent B12X recovery is underway before complete-target replay.
