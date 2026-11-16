@@ -3,7 +3,7 @@
 The failed docs/39 fixture called `GlmWeightLoader` without expert_activation.
 Its default is A4, independently of the session's native_dense_activations flag.
 The pinned serving preparation resolves expert_activation=auto to A16 on SM121
-and sets B12X_W4A16_A4_PREFILL=1 before loading. Thus the failed A4 layer3 output
+and sets B12X_W4A16_A4_PREFILL=1 before loading. The public recipe.py also explicitly sets A16 for non-SM103 plans; this is not merely an assumed loader default. Thus the failed A4 layer3 output
 comparison is retained, but it does not directly qualify the deployed A16
 expert owner. The missing deployed-mode layer gate remains a production blocker.
 
