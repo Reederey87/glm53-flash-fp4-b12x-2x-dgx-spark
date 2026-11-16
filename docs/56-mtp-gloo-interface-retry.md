@@ -43,3 +43,14 @@ The new binding is locally syntax checked; GPU retry and CPU network preflight
 are not yet executed. The later trace and capacity controllers depend on this
 retry's recovery; capacity also requires its successful MTP gate and the still
 unmet ABBA performance gate. No production adoption follows a transport fix.
+
+CPU preflight passed both ranks with the exact fabric addresses, all-reduce3,
+matching peer exchange and actual exit0. An initial worker SSH wrapper failed
+before fixture execution because its relative interpreter path was resolved in
+the wrong directory; the corrected absolute-path invocation joined the waiting
+head and both completed. No numerical or network setting changed for that fix.
+
+Initial-window recovery/fresh5/5 closed09:56:31 UTC, restore8f9660b2e70a4ec49766d506c532408a,
+smoke32b2f8699b1c47a696c266194addc379, both actual exit0/PID0. Fallback disarmed.
+The frozen retry started09:56 UTC, controller479e48c55c2d4e7a89d623908467c490,
+after source-manifest verification on both nodes. Numerical result pending.

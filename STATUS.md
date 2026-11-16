@@ -1,3 +1,8 @@
+## 2026-11-16 UTC — Fabric preflight passed; MTP retry running
+
+- CPU Gloo rank exchange/all-reduce passes over192.168.177.10/.11 on both hosts. Failed-window B12X recovery/fresh5/5 closed09:56:31 UTC and fallback disarmed.
+- Frozen interface-only MTP retry now runs both ranks under the unchanged five-case numerical gate and memory protection.
+
 ## 2026-11-16 UTC — MTP transport fixture correction
 
 - Complete MTP replay failed before numerical work because Gloo chose hostname loopback. Original failure retained; B12X restoration underway.
