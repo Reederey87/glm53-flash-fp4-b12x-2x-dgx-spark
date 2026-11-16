@@ -41,3 +41,9 @@ case never counts as a numerical pass. The retry is prepared but unrun.
 
 Capacity still requires a successful MTP gate and the unresolved performance
 gate. The scheduling diagnosis does not depend on this mathematical fixture.
+
+The preflight additionally requires two complete CPU Dynamo traces of its
+synthetic observer composition (one per cache branch), with real CPU output
+checks after capture. This is a tracing test, not GPU AOT/code-generation evidence
+or a serving fallback. The expanded preflight is frozen locally and must pass
+on both nodes before the GPU retry; it has not yet been executed.

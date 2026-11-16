@@ -73,6 +73,15 @@ def verify(path):
 def main():
     from ignition.preparation.forward_metadata import dumps
     forwards = {}
+    captured = []
+
+    def cpu_backend(graph, example_inputs):
+        # This only checks Dynamo's treatment of the synthetic observer owners.
+        # GPU qualification still uses production AOT compilation with no fallback.
+        assert any(node.op in ('call_function', 'call_method') for node in graph.graph.nodes)
+        captured.append(graph)
+        return graph.forward
+
     for cache_only in (False, True):
         stages = {key: torch.zeros(2) for key in ('joined', 'feedback_projection',
             'attention', 'moe_input', 'moe_reduced', 'logits')}
@@ -86,7 +95,13 @@ def main():
         torch.testing.assert_close(stages['moe_input'], torch.full((2,), 4.))
         torch.testing.assert_close(stages['moe_reduced'], torch.full((2,), 16.))
         torch.testing.assert_close(forward.operation.indexer.forward.storage.value, torch.full((2,), 3.))
+        forward.output.fill_(float('nan'))
+        torch.compile(forward, backend=cpu_backend, fullgraph=True)()
+        torch.testing.assert_close(forward.output, torch.full((2,), 1. if cache_only else 16.))
         forwards[cache_only] = forward
+    assert len(captured) == 2
+    print(json.dumps({'cpu_fullgraph_traces': len(captured),
+                     'scope': 'synthetic observer tracing only; no GPU compilation'}), flush=True)
     with tempfile.TemporaryDirectory(prefix='mtp-metadata-') as temporary:
         path = Path(temporary) / 'metadata.pkl'
         path.write_bytes(dumps(forwards))
