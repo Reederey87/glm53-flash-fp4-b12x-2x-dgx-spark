@@ -601,3 +601,7 @@
 ## 2026-11-16 UTC — Checkpoint MTP feedback gate prepared
 
 - Added docs/51 and an isolated native-replay fixture for checkpoint embedding/norm/feedback projection at1/4/16/4096 rows on each rank. Original component bounds and unchanged arithmetic; GPU execution pending after the ABBA window. Runtime unchanged.
+
+## 2026-11-16 UTC — Complete MTP replay gate prepared
+
+- Added docs/52 and a five-case, two-host draft/absorption Python-versus-Rust replay fixture using checkpoint layer45. Requires exact observed stages/state and retains same-selection assertions; GPU execution remains pending after docs/51. No runtime change.
