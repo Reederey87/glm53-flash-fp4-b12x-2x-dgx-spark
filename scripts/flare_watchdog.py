@@ -71,6 +71,12 @@ def save(path, value):
         output.flush()
         os.fsync(output.fileno())
     tmp.replace(path)
+    for directory in (path.parent, path.parent.parent):
+        directory_fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
 
 
 def main():

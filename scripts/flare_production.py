@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import socket
 import subprocess
@@ -34,6 +35,14 @@ def validate_pin(pin, decision_bytes, actual, rank):
         raise ValueError('production pin or qualification decision does not match runtime')
 
 
+def rollback_due(pending, now):
+    deadline = pending.get('rollback_after')
+    if (pending.get('schema') != 1 or type(deadline) not in (int, float) or
+            not math.isfinite(deadline) or deadline <= 0):
+        raise ValueError('invalid production rollback deadline')
+    return now >= deadline
+
+
 def rank_state(rank):
     command = ['systemctl', '--user', 'show', f'b12x-flare@{rank}.service',
                '-p', 'ActiveState', '--value']
@@ -45,11 +54,14 @@ def rank_state(rank):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('fingerprints', 'verify', 'ready'))
+    parser.add_argument('action', choices=('fingerprints', 'verify', 'ready', 'rollback-due'))
     parser.add_argument('--rank', type=int, choices=(0, 1), default=0)
     args = parser.parse_args()
     if socket.gethostname() != ('spark-a183', 'spark-7829')[args.rank]:
         raise RuntimeError('unexpected production rank host')
+    if args.action == 'rollback-due':
+        pending = json.loads((ROOT / 'local/production-pending.json').read_text())
+        return 0 if rollback_due(pending, time.time()) else 75
     recipe = serving_recipe(load_recipe(RECIPE))
     core_bytes = (ROOT / 'local/accepted-core.json').read_bytes()
     actual = fingerprints(recipe, core_bytes)
@@ -84,4 +96,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(main())

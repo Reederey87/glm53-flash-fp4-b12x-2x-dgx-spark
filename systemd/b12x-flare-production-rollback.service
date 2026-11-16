@@ -1,6 +1,8 @@
 [Unit]
 Description=Restore B12X during the guarded Flare production/reboot window
 ConditionPathExists=/home/nvidia/b12x-flare/local/production-pending.json
+StartLimitIntervalSec=1h
+StartLimitBurst=3
 
 [Service]
 Type=oneshot
@@ -8,3 +10,5 @@ Environment=HOME=/home/nvidia
 WorkingDirectory=/home/nvidia/b12x-flare
 ExecStart=/bin/bash /home/nvidia/b12x-flare/scripts/flare_production_rollback.sh
 TimeoutStartSec=1800
+Restart=on-failure
+RestartSec=60

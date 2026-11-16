@@ -6,10 +6,19 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from flare_watchdog import decision, WINDOW
-from flare_production import fingerprints, validate_pin
+from flare_production import fingerprints, validate_pin, rollback_due
 
 
 class ProductionSafetyTests(unittest.TestCase):
+    def test_boot_recheck_does_not_roll_back_before_calendar_deadline(self):
+        pending = {'schema': 1, 'rollback_after': 1000}
+        self.assertFalse(rollback_due(pending, 999))
+        self.assertTrue(rollback_due(pending, 1000))
+        self.assertTrue(rollback_due(pending, 2000))
+        for bad in (True, '1000', float('inf'), -1):
+            with self.assertRaises(ValueError):
+                rollback_due({'schema': 1, 'rollback_after': bad}, 2000)
+
     def test_manual_stop_disabled_maintenance_and_startup_do_not_restart(self):
         ledger = {'schema': 1, 'pending': 1, 'attempts': []}
         for state in ('inactive', 'failed', 'activating', 'deactivating'):

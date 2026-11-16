@@ -26,6 +26,7 @@ case "${1:-}" in
     [[ $ready == 1 ]]
     "${peer[@]}" "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_production.py" verify --rank 1
     # Conflicting incumbent ownership is an error, not permission to stop it.
+    ! systemctl --user is-enabled --quiet vllm-b12x.service
     ! systemctl --user is-active --quiet vllm-b12x.service
     [[ -z $(docker ps -q --filter name=vllm_node) ]]
     [[ -z $("${peer[@]}" docker ps -q --filter name=vllm_node) ]]

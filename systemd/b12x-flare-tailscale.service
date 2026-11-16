@@ -2,6 +2,8 @@
 Description=Expose qualified Flare on the existing tailnet API port
 After=network-online.target b12x-flare-production.service
 Wants=network-online.target
+Requires=b12x-flare-production.service
+PartOf=b12x-flare-production.service
 
 [Service]
 Type=exec
