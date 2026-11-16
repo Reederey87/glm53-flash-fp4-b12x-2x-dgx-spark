@@ -1,3 +1,5 @@
+2026-11-16 UTC: Completed native diagnostic restored original B12X on both nodes; independent5/5/API/watchdog/tailnet verified and fallback closed10:58:35. Guarded full-MTP replay retry now running after both-node CPU tracing/serialization passes (docs/58,60).
+
 ## 2026-11-16 UTC — Complete scheduling diagnosis retained
 
 - Docs/55 passes all four trace-integrity arms:178 histories/5,394 completions, zero drops, eight clean native exits and411 healthy memory samples. Independent B12X restoration is underway.

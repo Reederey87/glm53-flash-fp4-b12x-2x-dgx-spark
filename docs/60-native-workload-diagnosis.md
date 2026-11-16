@@ -6,7 +6,10 @@ Every trace stops cleanly with zero loss/truncation; both ranks exit0 without
 forced kill on every arm. All411 continuous memory observations pass. Minimum
 free/available GiB: head1.8389/10.6190; worker1.7210/11.4557. Startup pools are
 2,343,168 for the first arm and2,335,232 thereafter, still below adoption capacity.
-B12X restoration and its independent smoke are underway; fallback remains armed.
+Independent original-image restoration on both nodes and fresh5/5 smoke passed;
+API/watchdog/tailnet are active and fallback closed10:58:35 UTC. Restore
+3162c64e41924722a9a63be04440f82b and smoke1db9a74967f548db96512b3298507811
+both ended with actual exit0/PID0.
 
 The workload is matched for diagnosis, but starts and warmup history differ from
 the untraced ABBA (docs/55's registered limitation). The traces do not replace its
