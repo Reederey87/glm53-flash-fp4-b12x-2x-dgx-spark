@@ -8,8 +8,10 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import socket
 from types import SimpleNamespace
 import time
+from urllib.parse import urlsplit
 
 import pytest
 import torch
@@ -42,6 +44,12 @@ def test_checkpoint_mtp_replay(mode, capacity, cache_only, record_property):
     assert hashlib.sha256((root / 'ignition/recipes/glm53/mtp.py').read_bytes()).hexdigest() == (
         '810b4dd738752f80e246e36a740519e191f146c8bee45cadfae525c15bf7fd02')
     rank = int(os.environ['FLARE_TEST_RANK']); assert rank in (0, 1)
+    from ignition.preparation.host_ranks import _use_interface
+    address = urlsplit(os.environ['FLARE_TEST_RENDEZVOUS'])
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as route:
+        route.connect((address.hostname, address.port))
+        _use_interface(route.getsockname()[0])
+    record_property('gloo_interface', os.environ['GLOO_SOCKET_IFNAME'])
     assert torch.cuda.device_count() == 1 and torch.cuda.get_device_capability() == (12, 1)
     torch.cuda.set_device(0)
     device = torch.device('cuda:0')

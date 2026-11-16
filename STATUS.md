@@ -1,3 +1,13 @@
+## 2026-11-16 UTC — MTP transport fixture correction
+
+- Complete MTP replay failed before numerical work because Gloo chose hostname loopback. Original failure retained; B12X restoration underway.
+- Docs/56 reuses the already-qualified Flare route/interface helper, preserving every numerical statement and bound. CPU fabric preflight and guarded full retry are prepared, unrun.
+
+## 2026-11-16 UTC — Feedback recovery closed; complete MTP replay running
+
+- Passing feedback gate independently restored B12X with fresh5/5 at09:49:50 UTC and disarmed its fallback.
+- Frozen five-case complete MTP draft/absorption replay now runs on both Sparks behind separate memory/fallback protection; no numerical bound or production ownership change.
+
 ## 2026-11-16 UTC — MTP feedback reference passed
 
 - Both ranks pass4/4 fresh-process capacities and100 replay observations with original norm/GEMV bounds, unchanged runtime hashes and35 healthy memory samples. Gate09:43:23 UTC; independent B12X recovery underway.

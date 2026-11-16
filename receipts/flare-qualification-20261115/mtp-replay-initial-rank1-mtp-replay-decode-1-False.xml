@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="9.032" timestamp="2026-11-16T04:50:05.378156-05:00" hostname="spark-7829"><testcase classname="qualification.test_glm53_mtp_replay_cuda" name="test_checkpoint_mtp_replay[decode-1-False]" time="8.343"><failure message="RuntimeError: Gloo connectFullMesh failed with [/__w/pytorch/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:152] timed out connecting: SO_ERROR: Connection refused, remote=[127.0.0.1]:29613$1">mode = 'decode', capacity = 1, cache_only = False
+record_property = &lt;function record_property.&lt;locals&gt;.append_property at 0xe278e9243ba0&gt;
+
+    @pytest.mark.parametrize('mode,capacity,cache_only', [
+        ('decode', 1, False), ('decode', 4, False),
+        ('decode', 16, True), ('prefill', 128, True), ('prefill', 4096, True),
+    ])
+    @torch.no_grad()
+    def test_checkpoint_mtp_replay(mode, capacity, cache_only, record_property):
+        from ignition.components.parallel import TensorParallelShard
+        from ignition.preparation.checkpoint import inspect_indexed_checkpoint
+        from ignition.preparation.collectives import CollectivePreparation, create_roce_runtime, warmup_wait
+        from ignition.preparation.compilation import compile_forward
+        from ignition.preparation.execution import GraphSignature, PreparedExecution
+        from ignition.preparation.scratch import ScratchArena
+        from ignition.preparation.tuning import RecordedPreparationSession
+        from ignition.recipes.glm53.mla import MLAState
+        from ignition.recipes.glm53.model import create_model_tree
+        from ignition.recipes.glm53.mtp import DraftMetadata, MTPScratch, PreparedMTP
+        from ignition.recipes.glm53.weights import GlmWeightLoader, TEXT_PREFIX
+        from layer_selection_reference import install_observer, matched_reference
+    
+        root = Path(os.environ['FLARE_PINNED_SOURCE'])
+        assert hashlib.sha256((root / 'ignition/recipes/glm53/mtp.py').read_bytes()).hexdigest() == (
+            '810b4dd738752f80e246e36a740519e191f146c8bee45cadfae525c15bf7fd02')
+        rank = int(os.environ['FLARE_TEST_RANK']); assert rank in (0, 1)
+        assert torch.cuda.device_count() == 1 and torch.cuda.get_device_capability() == (12, 1)
+        torch.cuda.set_device(0)
+        device = torch.device('cuda:0')
+        shard = TensorParallelShard(rank, 2)
+        snapshot = Path(os.environ['FLARE_GLM53_SNAPSHOT'])
+        manifest = inspect_indexed_checkpoint(snapshot)
+        tree = create_model_tree(snapshot)
+        with GlmWeightLoader(manifest, device, shard=shard, expert_activation='a16',
+                prefixes=(f'{TEXT_PREFIX}.layers.45.', f'{TEXT_PREFIX}.embed_tokens.weight', 'lm_head.')) as loader:
+            embedding = loader.load_tensor(f'{TEXT_PREFIX}.embed_tokens.weight')
+            tree.model.language_model.embed_tokens.weight = torch.nn.Parameter(embedding, requires_grad=False)
+            head = loader.load_linear('lm_head', rows=shard.partition(154880, alignment=64))
+            mtp = loader.load_mtp(None)
+            assert loader._session.torch_copy_bytes == 0
+            assert mtp.mlp.experts.plan.activation.mode.value == 'a16'
+            assert not mtp.mlp.experts_a4_prefill and mtp.draft_head is None
+        weights = SimpleNamespace(tree=tree, shard=shard, head=head, mtp=mtp)
+        batch = 1 if mode == 'prefill' else min(capacity, 4)
+        width = capacity // batch
+        count = 65 if capacity == 128 else capacity
+        metadata = DraftMetadata(capacity, batch, 64, device)
+        state = MLAState.allocate(256, 6, device, ring=12)
+        persistent = {'latent_cache': state.cache, 'index_cache': state.index.cache, 'tail': state.index.tail}
+        scratch = MTPScratch.allocate(capacity, 2, 64, mode, device, moe=not cache_only)
+        # Immutable readbacks are separate from the forward's aliased scratch.
+        output = torch.zeros((capacity, 4096), dtype=torch.bfloat16, device=device)
+        stages = {name: torch.empty((capacity, size), dtype=torch.bfloat16, device=device)
+                  for name, size in [('joined', 8192), ('feedback_projection', 4096)]}
+        if not cache_only:
+            stages.update({name: torch.empty((capacity, size), dtype=torch.bfloat16, device=device)
+                           for name, size in [('attention', 4096), ('moe_input', 4096),
+                                              ('moe_reduced', 4096), ('logits', 154880)]})
+&gt;       dist.init_process_group('gloo', init_method=os.environ['FLARE_TEST_RENDEZVOUS'],
+                                rank=rank, world_size=2, timeout=timedelta(minutes=10))
+
+../../qualification/test_glm53_mtp_replay_cuda.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:97: in wrapper
+    func_return = func(*args, **kwargs)
+                  ^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:2553: in init_process_group
+    default_pg, _ = _new_process_group_helper(
+.venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:2874: in _new_process_group_helper
+    backend_result = creator_fn(dist_backend_opts, backend_options)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+opts = &lt;torch._C._distributed_c10d._DistributedBackendOptions object at 0xe276ac1ca370&gt;
+backend_options = None
+
+    def _create_gloo_process_group(
+        opts: _DistributedBackendOptions, backend_options: object | None
+    ) -&gt; C10DBackend:
+        if not is_gloo_available():
+            raise RuntimeError("Distributed package doesn't have Gloo built in")
+&gt;       backend_class = ProcessGroupGloo(
+            opts.store,
+            opts.group_rank,
+            opts.group_size,
+            # pyrefly: ignore [bad-argument-type]
+            timeout=opts.timeout,
+            enable_reconfigure=opts.enable_reconfigure,
+        )
+E       RuntimeError: Gloo connectFullMesh failed with [/__w/pytorch/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:152] timed out connecting: SO_ERROR: Connection refused, remote=[127.0.0.1]:29613$1
+
+.venv/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:669: RuntimeError</failure></testcase></testsuite></testsuites>

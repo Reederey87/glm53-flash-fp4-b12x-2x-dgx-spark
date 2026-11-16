@@ -76,3 +76,8 @@ combined rtol.01/atol.01 bound; both norm checks stayed within the original2ULPs
 All35 memory samples were healthy. Receipts: `mtp-feedback-*`.
 Independent original-image B12X recovery is underway; full draft/absorption and
 broader model/state qualification remain separate gates.
+
+Independent B12X recovery closed09:49:50 UTC: both original images, API200,
+watchdog/tailnet, no native processes and fresh5/5 smoke. Restore
+e237cafa6bbf40dbadc72ca190c58ce4 and smoke cf94cac97edf4911a73c92d51d3d2ade
+ended with actual exit0/PID0; fallback then disarmed.

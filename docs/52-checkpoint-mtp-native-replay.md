@@ -55,3 +55,11 @@ Status: prepared locally; Python and shell syntax checked; not run on GPUs.
 
 Fixtures and controllers are now staged under the candidate qualification tree
 on both nodes; all source-manifest hashes match. GPU execution remains pending.
+
+The frozen five-case/rank window started09:49 UTC after successful feedback
+qualification and independent recovery. Controller d8f15995279b4228ba44e1de6e096b24,
+90-minute fallback armed. No GPU result is claimed yet.
+
+The first window failed at Gloo initialization before numerical comparison.
+Both hostnames resolve to loopback; the fixture omitted Flare's interface binding.
+Docs/56 preserves the failure and registers the unchanged-math retry.

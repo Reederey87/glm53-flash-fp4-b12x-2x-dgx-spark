@@ -47,6 +47,10 @@ invalidates the diagnosis and restores B12X. No partial trace is accepted.
 Verify both actual native identities and head-only tracing before each client.
 Health readiness and client warmup are used here; extra API smoke traffic would
 contaminate the expected native histories. Prior API smoke remains separate.
+Separating workloads into fresh starts and omitting that API traffic changes
+graph-cost history relative to docs/50. These traces can expose a mechanism if
+the delay recurs; they cannot prove the cause of an earlier unobserved delay or
+establish performance equivalence merely because it does not recur.
 Require76 complete cold prompt histories per mixed arm and13 per long-output
 arm, exact prompt-length multisets, contiguous native fences, zero drops, real
 both-rank exit0 and no forced kill. Retain selected/commit/completion times,
