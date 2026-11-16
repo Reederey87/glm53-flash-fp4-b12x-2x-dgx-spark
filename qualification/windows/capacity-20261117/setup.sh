@@ -3,7 +3,7 @@ set -euo pipefail
 r=/home/nvidia/b12x-flare
 s=$r/qualification/capacity-window-files
 w=$r/local/capacity-window-20261117T010000Z
-prior=$r/local/mtp-replay-bound-window-20261117T030000Z
+prior=$r/local/mtp-replay-aot-window-20261117T040000Z
 [[ -f "$prior/restoration-verified.txt" && -f "$prior/fallback-disarmed.txt" && -f "$prior/mtp-replay-gate-passed.txt" ]]
 /home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 python - "$r/local/performance-abba-window-20261116T220000Z/comparison.json" <<'PY'
 import json,sys

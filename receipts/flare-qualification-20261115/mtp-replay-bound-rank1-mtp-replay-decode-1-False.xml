@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="77.031" timestamp="2026-11-16T04:56:44.201613-05:00" hostname="spark-7829"><testcase classname="qualification.test_glm53_mtp_replay_cuda" name="test_checkpoint_mtp_replay[decode-1-False]" time="76.276"><properties><property name="gloo_interface" value="enp1s0f1np1" /></properties><failure message="RuntimeError: Cannot access data pointer of Tensor (e.g. FakeTensor, FunctionalTensor). If you're using torch.compile/export/fx, it is likely that we are erroneously tracing into a custom kernel. To fix this, please wrap the custom kernel into an opaque custom op. Please see the following for details: https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html">mode = 'decode', capacity = 1, cache_only = False
+record_property = &lt;function record_property.&lt;locals&gt;.append_property at 0xf4e4ac21fe20&gt;
+
+    @pytest.mark.parametrize('mode,capacity,cache_only', [
+        ('decode', 1, False), ('decode', 4, False),
+        ('decode', 16, True), ('prefill', 128, True), ('prefill', 4096, True),
+    ])
+    @torch.no_grad()
+    def test_checkpoint_mtp_replay(mode, capacity, cache_only, record_property):
+        from ignition.components.parallel import TensorParallelShard
+        from ignition.preparation.checkpoint import inspect_indexed_checkpoint
+        from ignition.preparation.collectives import CollectivePreparation, create_roce_runtime, warmup_wait
+        from ignition.preparation.compilation import compile_forward
+        from ignition.preparation.execution import GraphSignature, PreparedExecution
+        from ignition.preparation.scratch import ScratchArena
+        from ignition.preparation.tuning import RecordedPreparationSession
+        from ignition.recipes.glm53.mla import MLAState
+        from ignition.recipes.glm53.model import create_model_tree
+        from ignition.recipes.glm53.mtp import DraftMetadata, MTPScratch, PreparedMTP
+        from ignition.recipes.glm53.weights import GlmWeightLoader, TEXT_PREFIX
+        from layer_selection_reference import install_observer, matched_reference
+    
+        root = Path(os.environ['FLARE_PINNED_SOURCE'])
+        assert hashlib.sha256((root / 'ignition/recipes/glm53/mtp.py').read_bytes()).hexdigest() == (
+            '810b4dd738752f80e246e36a740519e191f146c8bee45cadfae525c15bf7fd02')
+        rank = int(os.environ['FLARE_TEST_RANK']); assert rank in (0, 1)
+        from ignition.preparation.host_ranks import _use_interface
+        address = urlsplit(os.environ['FLARE_TEST_RENDEZVOUS'])
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as route:
+            route.connect((address.hostname, address.port))
+            _use_interface(route.getsockname()[0])
+        record_property('gloo_interface', os.environ['GLOO_SOCKET_IFNAME'])
+        assert torch.cuda.device_count() == 1 and torch.cuda.get_device_capability() == (12, 1)
+        torch.cuda.set_device(0)
+        device = torch.device('cuda:0')
+        shard = TensorParallelShard(rank, 2)
+        snapshot = Path(os.environ['FLARE_GLM53_SNAPSHOT'])
+        manifest = inspect_indexed_checkpoint(snapshot)
+        tree = create_model_tree(snapshot)
+        with GlmWeightLoader(manifest, device, shard=shard, expert_activation='a16',
+                prefixes=(f'{TEXT_PREFIX}.layers.45.', f'{TEXT_PREFIX}.embed_tokens.weight', 'lm_head.')) as loader:
+            embedding = loader.load_tensor(f'{TEXT_PREFIX}.embed_tokens.weight')
+            tree.model.language_model.embed_tokens.weight = torch.nn.Parameter(embedding, requires_grad=False)
+            head = loader.load_linear('lm_head', rows=shard.partition(154880, alignment=64))
+            mtp = loader.load_mtp(None)
+            assert loader._session.torch_copy_bytes == 0
+            assert mtp.mlp.experts.plan.activation.mode.value == 'a16'
+            assert not mtp.mlp.experts_a4_prefill and mtp.draft_head is None
+        weights = SimpleNamespace(tree=tree, shard=shard, head=head, mtp=mtp)
+        batch = 1 if mode == 'prefill' else min(capacity, 4)
+        width = capacity // batch
+        count = 65 if capacity == 128 else capacity
+        metadata = DraftMetadata(capacity, batch, 64, device)
+        state = MLAState.allocate(256, 6, device, ring=12)
+        persistent = {'latent_cache': state.cache, 'index_cache': state.index.cache, 'tail': state.index.tail}
+        scratch = MTPScratch.allocate(capacity, 2, 64, mode, device, moe=not cache_only)
+        # Immutable readbacks are separate from the forward's aliased scratch.
+        output = torch.zeros((capacity, 4096), dtype=torch.bfloat16, device=device)
+        stages = {name: torch.empty((capacity, size), dtype=torch.bfloat16, device=device)
+                  for name, size in [('joined', 8192), ('feedback_projection', 4096)]}
+        if not cache_only:
+            stages.update({name: torch.empty((capacity, size), dtype=torch.bfloat16, device=device)
+                           for name, size in [('attention', 4096), ('moe_input', 4096),
+                                              ('moe_reduced', 4096), ('logits', 154880)]})
+        dist.init_process_group('gloo', init_method=os.environ['FLARE_TEST_RENDEZVOUS'],
+                                rank=rank, world_size=2, timeout=timedelta(minutes=10))
+        group = dist.group.WORLD
+        coordinator = CollectivePreparation(group)
+        runtime = create_roce_runtime(group, device, max_tokens=min(capacity, 128),
+            pipe_tokens=capacity, hidden_size=4096, gather_bytes=capacity * 77440 * 2 if not cache_only else 4096)
+        worker = None
+        graph = torch.cuda.CUDAGraph()
+        try:
+            arena = ScratchArena(device)
+            with RecordedPreparationSession(device=device, checkpoint='GLM-5.3-Flash-FP4-Local',
+                    workload_schema='checkpoint-mtp-replay-v1', numerical_policy='default',
+                    coordinator=coordinator, native_dense_activations=True, compile_workers=2) as session:
+                session.register_scratch(arena)
+                op = PreparedMTP(weights, state, metadata, mode=mode, session=session,
+                    name='checkpoint.mtp', workspace=arena, runtime=runtime, vocabulary_runtime=runtime,
+                    coordinator=coordinator, cache_only=cache_only, scratch=scratch)
+                op.functional(session=session)
+                projection = op.projection
+                def project(source):
+                    stages['joined'].copy_(source)
+                    value = projection(source)
+                    stages['feedback_projection'].copy_(value)
+                    return value
+                op.projection = project
+                if not cache_only:
+                    install_observer(op, scratch.attention.index)
+                    attention_reduce, moe, mlp_reduce = op.attention_reduce, op.moe, op.mlp_reduce
+                    def reduce_attention(source):
+                        value = attention_reduce(source)
+                        stages['attention'].copy_(value)
+                        return value
+                    def run_moe(source):
+                        stages['moe_input'].copy_(source)
+                        return moe(source)
+                    def reduce_moe(source):
+                        value = mlp_reduce(source)
+                        stages['moe_reduced'].copy_(value)
+                        return value
+                    op.attention_reduce, op.moe, op.mlp_reduce = reduce_attention, run_moe, reduce_moe
+                def forward():
+                    result = op(metadata)
+                    if cache_only:
+                        output.copy_(metadata.hidden)
+                    else:
+                        output.copy_(result[0])
+                        stages['logits'].copy_(result[1])
+                session.tune()
+                arena.release_preparation()
+&gt;               compiled = compile_forward(forward)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^
+
+../../qualification/test_glm53_mtp_replay_cuda.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ignition/preparation/compilation.py:363: in compile_forward
+    module = (ForwardTracer() if tracer is None else tracer)(trace)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ignition/preparation/compilation.py:331: in __call__
+    module = make_fx(fn, tracing_mode='fake', _allow_non_fake_inputs=True,
+.venv/lib/python3.12/site-packages/torch/fx/experimental/proxy_tensor.py:3422: in wrapped
+    return make_fx_tracer.trace(f, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/torch/fx/experimental/proxy_tensor.py:3298: in trace
+    return self._trace_inner(f, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/torch/fx/experimental/proxy_tensor.py:3248: in _trace_inner
+    t = dispatch_trace(
+.venv/lib/python3.12/site-packages/torch/_compile.py:54: in inner
+    return disable_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py:1548: in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/torch/fx/experimental/proxy_tensor.py:1863: in dispatch_trace
+    graph = tracer.trace(root, concrete_args)  # type: ignore[arg-type]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/torch/fx/_symbolic_trace.py:932: in trace
+    (self.create_arg(fn(*args)),),
+                     ^^^^^^^^^
+.venv/lib/python3.12/site-packages/torch/fx/experimental/proxy_tensor.py:1952: in wrapped
+    out = f(*tensors)  # type:ignore[call-arg]
+          ^^^^^^^^^^^
+ignition/preparation/compilation.py:360: in trace
+    leaves, output_tree = tree_flatten(fn())
+                                       ^^^^
+../../qualification/test_glm53_mtp_replay_cuda.py:126: in forward
+    result = op(metadata)
+             ^^^^^^^^^^^^
+ignition/recipes/glm53/mtp.py:300: in __call__
+    rms_norm_add_residual(attended, residual, w["post_attention_layernorm"], self.eps, x_out=normalized)
+.venv/lib/python3.12/site-packages/flashinfer/triton/norm.py:91: in rms_norm_add_residual
+    rms_norm_kernel[(b,)](
+.venv/lib/python3.12/site-packages/triton/runtime/jit.py:374: in &lt;lambda&gt;
+    return lambda *args, **kwargs: self.run(grid=grid, warmup=False, *args, **kwargs)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/_lib/compile_plan.py:581: in run_observed
+    result = original_run(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/triton/runtime/jit.py:741: in run
+    bound_args, specialization, options = binder(*args, **kwargs)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+n = 4096, b = 1
+x_ptr = FakeTensor(..., device='cuda:0', size=(1, 4096), dtype=torch.bfloat16)
+x_stride = 4096, x_scale_ptr = None
+r_ptr = FakeTensor(..., device='cuda:0', size=(1, 4096), dtype=torch.bfloat16)
+r_stride = 4096
+w_ptr = tensor([0.6445, 0.6641, 0.6211,  ..., 0.4492, 0.6562, 0.6484], device='cuda:0',
+       dtype=torch.bfloat16)
+o_ptr = FakeTensor(..., device='cuda:0', size=(1, 4096), dtype=torch.bfloat16)
+o_stride = 4096, o_scale_ptr = None, EPS = 1e-05, BLOCK_SIZE = 4096
+HAS_IN_SCALE = False, HAS_OUT_SCALE = False, HAS_OUTPUT = True
+HAS_RESIDUAL = True, ROUND_BEFORE_WEIGHT = False
+options = {'num_warps': 32, 'debug': False, 'instrumentation_mode': ''}
+
+&gt;   ???
+E   RuntimeError: Cannot access data pointer of Tensor (e.g. FakeTensor, FunctionalTensor). If you're using torch.compile/export/fx, it is likely that we are erroneously tracing into a custom kernel. To fix this, please wrap the custom kernel into an opaque custom op. Please see the following for details: https://pytorch.org/tutorials/advanced/custom_ops_landing_page.html
+
+&lt;string&gt;:4: RuntimeError</failure></testcase></testsuite></testsuites>

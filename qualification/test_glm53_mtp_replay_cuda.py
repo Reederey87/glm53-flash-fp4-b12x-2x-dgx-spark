@@ -29,8 +29,8 @@ pytestmark = pytest.mark.skipif(os.environ.get('FLARE_RUN_ROCE_TESTS') != '1',
 def test_checkpoint_mtp_replay(mode, capacity, cache_only, record_property):
     from ignition.components.parallel import TensorParallelShard
     from ignition.preparation.checkpoint import inspect_indexed_checkpoint
-    from ignition.preparation.collectives import CollectivePreparation, create_roce_runtime, warmup_wait
-    from ignition.preparation.compilation import compile_forward
+    from ignition.preparation.collectives import CollectivePreparation, create_roce_runtime
+    from ignition.preparation.capture import capture_forwards
     from ignition.preparation.execution import GraphSignature, PreparedExecution
     from ignition.preparation.scratch import ScratchArena
     from ignition.preparation.tuning import RecordedPreparationSession
@@ -131,21 +131,20 @@ def test_checkpoint_mtp_replay(mode, capacity, cache_only, record_property):
                     stages['logits'].copy_(result[1])
             session.tune()
             arena.release_preparation()
-            compiled = compile_forward(forward)
-            with warmup_wait(runtime, coordinator):
-                compiled()
-            torch.cuda.synchronize()
             stream = torch.cuda.Stream(device=device)
-            stream.wait_stream(torch.cuda.current_stream(device))
-            with runtime.capture(stream=stream), session.capture(), torch.cuda.graph(graph, stream=stream):
-                compiled()
+            signature = (GraphSignature('prefill', 1, capacity) if mode == 'prefill' else
+                         GraphSignature('speculative', 4, 4) if capacity == 16 else
+                         GraphSignature('decode', capacity, 1))
+            graphs, compiled = capture_forwards({'mtp': forward}, {'mtp': signature},
+                session=session, device=device, stream=stream, pool=torch.cuda.graph_pool_handle(),
+                collective=runtime, coordinator=coordinator, compile_decoder=True,
+                retain_forwards=True, progress=lambda message: print(message, flush=True))
+            assert set(graphs) == set(compiled) == {'mtp'}
+            graph = graphs['mtp']
             session.freeze()
             control = {'frame_index': torch.zeros(1, dtype=torch.int32, device=device),
                        'submission_sequence': torch.zeros(1, dtype=torch.int64, device=device),
                        'completion_records': torch.zeros((2, 4, 32), dtype=torch.int64, device=device)}
-            signature = (GraphSignature('prefill', 1, capacity) if mode == 'prefill' else
-                         GraphSignature('speculative', 4, 4) if capacity == 16 else
-                         GraphSignature('decode', capacity, 1))
             bundle = PreparedExecution(device=0, graphs={'mtp': graph}, signatures={'mtp': signature},
                 buffers=control, resources=(op, weights, metadata, state, scratch, stages, output,
                                             runtime, coordinator, session, arena, stream, compiled))

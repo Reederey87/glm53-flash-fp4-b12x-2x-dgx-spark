@@ -1,3 +1,8 @@
+## 2026-11-16 UTC — MTP fixture aligned with production capture
+
+- Interface binding succeeds; both first cases then fail before replay in the legacy FX tracer at raw Triton residual RMSNorm. No numerical result; failed receipts retained and B12X restoration underway.
+- Docs/57 replaces only the fixture compiler/capture boundary with pinned production AOT capture, preserving all mathematical operations and exact replay assertions. Guarded five-case retry prepared, unrun.
+
 ## 2026-11-16 UTC — Fabric preflight passed; MTP retry running
 
 - CPU Gloo rank exchange/all-reduce passes over192.168.177.10/.11 on both hosts. Failed-window B12X recovery/fresh5/5 closed09:56:31 UTC and fallback disarmed.

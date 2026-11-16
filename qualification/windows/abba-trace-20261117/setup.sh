@@ -1,7 +1,7 @@
 set -euo pipefail
 r=/home/nvidia/b12x-flare
 w=$r/local/abba-trace-window-20261117T020000Z
-prior=$r/local/mtp-replay-bound-window-20261117T030000Z
+prior=$r/local/mtp-replay-aot-window-20261117T040000Z
 [[ -f "$prior/restoration-verified.txt" && -f "$prior/fallback-disarmed.txt" ]]
 mkdir "$w"
 cp -n "$r/.env" "$w/head-env-before.private"

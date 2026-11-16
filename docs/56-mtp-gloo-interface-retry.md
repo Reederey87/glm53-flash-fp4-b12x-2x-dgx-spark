@@ -54,3 +54,7 @@ Initial-window recovery/fresh5/5 closed09:56:31 UTC, restore8f9660b2e70a4ec49766
 smoke32b2f8699b1c47a696c266194addc379, both actual exit0/PID0. Fallback disarmed.
 The frozen retry started09:56 UTC, controller479e48c55c2d4e7a89d623908467c490,
 after source-manifest verification on both nodes. Numerical result pending.
+
+The corrected binding succeeds. Both first cases then fail in legacy FX
+compilation at raw Triton residual RMSNorm (77.23/77.03s), before numerical
+replay. Docs/57 records the production-capture correction and separate retry.
