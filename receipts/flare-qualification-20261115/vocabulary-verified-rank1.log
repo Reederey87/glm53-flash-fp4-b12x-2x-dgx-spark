@@ -1,0 +1,183 @@
+[flare] frame completion wait: WFET
+{"rank": 1, "indexed": false, "rows": 1, "repetitions": 13, "max_abs_error": 0.001953125, "finite": true}
+{"rank": 1, "indexed": false, "rows": 4, "repetitions": 8, "max_abs_error": 0.001953125, "finite": true}
+{"rank": 1, "indexed": false, "rows": 16, "repetitions": 8, "max_abs_error": 0.001953125, "finite": true}
+{"rank": 1, "indexed": false, "rows": 1, "repetitions": 31, "max_abs_error": 0.0009765625, "finite": true}
+{"rank": 1, "indexed": false, "rows": 4, "repetitions": 17, "max_abs_error": 0.00390625, "finite": true}
+{"rank": 1, "indexed": false, "rows": 16, "repetitions": 17, "max_abs_error": 0.00390625, "finite": true}
+.
+=============================== warnings summary ===============================
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  qualification/test_vocabulary_checkpoint_cuda.py:137: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 50 warnings in 11.68s
+[flare] frame completion wait: WFET
+{"rank": 1, "indexed": true, "rows": 1, "repetitions": 13, "max_abs_error": 0.001953125, "finite": true}
+{"rank": 1, "indexed": true, "rows": 4, "repetitions": 8, "max_abs_error": 0.001953125, "finite": true}
+{"rank": 1, "indexed": true, "rows": 16, "repetitions": 8, "max_abs_error": 0.001953125, "finite": true}
+{"rank": 1, "indexed": true, "rows": 1, "repetitions": 31, "max_abs_error": 0.0009765625, "finite": true}
+{"rank": 1, "indexed": true, "rows": 4, "repetitions": 17, "max_abs_error": 0.00390625, "finite": true}
+{"rank": 1, "indexed": true, "rows": 16, "repetitions": 17, "max_abs_error": 0.00390625, "finite": true}
+.
+=============================== warnings summary ===============================
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  qualification/test_vocabulary_checkpoint_cuda.py:137: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 50 warnings in 9.14s
+{"rank": 1, "cases": 2, "bad_cases": [], "passed": true, "head_activation_mode": "a16", "reference": "checkpoint FP64 dot and Gloo gather", "fresh_process_per_indexed_mode": true, "scope": "checkpoint vocabulary mathematical reference and TP2 RoCE replay; not full MTP acceptance"}

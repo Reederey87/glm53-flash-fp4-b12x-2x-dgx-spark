@@ -1,0 +1,10 @@
+{
+  "rank": 1,
+  "cases": 2,
+  "bad_cases": [],
+  "passed": true,
+  "head_activation_mode": "a16",
+  "reference": "checkpoint FP64 dot and Gloo gather",
+  "fresh_process_per_indexed_mode": true,
+  "scope": "checkpoint vocabulary mathematical reference and TP2 RoCE replay; not full MTP acceptance"
+}

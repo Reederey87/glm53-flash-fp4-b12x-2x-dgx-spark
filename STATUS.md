@@ -1,3 +1,8 @@
+## 2026-11-16 UTC — Checkpoint vocabulary reference passed
+
+- Direct/indexed1/4/16-row native replay passes both ranks with raw-checkpoint FP64/Gloo reference, unchanged bounds and maximum absolute logit difference0.00390625. Initial fixture failure and verified08:19:06 UTC rollback retained. Passing-window independent B12X recovery underway.
+- Prepared fixed ABBA repetition of complete mixed and long-output suites (docs/50), with80 timing/acceptance points and continuous memory enforcement. No serving-code or boot-ownership change.
+
 ## 2026-11-16 UTC — Vocabulary test descriptor corrected
 
 - Initial checkpoint-head test stopped before numerical comparison because16 physical rows were described as16 requests against four executor slots. Both failed exits retained; automatic B12X restoration underway. Docs/49 retry uses batch4/width4 for that component graph, retaining all operands, bounds and original assertions.

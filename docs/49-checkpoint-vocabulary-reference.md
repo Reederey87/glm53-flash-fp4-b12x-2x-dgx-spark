@@ -73,3 +73,11 @@ or token commit is executed by the vocabulary test. Same kernels, raw FP64 oracl
 row shapes, repetitions, bounds and every original assertion. The declared
 substitution is covered by full decorated-method AST equality. Require independent
 initial-window recovery before starting; retain all initial failed receipts.
+
+Initial-window recovery closed08:19:06 UTC with both original images and fresh5/5;
+fallback disarmed. The corrected retry passed both cases and both wrappers on
+both ranks. Each rank observed12 comparisons across direct/indexed modes and
+repeats; maximum absolute logit difference0.00390625 remains within the original
+relative/absolute bound. Every output finite; byte preservation, exact local
+gather, native completion, unused padding and allocation assertions pass.
+Independent recovery for the passing window is still pending.
