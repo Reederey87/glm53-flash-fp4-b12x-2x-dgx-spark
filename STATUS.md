@@ -1,8 +1,12 @@
 # Status
 
+## 2026-11-16 UTC — Native MLA replay window started
+
+- Frozen docs/34 six-case TP2 native-activation MLA wrapper is staged in the private qualification path. Source hashes and60-minute fallback verified before B12X stop; no build, core or serving-wrapper change. This is per-rank replay evidence, not full-model equivalence.
+
 ## 2026-11-16 UTC — Bounded native diagnostic completes
 
-- Both25-request captures are loss-free (414/405 native completions), with both native exits0/no forced kill and all memory samples passing. Decoder0 p95 is0.09946/0.10010s; the earlier jump did not recur. Maximum gaps1.310/1.408s include ordinary1536-token plus refresh256/512-token prefills. Short-arrival phase differs with initial3072 versus4096 chunks. See docs/36; performance remains unresolved. B12X restoration/fresh smoke pending; fallback remains armed.
+- Both25-request captures are loss-free (414/405 native completions), with both native exits0/no forced kill and all memory samples passing. Decoder0 p95 is0.09946/0.10010s; the earlier jump did not recur. Maximum gaps1.310/1.408s include ordinary1536-token plus refresh256/512-token prefills. Short-arrival phase differs with initial3072 versus4096 chunks. See docs/36; performance remains unresolved. B12X independently restored05:48:56 UTC with fresh5/5 smoke, original images, active API/watchdog/tailnet and no native PIDs; fallback disarmed05:48:57 UTC.
 
 ## 2026-11-16 UTC — Fractional serving reserve prepared locally
 

@@ -53,3 +53,7 @@ and reproduced analysis are `bounded-native-*` receipts. Analyzer:
 `qualification/analyze_mixed_trace.py`. No native engine change followed this
 capture. Component MLA qualification and measured capacity work are independent
 remaining gates; production ownership and main merge remain pending.
+
+Restoration closed05:48:56 UTC: both original B12X images, fresh5/5 smoke,
+healthy API/watchdog/tailnet and no native PIDs. Fallback disarmed05:48:57 UTC.
+Exact closure receipts are retained with the traces.
