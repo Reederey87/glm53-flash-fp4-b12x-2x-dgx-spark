@@ -1,0 +1,49 @@
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument mxfp4_operands (position 16) cannot be converted to a JitArgument for function 'cutlass___call___b12xattentiondsa_indexerfused_indexerDSAFusedIndexerKernel_object_at__FakeTensorUint8div1div1div1i64div1i64div11_FakeTensorFloat32div1div1i64div11_FakeTensorUint8d'. Its type `<class 'tuple'>` is not supported. If the value is known at compile time, annotate it: `mxfp4_operands: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'tuple'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/typing.py:1124: DSLWarning: 
+[93m[1mwarning[TYPE_INT_LITERAL_OUT_OF_RANGE]:[0m The Python integer 72057594021150720 does not fit in Uint32 (range [0, 4294967295]); it was silently truncated to 4278190080. This drops the high bits of the original value.
+   [94m-->[0m /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/attention/dsa_indexer/tiled_topk.py:398:27
+    |
+396 |                 _smem_red_add(h0, Int32((ex_key >> ex_shift) & Uint32(0xFF)), Int32(1))
+397 |             else:
+398 |                 ex_mask = Uint32(0xFFFFFFFF) << Uint32(32 - ex_round * 8)
+    |                           [91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [92msuggestion:[0m Use a wider integer type that can hold 72057594021150720, e.g.
+              `Int64(72057594021150720)` or `Uint64(72057594021150720)`.
+  [92msuggestion:[0m If the wrap-around is intentional (e.g. materializing a specific bit pattern), mask
+              the value to the type width first, e.g. `Uint32(72057594021150720 & 0xFFFFFFFF)`, to
+              make the intent explicit.
+
+  res = res_type(res_val, loc=loc, ip=ip)
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/typing.py:1124: DSLWarning: 
+[93m[1mwarning[TYPE_INT_LITERAL_OUT_OF_RANGE]:[0m The Python integer 281474976645120 does not fit in Uint32 (range [0, 4294967295]); it was silently truncated to 4294901760. This drops the high bits of the original value.
+   [94m-->[0m /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/attention/dsa_indexer/tiled_topk.py:398:27
+    |
+396 |                 _smem_red_add(h0, Int32((ex_key >> ex_shift) & Uint32(0xFF)), Int32(1))
+397 |             else:
+398 |                 ex_mask = Uint32(0xFFFFFFFF) << Uint32(32 - ex_round * 8)
+    |                           [91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [92msuggestion:[0m Use a wider integer type that can hold 281474976645120, e.g. `Int64(281474976645120)`
+              or `Uint64(281474976645120)`.
+  [92msuggestion:[0m If the wrap-around is intentional (e.g. materializing a specific bit pattern), mask
+              the value to the type width first, e.g. `Uint32(281474976645120 & 0xFFFFFFFF)`, to
+              make the intent explicit.
+
+  res = res_type(res_val, loc=loc, ip=ip)
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/typing.py:1124: DSLWarning: 
+[93m[1mwarning[TYPE_INT_LITERAL_OUT_OF_RANGE]:[0m The Python integer 1099511627520 does not fit in Uint32 (range [0, 4294967295]); it was silently truncated to 4294967040. This drops the high bits of the original value.
+   [94m-->[0m /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/attention/dsa_indexer/tiled_topk.py:398:27
+    |
+396 |                 _smem_red_add(h0, Int32((ex_key >> ex_shift) & Uint32(0xFF)), Int32(1))
+397 |             else:
+398 |                 ex_mask = Uint32(0xFFFFFFFF) << Uint32(32 - ex_round * 8)
+    |                           [91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [92msuggestion:[0m Use a wider integer type that can hold 1099511627520, e.g. `Int64(1099511627520)` or
+              `Uint64(1099511627520)`.
+  [92msuggestion:[0m If the wrap-around is intentional (e.g. materializing a specific bit pattern), mask
+              the value to the type width first, e.g. `Uint32(1099511627520 & 0xFFFFFFFF)`, to make
+              the intent explicit.
+
+  res = res_type(res_val, loc=loc, ip=ip)
+/home/nvidia/.local/share/uv/python/cpython-3.12.14-linux-aarch64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 7 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

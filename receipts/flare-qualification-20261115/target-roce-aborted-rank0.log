@@ -1,0 +1,106 @@
+TP2: Load weights started
+b12x routing checkpoint shards: 0/42 shards routed, 0.00 GB selected on rank 0, 0:00
+b12x routing checkpoint shards: 42/42 shards routed, 0.00 GB selected on rank 0, 0:02
+b12x reading and scattering weights: 42/42 shards routed, 0.00 GB selected on rank 0, 0:02
+b12x reading and scattering weights: 42/42 shards routed, 8.51 GB selected on rank 0, 0:13
+b12x reading and scattering weights: 42/42 shards routed, 21.42 GB selected on rank 0, 0:23
+b12x reading and scattering weights: 42/42 shards routed, 32.25 GB selected on rank 0, 0:33
+b12x reading and scattering weights: 42/42 shards routed, 45.08 GB selected on rank 0, 0:44
+b12x reading and scattering weights: 42/42 shards routed, 55.90 GB selected on rank 0, 0:54
+b12x reading and scattering weights: 42/42 shards routed, 68.74 GB selected on rank 0, 1:05
+b12x reading and scattering weights: 42/42 shards routed, 81.65 GB selected on rank 0, 1:15
+b12x weights loaded: 92.41 GB selected on rank 0 · 119.80 GB physical reads; 84.52 s total loading; ROUTE 2.96s · SETUP 0.00s · PLAN 0.00s · READ 81.55s · SYNC 0.00s
+TP2: Load weights complete in 84.52s
+TP2: declared prefill layer 1/45
+TP2: declared prefill layer 2/45
+TP2: declared prefill layer 3/45
+TP2: declared prefill layer 4/45
+TP2: declared prefill layer 5/45
+TP2: declared prefill layer 6/45
+TP2: declared prefill layer 7/45
+TP2: declared prefill layer 8/45
+TP2: declared prefill layer 9/45
+TP2: declared prefill layer 10/45
+TP2: declared prefill layer 11/45
+TP2: declared prefill layer 12/45
+TP2: declared prefill layer 13/45
+TP2: declared prefill layer 14/45
+TP2: declared prefill layer 15/45
+TP2: declared prefill layer 16/45
+TP2: declared prefill layer 17/45
+TP2: declared prefill layer 18/45
+TP2: declared prefill layer 19/45
+TP2: declared prefill layer 20/45
+TP2: declared prefill layer 21/45
+TP2: declared prefill layer 22/45
+TP2: declared prefill layer 23/45
+TP2: declared prefill layer 24/45
+TP2: declared prefill layer 25/45
+TP2: declared prefill layer 26/45
+TP2: declared prefill layer 27/45
+TP2: declared prefill layer 28/45
+TP2: declared prefill layer 29/45
+TP2: declared prefill layer 30/45
+TP2: declared prefill layer 31/45
+TP2: declared prefill layer 32/45
+TP2: declared prefill layer 33/45
+TP2: declared prefill layer 34/45
+TP2: declared prefill layer 35/45
+TP2: declared prefill layer 36/45
+TP2: declared prefill layer 37/45
+TP2: declared prefill layer 38/45
+TP2: declared prefill layer 39/45
+TP2: declared prefill layer 40/45
+TP2: declared prefill layer 41/45
+TP2: declared prefill layer 42/45
+TP2: declared prefill layer 43/45
+TP2: declared prefill layer 44/45
+TP2: declared prefill layer 45/45
+TP2: declared decode layer 1/45
+TP2: declared decode layer 2/45
+TP2: declared decode layer 3/45
+TP2: declared decode layer 4/45
+TP2: declared decode layer 5/45
+TP2: declared decode layer 6/45
+TP2: declared decode layer 7/45
+TP2: declared decode layer 8/45
+TP2: declared decode layer 9/45
+TP2: declared decode layer 10/45
+TP2: declared decode layer 11/45
+TP2: declared decode layer 12/45
+TP2: declared decode layer 13/45
+TP2: declared decode layer 14/45
+TP2: declared decode layer 15/45
+TP2: declared decode layer 16/45
+TP2: declared decode layer 17/45
+TP2: declared decode layer 18/45
+TP2: declared decode layer 19/45
+TP2: declared decode layer 20/45
+TP2: declared decode layer 21/45
+TP2: declared decode layer 22/45
+TP2: declared decode layer 23/45
+TP2: declared decode layer 24/45
+TP2: declared decode layer 25/45
+TP2: declared decode layer 26/45
+TP2: declared decode layer 27/45
+TP2: declared decode layer 28/45
+TP2: declared decode layer 29/45
+TP2: declared decode layer 30/45
+TP2: declared decode layer 31/45
+TP2: declared decode layer 32/45
+TP2: declared decode layer 33/45
+TP2: declared decode layer 34/45
+TP2: declared decode layer 35/45
+TP2: declared decode layer 36/45
+TP2: declared decode layer 37/45
+TP2: declared decode layer 38/45
+TP2: declared decode layer 39/45
+TP2: declared decode layer 40/45
+TP2: declared decode layer 41/45
+TP2: declared decode layer 42/45
+TP2: declared decode layer 43/45
+TP2: declared decode layer 44/45
+TP2: declared decode layer 45/45
+TP2: autotuning complete text forwards
+/home/nvidia/.local/share/uv/python/cpython-3.12.14-linux-aarch64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 7 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

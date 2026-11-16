@@ -1,3 +1,7 @@
+## 2026-11-16 UTC — Full-target lifecycle adaptation corrected
+
+- Aborted first-case autotuning at07:43:07 UTC after finding that upstream uses fresh GPU processes per capacity; no target pass/failure claimed. Docs/48 preserves that isolation with separate uv/pytest children, per-case memory gates/XML/exits and the unchanged numerical fixture. B12X restoration is underway.
+
 ## 2026-11-16 UTC — Layer qualification closed; full target replay started
 
 - Independent B12X recovery/fresh5/5 verified07:38:16 UTC; layer fallback disarmed. The frozen complete45-layer target fixture is now loading on both ranks behind verified notify/watchdog/memory protection and its90-minute fallback. No production ownership or serving artifact change.
