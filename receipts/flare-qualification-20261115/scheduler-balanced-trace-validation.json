@@ -1,0 +1,1444 @@
+{
+  "native": {
+    "total_prompt_work": 524288,
+    "prefill_completions": 138,
+    "service_runs": [
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 3584,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 3072,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 2560,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 2048,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 1536,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 1024,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 512,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 256,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 3584,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 3584,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 128,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 3584,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 3072,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 2560,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 3584,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 2048,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 4096,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            0,
+            2
+          ]
+        ],
+        "tokens": 512,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            1,
+            1
+          ]
+        ],
+        "tokens": 896,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            2,
+            1
+          ]
+        ],
+        "tokens": 768,
+        "completions": 1
+      },
+      {
+        "requests": [
+          [
+            3,
+            1
+          ]
+        ],
+        "tokens": 2048,
+        "completions": 1
+      }
+    ],
+    "prompt_finishes": [
+      {
+        "request": [
+          0,
+          2
+        ],
+        "at_ns": 317606599419,
+        "fence": 149,
+        "cohort_prompt_tokens_completed": 520576
+      },
+      {
+        "request": [
+          1,
+          1
+        ],
+        "at_ns": 318296824439,
+        "fence": 150,
+        "cohort_prompt_tokens_completed": 521472
+      },
+      {
+        "request": [
+          2,
+          1
+        ],
+        "at_ns": 318956822547,
+        "fence": 152,
+        "cohort_prompt_tokens_completed": 522240
+      },
+      {
+        "request": [
+          3,
+          1
+        ],
+        "at_ns": 320048978940,
+        "fence": 154,
+        "cohort_prompt_tokens_completed": 524288
+      }
+    ],
+    "scope": "native graph completions; HTTP request-to-slot mapping is not observed",
+    "receipt_sha256": "98bd78916b2667b7764460ea8dcec03c97e175a0930caef9089eaacc71f4b76a"
+  },
+  "client": {
+    "request_hashes": [
+      "0323655bf1908dc32ac63925a1259b24c07a642652332c502fee6f73f91c4b8d",
+      "12477cfc212ec060e206ecbcd529fc05fd63165a4d425e715643fd42bbe482ff",
+      "b98809cf04562e0e9f9a4a98ae55977f17c94dec5d39f728f945eca3114aa413",
+      "dc979d0581abd4ffcf7dad09ebda820c3758b24d8fe1957eecec0917af8f2dd1"
+    ],
+    "sorted_ttft_s": [
+      233.5208172670027,
+      234.21102801500092,
+      234.87859246099833,
+      235.96472645299946
+    ],
+    "tokenizer_sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d",
+    "receipt_sha256": "19269b0195110214177be2941c4615900b1b7b8dd924b4ecf43309889e270ca6"
+  }
+}

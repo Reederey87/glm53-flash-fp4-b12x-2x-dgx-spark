@@ -254,12 +254,16 @@ class RuntimeContractTests(unittest.TestCase):
 
 
 class ShutdownTests(unittest.TestCase):
-    def run_peer_failure(self, *, shutdown=False, timeout=False):
+    def run_peer_failure(self, *, shutdown=False, timeout=False, native_code=0):
         handlers = {}
         recipe = load_recipe(RECIPE)
-        child = Mock(returncode=None)
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        recipe['runtime_root'] = temp.name
+        (Path(temp.name)/'local').mkdir()
+        child = Mock(returncode=None, pid=123)
         child.poll.side_effect = lambda: child.returncode
-        child.terminate.side_effect = lambda: setattr(child, 'returncode', -signal.SIGTERM)
+        child.terminate.side_effect = lambda: setattr(child, 'returncode', native_code)
 
         def run(command, **kwargs):
             if '--property=ActiveState' in command:
@@ -285,6 +289,31 @@ class ShutdownTests(unittest.TestCase):
     def test_sigterm_during_peer_check_is_clean_shutdown(self):
         self.assertEqual(self.run_peer_failure(shutdown=True), 0)
         self.assertEqual(self.run_peer_failure(shutdown=True, timeout=True), 0)
+
+    def test_shutdown_does_not_mask_native_failure(self):
+        self.assertEqual(self.run_peer_failure(shutdown=True, native_code=7), 7)
+        self.assertEqual(self.run_peer_failure(shutdown=True, native_code=-signal.SIGTERM), 143)
+
+    def test_forced_kill_retains_native_result(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root/'local').mkdir()
+            child = Mock(returncode=None, pid=456)
+            child.poll.return_value = None
+            def wait(**kwargs):
+                if kwargs:
+                    raise subprocess.TimeoutExpired('native', 60)
+                child.returncode = -signal.SIGKILL
+                return child.returncode
+            child.wait.side_effect = wait
+            code = flare_run.finish_child(child, root, 'serve', 1, 'a'*32, True)
+            result = json.loads(next((root/'local').glob('*.json')).read_text())
+            self.assertEqual(code, 137)
+            self.assertEqual(result['native_returncode'], -9)
+            self.assertTrue(result['forced_kill'])
+            self.assertTrue(result['shutdown_requested'])
+            self.assertEqual(result['invocation_id'], 'a'*32)
+            child.kill.assert_called_once()
 
     def test_unexpected_peer_failure_remains_fatal(self):
         with self.assertRaisesRegex(RuntimeError, 'peer failed'):

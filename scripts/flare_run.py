@@ -1,5 +1,6 @@
 """Candidate-only preparation/serving lifecycle; invoked by user systemd units."""
 import argparse
+from datetime import datetime, timezone
 import hashlib
 import json
 import os
@@ -107,6 +108,33 @@ def serving_command(recipe, rank, state):
                       "--dangerously-accept-publisher", "local-development"]
 
 
+def finish_child(child, root, action, rank, invocation, stopping):
+    """Reap the actual native process and retain its result across unit collection."""
+    forced = False
+    if child.poll() is None:
+        child.terminate()
+        try:
+            child.wait(timeout=60)
+        except subprocess.TimeoutExpired:
+            forced = True
+            child.kill()
+            child.wait()
+    result = {'schema': 1, 'event': 'native_exit', 'action': action, 'rank': rank,
+              'invocation_id': invocation, 'native_pid': child.pid,
+              'native_returncode': child.returncode, 'shutdown_requested': stopping,
+              'forced_kill': forced, 'time': datetime.now(timezone.utc).isoformat()}
+    path = root / 'local' / f'native-exit-{action}-rank{rank}-{invocation}.json'
+    temporary = path.with_suffix('.json.tmp')
+    with temporary.open('x') as output:
+        output.write(json.dumps(result) + '\n')
+        output.flush()
+        os.fsync(output.fileno())
+    temporary.replace(path)
+    print(json.dumps(result), flush=True)
+    code = child.returncode
+    return code if code >= 0 else 128 - code
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("prepare", "serve"))
@@ -116,6 +144,9 @@ def main():
     if args.action == "serve":
         recipe = serving_recipe(recipe)
     root = Path(recipe["runtime_root"])
+    invocation = os.environ.get('INVOCATION_ID', uuid.uuid4().hex)
+    if re.fullmatch(r'[0-9a-f]{32}', invocation) is None:
+        raise ValueError('invalid service invocation ID')
     failures = blockers(recipe, inspect_host(recipe, args.rank))
     running = subprocess.check_output(["docker", "ps", "-q", "--filter", "name=^/vllm_node$"], text=True).strip()
     if failures or running:
@@ -192,19 +223,18 @@ def main():
             receipt_path = root / "local" / (log_path.stem + ".json")
             receipt_path.write_text(json.dumps(receipt, indent=2) + "\n")
             print(f"Export provenance awaiting acceptance: {receipt_path}", flush=True)
-        return child.returncode if not stopping else 0
     finally:
-        if child is not None and child.poll() is None:
-            child.terminate()
+        try:
+            if child is not None:
+                exit_code = finish_child(child, root, args.action, args.rank, invocation, stopping)
+        finally:
             try:
-                child.wait(timeout=60)
-            except subprocess.TimeoutExpired:
-                child.kill()
-                child.wait()
-        if args.rank == 0:
-            subprocess.run(ssh + ["systemctl", "--user", "stop", unit], timeout=150, check=False)
-        if export_log is not None:
-            export_log.close()
+                if args.rank == 0:
+                    subprocess.run(ssh + ["systemctl", "--user", "stop", unit], timeout=150, check=False)
+            finally:
+                if export_log is not None:
+                    export_log.close()
+    return exit_code
 
 
 if __name__ == "__main__":

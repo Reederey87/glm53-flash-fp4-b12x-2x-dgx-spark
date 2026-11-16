@@ -44,12 +44,37 @@ def terminal(states):
                for s in states)
 
 
-def check_result(action, states):
+def invocation_id(rank):
+    value = command(rank, ['systemctl', '--user', 'show', UNITS[rank],
+                           '--property=InvocationID', '--value']).strip()
+    if re.fullmatch(r'[0-9a-f]{32}', value) is None:
+        raise ValueError('missing service invocation identity')
+    return value
+
+
+def native_exit(rank, invocation):
+    path = f'/home/nvidia/b12x-flare/local/native-exit-serve-rank{rank}-{invocation}.json'
+    result = json.loads(command(rank, ['cat', path]))
+    expected = {'schema': 1, 'event': 'native_exit', 'action': 'serve',
+                'rank': rank, 'invocation_id': invocation}
+    if (any(result.get(k) != v for k, v in expected.items()) or
+            type(result.get('native_returncode')) is not int or
+            type(result.get('native_pid')) is not int or result['native_pid'] <= 0 or
+            type(result.get('forced_kill')) is not bool or
+            type(result.get('shutdown_requested')) is not bool):
+        raise ValueError('missing or mismatched native exit evidence')
+    return result
+
+
+def check_result(action, states, native):
     if not terminal(states):
         raise ValueError('candidate ranks did not terminate')
     if action == 'graceful':
         if any(s['Result'] != 'success' or s['ExecMainStatus'] != '0' for s in states):
             raise ValueError('intentional shutdown was not clean on both ranks')
+        if len(native) != 2 or any(n['native_returncode'] != 0 or n['forced_kill'] or
+                                   not n['shutdown_requested'] for n in native):
+            raise ValueError('actual native children did not exit cleanly')
     elif states[0]['Result'] == 'success' or states[0]['ExecMainStatus'] == '0':
         raise ValueError('unexpected peer loss was not reported as head failure')
 
@@ -78,6 +103,7 @@ def main():
     initial = [state(rank) for rank in (0, 1)]
     if any(s['ActiveState'] != 'active' for s in initial):
         raise ValueError('both candidate ranks must be active')
+    invocations = [invocation_id(rank) for rank in (0, 1)]
     before = runtime_metrics(BASE)
     if any(before[name] for name in GAUGES):
         raise ValueError('other requests are active; lifecycle test refused')
@@ -88,7 +114,7 @@ def main():
                                      **data}) + '\n')
             output.flush()
 
-        emit('start', action=args.action, states=initial, metrics=before)
+        emit('start', action=args.action, states=initial, invocations=invocations, metrics=before)
         finished = threading.Event()
         response_info = {}
 
@@ -137,7 +163,11 @@ def main():
         emit('terminal', states=states, elapsed_s=time.monotonic() - started)
         reader.join(timeout=35)
         emit('request', finished=finished.is_set(), **response_info)
-        check_result(args.action, states)
+        # SIGKILL deliberately prevents the worker from writing a final record.
+        native = [native_exit(rank, invocations[rank])
+                  for rank in ((0, 1) if args.action == 'graceful' else (0,))]
+        emit('native_exit', ranks=native)
+        check_result(args.action, states, native)
         if not finished.is_set():
             raise ValueError('HTTP stream remained live after rank shutdown')
         # A free operation lock proves the supervised process groups released it.

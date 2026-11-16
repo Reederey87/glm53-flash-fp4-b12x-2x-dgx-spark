@@ -1,5 +1,16 @@
 # Status
 
+## 2026-11-16 UTC — Native interleaving confirmed; stronger exit evidence
+
+- Balanced trace validates all four cold128k histories with zero lost records;
+  first completion follows99.29% of cohort prompt work. Diagnostic TTFT233.5–236.0s.
+  Additional Exa evidence and limits are recorded in docs/21.
+- Fixed supervisor success masking native failure; lifecycle checks now require
+  invocation-bound native exit records.61 local tests pass. Loaded hardware
+  qualification remains open; earlier service status is not native exit proof.
+- Both native ranks stopped after the diagnostic. The existing04:57 UTC fallback
+  remains armed for the next registered scheduler arms; no production adoption.
+
 ## 2026-11-16 UTC — Bounded native completion capture prepared
 
 - Added a separate observer patch using Flare's existing nonblocking telemetry,
