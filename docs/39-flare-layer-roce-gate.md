@@ -26,7 +26,8 @@ No TensorFold engine, kernel or quantization switch is involved.
 Flare5a4e867 decoder `_rank` body except seven explicit substitutions recorded
 in `glm53_layer_roce_adaptation.json`: import RoCE/warmup helper, map two CUDA
 ordinal uses and executor to local0, require distinct hosts/use RoCE, select the
-deployed native dense activation mode, and widen only compiled warmup's wait.
+deployed native dense activation mode with two compiler workers per rank,
+and widen only compiled warmup's wait.
 The fixture checks original source SHA and full adapted-method AST on every
 case. No numerical assertion, source operand, persistent-state comparison,
 router comparison or allocation check is removed or weakened.

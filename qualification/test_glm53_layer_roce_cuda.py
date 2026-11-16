@@ -87,7 +87,7 @@ def _rank(rank, world, rendezvous, snapshot, mode, capacity, layer_index, follow
         arena = ScratchArena(device)
         with RecordedPreparationSession(device=device, checkpoint="GLM-5.3-Flash-NVFP4-MXFP8-CSF-QAD",
                                         workload_schema="glm-layer-tp-v1", numerical_policy="default",
-                                        coordinator=coordinator, native_dense_activations=True) as session:
+                                        coordinator=coordinator, native_dense_activations=True, compile_workers=2) as session:
             session.register_scratch(arena)
             layer = PreparedGlmLayer(module, attention, mlp, residual,
                 source, output, scratch, state, metadata, mode=mode, runtime=runtime, coordinator=coordinator,

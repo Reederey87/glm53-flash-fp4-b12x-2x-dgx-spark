@@ -21,7 +21,7 @@
     ],
     [
       "                                        coordinator=coordinator) as session:",
-      "                                        coordinator=coordinator, native_dense_activations=True) as session:"
+      "                                        coordinator=coordinator, native_dense_activations=True, compile_workers=2) as session:"
     ],
     [
       "\n            compiled()\n            torch.cuda.synchronize(device)",
