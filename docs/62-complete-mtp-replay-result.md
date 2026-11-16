@@ -36,6 +36,8 @@ FX-capture and serialization failures remain retained under their original
 receipt prefixes. The successful fix uses importable fixture observers and the
 production capture pipeline, without changing serving kernels or model math.
 
-Automatic original-image B12X restoration is running with fallback armed and an
-independent fresh5/5 smoke scheduled. Close that recovery before another window.
+Independent original-image B12X recovery on both nodes, API/watchdog/tailnet and
+fresh5/5 smoke passed; fallback closed11:10:46 UTC. Restore invocation
+7b2b734156d84d9281353a5303a6aa23 and smoke72316ec6c94843ef8877cbd6b74cf681
+both ended with actual exit0/PID0.
 Complete both-rank receipts are retained under`mtp-replay-serial-*`.

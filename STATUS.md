@@ -1,3 +1,5 @@
+2026-11-16 UTC: Full-MTP independent original-image recovery/fresh5/5 closed11:10:46; API/watchdog/tailnet active. Paired50-prompt B12X/Flare generation window started with bounded clients and150-minute rollback (docs/53,62).
+
 2026-11-16 UTC: Full checkpoint MTP draft/absorption replay passed5/5 cases on both Sparks, original assertions unchanged;53 healthy memory observations. Recovery/fresh-smoke underway (docs/62). Warmup-only mechanism window frozen/staged, unrun (docs/61).
 
 2026-11-16 UTC: Completed native diagnostic restored original B12X on both nodes; independent5/5/API/watchdog/tailnet verified and fallback closed10:58:35. Guarded full-MTP replay retry now running after both-node CPU tracing/serialization passes (docs/58,60).
