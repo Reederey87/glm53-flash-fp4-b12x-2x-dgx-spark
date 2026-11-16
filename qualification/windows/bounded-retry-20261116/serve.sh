@@ -11,6 +11,18 @@ binary_sha=$2
 [[ $(sha256sum "$r/native/$arm/manifest.json" | cut -d ' ' -f1) == "$arm" ]]
 [[ $(sha256sum "$r/native/$arm/flare" | cut -d ' ' -f1) == "$binary_sha" ]]
 systemctl --user is-active --quiet b12x-flare-bounded-retry-restore-20261116T050000Z.timer
+[[ $(sha256sum "$r/scripts/flare_run.py" | cut -d ' ' -f1) == 41b65a5a4bc39af18de9310d4096752809c223bea7ca4994cf8c2aa6f97e8793 ]]
+ssh -n nvidia@192.168.177.11 "cd $r && sha256sum -c $w/runtime-source.sha256"
+curl --fail --silent --max-time 10 http://127.0.0.1:8000/metrics > "$w/incumbent-before.metrics"
+"$uv" run --offline --no-project --python /usr/bin/python3 python - "$w/incumbent-before.metrics" <<'PYIDLE'
+import sys
+from pathlib import Path
+rows=[x for x in Path(sys.argv[1]).read_text().splitlines()
+      if x.startswith(('vllm:num_requests_running{','vllm:num_requests_waiting{'))]
+assert len(rows)>=2 and all(float(x.rsplit(' ',1)[1])==0 for x in rows)
+PYIDLE
+systemctl --user stop vllm-b12x-watchdog.timer
+systemctl --user stop vllm-b12x.service
 [[ -z $(docker ps -q --filter name=vllm_node) ]]
 [[ -z $(ssh -n nvidia@192.168.177.11 docker ps -q --filter name=vllm_node) ]]
 snap=/home/nvidia/.cache/huggingface/hub/models--nvidia--GLM-5.3-Flash-FP4-Local/snapshots/76348ddb2be2e35e39ecfc00e75dc07703f4f3d5
