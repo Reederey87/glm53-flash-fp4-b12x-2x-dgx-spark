@@ -1,5 +1,9 @@
 # Status
 
+## 2026-11-16 UTC — Layer-window recovery verified; fixed-output retry running
+
+- Both failed layer-test processes exited1 and no longer run. Independent B12X restoration passed5/5 smoke, both original images, API/watchdog/tailnet and absent native PIDs; closure receipts retained. The fixed-output retry is running under docs/40 with a separate60-minute fallback, supported ignore_eos and per-request failure journaling. Numerical layer failure remains an adoption blocker; docs/41 diagnostic is frozen for the next independent window.
+
 ## 2026-11-16 UTC — Complete-layer gate finds output mismatch
 
 - Both ranks passed layer0 decode2/prefill65/prefill4096, then failed layer3 decode2 final output:2192/32768 values outside original rtol0.01/atol0.001, max absolute0.015625. State, rank equality, routing and recorded intermediate checks passed before this assertion. Both pytest exits1; all memory observations passed. Automatic B12X restoration is running. No bound or serving code changed. Matched-state repeatability diagnostic registered in docs/41; failed receipts retained.
