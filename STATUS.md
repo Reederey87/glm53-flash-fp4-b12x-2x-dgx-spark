@@ -1,3 +1,8 @@
+## 2026-11-16 UTC — Cold-discovery mechanism observed; warmup proposal prepared
+
+- First docs/55 arm validates76 histories/1,129 loss-free completions and clean exits. A completed4k prompt waits7.3312seconds through nine discovery operations before its terminal snapshot; paired diagnosis remains in progress.
+- Docs/59 prepares a fixed14-request shape warmup client with strict counters/cold-prefix checks. It is local only, unrun and absent from startup; no performance gate is waived.
+
 ## 2026-11-16 UTC — Paired generation controller prepared
 
 - Docs/53 now freezes the original-image B12X and pinned Flare100-request semantic comparison, exact source manifests, bounded clients and independent rollback. Existing fixtures/verdicts unchanged; requires successful MTP recovery; not executed.
