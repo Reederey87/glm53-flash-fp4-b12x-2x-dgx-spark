@@ -1,0 +1,461 @@
+[flare] frame completion wait: WFET
+{"rank": 0, "capacity": 1, "case": "normal", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 1, "case": "normal", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 1, "case": "normal", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 1, "case": "normal", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 1, "case": "normal", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 1, "case": "small", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 1, "case": "small", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 1, "case": "small", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 1, "case": "small", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 1, "case": "small", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 1, "case": "large", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 2.384185791015625e-07}
+{"rank": 0, "capacity": 1, "case": "large", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 2.384185791015625e-07}
+{"rank": 0, "capacity": 1, "case": "large", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 2.384185791015625e-07}
+{"rank": 0, "capacity": 1, "case": "large", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 2.384185791015625e-07}
+{"rank": 0, "capacity": 1, "case": "large", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 2.384185791015625e-07}
+{"rank": 0, "capacity": 1, "case": "partial", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 6.103515625e-05}
+{"rank": 0, "capacity": 1, "case": "partial", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 6.103515625e-05}
+{"rank": 0, "capacity": 1, "case": "partial", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 6.103515625e-05}
+{"rank": 0, "capacity": 1, "case": "partial", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 6.103515625e-05}
+{"rank": 0, "capacity": 1, "case": "partial", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 6.103515625e-05}
+{"rank": 0, "capacity": 1, "case": "empty", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 1, "case": "empty", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 1, "case": "empty", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 1, "case": "empty", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 1, "case": "empty", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+.
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[1]
+  qualification/test_glm53_mtp_feedback_cuda.py:54: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[1]
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[1]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 52 warnings in 36.93s
+[flare] frame completion wait: WFET
+{"rank": 0, "capacity": 4, "case": "normal", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 4.76837158203125e-07}
+{"rank": 0, "capacity": 4, "case": "normal", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 4.76837158203125e-07}
+{"rank": 0, "capacity": 4, "case": "normal", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 4.76837158203125e-07}
+{"rank": 0, "capacity": 4, "case": "normal", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 4.76837158203125e-07}
+{"rank": 0, "capacity": 4, "case": "normal", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 4.76837158203125e-07}
+{"rank": 0, "capacity": 4, "case": "small", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.001953125}
+{"rank": 0, "capacity": 4, "case": "small", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.001953125}
+{"rank": 0, "capacity": 4, "case": "small", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.001953125}
+{"rank": 0, "capacity": 4, "case": "small", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.001953125}
+{"rank": 0, "capacity": 4, "case": "small", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.001953125}
+{"rank": 0, "capacity": 4, "case": "large", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 4, "case": "large", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 4, "case": "large", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 4, "case": "large", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 4, "case": "large", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00048828125}
+{"rank": 0, "capacity": 4, "case": "partial", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4, "case": "partial", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4, "case": "partial", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4, "case": "partial", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4, "case": "partial", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4, "case": "empty", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4, "case": "empty", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4, "case": "empty", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4, "case": "empty", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4, "case": "empty", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+.
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[4]
+  qualification/test_glm53_mtp_feedback_cuda.py:54: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[4]
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[4]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 52 warnings in 32.82s
+[flare] frame completion wait: WFET
+{"rank": 0, "capacity": 16, "case": "normal", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "normal", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "normal", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "normal", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "normal", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "small", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00390625}
+{"rank": 0, "capacity": 16, "case": "small", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00390625}
+{"rank": 0, "capacity": 16, "case": "small", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00390625}
+{"rank": 0, "capacity": 16, "case": "small", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00390625}
+{"rank": 0, "capacity": 16, "case": "small", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.00390625}
+{"rank": 0, "capacity": 16, "case": "large", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "large", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "large", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "large", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "large", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "partial", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "partial", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "partial", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "partial", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "partial", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0078125}
+{"rank": 0, "capacity": 16, "case": "empty", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 16, "case": "empty", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 16, "case": "empty", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 16, "case": "empty", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 16, "case": "empty", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+.
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[16]
+  qualification/test_glm53_mtp_feedback_cuda.py:54: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[16]
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[16]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 52 warnings in 33.40s
+[flare] frame completion wait: WFET
+{"rank": 0, "capacity": 4096, "case": "normal", "rep": 0, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "normal", "rep": 1, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "normal", "rep": 2, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "normal", "rep": 3, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "normal", "rep": 4, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "small", "rep": 0, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "small", "rep": 1, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "small", "rep": 2, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "small", "rep": 3, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "small", "rep": 4, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "large", "rep": 0, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "large", "rep": 1, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "large", "rep": 2, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "large", "rep": 3, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "large", "rep": 4, "joined_max_ulps": 2, "normalized_max_ulps": 2, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "partial", "rep": 0, "joined_max_ulps": 2, "normalized_max_ulps": 1, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "partial", "rep": 1, "joined_max_ulps": 2, "normalized_max_ulps": 1, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "partial", "rep": 2, "joined_max_ulps": 2, "normalized_max_ulps": 1, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "partial", "rep": 3, "joined_max_ulps": 2, "normalized_max_ulps": 1, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "partial", "rep": 4, "joined_max_ulps": 2, "normalized_max_ulps": 1, "projection_max_abs_error": 0.015625}
+{"rank": 0, "capacity": 4096, "case": "empty", "rep": 0, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4096, "case": "empty", "rep": 1, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4096, "case": "empty", "rep": 2, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4096, "case": "empty", "rep": 3, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+{"rank": 0, "capacity": 4096, "case": "empty", "rep": 4, "joined_max_ulps": 0, "normalized_max_ulps": 0, "projection_max_abs_error": 0.0}
+.
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[4096]
+  qualification/test_glm53_mtp_feedback_cuda.py:54: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[4096]
+qualification/test_glm53_mtp_feedback_cuda.py::test_checkpoint_mtp_feedback[4096]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 52 warnings in 65.94s (0:01:05)
+{"rank": 0, "cases": 4, "bad_cases": [], "passed": true, "reference": "checkpoint embedding, two-round RMSNorm and FP64 BF16 projection", "fresh_process_per_capacity": true, "scope": "MTP feedback prefix component references; excludes draft MLA/MoE and cache transaction"}

@@ -57,8 +57,22 @@ gate, independently verify API/watchdog/tailnet/native-process absence and fresh
 unchanged. This gate does not claim draft MLA/MoE, accepted-prefix transactions,
 exported-core equivalence or full-model numerical acceptance.
 
-Status: prepared locally; GPU execution pending. Pinned prefix AST, bound-source
-hashes, Python syntax and shell syntax checked.
+Before execution: pinned prefix AST, bound-source hashes, Python syntax and shell
+syntax checked; both-node source manifests verified.
 
 Fixtures and controllers are now staged under the candidate qualification tree
 on both nodes; all source-manifest hashes match. GPU execution remains pending.
+
+The frozen window started09:40 UTC after independent ABBA recovery closed.
+Controller invocation75085d796a44460b8139bace248ed81d;90-minute fallback armed.
+No numerical result is claimed yet.
+
+## Result
+
+The gate passed09:43:23 UTC. Both ranks passed4/4 cases with actual pytest and
+wrapper exit0,100 native replay observations per rank and unchanged runtime
+hashes. Maximum projection absolute difference was0.015625 under the original
+combined rtol.01/atol.01 bound; both norm checks stayed within the original2ULPs.
+All35 memory samples were healthy. Receipts: `mtp-feedback-*`.
+Independent original-image B12X recovery is underway; full draft/absorption and
+broader model/state qualification remain separate gates.

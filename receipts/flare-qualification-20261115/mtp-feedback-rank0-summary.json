@@ -1,0 +1,9 @@
+{
+  "rank": 0,
+  "cases": 4,
+  "bad_cases": [],
+  "passed": true,
+  "reference": "checkpoint embedding, two-round RMSNorm and FP64 BF16 projection",
+  "fresh_process_per_capacity": true,
+  "scope": "MTP feedback prefix component references; excludes draft MLA/MoE and cache transaction"
+}

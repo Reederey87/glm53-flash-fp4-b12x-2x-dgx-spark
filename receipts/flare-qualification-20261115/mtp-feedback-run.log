@@ -1,0 +1,16 @@
+/home/nvidia/b12x-flare/qualification/run_mtp_feedback.sh: OK
+/home/nvidia/b12x-flare/qualification/mtp_feedback_cases.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_mtp_feedback_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_mtp_feedback_prefix.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_mtp_feedback_provenance.json: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/run_mtp_feedback.sh: OK
+/home/nvidia/b12x-flare/qualification/mtp_feedback_cases.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_mtp_feedback_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_mtp_feedback_prefix.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_mtp_feedback_provenance.json: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 115 GiB free / 114 GiB avail
+Running as unit: b12x-flare-mtp-feedback-memory-20261116T230000Z.service; invocation ID: 200fca0ecbba40188a7980db9b08fa49
+Running as unit: b12x-flare-mtp-feedback-rank1-20261116T230000Z.service; invocation ID: 1c4ffc4d43ad4a6080e6fd5d1d750b7a
+Running as unit: b12x-flare-mtp-feedback-rank0-20261116T230000Z.service; invocation ID: cc32fabcd2da4d7e99b8af3389e35f92

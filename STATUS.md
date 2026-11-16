@@ -1,3 +1,13 @@
+## 2026-11-16 UTC — MTP feedback reference passed
+
+- Both ranks pass4/4 fresh-process capacities and100 replay observations with original norm/GEMV bounds, unchanged runtime hashes and35 healthy memory samples. Gate09:43:23 UTC; independent B12X recovery underway.
+- Docs/55 prepares loss-free native diagnosis of the complete retained mixed/long-output workloads; existing binary and benchmark bodies remain unchanged. Three local validator tests pass; trace window unrun.
+
+## 2026-11-16 UTC — ABBA rollback verified; MTP feedback running
+
+- Independent B12X original-image/API/watchdog/tailnet recovery and fresh5/5 smoke verified09:40:08 UTC; fallback closed. The10 unresolved ABBA points remain open.
+- Frozen four-capacity MTP feedback fixture now runs on both nodes with its own memory guard and90-minute fallback. No production ownership or serving arithmetic change.
+
 ## 2026-11-16 UTC — ABBA completed; performance remains unqualified
 
 - All348 measured requests, four7/7 smokes and both-rank clean exits passed;754 healthy memory observations. Registered80-point comparison retains10 unresolved adverse medians and zero separated regressions; no adoption or full-speed/capacity bypass.

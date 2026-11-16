@@ -124,3 +124,9 @@ workload variation, not proof of the cause or permission to discard timings.
 Matching native traces are still needed before any further scheduler change.
 Full84-row and capacity windows remain gated. Numerical qualification can proceed
 independently after verified B12X restoration. Receipts: `performance-abba-*`.
+
+Independent B12X recovery closed09:40:08 UTC: original images on both nodes,
+API200, watchdog/tailnet active, absent native processes and fresh5/5 smoke.
+Restore invocationb7b722eb44f24fb286980c49f8d322b0 and smoke
+acdb9aa1737b416fa2d4fa5821a0ef42 ended with actual exit0/PID0.
+Fallback was disarmed only after independent verification.
