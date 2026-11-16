@@ -1,0 +1,1404 @@
+{
+  "schema": 1,
+  "reference_sha256": "84c2865f80cdbda06eaa5d86e9d577866a70ff3e4ed61da534b3420a867bfefd",
+  "candidate_sha256": "121f6cf25f65c8ae0b2ee14f54951a9c23b0cfae27a14f5b3587e9c2937881a9",
+  "manifest": {
+    "schema": 1,
+    "engine": "flare",
+    "seed": 20261115,
+    "tokenizer_sha256": "19e773648cb4e65de8660ea6365e10acca112d42a854923df93db4a6f333a82d",
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "slot_cap": 4,
+    "reps": 3,
+    "decode_budget": 200,
+    "decode_rate_definition": "completion_tokens / (stream_end - first_output); includes first burst",
+    "qualification": "measurement only; no adoption decision"
+  },
+  "rows_per_arm": 84,
+  "method": "Median of repetitions; per-request metrics first use the within-batch median. Separated regression means best candidate <98% of worst reference. This is a conservative descriptive rule, not a confidence interval or adoption decision.",
+  "limitations": [
+    "TTFT includes queueing; concurrency eight exceeds the four active slots.",
+    "Decode rate includes the first streamed burst; it is not inverse standard TPOT.",
+    "Output distributions can differ across engines despite identical request seeds.",
+    "Quality, memory, capacity and lifecycle gates remain separate."
+  ],
+  "points": [
+    {
+      "kind": "decode",
+      "concurrency": 1,
+      "point": "code",
+      "slot_cap": 4,
+      "metrics": {
+        "aggregate_tok_s": {
+          "reference_reps": [
+            34.464950568828115,
+            35.49246745802402,
+            33.84415342391245
+          ],
+          "candidate_reps": [
+            37.32287942372455,
+            36.56062461686215,
+            42.26213932040716
+          ],
+          "reference_median": 34.464950568828115,
+          "candidate_median": 37.32287942372455,
+          "median_change_pct": 8.292276088396001,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "acceptance_length": {
+          "reference_reps": [
+            2.518987341772152,
+            2.6184210526315788,
+            2.4567901234567904
+          ],
+          "candidate_reps": [
+            2.8285714285714283,
+            2.6399999999999997,
+            3.078125
+          ],
+          "reference_median": 2.518987341772152,
+          "candidate_median": 2.8285714285714283,
+          "median_change_pct": 12.29002153625267,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "draft_accept_rate": {
+          "reference_reps": [
+            0.5063291139240507,
+            0.5394736842105263,
+            0.48559670781893005
+          ],
+          "candidate_reps": [
+            0.6153846153846154,
+            0.5491071428571429,
+            0.7037037037037037
+          ],
+          "reference_median": 0.5063291139240507,
+          "candidate_median": 0.6153846153846154,
+          "median_change_pct": 21.53846153846153,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "per_request_decode_tok_s": {
+          "reference_reps": [
+            36.669358593620814,
+            37.8302631292453,
+            35.81128821749904
+          ],
+          "candidate_reps": [
+            42.175730599446446,
+            39.01309238731252,
+            45.453528318260446
+          ],
+          "reference_median": 36.669358593620814,
+          "candidate_median": 42.175730599446446,
+          "median_change_pct": 15.016275759957121,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "decode",
+      "concurrency": 1,
+      "point": "prose",
+      "slot_cap": 4,
+      "metrics": {
+        "aggregate_tok_s": {
+          "reference_reps": [
+            35.46001131308209,
+            34.78175898031236,
+            33.117752720384985
+          ],
+          "candidate_reps": [
+            37.69518127603111,
+            38.00826932535645,
+            39.92454071762285
+          ],
+          "reference_median": 34.78175898031236,
+          "candidate_median": 38.00826932535645,
+          "median_change_pct": 9.27644385918034,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "acceptance_length": {
+          "reference_reps": [
+            2.5844155844155843,
+            2.551282051282051,
+            2.397590361445783
+          ],
+          "candidate_reps": [
+            2.8695652173913047,
+            2.6891891891891895,
+            2.8428571428571425
+          ],
+          "reference_median": 2.551282051282051,
+          "candidate_median": 2.8428571428571425,
+          "median_change_pct": 11.428571428571432,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "draft_accept_rate": {
+          "reference_reps": [
+            0.5281385281385281,
+            0.5170940170940171,
+            0.46586345381526106
+          ],
+          "candidate_reps": [
+            0.6231884057971014,
+            0.5656108597285068,
+            0.6172248803827751
+          ],
+          "reference_median": 0.5170940170940171,
+          "candidate_median": 0.6172248803827751,
+          "median_change_pct": 19.36415042113171,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "per_request_decode_tok_s": {
+          "reference_reps": [
+            37.78844054835549,
+            36.98694713511456,
+            35.03515146905201
+          ],
+          "candidate_reps": [
+            42.73000678461592,
+            40.51206379242178,
+            42.70452148501317
+          ],
+          "reference_median": 36.98694713511456,
+          "candidate_median": 42.70452148501317,
+          "median_change_pct": 15.458357049615667,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "decode",
+      "concurrency": 2,
+      "point": "code",
+      "slot_cap": 4,
+      "metrics": {
+        "aggregate_tok_s": {
+          "reference_reps": [
+            48.14507613564482,
+            53.161476583520326,
+            45.165386727697864
+          ],
+          "candidate_reps": [
+            54.535314363112164,
+            51.64868674888877,
+            53.67751901022465
+          ],
+          "reference_median": 48.14507613564482,
+          "candidate_median": 53.67751901022465,
+          "median_change_pct": 11.491191454329863,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "acceptance_length": {
+          "reference_reps": [
+            2.6533333333333333,
+            2.8633093525179856,
+            2.472049689440994
+          ],
+          "candidate_reps": [
+            2.9407407407407407,
+            2.7260273972602738,
+            2.795774647887324
+          ],
+          "reference_median": 2.6533333333333333,
+          "candidate_median": 2.795774647887324,
+          "median_change_pct": 5.368391252034832,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "draft_accept_rate": {
+          "reference_reps": [
+            0.5511111111111111,
+            0.6211031175059952,
+            0.4906832298136646
+          ],
+          "candidate_reps": [
+            0.6533665835411472,
+            0.5806451612903226,
+            0.6042654028436019
+          ],
+          "reference_median": 0.5511111111111111,
+          "candidate_median": 0.6042654028436019,
+          "median_change_pct": 9.644931967589043,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "per_request_decode_tok_s": {
+          "reference_reps": [
+            26.37608336423634,
+            29.56976274055134,
+            24.427682423452712
+          ],
+          "candidate_reps": [
+            31.474332987078704,
+            30.17641512529884,
+            31.016640712301985
+          ],
+          "reference_median": 26.37608336423634,
+          "candidate_median": 31.016640712301985,
+          "median_change_pct": 17.593807556575424,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "decode",
+      "concurrency": 2,
+      "point": "prose",
+      "slot_cap": 4,
+      "metrics": {
+        "aggregate_tok_s": {
+          "reference_reps": [
+            45.4732209808619,
+            46.56471970633051,
+            43.57828597672325
+          ],
+          "candidate_reps": [
+            50.813079882909236,
+            49.48478400020194,
+            49.656930280780955
+          ],
+          "reference_median": 45.4732209808619,
+          "candidate_median": 49.656930280780955,
+          "median_change_pct": 9.200380377013161,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "acceptance_length": {
+          "reference_reps": [
+            2.412121212121212,
+            2.50314465408805,
+            2.3139534883720927
+          ],
+          "candidate_reps": [
+            2.6577181208053693,
+            2.571428571428571,
+            2.5882352941176467
+          ],
+          "reference_median": 2.412121212121212,
+          "candidate_median": 2.5882352941176467,
+          "median_change_pct": 7.301211942063235,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "draft_accept_rate": {
+          "reference_reps": [
+            0.4707070707070707,
+            0.5010482180293501,
+            0.437984496124031
+          ],
+          "candidate_reps": [
+            0.5563063063063063,
+            0.5318681318681319,
+            0.5305676855895196
+          ],
+          "reference_median": 0.4707070707070707,
+          "candidate_median": 0.5318681318681319,
+          "median_change_pct": 12.993444323916425,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "per_request_decode_tok_s": {
+          "reference_reps": [
+            24.692467910338575,
+            25.47789486930003,
+            23.151787581268056
+          ],
+          "candidate_reps": [
+            29.320966629097498,
+            28.064163014119988,
+            27.872064391590378
+          ],
+          "reference_median": 24.692467910338575,
+          "candidate_median": 28.064163014119988,
+          "median_change_pct": 13.654751384205333,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "decode",
+      "concurrency": 4,
+      "point": "code",
+      "slot_cap": 4,
+      "metrics": {
+        "aggregate_tok_s": {
+          "reference_reps": [
+            70.55766320443387,
+            63.22141436829139,
+            68.25671302500012
+          ],
+          "candidate_reps": [
+            76.01767600934467,
+            73.31381122962836,
+            71.27400724010771
+          ],
+          "reference_median": 68.25671302500012,
+          "candidate_median": 73.31381122962836,
+          "median_change_pct": 7.408938960737799,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "acceptance_length": {
+          "reference_reps": [
+            2.6270627062706273,
+            2.526984126984127,
+            2.7167235494880546
+          ],
+          "candidate_reps": [
+            2.955223880597015,
+            2.8597122302158273,
+            2.769230769230769
+          ],
+          "reference_median": 2.6270627062706273,
+          "candidate_median": 2.8597122302158273,
+          "median_change_pct": 8.855880120024562,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "draft_accept_rate": {
+          "reference_reps": [
+            0.5423542354235423,
+            0.508994708994709,
+            0.5722411831626849
+          ],
+          "candidate_reps": [
+            0.6582914572864321,
+            0.6243961352657005,
+            0.5966981132075472
+          ],
+          "reference_median": 0.5423542354235423,
+          "candidate_median": 0.6243961352657005,
+          "median_change_pct": 15.126995325866478,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "per_request_decode_tok_s": {
+          "reference_reps": [
+            19.136522541319795,
+            17.417207354631195,
+            19.17146516677981
+          ],
+          "candidate_reps": [
+            21.68294546938895,
+            21.542072303810087,
+            20.885363073316405
+          ],
+          "reference_median": 19.136522541319795,
+          "candidate_median": 21.542072303810087,
+          "median_change_pct": 12.5704644472171,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "decode",
+      "concurrency": 4,
+      "point": "prose",
+      "slot_cap": 4,
+      "metrics": {
+        "aggregate_tok_s": {
+          "reference_reps": [
+            64.10801260041772,
+            63.09942694732822,
+            64.14728675304356
+          ],
+          "candidate_reps": [
+            70.62680176753547,
+            71.53956311896933,
+            71.19808446338013
+          ],
+          "reference_median": 64.10801260041772,
+          "candidate_median": 71.19808446338013,
+          "median_change_pct": 11.05957208056736,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "acceptance_length": {
+          "reference_reps": [
+            2.5844155844155843,
+            2.4643962848297214,
+            2.4643962848297214
+          ],
+          "candidate_reps": [
+            2.731034482758621,
+            2.7762237762237763,
+            2.795774647887324
+          ],
+          "reference_median": 2.4643962848297214,
+          "candidate_median": 2.7762237762237763,
+          "median_change_pct": 12.653301472396938,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "draft_accept_rate": {
+          "reference_reps": [
+            0.5281385281385281,
+            0.48813209494324045,
+            0.48813209494324045
+          ],
+          "candidate_reps": [
+            0.5810185185185185,
+            0.5983510011778563,
+            0.6042654028436019
+          ],
+          "reference_median": 0.48813209494324045,
+          "candidate_median": 0.5983510011778563,
+          "median_change_pct": 22.579729416774374,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "per_request_decode_tok_s": {
+          "reference_reps": [
+            18.001444593964266,
+            17.78181844832099,
+            18.22401581137933
+          ],
+          "candidate_reps": [
+            21.219540440104197,
+            21.30468563159681,
+            21.347445739395774
+          ],
+          "reference_median": 18.001444593964266,
+          "candidate_median": 21.30468563159681,
+          "median_change_pct": 18.349866425387297,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "decode",
+      "concurrency": 8,
+      "point": "code",
+      "slot_cap": 4,
+      "metrics": {
+        "aggregate_tok_s": {
+          "reference_reps": [
+            64.1077149674009,
+            64.95915874312576,
+            66.78279676624199
+          ],
+          "candidate_reps": [
+            73.99097323288392,
+            72.10998345087411,
+            74.30825307280645
+          ],
+          "reference_median": 64.95915874312576,
+          "candidate_median": 73.99097323288392,
+          "median_change_pct": 13.903835370580353,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "acceptance_length": {
+          "reference_reps": [
+            2.6184210526315788,
+            2.5677419354838706,
+            2.631404958677686
+          ],
+          "candidate_reps": [
+            2.882032667876588,
+            2.942486085343228,
+            2.958955223880597
+          ],
+          "reference_median": 2.6184210526315788,
+          "candidate_median": 2.942486085343228,
+          "median_change_pct": 12.376353008083086,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "draft_accept_rate": {
+          "reference_reps": [
+            0.5394736842105263,
+            0.5225806451612903,
+            0.543801652892562
+          ],
+          "candidate_reps": [
+            0.6334758704948076,
+            0.6519302615193027,
+            0.6578947368421053
+          ],
+          "reference_median": 0.5394736842105263,
+          "candidate_median": 0.6519302615193027,
+          "median_change_pct": 20.845609452358538,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "per_request_decode_tok_s": {
+          "reference_reps": [
+            17.84794038876894,
+            17.220841363640076,
+            17.979963569251222
+          ],
+          "candidate_reps": [
+            21.356194315264062,
+            21.966510220396472,
+            22.213261348638298
+          ],
+          "reference_median": 17.84794038876894,
+          "candidate_median": 21.966510220396472,
+          "median_change_pct": 23.075882941760597,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "decode",
+      "concurrency": 8,
+      "point": "prose",
+      "slot_cap": 4,
+      "metrics": {
+        "aggregate_tok_s": {
+          "reference_reps": [
+            63.18864901149422,
+            63.645504197913986,
+            67.60897626395105
+          ],
+          "candidate_reps": [
+            71.43273804277102,
+            73.22170011388447,
+            71.54426473282636
+          ],
+          "reference_median": 63.645504197913986,
+          "candidate_median": 71.54426473282636,
+          "median_change_pct": 12.410555363580977,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "acceptance_length": {
+          "reference_reps": [
+            2.386806596701649,
+            2.4605873261205566,
+            2.526984126984127
+          ],
+          "candidate_reps": [
+            2.7621527777777777,
+            2.8053097345132745,
+            2.76
+          ],
+          "reference_median": 2.4605873261205566,
+          "candidate_median": 2.7621527777777777,
+          "median_change_pct": 12.255832111948628,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "draft_accept_rate": {
+          "reference_reps": [
+            0.4622688655672164,
+            0.4868624420401855,
+            0.508994708994709
+          ],
+          "candidate_reps": [
+            0.5918367346938775,
+            0.6057007125890737,
+            0.5914669783752192
+          ],
+          "reference_median": 0.4868624420401855,
+          "candidate_median": 0.5918367346938775,
+          "median_change_pct": 21.561386459345645,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "per_request_decode_tok_s": {
+          "reference_reps": [
+            16.74970363152815,
+            17.499841753415748,
+            18.55875250792697
+          ],
+          "candidate_reps": [
+            20.79059414417142,
+            21.2353271773384,
+            20.42706104772415
+          ],
+          "reference_median": 17.499841753415748,
+          "candidate_median": 20.79059414417142,
+          "median_change_pct": 18.804469418206928,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 1,
+      "point": 8192,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            2136.238237933058,
+            2309.8710219157488,
+            2305.719797275652
+          ],
+          "candidate_reps": [
+            2349.014914357085,
+            2348.386854653385,
+            2347.6837277060317
+          ],
+          "reference_median": 2305.719797275652,
+          "candidate_median": 2348.386854653385,
+          "median_change_pct": 1.8504875322728598,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2134.424384934144,
+            2307.6610482183723,
+            2304.1878929145955
+          ],
+          "candidate_reps": [
+            2345.5141056506404,
+            2344.4977435371343,
+            2344.4192770403006
+          ],
+          "reference_median": 2304.1878929145955,
+          "candidate_median": 2344.4977435371343,
+          "median_change_pct": 1.7494168225816953,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 1,
+      "point": 16384,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            2295.860462118968,
+            2291.876132503256,
+            2296.742061965033
+          ],
+          "candidate_reps": [
+            2335.4927504488637,
+            2325.671940516248,
+            2338.4652417466596
+          ],
+          "reference_median": 2295.860462118968,
+          "candidate_median": 2335.4927504488637,
+          "median_change_pct": 1.7262498737975251,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2294.58922962404,
+            2290.12636719746,
+            2295.0557739395244
+          ],
+          "candidate_reps": [
+            2332.8935061110406,
+            2323.6710608945077,
+            2336.4950434686903
+          ],
+          "reference_median": 2294.58922962404,
+          "candidate_median": 2332.8935061110406,
+          "median_change_pct": 1.6693304401710574,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 1,
+      "point": 32768,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            2278.3376307886842,
+            2273.427240859397,
+            2265.902964706759
+          ],
+          "candidate_reps": [
+            2320.915267271235,
+            2308.0130756403223,
+            2315.279261034403
+          ],
+          "reference_median": 2273.427240859397,
+          "candidate_median": 2315.279261034403,
+          "median_change_pct": 1.8409219095652851,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2277.375171675574,
+            2271.910389719901,
+            2265.027900133699
+          ],
+          "candidate_reps": [
+            2319.035591743911,
+            2306.0441125964026,
+            2313.8846934756957
+          ],
+          "reference_median": 2271.910389719901,
+          "candidate_median": 2313.8846934756957,
+          "median_change_pct": 1.847533421464287,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 1,
+      "point": 65536,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            2253.193417963796,
+            2245.5581071945867,
+            2242.1589581764183
+          ],
+          "candidate_reps": [
+            2273.106973090242,
+            2290.720439281034,
+            2291.2042327284857
+          ],
+          "reference_median": 2245.5581071945867,
+          "candidate_median": 2290.720439281034,
+          "median_change_pct": 2.011185190075948,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2252.451168307768,
+            2244.3118046160257,
+            2241.1483735532283
+          ],
+          "candidate_reps": [
+            2272.1722404395737,
+            2289.3037314404096,
+            2290.062994736092
+          ],
+          "reference_median": 2244.3118046160257,
+          "candidate_median": 2289.3037314404096,
+          "median_change_pct": 2.0047092713163073,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 1,
+      "point": 131072,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            2206.2238650335157,
+            2202.347464018512,
+            2199.9140990106034
+          ],
+          "candidate_reps": [
+            2237.212067267904,
+            2247.2009483134834,
+            2246.7087021774014
+          ],
+          "reference_median": 2202.347464018512,
+          "candidate_median": 2246.7087021774014,
+          "median_change_pct": 2.0142706309360436,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2205.62933274057,
+            2201.309905683043,
+            2199.3779552248684
+          ],
+          "candidate_reps": [
+            2236.3369230887824,
+            2246.0881185710723,
+            2245.757736341939
+          ],
+          "reference_median": 2201.309905683043,
+          "candidate_median": 2245.757736341939,
+          "median_change_pct": 2.0191537113491753,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 2,
+      "point": 8192,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            1352.706070603915,
+            1355.4842013981527,
+            1356.55152678516
+          ],
+          "candidate_reps": [
+            1374.239516557416,
+            1373.9295708806842,
+            1377.5787409933582
+          ],
+          "reference_median": 1355.4842013981527,
+          "candidate_median": 1374.239516557416,
+          "median_change_pct": 1.3836616568394966,
+          "observation": "no_median_regression_over_2pct_observed"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2311.6118143317253,
+            2314.933614194523,
+            2319.1044264173984
+          ],
+          "candidate_reps": [
+            2348.4738848376005,
+            2347.544963141195,
+            2354.221301545274
+          ],
+          "reference_median": 2314.933614194523,
+          "candidate_median": 2348.4738848376005,
+          "median_change_pct": 1.4488653340820612,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 2,
+      "point": 16384,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            1495.768934846286,
+            1485.3493252768023,
+            1492.1804238232976
+          ],
+          "candidate_reps": [
+            1250.373113662809,
+            1248.0750363089596,
+            1249.8461832521743
+          ],
+          "reference_median": 1492.1804238232976,
+          "candidate_median": 1249.8461832521743,
+          "median_change_pct": -16.240277429066463,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2295.579214734121,
+            2283.9353428779164,
+            2292.511458736481
+          ],
+          "candidate_reps": [
+            2331.118317366081,
+            2326.478771614238,
+            2329.4182338015926
+          ],
+          "reference_median": 2292.511458736481,
+          "candidate_median": 2329.4182338015926,
+          "median_change_pct": 1.6098839953215593,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 2,
+      "point": 32768,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            1581.7712612291998,
+            1585.7555794727411,
+            1577.1319547947755
+          ],
+          "candidate_reps": [
+            1166.7765040973013,
+            1197.0850948922166,
+            1195.805407626076
+          ],
+          "reference_median": 1581.7712612291998,
+          "candidate_median": 1195.805407626076,
+          "median_change_pct": -24.400863959507546,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2273.472954312388,
+            2276.114013169109,
+            2268.284907110545
+          ],
+          "candidate_reps": [
+            2289.0630737792217,
+            2314.6765566500126,
+            2312.880218546239
+          ],
+          "reference_median": 2273.472954312388,
+          "candidate_median": 2312.880218546239,
+          "median_change_pct": 1.7333509140323056,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 2,
+      "point": 65536,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            1623.0882190388188,
+            1621.7996671910296,
+            1618.4080701274243
+          ],
+          "candidate_reps": [
+            1164.406851475118,
+            1164.0201608186471,
+            1164.1187021738692
+          ],
+          "reference_median": 1621.7996671910296,
+          "candidate_median": 1164.1187021738692,
+          "median_change_pct": -28.220561039445002,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2249.5960150548326,
+            2251.6427803553916,
+            2245.597487348737
+          ],
+          "candidate_reps": [
+            2290.291196308187,
+            2289.5513955810393,
+            2290.0139363150124
+          ],
+          "reference_median": 2249.5960150548326,
+          "candidate_median": 2290.0139363150124,
+          "median_change_pct": 1.7966746469007422,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 2,
+      "point": 131072,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            1618.6192222193622,
+            1621.2016490212977,
+            1616.9785829304435
+          ],
+          "candidate_reps": [
+            1122.7845854309135,
+            1119.4343219871669,
+            1124.590616680883
+          ],
+          "reference_median": 1618.6192222193622,
+          "candidate_median": 1122.7845854309135,
+          "median_change_pct": -30.633185988523437,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2202.0457279345856,
+            2205.78600998012,
+            2198.9533406079
+          ],
+          "candidate_reps": [
+            2218.0659441125385,
+            2232.7863863031253,
+            2229.9794233460075
+          ],
+          "reference_median": 2202.0457279345856,
+          "candidate_median": 2229.9794233460075,
+          "median_change_pct": 1.268533848187725,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 4,
+      "point": 8192,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            792.9686678871526,
+            795.4387032935542,
+            791.8498567923484
+          ],
+          "candidate_reps": [
+            679.1168714446288,
+            728.8941311619185,
+            699.4884681574565
+          ],
+          "reference_median": 792.9686678871526,
+          "candidate_median": 699.4884681574565,
+          "median_change_pct": -11.788637245752975,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2308.9367647906797,
+            2315.085508949928,
+            2304.8936198432607
+          ],
+          "candidate_reps": [
+            2267.926906510871,
+            2345.030162391233,
+            2206.6740234803733
+          ],
+          "reference_median": 2308.9367647906797,
+          "candidate_median": 2267.926906510871,
+          "median_change_pct": -1.7761360512411617,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 4,
+      "point": 16384,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            863.4168863193188,
+            861.7269312238711,
+            862.8779484329909
+          ],
+          "candidate_reps": [
+            637.0949686325393,
+            643.2119772649457,
+            614.809621074327
+          ],
+          "reference_median": 862.8779484329909,
+          "candidate_median": 637.0949686325393,
+          "median_change_pct": -26.16627070033246,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2291.1338604183497,
+            2289.8997121283505,
+            2290.7986272184057
+          ],
+          "candidate_reps": [
+            2301.567113711046,
+            2325.1428448215725,
+            2210.8543001610306
+          ],
+          "reference_median": 2290.7986272184057,
+          "candidate_median": 2301.567113711046,
+          "median_change_pct": 0.47007564805974233,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 4,
+      "point": 32768,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            900.2546766349744,
+            899.9792856589061,
+            899.5630743462077
+          ],
+          "candidate_reps": [
+            605.1322166216269,
+            606.7067616581278,
+            599.4057498080481
+          ],
+          "reference_median": 899.9792856589061,
+          "candidate_median": 605.1322166216269,
+          "median_change_pct": -32.761539486035105,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2275.327135266804,
+            2274.9069758247224,
+            2271.4060756959743
+          ],
+          "candidate_reps": [
+            2305.23087047251,
+            2282.7743618628724,
+            2284.128128652365
+          ],
+          "reference_median": 2274.9069758247224,
+          "candidate_median": 2284.128128652365,
+          "median_change_pct": 0.40534197334813893,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 4,
+      "point": 65536,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            912.5630488846075,
+            912.9126596871297,
+            911.8070268451847
+          ],
+          "candidate_reps": [
+            585.4839825844565,
+            581.9574037891632,
+            581.0873232217064
+          ],
+          "reference_median": 912.5630488846075,
+          "candidate_median": 581.9574037891632,
+          "median_change_pct": -36.22825244782062,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2248.8837042817595,
+            2249.0907021949074,
+            2246.1130218445833
+          ],
+          "candidate_reps": [
+            2279.2460229293306,
+            2283.403335799477,
+            2275.658587005416
+          ],
+          "reference_median": 2248.8837042817595,
+          "candidate_median": 2279.2460229293306,
+          "median_change_pct": 1.3501062144637643,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 4,
+      "point": 131072,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            907.0814675364327,
+            907.2638006734687,
+            905.2222530917443
+          ],
+          "candidate_reps": [
+            571.3436665330964,
+            567.1531184452504,
+            563.3970147804963
+          ],
+          "reference_median": 907.0814675364327,
+          "candidate_median": 567.1531184452504,
+          "median_change_pct": -37.47495249951507,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2204.9151870823175,
+            2206.1262501508695,
+            2201.882917641981
+          ],
+          "candidate_reps": [
+            2240.959665764749,
+            2241.803216861491,
+            2231.7755316950675
+          ],
+          "reference_median": 2204.9151870823175,
+          "candidate_median": 2240.959665764749,
+          "median_change_pct": 1.634733113255371,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 8,
+      "point": 8192,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            466.46782830635334,
+            467.42254164174096,
+            467.13753890001806
+          ],
+          "candidate_reps": [
+            453.43874656943103,
+            398.2867821070337,
+            398.8571962171921
+          ],
+          "reference_median": 467.13753890001806,
+          "candidate_median": 398.8571962171921,
+          "median_change_pct": -14.616753524798632,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2306.3358520951183,
+            2311.8713416111727,
+            2312.0704732567274
+          ],
+          "candidate_reps": [
+            2281.8929743532035,
+            2297.8375862589446,
+            2294.379636661421
+          ],
+          "reference_median": 2311.8713416111727,
+          "candidate_median": 2294.379636661421,
+          "median_change_pct": -0.7566037363290978,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 8,
+      "point": 16384,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            488.09732136302307,
+            488.71377996432443,
+            488.61967121116277
+          ],
+          "candidate_reps": [
+            452.2292564367816,
+            406.5560694922144,
+            451.5689141556196
+          ],
+          "reference_median": 488.61967121116277,
+          "candidate_median": 451.5689141556196,
+          "median_change_pct": -7.582739549495388,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2288.8641240560796,
+            2293.575766513885,
+            2291.3119073608027
+          ],
+          "candidate_reps": [
+            2330.9875820769953,
+            2305.6513977758327,
+            2325.0604649364263
+          ],
+          "reference_median": 2291.3119073608027,
+          "candidate_median": 2325.0604649364263,
+          "median_change_pct": 1.472892340287979,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 8,
+      "point": 32768,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            496.8576428205213,
+            497.68960621584256,
+            497.74492352734046
+          ],
+          "candidate_reps": [
+            441.14298196935766,
+            432.698068305477,
+            431.87900600744035
+          ],
+          "reference_median": 497.68960621584256,
+          "candidate_median": 432.698068305477,
+          "median_change_pct": -13.058648824219043,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2271.1572038687777,
+            2273.076806418806,
+            2273.848575258881
+          ],
+          "candidate_reps": [
+            2307.885372873217,
+            2298.9030501178704,
+            2299.35555977762
+          ],
+          "reference_median": 2273.076806418806,
+          "candidate_median": 2299.35555977762,
+          "median_change_pct": 1.15608734753736,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 8,
+      "point": 65536,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            498.4379079323684,
+            498.08320451621785,
+            499.78894747393167
+          ],
+          "candidate_reps": [
+            424.2730596265205,
+            431.97328304845513,
+            430.86442976083424
+          ],
+          "reference_median": 498.4379079323684,
+          "candidate_median": 430.86442976083424,
+          "median_change_pct": -13.557050355949851,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2245.4365342106607,
+            2233.4110928572027,
+            2252.665611345186
+          ],
+          "candidate_reps": [
+            2282.593383798027,
+            2285.0101852025205,
+            2277.660915159241
+          ],
+          "reference_median": 2245.4365342106607,
+          "candidate_median": 2282.593383798027,
+          "median_change_pct": 1.6547717569059595,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    },
+    {
+      "kind": "prefill",
+      "concurrency": 8,
+      "point": 131072,
+      "slot_cap": 4,
+      "metrics": {
+        "per_request_prefill_tok_s": {
+          "reference_reps": [
+            492.6093209547522,
+            491.244175482301,
+            492.6865315663557
+          ],
+          "candidate_reps": [
+            420.36035910509327,
+            422.60079700084964,
+            415.8355997986415
+          ],
+          "reference_median": 492.6093209547522,
+          "candidate_median": 420.36035910509327,
+          "median_change_pct": -14.66658440600137,
+          "observation": "separated_regression_over_2pct"
+        },
+        "aggregate_prompt_tok_s": {
+          "reference_reps": [
+            2204.312406532375,
+            2199.6670511044936,
+            2204.411630036428
+          ],
+          "candidate_reps": [
+            2240.1721779552176,
+            2244.7795754031895,
+            2238.121244284061
+          ],
+          "reference_median": 2204.312406532375,
+          "candidate_median": 2240.1721779552176,
+          "median_change_pct": 1.626800779988069,
+          "observation": "no_median_regression_over_2pct_observed"
+        }
+      }
+    }
+  ]
+}

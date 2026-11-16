@@ -1,0 +1,13 @@
+[Unit]
+Description=Native Flare candidate, rank %i
+
+[Service]
+Type=exec
+Environment=HOME=/home/nvidia
+WorkingDirectory=/home/nvidia/b12x-flare
+ExecStart=/bin/bash /home/nvidia/b12x-flare/scripts/flare_run.sh serve %i
+TimeoutStopSec=180
+KillMode=control-group
+Restart=no
+StandardOutput=append:/home/nvidia/b12x-flare/logs/serve-rank%i.log
+StandardError=append:/home/nvidia/b12x-flare/logs/serve-rank%i.log

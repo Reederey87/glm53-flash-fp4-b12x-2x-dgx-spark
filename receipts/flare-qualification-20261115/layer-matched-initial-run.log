@@ -1,0 +1,16 @@
+/home/nvidia/b12x-flare/qualification/run_layer_matched.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_layer_matched_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_layer_matched_adaptation.json: OK
+/home/nvidia/b12x-flare/qualification/layer_selection_reference.py: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/native/flare_heliopause.so: OK
+/home/nvidia/b12x-flare/qualification/run_layer_matched.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_layer_matched_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_layer_matched_adaptation.json: OK
+/home/nvidia/b12x-flare/qualification/layer_selection_reference.py: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/native/flare_heliopause.so: OK
+[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 116 GiB free / 114 GiB avail
+Running as unit: b12x-flare-layer-matched-memory-20261116T170000Z.service; invocation ID: b9aeb628fc374b6284dc7669754d4674
+Running as unit: b12x-flare-layer-matched-rank1-20261116T170000Z.service; invocation ID: fe91f887b1004778a619701db9800432
+Running as unit: b12x-flare-layer-matched-rank0-20261116T170000Z.service; invocation ID: 7654050989104a2caee3aa72efd39536

@@ -1,0 +1,6 @@
+{
+  "cases": 6,
+  "bad_cases": [],
+  "passed": true,
+  "scope": "TP2 rank1 MLA replay with native dense activations; not full-model equivalence"
+}

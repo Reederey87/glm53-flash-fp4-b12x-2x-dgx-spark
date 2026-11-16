@@ -1,0 +1,10 @@
+{
+  "rank": 1,
+  "cases": 1,
+  "bad_cases": [
+    "test_two_host_layer_stage_diagnostic[3-prefill-4096]"
+  ],
+  "pytest_exit": 1,
+  "diagnostic_complete": true,
+  "scope": "repeatability diagnostic; does not waive original assertion"
+}

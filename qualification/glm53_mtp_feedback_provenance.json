@@ -1,0 +1,20 @@
+{
+  "upstream_commit": "5a4e867954593b2e05bba43bc2a6eeaddca402d7",
+  "source": "ignition/recipes/glm53/mtp.py",
+  "source_sha256": "810b4dd738752f80e246e36a740519e191f146c8bee45cadfae525c15bf7fd02",
+  "prefix_statement_count": 9,
+  "scope": "embedding mask, enorm/hnorm, eh_proj and input norm; excludes MLA/MoE/cache writes",
+  "component_bounds": {
+    "normalization": {
+      "source": "tests/norm/test_triton_rmsnorm.py",
+      "sha256": "974ebdfea4a6bfcd2b0c9a5aa95320f6b3bc7105ae822a14e578f6d153695dfc",
+      "bf16_ulps": 2
+    },
+    "projection": {
+      "source": "tests/experimental/b12x/gemm/test_bf16_gemv.py",
+      "sha256": "e62131687c923a96632f7be58273a08a69384fb58c34fc5a0933080a8645867f",
+      "rtol": 0.01,
+      "atol": 0.01
+    }
+  }
+}

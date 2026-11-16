@@ -1,0 +1,1 @@
+{"schema": 1, "event": "native_exit", "action": "serve", "rank": 1, "invocation_id": "767613d4e6664fdfb1182cebf3ceeeb1", "native_pid": 4026974, "native_returncode": 0, "shutdown_requested": false, "forced_kill": false, "time": "2026-11-16T10:34:48.415991+00:00"}

@@ -1,0 +1,1047 @@
+{
+  "schema": 1,
+  "requests_per_arm": 75,
+  "cases_per_arm": 9,
+  "reference_sha256": "dde7b976d5bfc2d3e3eeabc4f45017788e04fc5956f0782e54091f6802997883",
+  "candidate_sha256": "9a3c04226b9eb21a0e13cb0da47ee3ec83a96d8f80a51b83580d1200e0711b5a",
+  "method": "Matched request identities, three repetitions per request role. Delivery gaps are streamed-output gaps, not inferred per-token times. Separated 2% gate is descriptive, not a confidence interval or adoption decision.",
+  "points": [
+    {
+      "case": "decode_overlap",
+      "request": "cohort",
+      "metric": "wall_s",
+      "reference_reps": [
+        42.089491293998435,
+        41.133335719998286,
+        41.07415206300357
+      ],
+      "candidate_reps": [
+        39.11506829100108,
+        39.84690018699621,
+        39.51652097700571
+      ],
+      "median_change_pct": -3.9306677046532568,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "amortized_decode_tok_s",
+      "reference_reps": [
+        12.647832956095682,
+        13.430212236056681,
+        12.828012727905627
+      ],
+      "candidate_reps": [
+        13.571470022235296,
+        13.600107773087235,
+        13.925231075565874
+      ],
+      "median_change_pct": 6.018820385966861,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "completion_tok_s",
+      "reference_reps": [
+        12.165394671443774,
+        13.16771426027057,
+        12.607135311529012
+      ],
+      "candidate_reps": [
+        13.090737593768287,
+        13.328027522282479,
+        13.737991647259532
+      ],
+      "median_change_pct": 5.718128606855077,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        0.9583067289931932,
+        0.9689161779970163,
+        0.9642416580027202
+      ],
+      "candidate_reps": [
+        1.519133783003781,
+        1.543952685999102,
+        1.2961113060009666
+      ],
+      "median_change_pct": 57.54699772569827,
+      "observation": "separated_regression_over_2pct"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.10298581200186163,
+        0.1781150989991147,
+        0.7240564759995323
+      ],
+      "candidate_reps": [
+        0.09968300499895122,
+        0.10057058399979724,
+        0.09961885300435824
+      ],
+      "median_change_pct": -44.034500410632404,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        42.08659183099371,
+        38.88298226099869,
+        40.61192232400208
+      ],
+      "candidate_reps": [
+        39.11162349199731,
+        38.41528681899945,
+        37.2689118720009
+      ],
+      "median_change_pct": -5.408843953452546,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.684413704999315,
+        0.8344398390036076,
+        0.7772253340008319
+      ],
+      "candidate_reps": [
+        1.4591069140005857,
+        0.8420551559975138,
+        0.5729319469974143
+      ],
+      "median_change_pct": 0.9126262479269398,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "amortized_decode_tok_s",
+      "reference_reps": [
+        14.911320998445067,
+        14.561130747648681,
+        16.287332908411184
+      ],
+      "candidate_reps": [
+        14.190527088738861,
+        16.224236439027102,
+        15.735039253307642
+      ],
+      "median_change_pct": 5.524113222084548,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "completion_tok_s",
+      "reference_reps": [
+        14.325704113818,
+        14.16424503333614,
+        16.033854095494167
+      ],
+      "candidate_reps": [
+        13.5606835505885,
+        15.724818434643627,
+        15.389892896583609
+      ],
+      "median_change_pct": 7.4285268934120685,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        0.9583966659993166,
+        0.9688561939983629,
+        0.9642718660034006
+      ],
+      "candidate_reps": [
+        1.5192880549948313,
+        1.543640381001751,
+        1.296144922998792
+      ],
+      "median_change_pct": 57.55806101569632,
+      "observation": "separated_regression_over_2pct"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.09931535299983807,
+        0.10014393000165,
+        0.0991248359932797
+      ],
+      "candidate_reps": [
+        0.09864568499324378,
+        0.09879456300404854,
+        0.09789527999964776
+      ],
+      "median_change_pct": -0.6742844750251109,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        35.739953577998676,
+        36.14735545699659,
+        31.932434768998064
+      ],
+      "candidate_reps": [
+        37.75620882899966,
+        32.55999438899744,
+        33.268587601000036
+      ],
+      "median_change_pct": -6.914855028015488,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.4706893019974814,
+        1.0539270099980058,
+        0.5583600280006067
+      ],
+      "candidate_reps": [
+        1.746270875002665,
+        1.063905070994224,
+        0.7932952440023655
+      ],
+      "median_change_pct": 0.9467506669401216,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "long",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        38.829453181002464,
+        40.07055027199385,
+        40.28899493299832
+      ],
+      "candidate_reps": [
+        37.297545401001116,
+        38.77510047599935,
+        38.715622006995545
+      ],
+      "median_change_pct": -3.3813567714973347,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "long",
+      "metric": "ttft_s",
+      "reference_reps": [
+        38.82885524300218,
+        40.06883589899371,
+        40.28778628999862
+      ],
+      "candidate_reps": [
+        37.22660628200538,
+        38.7735870769975,
+        38.714017280995904
+      ],
+      "median_change_pct": -3.381227798614017,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "short",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        6.801969015003124,
+        8.082704772001307,
+        8.067204792998382
+      ],
+      "candidate_reps": [
+        4.624635339998349,
+        6.477020001999335,
+        7.209893019004085
+      ],
+      "median_change_pct": -19.71171963279259,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "short",
+      "metric": "ttft_s",
+      "reference_reps": [
+        6.713169767004729,
+        7.981422390999796,
+        7.971988753000915
+      ],
+      "candidate_reps": [
+        4.528876655000204,
+        6.474663352004427,
+        6.562752272002399
+      ],
+      "median_change_pct": -18.782332080346276,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "cohort",
+      "metric": "wall_s",
+      "reference_reps": [
+        68.80702463000489,
+        68.66662348499813,
+        68.70105151199823
+      ],
+      "candidate_reps": [
+        68.21645269099827,
+        68.17598966299556,
+        68.26096319800126
+      ],
+      "median_change_pct": -0.705373222585004,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "long",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        68.79419008800323,
+        68.65495236800052,
+        68.68071875500027
+      ],
+      "candidate_reps": [
+        68.19802086700656,
+        68.15672787299991,
+        68.24744783200003
+      ],
+      "median_change_pct": -0.7028142639502688,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "long",
+      "metric": "ttft_s",
+      "reference_reps": [
+        68.79299230899778,
+        68.653555693003,
+        68.6794352950019
+      ],
+      "candidate_reps": [
+        67.56699503500568,
+        67.52681841600133,
+        68.24576657800208
+      ],
+      "median_change_pct": -1.6197574357125988,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short0",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.199817772998358,
+        2.196429044000979,
+        2.1892405319958925
+      ],
+      "candidate_reps": [
+        2.16708208899945,
+        2.1827547190041514,
+        2.17959180699836
+      ],
+      "median_change_pct": -0.7665732270571657,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short0",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.198800635000225,
+        2.1950908329963568,
+        2.187591359994258
+      ],
+      "candidate_reps": [
+        2.1642762209958164,
+        2.1814524729998084,
+        2.1783532420013216
+      ],
+      "median_change_pct": -0.7625010657161702,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.5996294830038096,
+        2.602688841005147,
+        2.6030461889968137
+      ],
+      "candidate_reps": [
+        2.5671786829989287,
+        2.5652158559969394,
+        2.5800564360033604
+      ],
+      "median_change_pct": -1.3643643238007819,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.5992396420042496,
+        2.600578964003944,
+        2.60149292099959
+      ],
+      "candidate_reps": [
+        2.565143778003403,
+        2.5631188549959916,
+        2.5781629880002583
+      ],
+      "median_change_pct": -1.3625883501719782,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short10",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.7810826070053736,
+        2.854281975996855,
+        2.869610053996439
+      ],
+      "candidate_reps": [
+        2.6993831060026423,
+        2.666009803993802,
+        2.720480921998387
+      ],
+      "median_change_pct": -5.426894444796915,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short10",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.7798057880063425,
+        2.852415203997225,
+        2.8671542879965273
+      ],
+      "candidate_reps": [
+        2.6976009069985594,
+        2.6640716519978014,
+        2.71922784599883
+      ],
+      "median_change_pct": -5.427481131839329,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short11",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.4198668930039275,
+        1.4887941729975864,
+        1.505069913000625
+      ],
+      "candidate_reps": [
+        1.3288119470016682,
+        1.295954098997754,
+        1.34153204899485
+      ],
+      "median_change_pct": -10.745758473369415,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short11",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.4186356580030406,
+        1.4877372739938437,
+        1.5037456700010807
+      ],
+      "candidate_reps": [
+        1.3269332819982083,
+        1.2945207329976256,
+        1.3403273730000365
+      ],
+      "median_change_pct": -10.80862829792223,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short12",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.8532461270006024,
+        1.9294932289994904,
+        1.9516030509985285
+      ],
+      "candidate_reps": [
+        1.7542412809998496,
+        1.713193597002828,
+        1.7800722000029054
+      ],
+      "median_change_pct": -9.082796734690547,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short12",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.851913099999365,
+        1.9276930640044156,
+        1.9497829339961754
+      ],
+      "candidate_reps": [
+        1.752376327996899,
+        1.7116827900026692,
+        1.7787483380016056
+      ],
+      "median_change_pct": -9.094639560684502,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short13",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.2945904539956246,
+        2.368664904999605,
+        2.3944847879974986
+      ],
+      "candidate_reps": [
+        2.185114683001302,
+        2.138033667994023,
+        2.207424143998651
+      ],
+      "median_change_pct": -7.74910041563407,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short13",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.293036034992838,
+        2.367134933003399,
+        2.3924375669957954
+      ],
+      "candidate_reps": [
+        2.1836666439994588,
+        2.136397373993532,
+        2.2058802179963095
+      ],
+      "median_change_pct": -7.750647689997015,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short14",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.734975213003054,
+        2.799569363000046,
+        2.8288957370023127
+      ],
+      "candidate_reps": [
+        2.6088569150015246,
+        2.5618717660036054,
+        2.6275574669998605
+      ],
+      "median_change_pct": -6.812206567161172,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short14",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.733830923003552,
+        2.7978777429962065,
+        2.8265220190005493
+      ],
+      "candidate_reps": [
+        2.6069900270013022,
+        2.559572284000751,
+        2.6262809009931516
+      ],
+      "median_change_pct": -6.822589602878271,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short15",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.3709162330051186,
+        1.4414645459983149,
+        1.4747943370020948
+      ],
+      "candidate_reps": [
+        36.21252428199659,
+        36.17218998899625,
+        1.2680434939975385
+      ],
+      "median_change_pct": 2409.405457762715,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short15",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.3697154780020355,
+        1.4404093269986333,
+        1.4728010680046282
+      ],
+      "candidate_reps": [
+        36.197030534996884,
+        36.15586251399509,
+        1.2671128509973641
+      ],
+      "median_change_pct": 2410.110274648992,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short2",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        3.012147624998761,
+        3.0255986800038954,
+        3.026174128004641
+      ],
+      "candidate_reps": [
+        2.9668115439999383,
+        2.966977487994882,
+        2.978248845996859
+      ],
+      "median_change_pct": -1.9375071914341957,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short2",
+      "metric": "ttft_s",
+      "reference_reps": [
+        3.011727623998013,
+        3.023838948000048,
+        3.0241057870007353
+      ],
+      "candidate_reps": [
+        2.9642745410019415,
+        2.964965223996842,
+        2.976465863001067
+      ],
+      "median_change_pct": -1.9469860999754895,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short3",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.6361235169970314,
+        1.662576804003038,
+        1.6710379910000484
+      ],
+      "candidate_reps": [
+        1.5879398779943585,
+        1.5940052649966674,
+        1.6222848629986402
+      ],
+      "median_change_pct": -4.124413310787734,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short3",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.6359858209980302,
+        1.6612535050007864,
+        1.6693943069985835
+      ],
+      "candidate_reps": [
+        1.586081021996506,
+        1.5922584899963113,
+        1.6208489049968193
+      ],
+      "median_change_pct": -4.153190033717491,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short4",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.0416604580022977,
+        2.087224775001232,
+        2.0947029379967717
+      ],
+      "candidate_reps": [
+        1.9900798550006584,
+        1.9934318000014173,
+        2.037352204999479
+      ],
+      "median_change_pct": -4.493669111404608,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short4",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.0404669670024305,
+        2.0857625159987947,
+        2.09282171799714
+      ],
+      "candidate_reps": [
+        1.9873559869956807,
+        1.9921568349964218,
+        2.036267607996706
+      ],
+      "median_change_pct": -4.487839832405305,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short5",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.446123895002529,
+        2.506583454000065,
+        2.5065964169989456
+      ],
+      "candidate_reps": [
+        2.399275044001115,
+        2.399313030997291,
+        2.43266365800082
+      ],
+      "median_change_pct": -4.279547239154924,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short5",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.44568994200381,
+        2.5049912260001292,
+        2.505673358995409
+      ],
+      "candidate_reps": [
+        2.397310827000183,
+        2.3984777639998356,
+        2.4303097289957805
+      ],
+      "median_change_pct": -4.252049304394978,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short6",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.8512875579981483,
+        2.9305958580007427,
+        2.9280293119954877
+      ],
+      "candidate_reps": [
+        2.8031584469936206,
+        2.8033361089983373,
+        2.842362110997783
+      ],
+      "median_change_pct": -4.25860501075962,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short6",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.851151269998809,
+        2.9292686709959526,
+        2.9271936459990684
+      ],
+      "candidate_reps": [
+        2.801090421999106,
+        2.801676214003237,
+        2.840847640996799
+      ],
+      "median_change_pct": -4.287978424911875,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short7",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.4900687680055853,
+        1.5646110230009072,
+        1.5697688259970164
+      ],
+      "candidate_reps": [
+        1.438273134001065,
+        1.4253185029956512,
+        1.4803023530039354
+      ],
+      "median_change_pct": -8.07471551347807,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short7",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.4897212470023078,
+        1.5645413099991856,
+        1.5677608039986808
+      ],
+      "candidate_reps": [
+        1.4371711620042333,
+        1.4252393819988356,
+        1.4785768580040894
+      ],
+      "median_change_pct": -8.141053686528643,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short8",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.9202561679994687,
+        1.996654758004297,
+        1.9997844950048602
+      ],
+      "candidate_reps": [
+        1.8578811830011546,
+        1.8350497169958544,
+        1.895433003999642
+      ],
+      "median_change_pct": -6.950303974526362,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short8",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.9186885000017355,
+        1.994758417000412,
+        1.999075660998642
+      ],
+      "candidate_reps": [
+        1.8559937509999145,
+        1.8331972140003927,
+        1.8937455249979394
+      ],
+      "median_change_pct": -6.956464743693768,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short9",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.3495385269998224,
+        2.4206113059990457,
+        2.430788551006117
+      ],
+      "candidate_reps": [
+        2.2799593519957853,
+        2.2445532330020797,
+        2.3057423880018177
+      ],
+      "median_change_pct": -5.810596424741144,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short9",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.3493511349952314,
+        2.4190229500018177,
+        2.4286962100013625
+      ],
+      "candidate_reps": [
+        2.27789995099738,
+        2.2423014960004366,
+        2.3032639779994497
+      ],
+      "median_change_pct": -5.833884254977062,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "0",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        79.89308597500349,
+        78.0892325370005,
+        77.80811424300191
+      ],
+      "candidate_reps": [
+        79.08790289999888,
+        77.61623228999815,
+        77.61782140500145
+      ],
+      "median_change_pct": -0.6036826290688468,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "0",
+      "metric": "ttft_s",
+      "reference_reps": [
+        79.89202053200279,
+        78.08748424500664,
+        77.80691040000238
+      ],
+      "candidate_reps": [
+        79.08505031200184,
+        77.61397208899871,
+        77.61548067500553
+      ],
+      "median_change_pct": -0.6044548298164587,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        36.132758564999676,
+        32.0699510649938,
+        31.77908174199547
+      ],
+      "candidate_reps": [
+        20.81885996300116,
+        20.44438820299547,
+        20.426406890997896
+      ],
+      "median_change_pct": -36.250641101502346,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        36.13171982700442,
+        32.0682615409969,
+        31.777267224999378
+      ],
+      "candidate_reps": [
+        20.241724366998824,
+        19.286404621998372,
+        19.279202233999968
+      ],
+      "median_change_pct": -39.85827826263007,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "2",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        10.633764791004069,
+        12.506969951995416,
+        8.65708330200141
+      ],
+      "candidate_reps": [
+        8.046078389998002,
+        5.198926722005126,
+        5.193248750998464
+      ],
+      "median_change_pct": -51.10925599555009,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "2",
+      "metric": "ttft_s",
+      "reference_reps": [
+        10.632496739999624,
+        12.505234939999355,
+        8.656175091004116
+      ],
+      "candidate_reps": [
+        8.042066308000358,
+        5.198074463005469,
+        5.1916160239998135
+      ],
+      "median_change_pct": -51.111440801573636,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "3",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        7.849083036999218,
+        1.7281838929993683,
+        1.7153799699954106
+      ],
+      "candidate_reps": [
+        8.044614655998885,
+        1.7272131909994641,
+        1.7096176749982988
+      ],
+      "median_change_pct": -0.0561689067833715,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "3",
+      "metric": "ttft_s",
+      "reference_reps": [
+        7.186426385000232,
+        1.7217525499945623,
+        1.7138785899951472
+      ],
+      "candidate_reps": [
+        1.7263461730035488,
+        1.7250942539976677,
+        1.708004116997472
+      ],
+      "median_change_pct": 0.19408735611374794,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "cohort",
+      "metric": "wall_s",
+      "reference_reps": [
+        79.90447393499926,
+        78.10890191200451,
+        77.82597612900281
+      ],
+      "candidate_reps": [
+        79.10551254600432,
+        77.6356356680044,
+        77.62804066100216
+      ],
+      "median_change_pct": -0.6059056425262277,
+      "observation": "no_median_regression_over_2pct_observed"
+    }
+  ]
+}

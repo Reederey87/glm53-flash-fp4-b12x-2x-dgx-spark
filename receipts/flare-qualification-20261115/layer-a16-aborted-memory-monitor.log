@@ -1,0 +1,7 @@
+Nov 16 01:50:15 spark-a183 systemd[2232]: Starting b12x-flare-layer-a16-memory-20261116T120000Z.service - /home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 /home/nvidia/b12x-flare/scripts/flare_memory_watch.py --out /home/nvidia/b12x-flare/local/layer-a16-window-20261116T120000Z/memory.jsonl --seconds 4800 --restore-unit b12x-flare-layer-a16-restore-20261116T120000Z.service...
+Nov 16 01:50:15 spark-a183 systemd[2232]: Started b12x-flare-layer-a16-memory-20261116T120000Z.service - /home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 /home/nvidia/b12x-flare/scripts/flare_memory_watch.py --out /home/nvidia/b12x-flare/local/layer-a16-window-20261116T120000Z/memory.jsonl --seconds 4800 --restore-unit b12x-flare-layer-a16-restore-20261116T120000Z.service.
+Nov 16 01:50:15 spark-a183 uv[1338337]: usage: flare_memory_watch.py [-h] --out OUT [--seconds SECONDS]
+Nov 16 01:50:15 spark-a183 uv[1338337]:                              [--restore-unit RESTORE_UNIT]
+Nov 16 01:50:15 spark-a183 uv[1338337]: flare_memory_watch.py: error: invalid restoration service name
+Nov 16 01:50:15 spark-a183 systemd[2232]: b12x-flare-layer-a16-memory-20261116T120000Z.service: Main process exited, code=exited, status=2/INVALIDARGUMENT
+Nov 16 01:50:15 spark-a183 systemd[2232]: b12x-flare-layer-a16-memory-20261116T120000Z.service: Failed with result 'exit-code'.

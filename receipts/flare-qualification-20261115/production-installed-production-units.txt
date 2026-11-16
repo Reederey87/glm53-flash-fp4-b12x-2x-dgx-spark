@@ -1,0 +1,66 @@
+# /home/nvidia/.config/systemd/user/b12x-flare-production.service
+[Unit]
+Description=Approved Flare cluster startup owner
+ConditionPathExists=/home/nvidia/b12x-flare/local/production-pin.json
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=HOME=/home/nvidia
+WorkingDirectory=/home/nvidia/b12x-flare
+ExecStart=/bin/bash /home/nvidia/b12x-flare/scripts/flare_production.sh start
+ExecStopPost=/bin/bash /home/nvidia/b12x-flare/scripts/flare_production.sh stop
+TimeoutStartSec=2400
+TimeoutStopSec=360
+Restart=no
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
+
+# /home/nvidia/.config/systemd/user/b12x-flare-production-watchdog.service
+[Unit]
+Description=Check both Flare ranks and bounded cluster recovery
+
+[Service]
+Type=oneshot
+Environment=HOME=/home/nvidia
+WorkingDirectory=/home/nvidia/b12x-flare
+ExecStart=/home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 /home/nvidia/b12x-flare/scripts/flare_watchdog.py
+TimeoutStartSec=90
+
+# /home/nvidia/.config/systemd/user/b12x-flare-production-watchdog.timer
+[Unit]
+Description=Periodic Flare production health check
+
+[Timer]
+OnBootSec=3min
+OnUnitInactiveSec=30s
+AccuracySec=1s
+Unit=b12x-flare-production-watchdog.service
+
+[Install]
+WantedBy=timers.target
+
+# /home/nvidia/.config/systemd/user/b12x-flare-tailscale.service
+[Unit]
+Description=Expose approved Flare on the existing tailnet API port
+After=network-online.target b12x-flare-production.service
+Wants=network-online.target
+Requires=b12x-flare-production.service
+PartOf=b12x-flare-production.service
+
+[Service]
+Type=exec
+Environment=HOME=/home/nvidia
+Environment=XDG_RUNTIME_DIR=%t
+Environment=PATH=/home/nvidia/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+ExecStart=/home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 /home/nvidia/b12x-flare/scripts/tailscale_proxy.py --target-port 8001
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=10
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

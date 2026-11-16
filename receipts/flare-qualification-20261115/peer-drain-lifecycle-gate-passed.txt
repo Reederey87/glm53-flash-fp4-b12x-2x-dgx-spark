@@ -1,0 +1,1 @@
+Both loaded lifecycle cases passed; production adoption remains gated.

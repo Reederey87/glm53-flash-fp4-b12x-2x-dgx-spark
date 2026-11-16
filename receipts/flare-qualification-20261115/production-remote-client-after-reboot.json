@@ -1,0 +1,44 @@
+{
+  "time": "2026-11-16T12:15:29.373257+00:00",
+  "transport": "Mac SSH tunnel -> head tailnet listener8000 -> Flare8001",
+  "health": 200,
+  "request": {
+    "model": "nvidia/GLM-5.3-Flash-FP4-Local",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Reply with the single word READY."
+      }
+    ],
+    "max_tokens": 256
+  },
+  "response": {
+    "id": "chatcmpl-f68b3484968ab19e-14",
+    "object": "chat.completion",
+    "created": 1794831328,
+    "model": "nvidia/GLM-5.3-Flash-FP4-Local",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "READY",
+          "reasoning_content": "The user wants me to reply with just the single word \"READY\". This is a simple instruction-following request. There's nothing harmful here \u2014 it's just asking for a specific single-word response. I should comply exactly."
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 19,
+      "completion_tokens": 48,
+      "total_tokens": 67,
+      "prompt_tokens_details": {
+        "cached_tokens": 17
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 45
+      }
+    }
+  },
+  "passed": true
+}

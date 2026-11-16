@@ -2,7 +2,8 @@
 
 Deployment kit for **`nvidia/GLM-5.3-Flash-FP4-Local`** (320B MoE, 18B active,
 ModelOpt FP4 QAD) on two DGX Spark nodes (GB10, 121 GiB unified memory each)
-over their ConnectX-7 pair, served by **vLLM with FlashInfer's `b12x` kernels**.
+over their ConnectX-7 pair. The approved production engine is **native NVIDIA
+Flare**, with the original **vLLM/FlashInfer B12X** deployment retained for rollback.
 
 `b12x` is the SM120/SM121 kernel library that lives at
 [`flashinfer/experimental/b12x`](https://github.com/flashinfer-ai/flashinfer/tree/main/flashinfer/experimental/b12x)
@@ -13,37 +14,37 @@ it depends on.
 
 ## Production status
 
-**In production since 2026-11-08.** `vllm-b12x.service` is enabled with linger,
-so a cluster power cycle starts it with no operator action: it dispatches the
-worker, then the head, and holds the unit until `/health` is 200 (about 6–7
-minutes on this pair). The service renders
-`recipes/glm-5.3-flash-fp4-local.yaml` from this tree on **every** start, so the
-committed recipe — including **MTP-3** — is exactly what runs after a restart.
+The user approved the pinned Flare release on **2026-11-16**, with further
+research paused. It is **provisional production**: seven API smoke checks pass,
+but the full performance, capacity and broader quality gates remain open.
+[The production checkpoint](docs/63-production-pause-checkpoint.md) records
+observed activation, recovery and boot results, exact bytes, remaining work and
+instructions for resuming research. [CHANGELOG.md](CHANGELOG.md) records delivery. Both-node reboot, controlled
+watchdog recovery and post-boot API7/7 are verified. The current pool is
+**2,347,264 tokens**; the original capacity target remains open.
 
-Verified by a real two-node reboot (2026-11-08 19:51, receipt
-`receipts/prod-boot-20261109T005748Z.txt`): the unit self-started at boot, both
-ranks reported `num_spec_tokens=3`, KV pool 2,350,210, `/health` 200, watchdog
-timer re-armed.
+The runtime is `/home/nvidia/b12x-flare`, owned by `nvidia`, under
+`b12x-flare-production.service`. Its watchdog and tailnet proxy share that owner.
+B12X startup is disabled; `/home/nvidia/b12x` and its original image remain the
+rollback. Never start either engine directly from the Git checkout.
 
-## Recent windows
-
-| Date | Change | Result |
-|---|---|---|
-| 2026-11-08 | MTP draft depth 5 → 3 | decode **+8.46 %** c1 / **+8.34 %** c8; prefill and KV unchanged; answers identical ([gate](docs/gates/2026-11-08-mtp3.md)) |
-| 2026-11-08 | kit promoted, boot auto-start | two-node power cycle, service started by itself, health at 403 s ([receipt](receipts/boot-20261108-second.txt)) |
-
-## What is deployed
+## Selected release
 
 | Piece | Value |
 |---|---|
 | Checkpoint | `nvidia/GLM-5.3-Flash-FP4-Local` @ `76348ddb2be2e35e39ecfc00e75dc07703f4f3d5` |
-| Image | `vllm-node-b12x` (`sha256:3b5da79c…`, pinned in `receipts/expected-image-digest.txt`) |
-| Engine | vLLM `0.1.dev21830+g8244d1c44.d20261103` with `B12X` attention, `b12x` MoE/linear, `--load-format b12x` |
-| Kernels | FlashInfer `0.7.1` @ `91271757`, `b12x` registry inside it |
-| Parallelism | TP2 across the two Sparks, RoCEnante one-shot all-reduce/all-gather |
-| Speculation | MTP-3 (`moe_backend=humming`, `attention_backend=B12X`) |
-| Context | 1,000,000 tokens; FP8 pool 2,350,210 tokens (2.35× the window by pool arithmetic; two simultaneous full-context requests are not exercised) |
-| Reasoning | requests that omit `reasoning_effort` render **Max** (see `docs/04-reasoning.md`) |
+| Engine | Flare `5a4e867954593b2e05bba43bc2a6eeaddca402d7`, native manifest `127424e9…`, executable `b2eb310b…` |
+| Core | Native dense activations; identity `df214696…`, primary SHA `2c47847a…` |
+| Serving | TP2, four slots, fixed MTP-3, prefill 4096, latency policy, trace off, reserve 4 GiB |
+| Context/cache | 1M configured context; provisional startup pool floor 2,300,000 tokens; original 2,350,210 target remains open |
+| Reasoning | omitted `reasoning_effort` defaults to Max; low/high/max checked at every owner startup |
+| API | native `127.0.0.1:8001`; existing tailnet `:8000` endpoint |
+| Rollback | B12X image `sha256:3b5da79c…`, original runtime and startup units retained |
+
+Exact pins and explicit approval: [release decision](recipes/flare-production-decision-20261116.json).
+Use the [current runbook](docs/02-runbook.md) for start, stop and rollback.
+The comparisons below describe the original B12X recipe and published alternatives;
+they are historical context, not a measured advantage of this Flare release.
 
 ## Why this kit — and why `nvidia/GLM-5.3-Flash-FP4-Local`
 
@@ -145,75 +146,89 @@ Sources: [model card](https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local),
 [Flare-vs-NVFP4 Spark comparison](https://forums.developer.nvidia.com/t/spark-glm53-nvfp4-b12x-cuda-graph-dflash2-engine-for-glm-5-3-flash-on-2x-dgx-spark/386646),
 [`docs/06-alternatives.md`](docs/06-alternatives.md), and this kit's receipts.
 
-## Quick start (on the head Spark)
+## Operate the installed release
+
+As `nvidia` on the head Spark:
 
 ```bash
-git clone https://github.com/Reederey87/glm53-flash-fp4-b12x-2x-dgx-spark /home/nvidia/b12x
-cd /home/nvidia/b12x
-cp env.example .env                 # CLUSTER_NODES, WORKER_IP
-./launch.sh preflight
-./launch.sh                         # dispatch both ranks, wait for /health
-./launch.sh status
-./launch.sh smoke                   # models, thinking, reasoning-default, tools, prefix
-./launch.sh speed                   # prefill ladder + decode c1..8 + acceptance
+cd /home/nvidia/b12x-flare
+systemctl --user status b12x-flare-production.service
+curl --fail http://127.0.0.1:8001/health
+journalctl --user -u b12x-flare-production.service -n 30
 ```
 
-Production starts through the unit, not the script:
+Use [the current runbook](docs/02-runbook.md) for start/stop, maintenance and
+rollback. `launch.sh` remains the original B12X launcher; it does not select the
+Flare production owner. Do not enable all unit files together.
 
-```bash
-cp systemd/*.service systemd/*.timer ~/.config/systemd/user/
-systemctl --user daemon-reload
-systemctl --user enable --now vllm-b12x.service vllm-b12x-watchdog.timer vllm-b12x-tailscale.service
-```
+For a fresh installation, keep the Git staging tree separate from the runtime.
+The [preparation workflow](docs/07-flare-candidate.md) explains building/exporting;
+apply the exact artifact, wrapper revisions and production decision in
+[docs/63](docs/63-production-pause-checkpoint.md) before enabling ownership.
+Historical candidate defaults and experiment controllers are not a production
+installer. No build, export or new experiment is required to use the current
+installed release.
 
 ## Layout
 
 ```
-launch.sh                     up/down/restart/status/logs/render/smoke/speed/qualify
-env.example                   cluster, image, serving and reasoning knobs
-recipes/                      the serving contract (single source of flags)
-scripts/preflight.sh          read-only gate: arch, image, checkpoint, memory, peer
-scripts/qualify.sh            compatibility matrix -> receipts/
-scripts/smoke.py              functional acceptance over the OpenAI API
-scripts/verify_reasoning.py   asserts the template's reasoning default (in-engine)
-scripts/speed_smoke.py        prefill ladder + decode matrix + spec acceptance
-scripts/watchdog.sh           bounded health canary (systemd timer)
-scripts/tailscale_proxy.py    userspace proxy for the Tailnet endpoint
-systemd/                      service + watchdog timer + tailscale unit
-docs/                         architecture, qualification, runbook, gate, reasoning
-spec/                         CHANGELOG + TODO (repo delivery rules)
+recipes/flare-glm53.json            pinned checkpoint, engine and core settings
+recipes/flare-production-*.json    explicit selected release and open gates
+scripts/flare_production.*         pinned owner, readiness and capacity checks
+scripts/flare_watchdog.py          bounded persistent recovery
+scripts/flare_run.*                native rank supervision; deployed revision pinned
+scripts/flare_smoke.py             seven API checks, including default reasoning
+scripts/flare_*.py                 preparation and qualification tools
+qualification/                    native patches, fixtures and frozen windows
+systemd/b12x-flare-*               production owner, watchdog, proxy and rollback
+launch.sh                         retained original B12X deployment launcher
+docs/                             current runbook and historical qualification
+receipts/                         retained measurements and operational evidence
+CHANGELOG.md                      public release record
+spec/                             ignored canonical TODO and PR changelog
 ```
 
-## Why vLLM and not Flare
+## Flare qualification and research checkpoint
 
-Flare (NVIDIA's `flare-local-inference`) is the other engine that targets this
-checkpoint, and its `glm53` recipe pins the same revision. A community guide
-reports 3.4–4.8M KV tokens on the same pair — **more** than this stack's 2.35M —
-with 12 seats and similar decode, but lower prefill (~1.5k vs ~2.2k tok/s) and a
-first preparation that can take over an hour and leaves a ~178 GB package on
-disk. It is not the deployment here because this service was already
-boot-verified end to end; Flare is the first candidate for the next window. See
-[`docs/06-alternatives.md`](docs/06-alternatives.md).
+The original interleaved scheduler delayed early concurrent prompt responses.
+The selected latency scheduler has native tracing evidence, but the final mixed
+ABBA still contains ten unresolved adverse median points out of eighty. No full
+84-row performance-preservation pass is claimed. See the [retained ABBA result](docs/50-counterbalanced-performance-repeat.md)
+and the definitive links in [docs/63](docs/63-production-pause-checkpoint.md).
+
+Completed numerical evidence includes component/state, expert, MLA, representative
+layer, 45-layer target, vocabulary and full MTP replay checks with original bounds.
+These do not establish independent full-model or exported-core equivalence.
+The public generation comparison stopped on the research pause at 100 baseline
+and 86 candidate responses; it is incomplete. Warmup and fractional-reserve
+experiments are staged/local proposals, not production settings.
+
+Historical trials, failures and receipts remain in `docs/` and
+`receipts/flare-qualification-20261115/`. Old controllers assume B12X owns
+production and must be adapted to this Flare rollback checkpoint before reuse.
 
 ## Credits and licenses
 
-This kit is Apache-2.0. It integrates work by NVIDIA (checkpoint, model card,
+This kit is Apache-2.0. It integrates work by NVIDIA (Flare, checkpoint, model card,
 chat template), the vLLM project, FlashInfer `b12x`, and Eugene Rakhmatulin's
 MIT-licensed `spark-vllm-docker`, and it derives its watchdog/proxy from the
 earlier `glm53-flash-exl3-2x-dgx-spark` kit. Per-component attribution, licenses
 and exactly how each is used: [CREDITS.md](CREDITS.md), [NOTICE](NOTICE).
 
-No weights, images, or upstream source are redistributed here.
+No weights, images, or full upstream source trees are redistributed here.
 
 ## Operations
 
-- **Stop:** `systemctl --user stop vllm-b12x.service` (tears down both ranks).
-- **Restart / power cycle:** nothing to do. Linger is on and the unit is enabled;
-  it starts at boot and renders the committed recipe. To change what boots, edit
-  the recipe, commit it, `./launch.sh down`, then `systemctl --user start
-  vllm-b12x.service`.
-- **Rollback:** the deposed kit stays at `/home/nvidia/glm53-fp4-local` with its
-  image and `.env`; re-enable `vllm-glm53fp4.service` after stopping this one.
-- **Never** start on the teardown transient: the unit gates on ≥90 GiB
-  `MemFree` **and** ≥100 GiB `MemAvailable` on both nodes. GB10 has no OOM killer.
-- **One treatment per window.** `docs/03-gate.md` is the pre-registered gate.
+As `nvidia` on spark1:
+
+```bash
+systemctl --user status b12x-flare-production.service
+systemctl --user stop b12x-flare-production.service
+systemctl --user start b12x-flare-production.service b12x-flare-tailscale.service
+```
+
+The owner tears down both ranks, verifies exact pins, waits for the peer and
+90GiB free / 100GiB available on both nodes, then requires health, capacity and
+seven API checks. A manual stop is respected by the watchdog. See the
+[runbook](docs/02-runbook.md) for maintenance, recovery and B12X rollback.
+No driver or kernel upgrade is part of this release.

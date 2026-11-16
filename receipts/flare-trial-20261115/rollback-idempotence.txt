@@ -1,0 +1,1 @@
+2026-11-15T19:54:11Z revised rollback 747819f: both candidate ranks stopped, scoped cache release completed on both nodes, incumbent already active, health HTTP 200; idempotent invocation passed. This does not retest loaded-model shutdown or a fresh memory-gated start.

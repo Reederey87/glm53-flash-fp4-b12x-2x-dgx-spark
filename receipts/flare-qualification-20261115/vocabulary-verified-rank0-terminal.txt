@@ -1,0 +1,5 @@
+MainPID=0
+ExecMainCode=1
+ExecMainStatus=0
+Id=b12x-flare-vocabulary-verified-rank0-20261116T210000Z.service
+InvocationID=e675c62128fd48c4880a766cd8a2546b

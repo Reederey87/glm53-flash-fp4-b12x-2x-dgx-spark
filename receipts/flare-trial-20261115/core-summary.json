@@ -1,0 +1,114 @@
+{
+  "accepted": {
+    "core_primary": "/home/nvidia/b12x-flare/cores/models/nvidia_2FGLM-5.3-Flash-FP4-Local/gb10-tp2-202611151929/model.safetensors",
+    "core_primary_sha256": "fe0b886e8899d2510c3dc55aa2bee6d26c39d35287f952d8044f69a2e29ca7d1",
+    "publisher_profile_sha256": "5bd9b5230ab5baa2309757caf7056ba61c31575b2a4592e22f2388230e238865",
+    "key_fingerprint": "9d18db4d422c26c4a543d9987f8531c7dbbf0c9312c563d562a65576d5adcbcb",
+    "core_id": "20967b8a3b4155aeccdb42134c42f3e6218211b35e62adfd6beb9069638f8ebe"
+  },
+  "signatures_verified": true,
+  "model": {
+    "model_id": "nvidia/GLM-5.3-Flash-FP4-Local",
+    "identity": "4766438dbae678b47fd5d017b3d0cda15f652f0307bd0e082c499ea374de8368",
+    "served_names": [
+      "GLM-5.3-Flash"
+    ],
+    "vocabulary": 154880,
+    "input_vocabulary": 154880,
+    "max_sequence_tokens": 1048576,
+    "prefill_chunk_size": 4096,
+    "max_active": 4,
+    "max_new_tokens": null,
+    "decode_weight_bytes": null,
+    "reserve_bytes": 4294967296,
+    "queue_capacity": 16,
+    "frontend_workers": 4,
+    "max_body_bytes": 33554432,
+    "context_hint": "context is limited by the checkpoint and available cache capacity",
+    "capacity_hint": "--max-concurrency sets the request limit; a lower [memory] reserve leaves more KV pages"
+  },
+  "speculation": {
+    "proposal_source": "mtp",
+    "widths": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "fixed_width": 4,
+    "token_capacity": 128,
+    "history_drafts": false
+  },
+  "sampling_defaults": {
+    "seed": 0,
+    "temperature": 1.0,
+    "top_k": -1,
+    "top_p": 0.949999988079071,
+    "min_p": 0.0,
+    "repetition_penalty": 1.0,
+    "presence_penalty": 0.0,
+    "frequency_penalty": 0.0,
+    "ranges": {
+      "temperature": {
+        "min": 0.949999988079071,
+        "max": 1.0
+      },
+      "top_k": null,
+      "top_p": {
+        "min": 0.949999988079071,
+        "max": 1.0
+      },
+      "min_p": null,
+      "repetition_penalty": null,
+      "presence_penalty": null,
+      "frequency_penalty": null
+    }
+  },
+  "preparation_cache_only": {
+    "page_tokens": 256,
+    "pages": 8,
+    "state_rows": 5,
+    "snapshots": 1
+  },
+  "ranks": [
+    {
+      "rank": 0,
+      "architecture": [
+        12,
+        1
+      ],
+      "device_bytes": 91276443648,
+      "mapped_host_bytes": 115605504,
+      "peer_bytes": 0,
+      "graphs": 59,
+      "max_active": 4,
+      "abi_version": 6
+    },
+    {
+      "rank": 1,
+      "architecture": [
+        12,
+        1
+      ],
+      "device_bytes": 90991230976,
+      "mapped_host_bytes": 115605504,
+      "peer_bytes": 0,
+      "graphs": 59,
+      "max_active": 4,
+      "abi_version": 6
+    }
+  ],
+  "native_serving_qualification": {
+    "startup": "passed",
+    "api_smoke": "6/6 passed",
+    "adoption": "not qualified",
+    "kv_tokens": 2232064,
+    "incumbent_kv_tokens": 2350210,
+    "loaded_gib_per_gpu": 86.87,
+    "cache_budget_gib": 14.4,
+    "shared_snapshot_slots": 173,
+    "reserve_gib": 4,
+    "full_speed_matrix": "not run",
+    "numerical_gates": "open"
+  }
+}

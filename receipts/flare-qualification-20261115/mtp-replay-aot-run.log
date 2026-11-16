@@ -1,0 +1,14 @@
+/home/nvidia/b12x-flare/qualification/run_mtp_replay.sh: OK
+/home/nvidia/b12x-flare/qualification/mtp_replay_cases.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_mtp_replay_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/layer_selection_reference.py: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/run_mtp_replay.sh: OK
+/home/nvidia/b12x-flare/qualification/mtp_replay_cases.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_mtp_replay_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/layer_selection_reference.py: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 115 GiB free / 114 GiB avail
+Running as unit: b12x-flare-mtp-replay-aot-memory-20261117T040000Z.service; invocation ID: 4747406a432e40d48d8fbc4f833c7f15
+Running as unit: b12x-flare-mtp-replay-aot-rank1-20261117T040000Z.service; invocation ID: dc3033fe65384ee08867578d3d67e0c7
+Running as unit: b12x-flare-mtp-replay-aot-rank0-20261117T040000Z.service; invocation ID: b09644172410479bb3d7d3e6f4f7b9b4

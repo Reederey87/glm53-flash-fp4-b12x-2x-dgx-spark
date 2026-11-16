@@ -1,0 +1,7 @@
+[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 116 GiB free / 115 GiB avail
+Running as unit: b12x-flare-mixed-trace-build-20261116T034000Z.service; invocation ID: ffb7f77aaf484de79e337c6f662d54a9
+error: unexpected argument '-c' found
+
+Usage: uv run [OPTIONS] [COMMAND]
+
+For more information, try '--help'.

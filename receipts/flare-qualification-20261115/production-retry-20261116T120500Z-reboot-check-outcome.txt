@@ -1,0 +1,5 @@
+MainPID=0
+ExecMainCode=1
+ExecMainStatus=0
+Id=b12x-flare-production-reboot-check-20261116T120500Z.service
+InvocationID=851a76bd7b84429d9765a58c53c8218f

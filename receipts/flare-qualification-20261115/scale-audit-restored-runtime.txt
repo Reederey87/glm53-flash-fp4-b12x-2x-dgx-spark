@@ -1,0 +1,34 @@
+2026-11-16T00:37:31Z
+head_image=sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed
+worker_image=sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed
+health=200
+Result=success
+ExecMainStatus=0
+Id=vllm-b12x.service
+LoadState=loaded
+ActiveState=active
+
+Result=success
+Id=vllm-b12x-watchdog.timer
+LoadState=loaded
+ActiveState=active
+
+Result=success
+ExecMainStatus=0
+Id=vllm-b12x-tailscale.service
+LoadState=loaded
+ActiveState=active
+2026-11-16T00:38:07Z
+MainPID=0
+Result=success
+ExecMainCode=1
+ExecMainStatus=0
+Id=b12x-flare-scale-restored-smoke-20261116T002558Z.service
+LoadState=loaded
+ActiveState=active
+SubState=exited
+restored_smoke=5/5
+restoration_timer_disarmed_after_verification=true
+NEXT LEFT LAST PASSED UNIT ACTIVATES
+
+0 timers listed.

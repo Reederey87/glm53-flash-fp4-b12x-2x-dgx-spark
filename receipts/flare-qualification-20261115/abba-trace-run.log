@@ -1,0 +1,51 @@
+scripts/flare_run.py: OK
+/home/nvidia/b12x-flare/scripts/flare_long_output.py: OK
+/home/nvidia/b12x-flare/scripts/flare_bench.py: OK
+/home/nvidia/b12x-flare/scripts/flare_mixed_bench.py: OK
+/home/nvidia/b12x-flare/scripts/flare_mixed_compare.py: OK
+/home/nvidia/b12x-flare/scripts/spec_metrics.py: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/analyze_workload_trace.py: OK
+/home/nvidia/b12x-flare/scripts/flare_trace_check.py: OK
+[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 116 GiB free / 115 GiB avail
+Running as unit: b12x-flare-abba-trace-memory-20261117T020000Z.service; invocation ID: f0f471d37c144fd79443bdf1ef8789b8
+[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 116 GiB free / 115 GiB avail
+{"observed_startup_capacity": {"flare_total_kv_pages": 9153, "flare_kv_page_tokens": 256, "flare_total_kv_tokens": 2343168}, "capacity_adoption_gate_pending": true}
+unequal_burst rep0: 4 requests completed
+short_arrivals rep0: 17 requests completed
+decode_overlap rep0: 4 requests completed
+unequal_burst rep1: 4 requests completed
+short_arrivals rep1: 17 requests completed
+decode_overlap rep1: 4 requests completed
+unequal_burst rep2: 4 requests completed
+short_arrivals rep2: 17 requests completed
+decode_overlap rep2: 4 requests completed
+0-balanced native exits passed; memory samples 123
+{"native_histories": 76, "completions": 1129, "prompt_tokens": 1081731, "scope": "Complete native graph histories; no HTTP identity mapping or performance verdict."}
+[b12x] memory gate: head 105 GiB free / 114 GiB avail, worker 105 GiB free / 114 GiB avail
+{"observed_startup_capacity": {"flare_total_kv_pages": 9122, "flare_kv_page_tokens": 256, "flare_total_kv_tokens": 2335232}, "capacity_adoption_gate_pending": true}
+unequal_burst rep0: 4 requests completed
+short_arrivals rep0: 17 requests completed
+decode_overlap rep0: 4 requests completed
+unequal_burst rep1: 4 requests completed
+short_arrivals rep1: 17 requests completed
+decode_overlap rep1: 4 requests completed
+unequal_burst rep2: 4 requests completed
+short_arrivals rep2: 17 requests completed
+decode_overlap rep2: 4 requests completed
+1-latency native exits passed; memory samples 245
+{"native_histories": 76, "completions": 1141, "prompt_tokens": 1081731, "scope": "Complete native graph histories; no HTTP identity mapping or performance verdict."}
+[b12x] memory gate: head 105 GiB free / 114 GiB avail, worker 104 GiB free / 114 GiB avail
+{"observed_startup_capacity": {"flare_total_kv_pages": 9122, "flare_kv_page_tokens": 256, "flare_total_kv_tokens": 2335232}, "capacity_adoption_gate_pending": true}
+long-output rep0: four cold prompts,256 outputs each
+long-output rep1: four cold prompts,256 outputs each
+long-output rep2: four cold prompts,256 outputs each
+2-latency native exits passed; memory samples 328
+{"native_histories": 13, "completions": 1523, "prompt_tokens": 528512, "scope": "Complete native graph histories; no HTTP identity mapping or performance verdict."}
+[b12x] memory gate: head 105 GiB free / 114 GiB avail, worker 104 GiB free / 114 GiB avail
+{"observed_startup_capacity": {"flare_total_kv_pages": 9122, "flare_kv_page_tokens": 256, "flare_total_kv_tokens": 2335232}, "capacity_adoption_gate_pending": true}
+long-output rep0: four cold prompts,256 outputs each
+long-output rep1: four cold prompts,256 outputs each
+long-output rep2: four cold prompts,256 outputs each
+3-balanced native exits passed; memory samples 411
+{"native_histories": 13, "completions": 1601, "prompt_tokens": 528512, "scope": "Complete native graph histories; no HTTP identity mapping or performance verdict."}

@@ -1,5 +1,7 @@
 # Alternatives — the same checkpoint on two Sparks
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Surveyed 2026-11-08 with the Exa MCP search and each project's own files. Scope:
 **only kits that serve `nvidia/GLM-5.3-Flash-FP4-Local` on two DGX Spark
 (GB10) nodes.** Kits for the NVFP4, EXL3 or 3-bit checkpoints are a different

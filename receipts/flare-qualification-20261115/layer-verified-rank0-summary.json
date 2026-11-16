@@ -1,0 +1,9 @@
+{
+  "rank": 0,
+  "cases": 9,
+  "bad_cases": [],
+  "passed": true,
+  "expert_weight_owner": "a16",
+  "calibrated_a4_prefill": true,
+  "scope": "representative complete-layer TP2 RoCE replay; not full-model equivalence"
+}

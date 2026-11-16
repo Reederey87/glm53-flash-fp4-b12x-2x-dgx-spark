@@ -1,0 +1,9 @@
+[Unit]
+Description=Check both Flare ranks and bounded cluster recovery
+
+[Service]
+Type=oneshot
+Environment=HOME=/home/nvidia
+WorkingDirectory=/home/nvidia/b12x-flare
+ExecStart=/home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 /home/nvidia/b12x-flare/scripts/flare_watchdog.py
+TimeoutStartSec=90

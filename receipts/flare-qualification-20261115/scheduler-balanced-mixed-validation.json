@@ -1,0 +1,102 @@
+{
+  "validated_requests": 75,
+  "validated_cases": 9,
+  "receipt_sha256": "dde7b976d5bfc2d3e3eeabc4f45017788e04fc5956f0782e54091f6802997883",
+  "memory_samples": 114,
+  "memory_min_bytes": {
+    "head": {
+      "MemFree": 2259763200,
+      "MemAvailable": 11537547264
+    },
+    "worker": {
+      "MemFree": 2487926784,
+      "MemAvailable": 12428165120
+    }
+  },
+  "case_observations": [
+    {
+      "rep": 0,
+      "case": "unequal_burst",
+      "wall_s": 79.90447393499926,
+      "overlap": null
+    },
+    {
+      "rep": 0,
+      "case": "short_arrivals",
+      "wall_s": 68.80702463000489,
+      "overlap": null
+    },
+    {
+      "rep": 0,
+      "case": "decode_overlap",
+      "wall_s": 42.089491293998435,
+      "overlap": {
+        "prompt_interval_s": [
+          1.6851401059975615,
+          40.514593287000025
+        ],
+        "decode_deliveries_during_interval": {
+          "decode0": 457,
+          "decode1": 503
+        },
+        "scope": "client-visible simultaneous lifetimes/progress; not a GPU dispatch trace"
+      }
+    },
+    {
+      "rep": 1,
+      "case": "unequal_burst",
+      "wall_s": 78.10890191200451,
+      "overlap": null
+    },
+    {
+      "rep": 1,
+      "case": "short_arrivals",
+      "wall_s": 68.66662348499813,
+      "overlap": null
+    },
+    {
+      "rep": 1,
+      "case": "decode_overlap",
+      "wall_s": 41.133335719998286,
+      "overlap": {
+        "prompt_interval_s": [
+          1.054698564003047,
+          41.1252488359969
+        ],
+        "decode_deliveries_during_interval": {
+          "decode0": 503,
+          "decode1": 511
+        },
+        "scope": "client-visible simultaneous lifetimes/progress; not a GPU dispatch trace"
+      }
+    },
+    {
+      "rep": 2,
+      "case": "unequal_burst",
+      "wall_s": 77.82597612900281,
+      "overlap": null
+    },
+    {
+      "rep": 2,
+      "case": "short_arrivals",
+      "wall_s": 68.70105151199823,
+      "overlap": null
+    },
+    {
+      "rep": 2,
+      "case": "decode_overlap",
+      "wall_s": 41.07415206300357,
+      "overlap": {
+        "prompt_interval_s": [
+          0.777722327002266,
+          41.06671726000059
+        ],
+        "decode_deliveries_during_interval": {
+          "decode0": 511,
+          "decode1": 503
+        },
+        "scope": "client-visible simultaneous lifetimes/progress; not a GPU dispatch trace"
+      }
+    }
+  ]
+}

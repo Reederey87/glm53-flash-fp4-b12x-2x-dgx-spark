@@ -1,0 +1,51 @@
+{
+  "invocations": [
+    "2150f12e93cd47f8a4119bf0d9524430",
+    "ca116c2477914a3393e57cfd021779c9"
+  ],
+  "states": [
+    {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainCode": "0",
+      "ExecMainStatus": "0",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    {
+      "MainPID": "0",
+      "Result": "success",
+      "ExecMainCode": "0",
+      "ExecMainStatus": "0",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    }
+  ],
+  "native": [
+    {
+      "schema": 1,
+      "event": "native_exit",
+      "action": "serve",
+      "rank": 0,
+      "invocation_id": "2150f12e93cd47f8a4119bf0d9524430",
+      "native_pid": 1016140,
+      "native_returncode": 0,
+      "shutdown_requested": true,
+      "forced_kill": false,
+      "time": "2026-11-16T02:49:19.624674+00:00"
+    },
+    {
+      "schema": 1,
+      "event": "native_exit",
+      "action": "serve",
+      "rank": 1,
+      "invocation_id": "ca116c2477914a3393e57cfd021779c9",
+      "native_pid": 2123373,
+      "native_returncode": 0,
+      "shutdown_requested": true,
+      "forced_kill": false,
+      "time": "2026-11-16T02:49:20.056927+00:00"
+    }
+  ],
+  "scope": "idle after diagnostic; not loaded shutdown"
+}

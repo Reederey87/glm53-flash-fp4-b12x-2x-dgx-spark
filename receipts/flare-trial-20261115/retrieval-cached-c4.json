@@ -1,0 +1,92 @@
+{
+  "synthetic_fixture": true,
+  "raw_prompts_and_answers_omitted": true,
+  "raw_receipt_sha256": "e331bf2c39c1828a00ed85116f292cbf209b28e13e949bbcc95a412c00726fa1",
+  "results": [
+    {
+      "verdict": "correct",
+      "request_sha256": "d8f5ddd940b466ef5f28080a9e2a7e7722e4b75fe79c264b269de9708924dd06",
+      "response_sha256": "16eb468a53ba44764fbc8e2b9969a763f815ff465bc84afc8547a8790594d774",
+      "usage": {
+        "prompt_tokens": 10466,
+        "completion_tokens": 169,
+        "total_tokens": 10635,
+        "prompt_tokens_details": {
+          "cached_tokens": 10464
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 158
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ]
+    },
+    {
+      "verdict": "correct",
+      "request_sha256": "567986cb5edbd578f4fba62976f1db20074d757a6bf049e617eb76a90d27047a",
+      "response_sha256": "f201aebf00da4230c5d7c07a0a378ca711dcf0674d9179fbaf2c91ded34c8fc1",
+      "usage": {
+        "prompt_tokens": 10466,
+        "completion_tokens": 137,
+        "total_tokens": 10603,
+        "prompt_tokens_details": {
+          "cached_tokens": 10464
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 78
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ]
+    },
+    {
+      "verdict": "neighbour",
+      "request_sha256": "705d587d1516e8824202a9b437c4b2c5f6dc06385bd84c5c07b721d6f424496e",
+      "response_sha256": "5293820ca92edf293c8eb1618dfe8f18e201f9dc62cffb6820ae81c3c39d734a",
+      "usage": {
+        "prompt_tokens": 10466,
+        "completion_tokens": 139,
+        "total_tokens": 10605,
+        "prompt_tokens_details": {
+          "cached_tokens": 10464
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 96
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ]
+    },
+    {
+      "verdict": "correct",
+      "request_sha256": "adf2f9516f3bbafca8007f8eed86ec88d703aee447cfef464696b93a974f6232",
+      "response_sha256": "0e7cfee862451756b018cf20a53926b35a2cc3cd7edcfef2c3e09a4956a9021d",
+      "usage": {
+        "prompt_tokens": 10466,
+        "completion_tokens": 135,
+        "total_tokens": 10601,
+        "prompt_tokens_details": {
+          "cached_tokens": 10464
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 77
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ]
+    }
+  ],
+  "rounds": {
+    "1x4": 2,
+    "2x4": 10,
+    "4x4": 39
+  },
+  "counts": {
+    "correct": 3,
+    "neighbour": 1
+  }
+}

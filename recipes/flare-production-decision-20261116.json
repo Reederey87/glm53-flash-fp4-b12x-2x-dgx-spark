@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "status": "approved-provisional",
+  "approved_by_user": true,
+  "approval_date": "2026-11-16",
+  "approval": "push that version to production, update all docs, write todo file what need to do next and update vhanglog file with what was done",
+  "qualification": "incomplete; explicit production adoption after seven API checks, with further research paused",
+  "native_arm": "127424e92c1e5845697d85f3c34ce93fa632dd48bf3be491c868c50a9deb0243",
+  "binary_sha256": "b2eb310b9ec9009fa499086777d9ed90105b323db70da527242286dc0de026b9",
+  "core_primary_sha256": "2c47847a8fa28aa375af499973e5d8f8a7259136b0b3347a1fcf7b4fb711d0c6",
+  "checkpoint_revision": "76348ddb2be2e35e39ecfc00e75dc07703f4f3d5",
+  "minimum_kv_tokens": 2300000,
+  "full_qualification_kv_target": 2350210,
+  "open_gates": [
+    "Mixed and long-output ABBA retains 10 unresolved adverse median points; no full84-row B12X performance pass",
+    "Restore original usable KV target of2350210; fractional-reserve experiment remains unrun",
+    "Paired public generation test interrupted on user pause; baseline semantic failures and partial candidate results retained",
+    "Independent full-model/reference and exported-core equivalence remain open",
+    "Concurrent retrieval, million-token state reuse, page-boundary and pressure qualification remain open"
+  ],
+  "rollback": "Original B12X image sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed; /home/nvidia/b12x; vllm-b12x.service"
+}

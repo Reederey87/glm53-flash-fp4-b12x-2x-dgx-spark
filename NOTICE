@@ -16,9 +16,11 @@ license terms and the exact way each work is used are in CREDITS.md.
   eugr/spark-vllm-docker .................... Eugene Rakhmatulin (MIT), the
       Docker orchestration this kit clones at a pinned commit and runs.
   NVIDIA Flare (flare-local-inference) ...... NVIDIA Corporation (Apache-2.0),
-      consulted for qualification; no code is copied.
+      the pinned native production engine; integration patches and qualification
+      fixtures are supplied by this kit, retaining upstream attribution.
   glm53-flash-exl3-2x-dgx-spark ............. Reederey87 (Apache-2.0), the
       earlier kit this runtime tree derives its watchdog and proxy from.
 
-This repository contains only original scripts, documentation and a recipe.
-It does not redistribute model weights, container images, or upstream source.
+This repository contains integration scripts, source patches, qualification
+fixtures, documentation and pinned recipes.
+It does not redistribute model weights, container images, or full upstream source trees.

@@ -1,0 +1,1 @@
+2026-11-16T08:01:19Z Both ranks passed both complete45-layer target replay cases; mathematical-reference and MTP gates remain.

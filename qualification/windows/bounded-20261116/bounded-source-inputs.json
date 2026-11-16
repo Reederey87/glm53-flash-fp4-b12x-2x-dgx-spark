@@ -1,0 +1,9 @@
+{
+  "kit_commit": "0c8f805fae82b768591fc908a936a7efec672234",
+  "inputs": {
+    "patch_sha256": "ef027822eb59345165212b43706a181154ba67e7a75079e7e51f1ef73c6177b4",
+    "control_patch_sha256": "338bbeb0722c80ce86e6fdb1928f09b369fe389c723d6dfde3627ce0201dd5cb",
+    "regression_fixture_sha256": "db571049cd28699d5d8c578402aa47f51994e6081284de10f926f2e91c073faa",
+    "trace_patch_sha256": "8ce9b2d7148c186dc3fb356efa8648c62fb5bd4a142a9d961e608a3fd93b4dbc"
+  }
+}

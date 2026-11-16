@@ -1,0 +1,7 @@
+MainPID=0
+ExecMainCode=1
+ExecMainStatus=0
+Id=b12x-flare-bounded-build-20261116T041500Z.service
+ActiveState=active
+SubState=exited
+InvocationID=fcbe5c2472b545f585dcbb03685e38f1

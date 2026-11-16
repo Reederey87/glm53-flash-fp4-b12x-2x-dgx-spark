@@ -21,15 +21,10 @@ import time
 import urllib.request
 from datetime import datetime, timezone
 
+from spec_metrics import COUNTERS, counter_delta, parse_counters
+
 WORDS = ("harbor lantern velvet copper meadow signal archive orbit marrow glacier "
          "timber cascade falcon ember lattice quartz ripple summit tungsten willow").split()
-
-SPEC = {
-    "accepted": "vllm:spec_decode_num_accepted_tokens_total",
-    "draft_tokens": "vllm:spec_decode_num_draft_tokens_total",
-    "drafts": "vllm:spec_decode_num_drafts_total",
-}
-
 
 def make_prompt(tokens: int) -> str:
     """Cache-cold prompt: a per-request nonce makes the first tokens unique."""
@@ -73,31 +68,18 @@ def sse(url: str, body: dict) -> dict:
     return {"t0": t0, "first": first, "end": end, "usage": usage, "chunks": chunks}
 
 
-def metrics(base: str) -> dict:
-    out = {v: 0.0 for v in SPEC.values()}
+def metrics(base: str, engine: str = "vllm") -> dict:
     try:
         with urllib.request.urlopen(f"{base}/metrics", timeout=10) as r:
-            for line in r.read().decode().splitlines():
-                if not line or line.startswith("#"):
-                    continue
-                parts = line.rsplit(" ", 1)
-                if len(parts) != 2:
-                    continue
-                head, value = parts
-                name = head.split("{", 1)[0]
-                if name in out:
-                    try:
-                        out[name] += float(value)
-                    except ValueError:
-                        pass
+            return parse_counters(r.read().decode(), engine)
     except Exception:  # noqa: BLE001
         return {}
-    return out
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default="http://127.0.0.1:8000")
+    ap.add_argument("--engine", choices=tuple(COUNTERS), default="vllm")
     ap.add_argument("--model", default="nvidia/GLM-5.3-Flash-FP4-Local")
     ap.add_argument("--out", default="receipts")
     ap.add_argument("--lengths", default="8192,16384,32768,65536,131072")
@@ -108,7 +90,7 @@ def main() -> int:
     base = args.base.rstrip("/")
     os.makedirs(args.out, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    result = {"stamp": stamp, "model": args.model, "base": base,
+    result = {"stamp": stamp, "model": args.model, "base": base, "engine": args.engine,
               "prefill": [], "decode": [], "errors": []}
     failed = False
 
@@ -164,7 +146,7 @@ def main() -> int:
                 with lock:
                     errs.append(repr(e))
 
-        m0 = metrics(base)
+        m0 = metrics(base, args.engine)
         t0 = time.perf_counter()
         threads = [threading.Thread(target=worker) for _ in range(c)]
         for t in threads:
@@ -172,7 +154,7 @@ def main() -> int:
         for t in threads:
             t.join()
         wall = time.perf_counter() - t0
-        m1 = metrics(base)
+        m1 = metrics(base, args.engine)
 
         completion = sum(((r["usage"] or {}).get("completion_tokens") or 0) for r in out)
         spans = [r["end"] - (r["first"] or r["end"]) for r in out if r["first"]]
@@ -185,14 +167,16 @@ def main() -> int:
             fail(f"c={c}: no completion tokens or no first-token timestamp")
 
         acc = dec = drf = None
+        zero_draft_rounds = None
         if m0 and m1:
-            d = {k: m1.get(v, 0) - m0.get(v, 0) for k, v in SPEC.items()}
-            acc, dec, drf = d["accepted"], d["draft_tokens"], d["drafts"]
-            if drf <= 0 or dec <= 0:
-                fail(f"c={c}: spec-decode counters did not advance (drafts={drf}, draft_tokens={dec})")
-                acc = dec = drf = None
+            try:
+                d = counter_delta(m0, m1, args.engine)
+                acc, dec, drf = d["accepted"], d["draft_tokens"], d["drafts"]
+                zero_draft_rounds = d.get("zero_draft_rounds")
+            except ValueError as error:
+                fail(f"c={c}: {error}")
         else:
-            fail(f"c={c}: /metrics unavailable")
+            fail(f"c={c}: /metrics unavailable or required counters missing/invalid")
 
         row = {
             "concurrency": c,
@@ -202,6 +186,7 @@ def main() -> int:
             "aggregate_tok_s": round(completion / wall, 2) if wall else None,
             "mean_decode_tok_s": round(completion / max(gen_time * len(out), 1e-9), 2) if out and gen_time else None,
             "accepted_tokens": acc, "draft_tokens": dec, "drafts": drf,
+            "zero_draft_rounds": zero_draft_rounds,
             "acceptance_length": round(1 + acc / drf, 3) if drf else None,
             "draft_accept_rate": round(acc / dec, 3) if dec else None,
         }

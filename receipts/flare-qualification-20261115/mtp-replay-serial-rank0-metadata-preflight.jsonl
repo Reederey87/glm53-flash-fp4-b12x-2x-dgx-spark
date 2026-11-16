@@ -1,0 +1,2 @@
+{"cpu_fullgraph_traces": 2, "scope": "synthetic observer tracing only; no GPU compilation"}
+{"forward_metadata_roundtrip": true, "fresh_process": true, "both_cache_paths": true, "all_observers_called": true, "bound_method_cycle_and_aliases_preserved": true, "cuda_initialized": false}

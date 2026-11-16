@@ -1,0 +1,1 @@
+2026-11-16T08:19:50Z Both ranks passed checkpoint vocabulary FP64 reference and native RoCE replay, indexed and direct; full MTP gates remain.

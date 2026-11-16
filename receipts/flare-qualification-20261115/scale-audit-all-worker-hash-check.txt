@@ -1,0 +1,5 @@
+/home/nvidia/b12x-flare/.env: OK
+/home/nvidia/b12x-flare/local/accepted-core.json: OK
+/home/nvidia/b12x-flare/recipes/flare-glm53.json: OK
+/home/nvidia/b12x-flare/scripts/flare_run.py: OK
+/home/nvidia/b12x-flare/upstream/flare/flare-cli/target/release/flare: OK

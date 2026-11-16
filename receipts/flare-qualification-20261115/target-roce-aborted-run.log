@@ -1,0 +1,14 @@
+/home/nvidia/b12x-flare/qualification/run_target_roce.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_target_roce_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_target_roce_adaptation.json: OK
+/home/nvidia/b12x-flare/qualification/native/flare_heliopause.so: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/run_target_roce.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_target_roce_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_target_roce_adaptation.json: OK
+/home/nvidia/b12x-flare/qualification/native/flare_heliopause.so: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 116 GiB free / 115 GiB avail
+Running as unit: b12x-flare-target-roce-memory-20261116T130000Z.service; invocation ID: 00c7b75dc53b4ab38872aea4015d9afb
+Running as unit: b12x-flare-target-roce-rank1-20261116T130000Z.service; invocation ID: 7ce45f3f4775442f93c1e01c3f683796
+Running as unit: b12x-flare-target-roce-rank0-20261116T130000Z.service; invocation ID: 1e95344f8e3d4d2bba286869238a45d6

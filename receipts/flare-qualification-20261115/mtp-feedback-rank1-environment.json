@@ -1,0 +1,19 @@
+{
+  "rank": 1,
+  "local_gpu": 0,
+  "flashinfer": {
+    "url": "https://github.com/local-inference-lab/flashinfer.git",
+    "vcs_info": {
+      "vcs": "git",
+      "commit_id": "4fd836dcda0998b875129aad76774ca073df10c8",
+      "requested_revision": "4fd836dcda0998b875129aad76774ca073df10c8"
+    }
+  },
+  "torch": "2.14.1+cu132",
+  "gpu": "NVIDIA GB10",
+  "capability": [
+    12,
+    1
+  ],
+  "extension": "/home/nvidia/b12x-flare/qualification/native/flare_heliopause.so"
+}

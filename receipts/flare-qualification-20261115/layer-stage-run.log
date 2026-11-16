@@ -1,0 +1,16 @@
+/home/nvidia/b12x-flare/qualification/run_layer_stage.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_layer_stage_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_layer_stage_adaptation.json: OK
+/home/nvidia/b12x-flare/qualification/layer_stage_repeatability.py: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/native/flare_heliopause.so: OK
+/home/nvidia/b12x-flare/qualification/run_layer_stage.sh: OK
+/home/nvidia/b12x-flare/qualification/test_glm53_layer_stage_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/glm53_layer_stage_adaptation.json: OK
+/home/nvidia/b12x-flare/qualification/layer_stage_repeatability.py: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/native/flare_heliopause.so: OK
+[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 116 GiB free / 114 GiB avail
+Running as unit: b12x-flare-layer-stage-memory-20261116T160000Z.service; invocation ID: 80684df71f78495c98e6c7f10afbd0fe
+Running as unit: b12x-flare-layer-stage-rank1-20261116T160000Z.service; invocation ID: 8436c8a74113422c997a90cc6dfb2e8f
+Running as unit: b12x-flare-layer-stage-rank0-20261116T160000Z.service; invocation ID: 9f9ada65e1a8438998d5fa2c5cd16a97

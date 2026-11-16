@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "kind": "prefill-latency",
+  "flare_revision": "5a4e867954593b2e05bba43bc2a6eeaddca402d7",
+  "patch_sha256": "338bbeb0722c80ce86e6fdb1928f09b369fe389c723d6dfde3627ce0201dd5cb",
+  "binary_sha256": "1fa254f58542219992b6f24c02610d07122fda34431bb943d94366b5053c8b9e",
+  "lock_sha256": {
+    "helios/Cargo.lock": "aab8a66629f3a68f4148b09b67eece28c9cb13bba37f8fd747c0f1c9f77f1d15",
+    "flare-cli/Cargo.lock": "6fb76d91b8bf921a408465ab74651adf55b69225869f8dc4b0767e5304a977f1"
+  },
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "kit_commit": "6e00ff7",
+  "qualification": "CPU scheduler/config/CLI passed; GPU serving unqualified"
+}

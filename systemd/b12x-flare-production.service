@@ -1,0 +1,19 @@
+[Unit]
+Description=Approved Flare cluster startup owner
+ConditionPathExists=/home/nvidia/b12x-flare/local/production-pin.json
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+Environment=HOME=/home/nvidia
+WorkingDirectory=/home/nvidia/b12x-flare
+ExecStart=/bin/bash /home/nvidia/b12x-flare/scripts/flare_production.sh start
+ExecStopPost=/bin/bash /home/nvidia/b12x-flare/scripts/flare_production.sh stop
+TimeoutStartSec=2400
+TimeoutStopSec=360
+Restart=no
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

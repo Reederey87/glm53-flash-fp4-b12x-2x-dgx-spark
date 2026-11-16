@@ -1,0 +1,88 @@
+{
+  "reference": {
+    "responses": 100,
+    "complete": true,
+    "structural_failures": [],
+    "semantic_failures": [
+      {
+        "id": "chat-07",
+        "budget": 1024,
+        "verdict": {
+          "structural_passed": true,
+          "answer_passed": false,
+          "budget_exhausted": false,
+          "prompt_tokens": 36,
+          "completion_tokens": 64,
+          "cached_tokens": 36
+        }
+      },
+      {
+        "id": "chat-11",
+        "budget": 1024,
+        "verdict": {
+          "structural_passed": true,
+          "answer_passed": false,
+          "budget_exhausted": false,
+          "prompt_tokens": 39,
+          "completion_tokens": 71,
+          "cached_tokens": 39
+        }
+      },
+      {
+        "id": "chat-16",
+        "budget": 1024,
+        "verdict": {
+          "structural_passed": true,
+          "answer_passed": false,
+          "budget_exhausted": false,
+          "prompt_tokens": 37,
+          "completion_tokens": 15,
+          "cached_tokens": 37
+        }
+      },
+      {
+        "id": "chat-17",
+        "budget": 1024,
+        "verdict": {
+          "structural_passed": true,
+          "answer_passed": false,
+          "budget_exhausted": false,
+          "prompt_tokens": 40,
+          "completion_tokens": 200,
+          "cached_tokens": 40
+        }
+      }
+    ],
+    "budget64_exhausted": [
+      "chat-11",
+      "chat-17",
+      "json-05",
+      "json-06",
+      "json-08",
+      "long-01"
+    ]
+  },
+  "candidate": {
+    "responses": 86,
+    "complete": false,
+    "structural_failures": [],
+    "semantic_failures": [
+      {
+        "id": "chat-16",
+        "budget": 1024,
+        "verdict": {
+          "structural_passed": true,
+          "answer_passed": false,
+          "budget_exhausted": false,
+          "prompt_tokens": 37,
+          "completion_tokens": 11,
+          "cached_tokens": 35
+        }
+      }
+    ],
+    "budget64_exhausted": [
+      "chat-10"
+    ]
+  },
+  "paired_gate": "incomplete; stopped at user research pause"
+}

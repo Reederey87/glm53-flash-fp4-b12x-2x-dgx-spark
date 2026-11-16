@@ -1,0 +1,38 @@
+{
+  "diagnostic_only": true,
+  "request_hashes": [
+    "0323655bf1908dc32ac63925a1259b24c07a642652332c502fee6f73f91c4b8d",
+    "12477cfc212ec060e206ecbcd529fc05fd63165a4d425e715643fd42bbe482ff",
+    "b98809cf04562e0e9f9a4a98ae55977f17c94dec5d39f728f945eca3114aa413",
+    "dc979d0581abd4ffcf7dad09ebda820c3758b24d8fe1957eecec0917af8f2dd1"
+  ],
+  "total_prompt_work": 524288,
+  "balanced_sorted_ttft_s": [
+    233.5208172670027,
+    234.21102801500092,
+    234.87859246099833,
+    235.96472645299946
+  ],
+  "latency_sorted_ttft_s": [
+    59.858850837998034,
+    118.80544826199912,
+    178.4498565239992,
+    236.86510522499884
+  ],
+  "balanced_completion_work": [
+    520576,
+    521472,
+    522240,
+    524288
+  ],
+  "latency_completion_work": [
+    131072,
+    262144,
+    393216,
+    524288
+  ],
+  "trace_sha256": "8dcd96e3f0e62faa1a4b705efd8b118dc4943d49eef572f02ba92d54898b904a",
+  "probe_sha256": "19c01bed088ba62678420aa01909ec26560a430b64d1311300d32e974f32fd19",
+  "memory_samples": 61,
+  "mean_ttft_change_pct": -36.714790300486236
+}

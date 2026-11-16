@@ -1,0 +1,5 @@
+decode-1-False 1720183
+decode-4-False 1720910
+decode-16-True 1724224
+prefill-128-True 1725752
+prefill-4096-True 1726528

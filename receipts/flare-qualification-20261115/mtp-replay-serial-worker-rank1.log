@@ -1,0 +1,650 @@
+Compile model forwards started
+Compile model forwards: 1 compiler workers; per rank [1, 0]
+Compile model forwards complete in 8.16s
+Load and warm compiled forwards started
+Load and warm compiled forwards: 0 MiB portable state released; guards and kernel owners retained
+Load and warm compiled forwards complete in 1.39s
+Release serialized compiler state started
+Release serialized compiler state: 0 MiB; guards and kernel owners retained
+Release serialized compiler state complete in 0.00s
+Warm serving graphs started
+Warm serving graphs complete in 0.06s
+Prepare serving graphs started
+capturing mtp: 110727 MiB free, 3667 MiB allocated, 3760 MiB reserved, 10121 MiB outside PyTorch
+captured mtp in 0.02s
+Prepare serving graphs complete in 0.02s
+[flare] frame completion wait: WFET
+{"rank": 1, "mode": "decode", "capacity": 1, "cache_only": false, "step": 0, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 1, "cache_only": false, "step": 0, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 1, "cache_only": false, "step": 1, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 1, "cache_only": false, "step": 1, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 1, "cache_only": false, "step": 2, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 1, "cache_only": false, "step": 2, "repetitions": 4, "state_and_stages_exact": true}
+.
+=============================== warnings summary ===============================
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  qualification/test_glm53_mtp_replay_cuda.py:24: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 52 warnings in 29.30s
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument mxfp4_operands (position 16) cannot be converted to a JitArgument for function 'cutlass___call___b12xattentiondsa_indexerfused_indexerDSAFusedIndexerKernel_object_at__FakeTensorUint8div1div1div1i64div1i64div11_FakeTensorFloat32div1div1i64div11_FakeTensorUint8d'. Its type `<class 'tuple'>` is not supported. If the value is known at compile time, annotate it: `mxfp4_operands: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'tuple'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/typing.py:1124: DSLWarning: 
+[93m[1mwarning[TYPE_INT_LITERAL_OUT_OF_RANGE]:[0m The Python integer 72057594021150720 does not fit in Uint32 (range [0, 4294967295]); it was silently truncated to 4278190080. This drops the high bits of the original value.
+   [94m-->[0m /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/attention/dsa_indexer/tiled_topk.py:398:27
+    |
+396 |                 _smem_red_add(h0, Int32((ex_key >> ex_shift) & Uint32(0xFF)), Int32(1))
+397 |             else:
+398 |                 ex_mask = Uint32(0xFFFFFFFF) << Uint32(32 - ex_round * 8)
+    |                           [91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [92msuggestion:[0m Use a wider integer type that can hold 72057594021150720, e.g.
+              `Int64(72057594021150720)` or `Uint64(72057594021150720)`.
+  [92msuggestion:[0m If the wrap-around is intentional (e.g. materializing a specific bit pattern), mask
+              the value to the type width first, e.g. `Uint32(72057594021150720 & 0xFFFFFFFF)`, to
+              make the intent explicit.
+
+  res = res_type(res_val, loc=loc, ip=ip)
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/typing.py:1124: DSLWarning: 
+[93m[1mwarning[TYPE_INT_LITERAL_OUT_OF_RANGE]:[0m The Python integer 281474976645120 does not fit in Uint32 (range [0, 4294967295]); it was silently truncated to 4294901760. This drops the high bits of the original value.
+   [94m-->[0m /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/attention/dsa_indexer/tiled_topk.py:398:27
+    |
+396 |                 _smem_red_add(h0, Int32((ex_key >> ex_shift) & Uint32(0xFF)), Int32(1))
+397 |             else:
+398 |                 ex_mask = Uint32(0xFFFFFFFF) << Uint32(32 - ex_round * 8)
+    |                           [91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [92msuggestion:[0m Use a wider integer type that can hold 281474976645120, e.g. `Int64(281474976645120)`
+              or `Uint64(281474976645120)`.
+  [92msuggestion:[0m If the wrap-around is intentional (e.g. materializing a specific bit pattern), mask
+              the value to the type width first, e.g. `Uint32(281474976645120 & 0xFFFFFFFF)`, to
+              make the intent explicit.
+
+  res = res_type(res_val, loc=loc, ip=ip)
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/typing.py:1124: DSLWarning: 
+[93m[1mwarning[TYPE_INT_LITERAL_OUT_OF_RANGE]:[0m The Python integer 1099511627520 does not fit in Uint32 (range [0, 4294967295]); it was silently truncated to 4294967040. This drops the high bits of the original value.
+   [94m-->[0m /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/attention/dsa_indexer/tiled_topk.py:398:27
+    |
+396 |                 _smem_red_add(h0, Int32((ex_key >> ex_shift) & Uint32(0xFF)), Int32(1))
+397 |             else:
+398 |                 ex_mask = Uint32(0xFFFFFFFF) << Uint32(32 - ex_round * 8)
+    |                           [91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [92msuggestion:[0m Use a wider integer type that can hold 1099511627520, e.g. `Int64(1099511627520)` or
+              `Uint64(1099511627520)`.
+  [92msuggestion:[0m If the wrap-around is intentional (e.g. materializing a specific bit pattern), mask
+              the value to the type width first, e.g. `Uint32(1099511627520 & 0xFFFFFFFF)`, to make
+              the intent explicit.
+
+  res = res_type(res_val, loc=loc, ip=ip)
+Compile model forwards started
+Compile model forwards: 1 compiler workers; per rank [1, 0]
+Compile model forwards complete in 8.13s
+Load and warm compiled forwards started
+Load and warm compiled forwards: 0 MiB portable state released; guards and kernel owners retained
+Load and warm compiled forwards complete in 1.38s
+Release serialized compiler state started
+Release serialized compiler state: 0 MiB; guards and kernel owners retained
+Release serialized compiler state complete in 0.00s
+Warm serving graphs started
+Warm serving graphs complete in 0.06s
+Prepare serving graphs started
+capturing mtp: 110194 MiB free, 3702 MiB allocated, 3906 MiB reserved, 10508 MiB outside PyTorch
+captured mtp in 0.01s
+Prepare serving graphs complete in 0.01s
+[flare] frame completion wait: WFET
+{"rank": 1, "mode": "decode", "capacity": 4, "cache_only": false, "step": 0, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 4, "cache_only": false, "step": 0, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 4, "cache_only": false, "step": 1, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 4, "cache_only": false, "step": 1, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 4, "cache_only": false, "step": 2, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 4, "cache_only": false, "step": 2, "repetitions": 4, "state_and_stages_exact": true}
+.
+=============================== warnings summary ===============================
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  qualification/test_glm53_mtp_replay_cuda.py:24: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-4-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 52 warnings in 104.61s (0:01:44)
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument mxfp4_operands (position 16) cannot be converted to a JitArgument for function 'cutlass___call___b12xattentiondsa_indexerfused_indexerDSAFusedIndexerKernel_object_at__FakeTensorUint8div1div1div1i64div1i64div11_FakeTensorFloat32div1div1i64div11_FakeTensorUint8d'. Its type `<class 'tuple'>` is not supported. If the value is known at compile time, annotate it: `mxfp4_operands: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'tuple'>`, or register a custom argument adapter.
+  exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/typing.py:1124: DSLWarning: 
+[93m[1mwarning[TYPE_INT_LITERAL_OUT_OF_RANGE]:[0m The Python integer 72057594021150720 does not fit in Uint32 (range [0, 4294967295]); it was silently truncated to 4278190080. This drops the high bits of the original value.
+   [94m-->[0m /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/attention/dsa_indexer/tiled_topk.py:398:27
+    |
+396 |                 _smem_red_add(h0, Int32((ex_key >> ex_shift) & Uint32(0xFF)), Int32(1))
+397 |             else:
+398 |                 ex_mask = Uint32(0xFFFFFFFF) << Uint32(32 - ex_round * 8)
+    |                           [91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [92msuggestion:[0m Use a wider integer type that can hold 72057594021150720, e.g.
+              `Int64(72057594021150720)` or `Uint64(72057594021150720)`.
+  [92msuggestion:[0m If the wrap-around is intentional (e.g. materializing a specific bit pattern), mask
+              the value to the type width first, e.g. `Uint32(72057594021150720 & 0xFFFFFFFF)`, to
+              make the intent explicit.
+
+  res = res_type(res_val, loc=loc, ip=ip)
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/typing.py:1124: DSLWarning: 
+[93m[1mwarning[TYPE_INT_LITERAL_OUT_OF_RANGE]:[0m The Python integer 281474976645120 does not fit in Uint32 (range [0, 4294967295]); it was silently truncated to 4294901760. This drops the high bits of the original value.
+   [94m-->[0m /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/attention/dsa_indexer/tiled_topk.py:398:27
+    |
+396 |                 _smem_red_add(h0, Int32((ex_key >> ex_shift) & Uint32(0xFF)), Int32(1))
+397 |             else:
+398 |                 ex_mask = Uint32(0xFFFFFFFF) << Uint32(32 - ex_round * 8)
+    |                           [91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [92msuggestion:[0m Use a wider integer type that can hold 281474976645120, e.g. `Int64(281474976645120)`
+              or `Uint64(281474976645120)`.
+  [92msuggestion:[0m If the wrap-around is intentional (e.g. materializing a specific bit pattern), mask
+              the value to the type width first, e.g. `Uint32(281474976645120 & 0xFFFFFFFF)`, to
+              make the intent explicit.
+
+  res = res_type(res_val, loc=loc, ip=ip)
+/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/typing.py:1124: DSLWarning: 
+[93m[1mwarning[TYPE_INT_LITERAL_OUT_OF_RANGE]:[0m The Python integer 1099511627520 does not fit in Uint32 (range [0, 4294967295]); it was silently truncated to 4294967040. This drops the high bits of the original value.
+   [94m-->[0m /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/attention/dsa_indexer/tiled_topk.py:398:27
+    |
+396 |                 _smem_red_add(h0, Int32((ex_key >> ex_shift) & Uint32(0xFF)), Int32(1))
+397 |             else:
+398 |                 ex_mask = Uint32(0xFFFFFFFF) << Uint32(32 - ex_round * 8)
+    |                           [91m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [92msuggestion:[0m Use a wider integer type that can hold 1099511627520, e.g. `Int64(1099511627520)` or
+              `Uint64(1099511627520)`.
+  [92msuggestion:[0m If the wrap-around is intentional (e.g. materializing a specific bit pattern), mask
+              the value to the type width first, e.g. `Uint32(1099511627520 & 0xFFFFFFFF)`, to make
+              the intent explicit.
+
+  res = res_type(res_val, loc=loc, ip=ip)
+Compile model forwards started
+Compile model forwards: 1 compiler workers; per rank [1, 0]
+Compile model forwards complete in 6.23s
+Load and warm compiled forwards started
+Load and warm compiled forwards: 0 MiB portable state released; guards and kernel owners retained
+Load and warm compiled forwards complete in 0.51s
+Release serialized compiler state started
+Release serialized compiler state: 0 MiB; guards and kernel owners retained
+Release serialized compiler state complete in 0.00s
+Warm serving graphs started
+Warm serving graphs complete in 0.00s
+Prepare serving graphs started
+capturing mtp: 110393 MiB free, 3729 MiB allocated, 3918 MiB reserved, 10297 MiB outside PyTorch
+captured mtp in 0.00s
+Prepare serving graphs complete in 0.00s
+[flare] frame completion wait: WFET
+{"rank": 1, "mode": "decode", "capacity": 16, "cache_only": true, "step": 0, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 16, "cache_only": true, "step": 0, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 16, "cache_only": true, "step": 1, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 16, "cache_only": true, "step": 1, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 16, "cache_only": true, "step": 2, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "decode", "capacity": 16, "cache_only": true, "step": 2, "repetitions": 4, "state_and_stages_exact": true}
+.
+=============================== warnings summary ===============================
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  qualification/test_glm53_mtp_replay_cuda.py:24: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-16-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 52 warnings in 52.82s
+Compile model forwards started
+Compile model forwards: 1 compiler workers; per rank [1, 0]
+Compile model forwards complete in 6.06s
+Load and warm compiled forwards started
+Load and warm compiled forwards: 0 MiB portable state released; guards and kernel owners retained
+Load and warm compiled forwards complete in 0.51s
+Release serialized compiler state started
+Release serialized compiler state: 0 MiB; guards and kernel owners retained
+Release serialized compiler state complete in 0.00s
+Warm serving graphs started
+Warm serving graphs complete in 0.00s
+Prepare serving graphs started
+capturing mtp: 110288 MiB free, 3756 MiB allocated, 3948 MiB reserved, 10372 MiB outside PyTorch
+captured mtp in 0.01s
+Prepare serving graphs complete in 0.01s
+[flare] frame completion wait: WFET
+{"rank": 1, "mode": "prefill", "capacity": 128, "cache_only": true, "step": 0, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 128, "cache_only": true, "step": 0, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 128, "cache_only": true, "step": 1, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 128, "cache_only": true, "step": 1, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 128, "cache_only": true, "step": 2, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 128, "cache_only": true, "step": 2, "repetitions": 4, "state_and_stages_exact": true}
+.
+=============================== warnings summary ===============================
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  qualification/test_glm53_mtp_replay_cuda.py:24: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-128-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 52 warnings in 32.24s
+Compile model forwards started
+Compile model forwards: 1 compiler workers; per rank [1, 0]
+Compile model forwards complete in 6.22s
+Load and warm compiled forwards started
+Load and warm compiled forwards: 0 MiB portable state released; guards and kernel owners retained
+Load and warm compiled forwards complete in 0.63s
+Release serialized compiler state started
+Release serialized compiler state: 0 MiB; guards and kernel owners retained
+Release serialized compiler state complete in 0.00s
+Warm serving graphs started
+Warm serving graphs complete in 0.03s
+Prepare serving graphs started
+capturing mtp: 108964 MiB free, 4683 MiB allocated, 5112 MiB reserved, 10532 MiB outside PyTorch
+captured mtp in 0.01s
+Prepare serving graphs complete in 0.02s
+[flare] frame completion wait: WFET
+{"rank": 1, "mode": "prefill", "capacity": 4096, "cache_only": true, "step": 0, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 4096, "cache_only": true, "step": 0, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 4096, "cache_only": true, "step": 1, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 4096, "cache_only": true, "step": 1, "repetitions": 4, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 4096, "cache_only": true, "step": 2, "repetitions": 1, "state_and_stages_exact": true}
+{"rank": 1, "mode": "prefill", "capacity": 4096, "cache_only": true, "step": 2, "repetitions": 4, "state_and_stages_exact": true}
+.
+=============================== warnings summary ===============================
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  qualification/test_glm53_mtp_replay_cuda.py:24: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[prefill-4096-True]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 52 warnings in 40.26s
+{"rank": 1, "cases": 5, "bad_cases": [], "passed": true, "reference": "same-operator Python/Rust full draft and absorption replay", "fresh_process_per_capacity": true, "scope": "draft composition and absorption; independent component references and full-target gates separate"}

@@ -1,0 +1,14 @@
+[Unit]
+Description=Flare component numerical qualification, rank %i
+
+[Service]
+Type=oneshot
+Environment=HOME=/home/nvidia
+WorkingDirectory=/home/nvidia/b12x-flare
+ExecStart=/bin/bash /home/nvidia/b12x-flare/scripts/flare_qualify.sh %i
+TimeoutStartSec=4800
+TimeoutStopSec=180
+KillMode=control-group
+Restart=no
+StandardOutput=append:/home/nvidia/b12x-flare/logs/qualify-rank%i.log
+StandardError=append:/home/nvidia/b12x-flare/logs/qualify-rank%i.log

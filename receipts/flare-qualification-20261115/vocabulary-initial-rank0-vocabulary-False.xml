@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="17.947" timestamp="2026-11-16T03:12:13.661748-05:00" hostname="spark-a183"><testcase classname="qualification.test_vocabulary_checkpoint_cuda" name="test_checkpoint_vocabulary_replay[False]" time="17.284"><failure message="ValueError: unsupported graph capacities: head16">indexed = False
+record_property = &lt;function record_property.&lt;locals&gt;.append_property at 0xff20d75b0b80&gt;
+
+    @pytest.mark.parametrize("indexed", [False, True])
+    def test_checkpoint_vocabulary_replay(indexed, record_property):
+        from ignition.preparation.host_ranks import _use_interface
+        source = Path(os.environ["FLARE_PINNED_SOURCE"]) / "tests/components/test_vocabulary_cuda.py"
+        adaptation = json.loads(Path(__file__).with_name("vocabulary_checkpoint_adaptation.json").read_text())
+        assert hashlib.sha256(source.read_bytes()).hexdigest() == adaptation["source_sha256"]
+        text = source.read_text()
+        node = next(n for n in ast.parse(text).body if isinstance(n, ast.FunctionDef) and n.name == "_rank")
+        expected = "\n".join(text.splitlines()[min([node.lineno]+[d.lineno for d in node.decorator_list])-1:node.end_lineno])
+        for old, new in adaptation["exact_substitutions"]:
+            assert expected.count(old) == 1
+            expected = expected.replace(old, new, 1)
+        actual = next(n for n in ast.parse(Path(__file__).read_text()).body if isinstance(n, ast.FunctionDef) and n.name == "_rank")
+        assert ast.dump(actual) == ast.dump(ast.parse(expected).body[0])
+        rank = int(os.environ["FLARE_TEST_RANK"])
+        assert rank in (0, 1) and torch.cuda.device_count() == 1
+        rendezvous = os.environ["FLARE_TEST_RENDEZVOUS"]
+        address = urlsplit(rendezvous)
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as route:
+            route.connect((address.hostname, address.port))
+            _use_interface(route.getsockname()[0])
+&gt;       _rank(rank, 2, rendezvous, 154880, indexed)
+
+../../qualification/test_vocabulary_checkpoint_cuda.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../qualification/test_vocabulary_checkpoint_cuda.py:87: in _rank
+    worker = bundle.start_executor()
+             ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;ignition.preparation.execution.PreparedExecution object at 0xff1e8719d370&gt;
+peers = None
+
+    def start_executor(self, *, peers=None):
+        """Synchronize preparation and consume the bundle into the native executor."""
+        import flare_heliopause
+        import torch
+    
+        with self._handoff_lock:
+            if self._consumed:
+                raise RuntimeError("graph bundle has already been consumed by a native worker")
+            manifest = self.manifest()
+            torch.cuda.synchronize(self.device)
+            arguments = {} if peers is None else {"peer_fds": [peer.fileno() for peer in peers]}
+&gt;           executor = flare_heliopause.GraphExecutor(self, manifest, **arguments)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           ValueError: unsupported graph capacities: head16
+
+ignition/preparation/execution.py:281: ValueError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "kit_commit": "63910e7fe80748b8d399a76fc98f2dcab33ce791",
+  "files": [
+    {
+      "source": "qualification/run_expert_numerics.sh",
+      "runtime": "/home/nvidia/b12x-flare/qualification/run_expert_numerics.sh",
+      "sha256": "4285fc771d8108b6d4eb2b424c3d829f9ea7902e797c63eeb2ebab8dcf3a350d"
+    },
+    {
+      "source": "qualification/windows/expert-numerics-20261116/run.sh",
+      "runtime": "/home/nvidia/b12x-flare/local/expert-numerics-window-20261116T053000Z/run.sh",
+      "sha256": "8887b1957324cfc241931b9b0e6b39e0b2a67ed48f363a2407af05bb9e636fb1"
+    }
+  ],
+  "test_archive_sha256": "af1c134345ab093c5912b699bce7a246d0b988267ef5958b1ded89b53e4c7414"
+}

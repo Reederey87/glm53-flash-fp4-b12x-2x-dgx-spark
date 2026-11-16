@@ -1,0 +1,5 @@
+NEXT                            LEFT LAST                           PASSED UNIT                                 ACTIVATES
+Mon 2026-11-16 08:28:52 EST 1h 18min Mon 2026-11-16 06:28:53 EST 41min ago b12x-flare-production-rollback.timer b12x-flare-production-rollback.service
+
+1 timers listed.
+Pass --all to see loaded but inactive timers, too.

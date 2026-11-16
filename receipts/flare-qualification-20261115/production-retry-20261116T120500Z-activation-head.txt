@@ -1,0 +1,13 @@
+MainPID=0
+ExecMainCode=1
+ExecMainStatus=0
+Id=b12x-flare-production.service
+ActiveState=active
+InvocationID=7fb68a5528484c50b8a87d5ee6319ac1
+
+MainPID=1813616
+ExecMainCode=0
+ExecMainStatus=0
+Id=b12x-flare@0.service
+ActiveState=active
+InvocationID=731a3fdfe5794a15813c076bf68c04b4

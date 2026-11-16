@@ -1,0 +1,18 @@
+/home/nvidia/b12x-flare/qualification/run_vocabulary_checkpoint.sh: OK
+/home/nvidia/b12x-flare/qualification/vocabulary_checkpoint_cases.sh: OK
+/home/nvidia/b12x-flare/qualification/test_vocabulary_checkpoint_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/vocabulary_checkpoint_reference.py: OK
+/home/nvidia/b12x-flare/qualification/vocabulary_checkpoint_adaptation.json: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/native/flare_heliopause.so: OK
+/home/nvidia/b12x-flare/qualification/run_vocabulary_checkpoint.sh: OK
+/home/nvidia/b12x-flare/qualification/vocabulary_checkpoint_cases.sh: OK
+/home/nvidia/b12x-flare/qualification/test_vocabulary_checkpoint_cuda.py: OK
+/home/nvidia/b12x-flare/qualification/vocabulary_checkpoint_reference.py: OK
+/home/nvidia/b12x-flare/qualification/vocabulary_checkpoint_adaptation.json: OK
+/home/nvidia/b12x-flare/scripts/flare_memory_watch.py: OK
+/home/nvidia/b12x-flare/qualification/native/flare_heliopause.so: OK
+[b12x] memory gate: head 116 GiB free / 115 GiB avail, worker 116 GiB free / 115 GiB avail
+Running as unit: b12x-flare-vocabulary-checkpoint-memory-20261116T200000Z.service; invocation ID: 458c2171ab574c8a94c52afa4fa2fdbc
+Running as unit: b12x-flare-vocabulary-checkpoint-rank1-20261116T200000Z.service; invocation ID: a98e02177d9748bfa324f5250db38162
+Running as unit: b12x-flare-vocabulary-checkpoint-rank0-20261116T200000Z.service; invocation ID: 54778f3812364fbb895ae70010006dfc

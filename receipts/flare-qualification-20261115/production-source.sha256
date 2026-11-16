@@ -1,0 +1,6 @@
+056593e092c7ee346906b3c409458b2709f7359cdc4d91b089c7310e65752ebb  /home/nvidia/b12x-flare/scripts/flare_production.py
+4f2767890149327e5d0ac058f0e954a052bc75d46f6d0e190056edc999b27f94  /home/nvidia/b12x-flare/scripts/flare_production.sh
+289bb3186578026c87e74b1fb3bbea8ec0026a1a2553b11f2834521d24d4df67  /home/nvidia/b12x-flare/scripts/flare_production_rollback.sh
+bd4e5032696508412f79032566c81f227dcf876c609c5ccc91fdacb6b613d3dc  /home/nvidia/b12x-flare/scripts/flare_watchdog.py
+4b41909cd348fca5d351f22b85bbe0fbc055999363c695e98237ab70eacdd866  /home/nvidia/b12x-flare/scripts/tailscale_proxy.py
+421058c2a894fae09154d8aca99d86bb2821600a2a358c3d88dffa815bac9b9f  /home/nvidia/b12x-flare/scripts/flare_release_file_cache.py

@@ -1,0 +1,10 @@
+{
+  "rank": 0,
+  "cases": 2,
+  "bad_cases": [],
+  "passed": true,
+  "expert_weight_owner": "a16",
+  "calibrated_a4_prefill": true,
+  "fresh_process_per_capacity": true,
+  "scope": "complete45-layer target native TP2 RoCE replay; not mathematical-reference or MTP acceptance"
+}

@@ -1,0 +1,36 @@
+{
+  "upstream_commit": "5a4e867954593b2e05bba43bc2a6eeaddca402d7",
+  "source": "test_glm53_decoder_tp_cuda.py",
+  "source_sha256": "add9ca104dcd49892a0350f308c211a1ff0eb76c6b79d02324f53b692904214c",
+  "exact_substitutions": [
+    [
+      "        create_all_reduce_runtime,",
+      "        create_roce_runtime,\n        warmup_wait,"
+    ],
+    [
+      "    torch.cuda.set_device(rank)",
+      "    torch.cuda.set_device(0)"
+    ],
+    [
+      "    device = torch.device(\"cuda\", rank)",
+      "    device = torch.device(\"cuda:0\")"
+    ],
+    [
+      "    runtime = create_all_reduce_runtime(group, device, max_tokens=capacity, hidden_size=4096)",
+      "    assert coordinator.spans_hosts\n    runtime = create_roce_runtime(group, device, max_tokens=min(capacity, 128),\n        pipe_tokens=capacity, hidden_size=4096, gather_bytes=capacity * 4096 * 2)"
+    ],
+    [
+      "                                        coordinator=coordinator) as session:",
+      "                                        coordinator=coordinator, native_dense_activations=True, compile_workers=2) as session:"
+    ],
+    [
+      "\n            compiled()\n            torch.cuda.synchronize(device)",
+      "\n            with warmup_wait(runtime, coordinator):\n                compiled()\n            torch.cuda.synchronize(device)"
+    ],
+    [
+      "bundle = PreparedExecution(device=rank,",
+      "bundle = PreparedExecution(device=0,"
+    ]
+  ],
+  "case_count_per_rank": 9
+}

@@ -1,0 +1,506 @@
+F
+=================================== FAILURES ===================================
+___________________ test_checkpoint_vocabulary_replay[False] ___________________
+
+indexed = False
+record_property = <function record_property.<locals>.append_property at 0xff20d75b0b80>
+
+    @pytest.mark.parametrize("indexed", [False, True])
+    def test_checkpoint_vocabulary_replay(indexed, record_property):
+        from ignition.preparation.host_ranks import _use_interface
+        source = Path(os.environ["FLARE_PINNED_SOURCE"]) / "tests/components/test_vocabulary_cuda.py"
+        adaptation = json.loads(Path(__file__).with_name("vocabulary_checkpoint_adaptation.json").read_text())
+        assert hashlib.sha256(source.read_bytes()).hexdigest() == adaptation["source_sha256"]
+        text = source.read_text()
+        node = next(n for n in ast.parse(text).body if isinstance(n, ast.FunctionDef) and n.name == "_rank")
+        expected = "\n".join(text.splitlines()[min([node.lineno]+[d.lineno for d in node.decorator_list])-1:node.end_lineno])
+        for old, new in adaptation["exact_substitutions"]:
+            assert expected.count(old) == 1
+            expected = expected.replace(old, new, 1)
+        actual = next(n for n in ast.parse(Path(__file__).read_text()).body if isinstance(n, ast.FunctionDef) and n.name == "_rank")
+        assert ast.dump(actual) == ast.dump(ast.parse(expected).body[0])
+        rank = int(os.environ["FLARE_TEST_RANK"])
+        assert rank in (0, 1) and torch.cuda.device_count() == 1
+        rendezvous = os.environ["FLARE_TEST_RENDEZVOUS"]
+        address = urlsplit(rendezvous)
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as route:
+            route.connect((address.hostname, address.port))
+            _use_interface(route.getsockname()[0])
+>       _rank(rank, 2, rendezvous, 154880, indexed)
+
+../../qualification/test_vocabulary_checkpoint_cuda.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py:124: in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../qualification/test_vocabulary_checkpoint_cuda.py:87: in _rank
+    worker = bundle.start_executor()
+             ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ignition.preparation.execution.PreparedExecution object at 0xff1e8719d370>
+peers = None
+
+    def start_executor(self, *, peers=None):
+        """Synchronize preparation and consume the bundle into the native executor."""
+        import flare_heliopause
+        import torch
+    
+        with self._handoff_lock:
+            if self._consumed:
+                raise RuntimeError("graph bundle has already been consumed by a native worker")
+            manifest = self.manifest()
+            torch.cuda.synchronize(self.device)
+            arguments = {} if peers is None else {"peer_fds": [peer.fileno() for peer in peers]}
+>           executor = flare_heliopause.GraphExecutor(self, manifest, **arguments)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           ValueError: unsupported graph capacities: head16
+
+ignition/preparation/execution.py:281: ValueError
+------------------------------ Captured log call -------------------------------
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:utils.py:2402 
+DEBUG    torch.__trace:autograd_cache.py:1200 
+DEBUG    torch.__trace:compile_fx.py:2841 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:2872 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:graph_capture.py:428 
+DEBUG    torch.__trace:graph_capture.py:446 
+DEBUG    torch.__trace:graph_compile.py:382 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:compile_fx.py:2645 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:2676 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:compile_fx.py:1450 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:1502 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:1540 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:graph.py:3137 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2402 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:codegen.py:200 
+DEBUG    torch.__trace:codegen.py:200 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:structured.py:28 
+DEBUG    torch.__trace:utils.py:2022 
+DEBUG    torch.__trace:utils.py:2402 
+DEBUG    torch.__trace:autograd_cache.py:1200 
+DEBUG    torch.__trace:compile_fx.py:2841 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:2872 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:graph_capture.py:428 
+DEBUG    torch.__trace:graph_capture.py:446 
+DEBUG    torch.__trace:graph_compile.py:382 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:2645 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:2676 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:1450 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:1502 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:1540 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:graph.py:3137 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2402 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:codegen.py:200 
+DEBUG    torch.__trace:codegen.py:200 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2022 
+DEBUG    torch.__trace:utils.py:2402 
+DEBUG    torch.__trace:autograd_cache.py:1200 
+DEBUG    torch.__trace:compile_fx.py:2841 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:2872 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:graph_capture.py:428 
+DEBUG    torch.__trace:graph_capture.py:446 
+DEBUG    torch.__trace:graph_compile.py:382 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:2645 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:2676 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:1450 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:1502 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:compile_fx.py:1540 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:graph.py:3137 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2402 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:codegen.py:200 
+DEBUG    torch.__trace:codegen.py:200 
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2022
+=============================== warnings summary ===============================
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  qualification/test_vocabulary_checkpoint_cuda.py:137: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ../../qualification/test_vocabulary_checkpoint_cuda.py::test_checkpoint_vocabulary_replay[False]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 50 warnings in 17.95s
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+AssertionError

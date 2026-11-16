@@ -1,0 +1,132 @@
+{
+  "date": "2026-11-15",
+  "scope": "Explicitly approved retired DeepSeek V4/V4.1, MiMo, Inkling and previous GLM EXL3 model weights",
+  "nodes": {
+    "head": {
+      "host": "spark-a183",
+      "utc": "2026-11-15T16:21:51.235884+00:00",
+      "authorization": "User approved old DeepSeek V4/V4.1 variants, MiMo, Inkling, previous GLM EXL3 model removal",
+      "plan_sha256": "8ce1cb6d87007e0305c0899808b25c383678fed4239c2af37c87d6006f687afb",
+      "groups": {
+        "DeepSeek_V41": [
+          "/home/nvidia/dsv41-spark-weights",
+          "/home/nvidia/weights/dsv41-exl3",
+          "/home/nvidia/dsv41-exl3"
+        ],
+        "DeepSeek_V4": [
+          "/home/nvidia/hf-cache/hub/models--deepseek-ai--DeepSeek-V4-Flash-DSpark",
+          "/home/nvidia/hf-cache/hub/models--deepseek-ai--DeepSeek-V4-Flash-0731"
+        ],
+        "MiMo": [
+          "/home/nvidia/models/MiMo-V2.6-Flash-RL"
+        ],
+        "Inkling": [
+          "/home/nvidia/hf-cache-inkling/hub/models--thinkingmachines--Inkling-Small-NVFP4"
+        ],
+        "GLM_EXL3": [
+          "/home/nvidia/.cache/huggingface/hub/models--brandonmusic--GLM-5.3-Flash-tr3-4bpw"
+        ]
+      },
+      "allocated_bytes_by_group": {
+        "DeepSeek_V41": 1274934456320,
+        "DeepSeek_V4": 333773627392,
+        "MiMo": 177741664256,
+        "Inkling": 170733408256,
+        "GLM_EXL3": 175642746880
+      },
+      "before_free_bytes": 912967819264,
+      "resume_free_bytes": 3045794316288,
+      "method": "Pinned existing image; no GPU/network/socket; read-only root; writable bind mounts restricted to approved model directories; 512 MiB memory limit; resumes already completed exact-manifest deletions.",
+      "removed": {
+        "removed_files": 631,
+        "snapshot_links": 226,
+        "already_removed_snapshot_links": 226
+      },
+      "after_free_bytes": 3045794316288,
+      "protected_checkpoint_unchanged": true,
+      "docker_image_tags_unchanged": true,
+      "preserved": [
+        "recipe/source files",
+        "config, tokenizer and index metadata",
+        "current NVIDIA GLM checkpoint",
+        "all Docker images and containers",
+        "B12X runtime and rollback",
+        "separate GLM draft model repositories"
+      ]
+    },
+    "worker": {
+      "host": "spark-7829",
+      "utc": "2026-11-15T16:21:52.923479+00:00",
+      "authorization": "User approved old DeepSeek V4/V4.1 variants, MiMo, Inkling, previous GLM EXL3 model removal",
+      "plan_sha256": "1f4ab7bcfc5b6d1c648176efe01f9c1e244899d5d4b0544d767c7636cc1e359b",
+      "groups": {
+        "DeepSeek_V41": [
+          "/home/nvidia/dsv41-spark-weights",
+          "/home/nvidia/weights/dsv41-exl3",
+          "/home/nvidia/.cache/dsv41-flash-exl3"
+        ],
+        "DeepSeek_V4": [
+          "/home/nvidia/hf-cache/hub/models--deepseek-ai--DeepSeek-V4-Flash-DSpark",
+          "/home/nvidia/hf-cache/hub/models--deepseek-ai--DeepSeek-V4-Flash-0731"
+        ],
+        "MiMo": [
+          "/home/nvidia/models/MiMo-V2.6-Flash-RL"
+        ],
+        "Inkling": [
+          "/home/nvidia/hf-cache-inkling/hub/models--thinkingmachines--Inkling-Small-NVFP4"
+        ],
+        "GLM_EXL3": [
+          "/home/nvidia/.cache/huggingface/hub/models--brandonmusic--GLM-5.3-Flash-tr3-4bpw"
+        ]
+      },
+      "allocated_bytes_by_group": {
+        "DeepSeek_V41": 1274934407168,
+        "DeepSeek_V4": 333773627392,
+        "MiMo": 177741664256,
+        "Inkling": 170733297664,
+        "GLM_EXL3": 175642746880
+      },
+      "before_free_bytes": 1032010813440,
+      "resume_free_bytes": 1032010530816,
+      "method": "Pinned existing image; no GPU/network/socket; read-only root; writable bind mounts restricted to approved model directories; 512 MiB memory limit; resumes already completed exact-manifest deletions.",
+      "removed": {
+        "removed_files": 631,
+        "snapshot_links": 226,
+        "already_removed_snapshot_links": 0
+      },
+      "after_free_bytes": 3164837191680,
+      "protected_checkpoint_unchanged": true,
+      "docker_image_tags_unchanged": true,
+      "preserved": [
+        "recipe/source files",
+        "config, tokenizer and index metadata",
+        "current NVIDIA GLM checkpoint",
+        "all Docker images and containers",
+        "B12X runtime and rollback",
+        "separate GLM draft model repositories"
+      ]
+    }
+  },
+  "verification": {
+    "incumbent_service": "active",
+    "watchdog": "active",
+    "health_http": 200,
+    "production_restart": false,
+    "named_images_preserved": true
+  },
+  "execution_notes": [
+    "Initial host deletion stopped at root-owned Inkling directories after removing some snapshot links.",
+    "Constrained no-GPU cleanup container resumed the exact manifest. Initial 128 MiB container exited 137 partway; remaining files were deleted under a 512 MiB cap.",
+    "Unordered image-tag comparison initially produced a false negative; sorted tag sets match, and head tags also match the inventory taken before all housekeeping."
+  ],
+  "research": [
+    "https://huggingface.co/docs/huggingface_hub/en/guides/manage-cache",
+    "https://docs.docker.com/engine/storage/bind-mounts/",
+    "https://docs.docker.com/engine/containers/run/"
+  ],
+  "unapproved_and_preserved": [
+    "Separate GLM DFlash2 repositories (~8.73 GiB per node)",
+    "Old named Docker images and stopped containers",
+    "Old source/build trees"
+  ]
+}

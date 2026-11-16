@@ -1,91 +1,80 @@
-# Runbook
+# Production runbook — Flare
 
-## Start / stop
+Current release and operational receipts: [docs/63](63-production-pause-checkpoint.md).
+Research is paused. The release is explicitly approved provisional production,
+not a completed performance or broader quality qualification.
 
-```bash
-# production (owns the memory gate + health gate)
-systemctl --user start vllm-b12x.service
-systemctl --user stop  vllm-b12x.service
+## Startup, shutdown and health
 
-# direct (development only; the gate still runs in preflight)
-./launch.sh up
-./launch.sh down
-./launch.sh restart
-```
-
-`up` dispatches the worker first, then the head, and returns once the launcher
-has handed off. The unit's `ExecStartPost` holds it in `activating` until
-`/health` is 200 (900 s budget).
-
-## Status and evidence
+Run as `nvidia` on spark1, from the runtime `/home/nvidia/b12x-flare`:
 
 ```bash
-./launch.sh status     # containers, /health, model id, KV pool
-./launch.sh smoke      # functional acceptance
-./launch.sh speed      # 8k..128k prefill, decode c1..8, acceptance
-./launch.sh qualify    # pinned bytes vs live bytes -> receipts/
-./launch.sh logs       # head;  ./launch.sh logs worker
+systemctl --user status b12x-flare-production.service
+systemctl --user is-active b12x-flare-production-watchdog.timer b12x-flare-tailscale.service
+curl --fail http://127.0.0.1:8001/health
+systemctl --user stop b12x-flare-production.service
+systemctl --user start b12x-flare-production.service b12x-flare-tailscale.service
 ```
 
-The first line of the boot log that matters is:
+The head owner explicitly starts the worker across `192.168.177.11` before
+starting the head supervisor. Both user managers
+have linger. The owner verifies the hashed approval and per-rank recipe/core pins,
+the native artifact, idle memory, both ranks, API health, consistent cache geometry
+and the provisional 2,300,000-token minimum, then all seven API smoke checks.
+Startup receipts are `local/production-smoke-<owner-invocation>.json`.
+The original 2,350,210-token qualification target remains open.
 
-```
-GPU KV cache size: 2,350,210 tokens
-```
+`Type=exec` on a rank means its supervisor started, not that the model is ready.
+The owner dispatches a fresh worker invocation before readiness, so a retained
+failure from a previous invocation is not mistaken for a new startup failure.
+Readiness is bounded by 900seconds; failed ranks and ranks disappearing after
+start fail promptly.
+Read the owner journal first, then `logs/serve-rank0.log` and the worker log.
 
-Anything materially below that means the KV pin, the block size, or the model
-length changed.
+The existing tailnet port 8000 forwards to native loopback 8001. The API has no
+application authentication; Tailscale remains the access boundary. A manual
+stop respects operator intent. Starting the owner after a manual stop also
+requires starting the proxy, as shown above.
 
-## Boot persistence
+## Watchdog and maintenance
 
-`vllm-b12x.service` is `WantedBy=default.target`, the user manager is kept alive
-by linger (`loginctl show-user nvidia -p Linger` → `yes`), and the watchdog
-timer starts 5 minutes after boot. A cluster power cycle needs no operator
-action; the head dispatches the worker when the rail and Docker are up. Verified
-by a real two-node reboot on 2026-11-08 (`receipts/boot-20261108-second.txt`).
+The timer checks every 30seconds, requires two failed observations, and may
+restart an active owner at most three times per six hours. Attempts survive
+reboot in `local/production-watchdog/state.json`. It never resurrects a manually
+stopped, disabled, failed or currently starting owner. A failed startup needs
+operator diagnosis or the pre-armed rollback; do not clear the budget to loop.
 
-If the unit lands in `failed`, check `journalctl --user -u vllm-b12x.service -b`
-first: `preflight` fails closed, and its message names the node and check.
+For planned work, create `local/production-maintenance`, stop the watchdog timer,
+and stop the owner. Remove that marker before an intentional owner start and
+restart the timer after health/smoke. Atomically stage scripts and append `.env`
+changes; never overwrite a script while it is executing. Preserve snapshots,
+exact fingerprints and a verified rollback for every future window.
 
-## Failure modes seen on this pair
+## Controlled rollback to B12X
 
-| Symptom | Cause | Action |
-|---|---|---|
-| Unit fails immediately, `MemAvailable <100GiB` | previous rank still holds the pool | `./launch.sh down`, wait for `MemAvailable` to recover, start again |
-| Container exits with `NV_ERR_NO_MEMORY` | GB10 page-cache/driver allocation refusal | stop, `sync`, drop caches is **not** enough — restart the worker rank first, then head |
-| `/health` fine, requests stall | one rank is loading/compiling | check `docker logs` on the worker; a cold boot takes ~4–6 min |
-| `health=000` for one tick | long prefill | watchdog waits one tick before healing; do not restart manually |
-| KV pool smaller than 2.3M | `max_model_len` or `kv_cache_bytes` edited | compare `./launch.sh render` with the recipe |
-
-## Memory discipline
-
-- 121 GiB unified per node; the 1M arm leaves 3–5 GiB available. Do not build,
-  download, or co-locate another model while it runs.
-- The unit gates on **MemAvailable** (not MemFree) on both nodes.
-- `vm.min_free_kbytes=1048576` on both nodes or neither.
-
-## Rollback
-
-The deposed kit is intact at `/home/nvidia/glm53-fp4-local` with its own image,
-`.env`, and unit:
+Keep the original B12X image `sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed`
+on both nodes and `/home/nvidia/b12x` intact. For an intentional rollback:
 
 ```bash
-systemctl --user stop vllm-b12x.service
-systemctl --user start vllm-glm53fp4.service
+systemctl --user disable --now b12x-flare-production-watchdog.timer b12x-flare-tailscale.service
+systemctl --user disable b12x-flare-production.service
+systemctl --user stop b12x-flare-production.service
+systemctl --user enable vllm-b12x.service vllm-b12x-watchdog.timer vllm-b12x-tailscale.service
+/bin/bash /home/nvidia/b12x-flare/scripts/flare_restore.sh
+systemctl --user start vllm-b12x-watchdog.timer vllm-b12x-tailscale.service
+/home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 /home/nvidia/b12x/scripts/smoke.py --base http://127.0.0.1:8000
 ```
 
-Re-enable its watchdog timer only after stopping the b12x one; two watchdogs
-would fight over the same container name.
+Verify original image IDs on both nodes and fresh 5/5 before declaring rollback
+complete. The disk-persistent adoption fallback uses a pending marker and UTC
+deadline; it is disarmed after successful operational verification. Its helper
+is intentionally a no-op without that marker. Do not assume an old experiment's
+transient restore timer changes production ownership correctly.
+The [historical B12X runbook](64-b12x-rollback-runbook.md) describes that engine.
 
-## Watchdog
+## Resume research
 
-`vllm-b12x-watchdog.timer` runs every minute. It ignores a unit that is
-disabled, inactive, or activating; waits one tick when both ranks are up but
-health is down; heals `failed` units; and caps itself at 3 heals per 6 h. The
-cap exists so a broken boot cannot thrash GB10 memory.
-
-## Endpoint exposure
-
-The server binds `127.0.0.1:8000` only. `vllm-b12x-tailscale.service` runs
-`scripts/tailscale_proxy.py`, which binds the host's Tailscale IPv4 and forwards
-to loopback. Tailscale is the network boundary; the API has no auth.
+Read docs/63 and the ignored canonical `spec/TODO.md`. Rebase old controllers
+onto the current Flare owner, register a new gate and rollback, and perform Exa
+MCP lookup plus local source review before critical changes. Do not run the
+staged warmup or capacity windows blindly. Do not change host driver/kernel.
