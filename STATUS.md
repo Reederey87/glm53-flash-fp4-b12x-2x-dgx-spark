@@ -1,3 +1,8 @@
+## 2026-11-16 UTC — ABBA completed; performance remains unqualified
+
+- All348 measured requests, four7/7 smokes and both-rank clean exits passed;754 healthy memory observations. Registered80-point comparison retains10 unresolved adverse medians and zero separated regressions; no adoption or full-speed/capacity bypass.
+- Automatic B12X restoration is underway. Raw receipts and exact distributions are retained in performance-abba-*; independent MTP gates remain prepared and unrun.
+
 ## 2026-11-16 UTC — Vocabulary gate closed; ABBA performance running
 
 - Independent B12X recovery/fresh5/5 closed08:26:27 UTC and numerical fallback disarmed. Both actual checkpoint vocabulary cases pass on both ranks with unchanged bounds.

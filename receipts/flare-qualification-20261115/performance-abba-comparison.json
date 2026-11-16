@@ -1,0 +1,5390 @@
+{
+  "schema": 1,
+  "order": [
+    "balanced",
+    "latency",
+    "latency",
+    "balanced"
+  ],
+  "fresh_starts_per_policy": 2,
+  "measured_repetitions_per_policy": 6,
+  "requests_per_policy": 174,
+  "points": [
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "cohort",
+      "metric": "wall_s",
+      "reference_reps": [
+        40.01680576000945,
+        40.058798564001336,
+        38.961220293000224,
+        40.03764895698987,
+        38.959280852999655,
+        38.81667987399851
+      ],
+      "candidate_reps": [
+        40.77106504999392,
+        39.44829751799989,
+        38.71527858800255,
+        42.3344041119999,
+        38.775971313996706,
+        38.45441421099531
+      ],
+      "median_change_pct": -0.9543885289145626,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "cohort",
+        "metric": "wall_s",
+        "reference_reps": [
+          40.01680576000945,
+          40.058798564001336,
+          38.961220293000224
+        ],
+        "candidate_reps": [
+          40.77106504999392,
+          39.44829751799989,
+          38.71527858800255
+        ],
+        "median_change_pct": -1.420673717485199,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "cohort",
+        "metric": "wall_s",
+        "reference_reps": [
+          40.03764895698987,
+          38.959280852999655,
+          38.81667987399851
+        ],
+        "candidate_reps": [
+          42.3344041119999,
+          38.775971313996706,
+          38.45441421099531
+        ],
+        "median_change_pct": -0.4705157153557571,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "amortized_decode_tok_s",
+      "reference_reps": [
+        13.260091037283741,
+        13.130742584570879,
+        13.393608453686381,
+        13.358216223469077,
+        13.513333644017017,
+        14.691417654456474
+      ],
+      "candidate_reps": [
+        13.011404068123513,
+        13.336626475086437,
+        13.40097620818926,
+        12.52460684414551,
+        13.47750449030937,
+        13.491732612233909
+      ],
+      "median_change_pct": -0.05316270591406713,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "amortized_decode_tok_s",
+        "reference_reps": [
+          13.260091037283741,
+          13.130742584570879,
+          13.393608453686381
+        ],
+        "candidate_reps": [
+          13.011404068123513,
+          13.336626475086437,
+          13.40097620818926
+        ],
+        "median_change_pct": 0.5771863676312439,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "amortized_decode_tok_s",
+        "reference_reps": [
+          13.358216223469077,
+          13.513333644017017,
+          14.691417654456474
+        ],
+        "candidate_reps": [
+          12.52460684414551,
+          13.47750449030937,
+          13.491732612233909
+        ],
+        "median_change_pct": -0.2651392665311003,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "completion_tok_s",
+      "reference_reps": [
+        12.795674797686573,
+        12.782214041277415,
+        13.142419804009345,
+        12.788788988528538,
+        13.143033082291131,
+        14.388491788407581
+      ],
+      "candidate_reps": [
+        12.558883522721139,
+        12.980021395153829,
+        13.225938207063038,
+        12.095187863593226,
+        13.205063603093633,
+        13.315587825245164
+      ],
+      "median_change_pct": 0.9522303019721345,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "completion_tok_s",
+        "reference_reps": [
+          12.795674797686573,
+          12.782214041277415,
+          13.142419804009345
+        ],
+        "candidate_reps": [
+          12.558883522721139,
+          12.980021395153829,
+          13.225938207063038
+        ],
+        "median_change_pct": 1.4406946126872988,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "completion_tok_s",
+        "reference_reps": [
+          12.788788988528538,
+          13.143033082291131,
+          14.388491788407581
+        ],
+        "candidate_reps": [
+          12.095187863593226,
+          13.205063603093633,
+          13.315587825245164
+        ],
+        "median_change_pct": 0.4719650358795846,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.3238241560029564,
+        1.3092449520045193,
+        1.3081159359862795,
+        1.3188677720027044,
+        1.306878167000832,
+        1.1382351429929258
+      ],
+      "candidate_reps": [
+        1.1270740239997394,
+        1.1650642450113082,
+        1.1476954509998905,
+        1.3249863160017412,
+        2.361802985004033,
+        1.3209785100043518
+      ],
+      "median_change_pct": -5.017196274983093,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          1.3238241560029564,
+          1.3092449520045193,
+          1.3081159359862795
+        ],
+        "candidate_reps": [
+          1.1270740239997394,
+          1.1650642450113082,
+          1.1476954509998905
+        ],
+        "median_change_pct": -12.33913491568468,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          1.3188677720027044,
+          1.306878167000832,
+          1.1382351429929258
+        ],
+        "candidate_reps": [
+          1.3249863160017412,
+          2.361802985004033,
+          1.3209785100043518
+        ],
+        "median_change_pct": 1.3856034524217131,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.10015584299981128,
+        0.10055268999713007,
+        0.10169713399955072,
+        0.09929651299898978,
+        0.10122806899016723,
+        0.09960128199600149
+      ],
+      "candidate_reps": [
+        0.10286919599457178,
+        0.10457234400382731,
+        0.18316834799770731,
+        0.18470106000313535,
+        0.0994725149939768,
+        0.10151879300246947
+      ],
+      "median_change_pct": 3.35461920872111,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.10015584299981128,
+          0.10055268999713007,
+          0.10169713399955072
+        ],
+        "candidate_reps": [
+          0.10286919599457178,
+          0.10457234400382731,
+          0.18316834799770731
+        ],
+        "median_change_pct": 3.9975598930391376,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.09929651299898978,
+          0.10122806899016723,
+          0.09960128199600149
+        ],
+        "candidate_reps": [
+          0.18470106000313535,
+          0.0994725149939768,
+          0.10151879300246947
+        ],
+        "median_change_pct": 1.925187073942447,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        40.013520826003514,
+        40.055658459998085,
+        38.95781809098844,
+        40.03506512299646,
+        38.956000246995245,
+        35.583993619991816
+      ],
+      "candidate_reps": [
+        40.7679551350011,
+        39.44523544399999,
+        38.711809475003975,
+        42.33088446200418,
+        38.77300521900179,
+        38.45117517300241
+      ],
+      "median_change_pct": -0.9536349064332872,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          40.013520826003514,
+          40.055658459998085,
+          38.95781809098844
+        ],
+        "candidate_reps": [
+          40.7679551350011,
+          39.44523544399999,
+          38.711809475003975
+        ],
+        "median_change_pct": -1.4202333867961325,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          40.03506512299646,
+          38.956000246995245,
+          35.583993619991816
+        ],
+        "candidate_reps": [
+          42.33088446200418,
+          38.77300521900179,
+          38.45117517300241
+        ],
+        "median_change_pct": -0.46974798961186837,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.4768321589945117,
+        1.1393521879945183,
+        0.8052916999877198,
+        1.7814546519948635,
+        1.1414969229954295,
+        0.8017818539956352
+      ],
+      "candidate_reps": [
+        1.4947147280036006,
+        1.1296988310059533,
+        0.5802590520033846,
+        1.5312005790037801,
+        0.85797426001227,
+        0.5761286769993603
+      ],
+      "median_change_pct": -12.853810388381138,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.4768321589945117,
+          1.1393521879945183,
+          0.8052916999877198
+        ],
+        "candidate_reps": [
+          1.4947147280036006,
+          1.1296988310059533,
+          0.5802590520033846
+        ],
+        "median_change_pct": -0.8472671655247233,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.7814546519948635,
+          1.1414969229954295,
+          0.8017818539956352
+        ],
+        "candidate_reps": [
+          1.5312005790037801,
+          0.85797426001227,
+          0.5761286769993603
+        ],
+        "median_change_pct": -24.837794765066988,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "amortized_decode_tok_s",
+      "reference_reps": [
+        14.494368722738196,
+        14.429849685327094,
+        14.800552135572598,
+        14.180739066992093,
+        15.22958793435672,
+        14.766558500913307
+      ],
+      "candidate_reps": [
+        14.090015469354478,
+        13.677361688502192,
+        17.350800044367006,
+        13.969759954562866,
+        13.891186059965154,
+        15.983868922338017
+      ],
+      "median_change_pct": -4.104968344144854,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "amortized_decode_tok_s",
+        "reference_reps": [
+          14.494368722738196,
+          14.429849685327094,
+          14.800552135572598
+        ],
+        "candidate_reps": [
+          14.090015469354478,
+          13.677361688502192,
+          17.350800044367006
+        ],
+        "median_change_pct": -2.7897265560064333,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "amortized_decode_tok_s",
+        "reference_reps": [
+          14.180739066992093,
+          15.22958793435672,
+          14.766558500913307
+        ],
+        "candidate_reps": [
+          13.969759954562866,
+          13.891186059965154,
+          15.983868922338017
+        ],
+        "median_change_pct": -5.395966475879666,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "completion_tok_s",
+      "reference_reps": [
+        13.831120987568214,
+        14.119586297179714,
+        14.584097374464834,
+        13.641935501317153,
+        14.881915952832403,
+        14.552894320739655
+      ],
+      "candidate_reps": [
+        13.456754171073593,
+        13.402316115046773,
+        16.922593540734553,
+        13.332591106940367,
+        13.52049926157469,
+        15.62383061292561
+      ],
+      "median_change_pct": -5.912384100493995,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "completion_tok_s",
+        "reference_reps": [
+          13.831120987568214,
+          14.119586297179714,
+          14.584097374464834
+        ],
+        "candidate_reps": [
+          13.456754171073593,
+          13.402316115046773,
+          16.922593540734553
+        ],
+        "median_change_pct": -4.694416055508066,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "completion_tok_s",
+        "reference_reps": [
+          13.641935501317153,
+          14.881915952832403,
+          14.552894320739655
+        ],
+        "candidate_reps": [
+          13.332591106940367,
+          13.52049926157469,
+          15.62383061292561
+        ],
+        "median_change_pct": -7.094087515592529,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.3237867480056593,
+        1.3091440879943548,
+        1.3080979049991583,
+        1.3191092610068154,
+        1.307128776999889,
+        1.1383267429919215
+      ],
+      "candidate_reps": [
+        1.126877782997326,
+        1.1653836229961598,
+        1.1477399629948195,
+        1.324495338005363,
+        2.3620188259956194,
+        1.3210555499972543
+      ],
+      "median_change_pct": -4.997735033682959,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          1.3237867480056593,
+          1.3091440879943548,
+          1.3080979049991583
+        ],
+        "candidate_reps": [
+          1.126877782997326,
+          1.1653836229961598,
+          1.1477399629948195
+        ],
+        "median_change_pct": -12.328980933398315,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          1.3191092610068154,
+          1.307128776999889,
+          1.1383267429919215
+        ],
+        "candidate_reps": [
+          1.324495338005363,
+          2.3620188259956194,
+          1.3210555499972543
+        ],
+        "median_change_pct": 1.32860367785137,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.09950630899402313,
+        0.09999583200260531,
+        0.10119452599610668,
+        0.09915822399489116,
+        0.1007008339947788,
+        0.10018485199543647
+      ],
+      "candidate_reps": [
+        0.10019947499677073,
+        0.10461557700182311,
+        0.10054046699951869,
+        0.09926627100503538,
+        0.09948067499499302,
+        0.09994515500147827
+      ],
+      "median_change_pct": -0.018010728644102247,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.09950630899402313,
+          0.09999583200260531,
+          0.10119452599610668
+        ],
+        "candidate_reps": [
+          0.10019947499677073,
+          0.10461557700182311,
+          0.10054046699951869
+        ],
+        "median_change_pct": 0.5446576982320428,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.09915822399489116,
+          0.1007008339947788,
+          0.10018485199543647
+        ],
+        "candidate_reps": [
+          0.09926627100503538,
+          0.09948067499499302,
+          0.09994515500147827
+        ],
+        "median_change_pct": -0.7028777169581724,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        37.017968424988794,
+        36.261685663004755,
+        35.10673213801056,
+        37.531331235994,
+        34.404172259994084,
+        35.18200494800112
+      ],
+      "candidate_reps": [
+        38.04780807399948,
+        38.20235216099536,
+        30.25540965500113,
+        38.40213773101277,
+        37.868424094005604,
+        32.770452565993764
+      ],
+      "median_change_pct": 6.2602330853134935,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          37.017968424988794,
+          36.261685663004755,
+          35.10673213801056
+        ],
+        "candidate_reps": [
+          38.04780807399948,
+          38.20235216099536,
+          30.25540965500113
+        ],
+        "median_change_pct": 4.925646390501304,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          37.531331235994,
+          34.404172259994084,
+          35.18200494800112
+        ],
+        "candidate_reps": [
+          38.40213773101277,
+          37.868424094005604,
+          32.770452565993764
+        ],
+        "median_change_pct": 7.635776158791963,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.7628973160026362,
+        0.8489813630003482,
+        0.5809931440016953,
+        1.496538014995167,
+        0.8510648349911207,
+        0.5767853249999462
+      ],
+      "candidate_reps": [
+        1.7809919650026131,
+        0.8413455840054667,
+        0.8043181379907764,
+        1.8231269490061095,
+        1.0825083490053657,
+        0.8007209269999294
+      ],
+      "median_change_pct": 13.164803126161084,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.7628973160026362,
+          0.8489813630003482,
+          0.5809931440016953
+        ],
+        "candidate_reps": [
+          1.7809919650026131,
+          0.8413455840054667,
+          0.8043181379907764
+        ],
+        "median_change_pct": -0.8994047840928165,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.496538014995167,
+          0.8510648349911207,
+          0.5767853249999462
+        ],
+        "candidate_reps": [
+          1.8231269490061095,
+          1.0825083490053657,
+          0.8007209269999294
+        ],
+        "median_change_pct": 27.194580776758293,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "long",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        37.571688476993586,
+        37.679148429000634,
+        37.17115580699465,
+        37.04112126000109,
+        36.956778676001704,
+        38.008062148001045
+      ],
+      "candidate_reps": [
+        38.59967445199436,
+        38.19020675600041,
+        37.71661302598659,
+        39.79714759600756,
+        36.026983942007064,
+        36.80571913099266
+      ],
+      "median_change_pct": 1.557306935733127,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "long",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          37.571688476993586,
+          37.679148429000634,
+          37.17115580699465
+        ],
+        "candidate_reps": [
+          38.59967445199436,
+          38.19020675600041,
+          37.71661302598659
+        ],
+        "median_change_pct": 1.6462349819214461,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "long",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          37.04112126000109,
+          36.956778676001704,
+          38.008062148001045
+        ],
+        "candidate_reps": [
+          39.79714759600756,
+          36.026983942007064,
+          36.80571913099266
+        ],
+        "median_change_pct": -0.635515667455333,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "long",
+      "metric": "ttft_s",
+      "reference_reps": [
+        37.56953141700069,
+        37.609005567006534,
+        37.102344589002314,
+        36.97368947400537,
+        36.88393398899643,
+        38.00536218400521
+      ],
+      "candidate_reps": [
+        38.59821596799884,
+        38.12215029700019,
+        37.644248452998,
+        39.79495334500098,
+        35.92536356100754,
+        36.73698575000162
+      ],
+      "median_change_pct": 1.4657764107964821,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "long",
+        "metric": "ttft_s",
+        "reference_reps": [
+          37.56953141700069,
+          37.609005567006534,
+          37.102344589002314
+        ],
+        "candidate_reps": [
+          38.59821596799884,
+          38.12215029700019,
+          37.644248452998
+        ],
+        "median_change_pct": 1.4709230037120768,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "long",
+        "metric": "ttft_s",
+        "reference_reps": [
+          36.97368947400537,
+          36.88393398899643,
+          38.00536218400521
+        ],
+        "candidate_reps": [
+          39.79495334500098,
+          35.92536356100754,
+          36.73698575000162
+        ],
+        "median_change_pct": -0.6401950342828533,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "short",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        5.090969127995777,
+        7.234583078010473,
+        7.163151533997734,
+        5.352253633987857,
+        7.2368777049996424,
+        6.385918170999503
+      ],
+      "candidate_reps": [
+        6.7674505280010635,
+        5.095041697000852,
+        6.491261815986945,
+        5.703630963005708,
+        5.154017105000094,
+        7.370768405991839
+      ],
+      "median_change_pct": -9.994611847816604,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "short",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          5.090969127995777,
+          7.234583078010473,
+          7.163151533997734
+        ],
+        "candidate_reps": [
+          6.7674505280010635,
+          5.095041697000852,
+          6.491261815986945
+        ],
+        "median_change_pct": -9.379806008875669,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "short",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          5.352253633987857,
+          7.2368777049996424,
+          6.385918170999503
+        ],
+        "candidate_reps": [
+          5.703630963005708,
+          5.154017105000094,
+          7.370768405991839
+        ],
+        "median_change_pct": -10.684246019503973,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "short",
+      "metric": "ttft_s",
+      "reference_reps": [
+        4.998194408995914,
+        7.140718563008704,
+        7.067347939999308,
+        5.259047882995219,
+        7.144237896005507,
+        6.289231036003912
+      ],
+      "candidate_reps": [
+        6.668380130009609,
+        5.002228576995549,
+        6.394459878996713,
+        5.607441726999241,
+        5.055893119992106,
+        7.271482659998583
+      ],
+      "median_change_pct": -10.14239778345275,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "short",
+        "metric": "ttft_s",
+        "reference_reps": [
+          4.998194408995914,
+          7.140718563008704,
+          7.067347939999308
+        ],
+        "candidate_reps": [
+          6.668380130009609,
+          5.002228576995549,
+          6.394459878996713
+        ],
+        "median_change_pct": -9.521082967972017,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "short",
+        "metric": "ttft_s",
+        "reference_reps": [
+          5.259047882995219,
+          7.144237896005507,
+          6.289231036003912
+        ],
+        "candidate_reps": [
+          5.607441726999241,
+          5.055893119992106,
+          7.271482659998583
+        ],
+        "median_change_pct": -10.84058297590973,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "cohort",
+      "metric": "wall_s",
+      "reference_reps": [
+        68.58758350700373,
+        68.58204007500899,
+        68.60737304399663,
+        69.74431042400829,
+        68.52475518599385,
+        68.51228204800282
+      ],
+      "candidate_reps": [
+        68.51245182799175,
+        68.53733229701174,
+        68.85025997699995,
+        68.6415972939867,
+        68.58188205699844,
+        68.56068429299921
+      ],
+      "median_change_pct": -0.019725381836377398,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "cohort",
+        "metric": "wall_s",
+        "reference_reps": [
+          68.58758350700373,
+          68.58204007500899,
+          68.60737304399663
+        ],
+        "candidate_reps": [
+          68.51245182799175,
+          68.53733229701174,
+          68.85025997699995
+        ],
+        "median_change_pct": -0.0732657536868242,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "cohort",
+        "metric": "wall_s",
+        "reference_reps": [
+          69.74431042400829,
+          68.52475518599385,
+          68.51228204800282
+        ],
+        "candidate_reps": [
+          68.6415972939867,
+          68.58188205699844,
+          68.56068429299921
+        ],
+        "median_change_pct": 0.0833667640979252,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "long",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        68.57054568300373,
+        68.56385070399847,
+        68.59621431000414,
+        69.72551274500438,
+        68.50605046900455,
+        68.49390928300272
+      ],
+      "candidate_reps": [
+        68.49467043999175,
+        68.51736451599572,
+        68.8308264560037,
+        68.62991094798781,
+        68.56947351900453,
+        68.54220529801387
+      ],
+      "median_change_pct": -0.01656591678114161,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "long",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          68.57054568300373,
+          68.56385070399847,
+          68.59621431000414
+        ],
+        "candidate_reps": [
+          68.49467043999175,
+          68.51736451599572,
+          68.8308264560037
+        ],
+        "median_change_pct": -0.07755686713338816,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "long",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          69.72551274500438,
+          68.50605046900455,
+          68.49390928300272
+        ],
+        "candidate_reps": [
+          68.62991094798781,
+          68.56947351900453,
+          68.54220529801387
+        ],
+        "median_change_pct": 0.09258021673381744,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "long",
+      "metric": "ttft_s",
+      "reference_reps": [
+        68.56918606400723,
+        68.56168772299134,
+        68.59386135899695,
+        69.72347275300126,
+        68.50383593099832,
+        68.49295256000187
+      ],
+      "candidate_reps": [
+        68.49242612799571,
+        68.51641891300096,
+        68.82763318400248,
+        68.62755272799404,
+        68.5668216500053,
+        68.54009280800528
+      ],
+      "median_change_pct": -0.017471870721974536,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "long",
+        "metric": "ttft_s",
+        "reference_reps": [
+          68.56918606400723,
+          68.56168772299134,
+          68.59386135899695
+        ],
+        "candidate_reps": [
+          68.49242612799571,
+          68.51641891300096,
+          68.82763318400248
+        ],
+        "median_change_pct": -0.07695461188208519,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "long",
+        "metric": "ttft_s",
+        "reference_reps": [
+          69.72347275300126,
+          68.50383593099832,
+          68.49295256000187
+        ],
+        "candidate_reps": [
+          68.62755272799404,
+          68.5668216500053,
+          68.54009280800528
+        ],
+        "median_change_pct": 0.09194480593819332,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short0",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.1826729310123483,
+        2.182002530011232,
+        2.187891976995161,
+        1.8016439579951111,
+        2.164540166995721,
+        2.1843151029897854
+      ],
+      "candidate_reps": [
+        2.1736749420088017,
+        2.1659327789966483,
+        2.1958067849918734,
+        2.1926628920045914,
+        2.165709495995543,
+        2.189292215000023
+      ],
+      "median_change_pct": -0.0391393135643292,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short0",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.1826729310123483,
+          2.182002530011232,
+          2.187891976995161
+        ],
+        "candidate_reps": [
+          2.1736749420088017,
+          2.1659327789966483,
+          2.1958067849918734
+        ],
+        "median_change_pct": -0.41224632768837033,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short0",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.8016439579951111,
+          2.164540166995721,
+          2.1843151029897854
+        ],
+        "candidate_reps": [
+          2.1926628920045914,
+          2.165709495995543,
+          2.189292215000023
+        ],
+        "median_change_pct": 1.1435245407645622,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short0",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.181429472999298,
+        2.1801467980112648,
+        2.186472692992538,
+        1.7988112259918125,
+        2.1623607340006856,
+        2.1816070119966753
+      ],
+      "candidate_reps": [
+        2.171363334011403,
+        2.163703074998921,
+        2.1935841539961984,
+        2.189905165010714,
+        2.1640217599924654,
+        2.187106957004289
+      ],
+      "median_change_pct": -0.0712123278805099,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short0",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.181429472999298,
+          2.1801467980112648,
+          2.186472692992538
+        ],
+        "candidate_reps": [
+          2.171363334011403,
+          2.163703074998921,
+          2.1935841539961984
+        ],
+        "median_change_pct": -0.46144691416747374,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short0",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.7988112259918125,
+          2.1623607340006856,
+          2.1816070119966753
+        ],
+        "candidate_reps": [
+          2.189905165010714,
+          2.1640217599924654,
+          2.187106957004289
+        ],
+        "median_change_pct": 1.1444077121128382,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.5863362310046796,
+        2.5866057999955956,
+        2.603192209993722,
+        2.0264392740064068,
+        2.5732867830083705,
+        2.5912892339983955
+      ],
+      "candidate_reps": [
+        2.576011166005628,
+        2.57655613598763,
+        2.6057855560065946,
+        2.6049036730109947,
+        2.5714237859938294,
+        2.6031570570048643
+      ],
+      "median_change_pct": 0.13089576398963576,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short1",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.5863362310046796,
+          2.5866057999955956,
+          2.603192209993722
+        ],
+        "candidate_reps": [
+          2.576011166005628,
+          2.57655613598763,
+          2.6057855560065946
+        ],
+        "median_change_pct": -0.3885270808556385,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short1",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.0264392740064068,
+          2.5732867830083705,
+          2.5912892339983955
+        ],
+        "candidate_reps": [
+          2.6049036730109947,
+          2.5714237859938294,
+          2.6031570570048643
+        ],
+        "median_change_pct": 1.1607829408571746,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.5851299250061857,
+        2.5846310589986388,
+        2.601126060995739,
+        2.0243007210083306,
+        2.5703190580097726,
+        2.5892769539932488
+      ],
+      "candidate_reps": [
+        2.5744763130060164,
+        2.5742736639949726,
+        2.6041350540035637,
+        2.6019365370011656,
+        2.5687780769949313,
+        2.600273347008624
+      ],
+      "median_change_pct": 0.09649722734283994,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short1",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.5851299250061857,
+          2.5846310589986388,
+          2.601126060995739
+        ],
+        "candidate_reps": [
+          2.5744763130060164,
+          2.5742736639949726,
+          2.6041350540035637
+        ],
+        "median_change_pct": -0.41211127909339673,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short1",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.0243007210083306,
+          2.5703190580097726,
+          2.5892769539932488
+        ],
+        "candidate_reps": [
+          2.6019365370011656,
+          2.5687780769949313,
+          2.600273347008624
+        ],
+        "median_change_pct": 1.1653918569177746,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short10",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.821859082003357,
+        2.844416863998049,
+        2.8449960500001907,
+        2.5519858930056216,
+        2.8020407979929587,
+        2.7989527419995284
+      ],
+      "candidate_reps": [
+        2.7779006019991357,
+        2.812050095992163,
+        1.2843136879964732,
+        2.885921414999757,
+        2.834433012001682,
+        2.8302855999936583
+      ],
+      "median_change_pct": 0.32781195225541904,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short10",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.821859082003357,
+          2.844416863998049,
+          2.8449960500001907
+        ],
+        "candidate_reps": [
+          2.7779006019991357,
+          2.812050095992163,
+          1.2843136879964732
+        ],
+        "median_change_pct": -2.3384850104361754,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short10",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.5519858930056216,
+          2.8020407979929587,
+          2.7989527419995284
+        ],
+        "candidate_reps": [
+          2.885921414999757,
+          2.834433012001682,
+          2.8302855999936583
+        ],
+        "median_change_pct": 1.2676266186905094,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short10",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.82027482301055,
+        2.8430716290022247,
+        2.8421762340003625,
+        2.549953852998442,
+        2.7998430769948754,
+        2.7957739279954694
+      ],
+      "candidate_reps": [
+        2.7759345950034913,
+        2.8097640560008585,
+        1.282875441989745,
+        2.883607771989773,
+        2.8323780260107014,
+        2.8281201339996187
+      ],
+      "median_change_pct": 0.3161195247351367,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short10",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.82027482301055,
+          2.8430716290022247,
+          2.8421762340003625
+        ],
+        "candidate_reps": [
+          2.7759345950034913,
+          2.8097640560008585,
+          1.282875441989745
+        ],
+        "median_change_pct": -2.3306661354928093,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short10",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.549953852998442,
+          2.7998430769948754,
+          2.7957739279954694
+        ],
+        "candidate_reps": [
+          2.883607771989773,
+          2.8323780260107014,
+          2.8281201339996187
+        ],
+        "median_change_pct": 1.3092653039180613,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short11",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.4572672670037718,
+        1.4839775700093014,
+        1.4924184800038347,
+        2.7937991179933306,
+        1.4378339919931022,
+        1.4434647529997164
+      ],
+      "candidate_reps": [
+        1.413754296998377,
+        1.4487617629929446,
+        1.7239374749915441,
+        1.5253117120009847,
+        1.4715666370029794,
+        1.4794873810024
+      ],
+      "median_change_pct": 0.3335044015671862,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short11",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.4572672670037718,
+          1.4839775700093014,
+          1.4924184800038347
+        ],
+        "candidate_reps": [
+          1.413754296998377,
+          1.4487617629929446,
+          1.7239374749915441
+        ],
+        "median_change_pct": -2.3730686856767047,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short11",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.7937991179933306,
+          1.4378339919931022,
+          1.4434647529997164
+        ],
+        "candidate_reps": [
+          1.5253117120009847,
+          1.4715666370029794,
+          1.4794873810024
+        ],
+        "median_change_pct": 2.4955668593793945,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short11",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.456886209998629,
+        1.4822129899985157,
+        1.4903859149926575,
+        2.7915562449925346,
+        1.436462177996873,
+        1.4414751930016791
+      ],
+      "candidate_reps": [
+        1.4118772349902429,
+        1.446273002991802,
+        1.722266461001709,
+        1.5224181930097984,
+        1.4686377589969197,
+        1.477023369006929
+      ],
+      "median_change_pct": 0.2232632368009302,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short11",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.456886209998629,
+          1.4822129899985157,
+          1.4903859149926575
+        ],
+        "candidate_reps": [
+          1.4118772349902429,
+          1.446273002991802,
+          1.722266461001709
+        ],
+        "median_change_pct": -2.42475185747425,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short11",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.7915562449925346,
+          1.436462177996873,
+          1.4414751930016791
+        ],
+        "candidate_reps": [
+          1.5224181930097984,
+          1.4686377589969197,
+          1.477023369006929
+        ],
+        "median_change_pct": 2.466096966346365,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short12",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.897505392000312,
+        1.919530642000609,
+        1.9301433939981507,
+        1.4245493950002128,
+        1.870693011005642,
+        1.8773097780067474
+      ],
+      "candidate_reps": [
+        1.8433460719970753,
+        1.885472893001861,
+        2.158321659997455,
+        1.957707620007568,
+        1.9212790780002251,
+        1.9134777309955098
+      ],
+      "median_change_pct": 1.5879357343094425,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short12",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.897505392000312,
+          1.919530642000609,
+          1.9301433939981507
+        ],
+        "candidate_reps": [
+          1.8433460719970753,
+          1.885472893001861,
+          2.158321659997455
+        ],
+        "median_change_pct": -1.7742748281033838,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short12",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.4245493950002128,
+          1.870693011005642,
+          1.8773097780067474
+        ],
+        "candidate_reps": [
+          1.957707620007568,
+          1.9212790780002251,
+          1.9134777309955098
+        ],
+        "median_change_pct": 2.7041351358547683,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short12",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.8959606059943326,
+        1.9178864779969444,
+        1.9284593900083564,
+        1.4223483620007755,
+        1.8685638349998044,
+        1.8737806440040004
+      ],
+      "candidate_reps": [
+        1.8412846569990506,
+        1.8845369220071007,
+        2.1568974950059783,
+        1.9553614480100805,
+        1.9188562819908839,
+        1.911075815994991
+      ],
+      "median_change_pct": 1.5966838038968367,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short12",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.8959606059943326,
+          1.9178864779969444,
+          1.9284593900083564
+        ],
+        "candidate_reps": [
+          1.8412846569990506,
+          1.8845369220071007,
+          2.1568974950059783
+        ],
+        "median_change_pct": -1.7388701767517722,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short12",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.4223483620007755,
+          1.8685638349998044,
+          1.8737806440040004
+        ],
+        "candidate_reps": [
+          1.9553614480100805,
+          1.9188562819908839,
+          1.911075815994991
+        ],
+        "median_change_pct": 2.6915027492804278,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short13",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.3451804500073195,
+        2.352694271990913,
+        2.3629669539950555,
+        1.6815647659968818,
+        2.310008265005308,
+        2.3070614250027575
+      ],
+      "candidate_reps": [
+        2.280436960994848,
+        2.3168808050104417,
+        2.592646437988151,
+        2.4067005060060183,
+        2.355664164002519,
+        2.352262933010934
+      ],
+      "median_change_pct": 1.1328946092077352,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short13",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.3451804500073195,
+          2.352694271990913,
+          2.3629669539950555
+        ],
+        "candidate_reps": [
+          2.280436960994848,
+          2.3168808050104417,
+          2.592646437988151
+        ],
+        "median_change_pct": -1.5222320811860035,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short13",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.6815647659968818,
+          2.310008265005308,
+          2.3070614250027575
+        ],
+        "candidate_reps": [
+          2.4067005060060183,
+          2.355664164002519,
+          2.352262933010934
+        ],
+        "median_change_pct": 2.10669462343005,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short13",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.3440226080128923,
+        2.3501644109928748,
+        2.36126658100693,
+        1.6798809180036187,
+        2.307650063012261,
+        2.304660584006342
+      ],
+      "candidate_reps": [
+        2.2790307799878065,
+        2.3146383650018834,
+        2.5901803169981577,
+        2.4046609440119937,
+        2.3535838020034134,
+        2.350293324008817
+      ],
+      "median_change_pct": 1.1222727538903188,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short13",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.3440226080128923,
+          2.3501644109928748,
+          2.36126658100693
+        ],
+        "candidate_reps": [
+          2.2790307799878065,
+          2.3146383650018834,
+          2.5901803169981577
+        ],
+        "median_change_pct": -1.5116408803068637,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short13",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.6798809180036187,
+          2.307650063012261,
+          2.304660584006342
+        ],
+        "candidate_reps": [
+          2.4046609440119937,
+          2.3535838020034134,
+          2.350293324008817
+        ],
+        "median_change_pct": 2.122794928528049,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short14",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.7897592850058572,
+        2.7878705839975737,
+        2.8142211430094903,
+        1.9433106190117542,
+        2.750988100990071,
+        2.7612827110133367
+      ],
+      "candidate_reps": [
+        2.72631136799464,
+        2.7658370820136042,
+        3.0411275859951274,
+        2.8617189390060958,
+        2.80125720500655,
+        2.804576883005211
+      ],
+      "median_change_pct": 1.0214313785818607,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short14",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.7897592850058572,
+          2.7878705839975737,
+          2.8142211430094903
+        ],
+        "candidate_reps": [
+          2.72631136799464,
+          2.7658370820136042,
+          3.0411275859951274
+        ],
+        "median_change_pct": -0.8575006137923058,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short14",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.9433106190117542,
+          2.750988100990071,
+          2.7612827110133367
+        ],
+        "candidate_reps": [
+          2.8617189390060958,
+          2.80125720500655,
+          2.804576883005211
+        ],
+        "median_change_pct": 1.9479830536472953,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short14",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.7879120980069274,
+        2.786574772995664,
+        2.8121368490101304,
+        1.9403000300080748,
+        2.7479662479890976,
+        2.759460191009566
+      ],
+      "candidate_reps": [
+        2.7235398549964884,
+        2.7640564200119115,
+        3.0390668269974412,
+        2.859955841995543,
+        2.7982414630096173,
+        2.8022150970064104
+      ],
+      "median_change_pct": 0.9812703375294829,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short14",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.7879120980069274,
+          2.786574772995664,
+          2.8121368490101304
+        ],
+        "candidate_reps": [
+          2.7235398549964884,
+          2.7640564200119115,
+          3.0390668269974412
+        ],
+        "median_change_pct": -0.8556825737823792,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short14",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.9403000300080748,
+          2.7479662479890976,
+          2.759460191009566
+        ],
+        "candidate_reps": [
+          2.859955841995543,
+          2.7982414630096173,
+          2.8022150970064104
+        ],
+        "median_change_pct": 1.974145390505111,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short15",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.4270497690013144,
+        1.4246741360111628,
+        1.4530963160068495,
+        2.1982876919937553,
+        1.3926298650039826,
+        1.3995722819963703
+      ],
+      "candidate_reps": [
+        1.3580500840034802,
+        1.3986898029979784,
+        1.6798543960030656,
+        1.5037406949995784,
+        1.4435661659954349,
+        1.446942531998502
+      ],
+      "median_change_pct": 1.3600472652099294,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short15",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.4270497690013144,
+          1.4246741360111628,
+          1.4530963160068495
+        ],
+        "candidate_reps": [
+          1.3580500840034802,
+          1.3986898029979784,
+          1.6798543960030656
+        ],
+        "median_change_pct": -1.987314431449927,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short15",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.1982876919937553,
+          1.3926298650039826,
+          1.3995722819963703
+        ],
+        "candidate_reps": [
+          1.5037406949995784,
+          1.4435661659954349,
+          1.446942531998502
+        ],
+        "median_change_pct": 3.3846233318197916,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short15",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.4254768219980178,
+        1.4226529790030327,
+        1.451303159003146,
+        2.1951728150015697,
+        1.3896969250054099,
+        1.3971622719982406
+      ],
+      "candidate_reps": [
+        1.3563310869940324,
+        1.3960514740028884,
+        1.678234983002767,
+        1.501556155999424,
+        1.4411661060003098,
+        1.4456806069938466
+      ],
+      "median_change_pct": 1.3593801792143756,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short15",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.4254768219980178,
+          1.4226529790030327,
+          1.451303159003146
+        ],
+        "candidate_reps": [
+          1.3563310869940324,
+          1.3960514740028884,
+          1.678234983002767
+        ],
+        "median_change_pct": -2.0642459800844337,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short15",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.1951728150015697,
+          1.3896969250054099,
+          1.3971622719982406
+        ],
+        "candidate_reps": [
+          1.501556155999424,
+          1.4411661060003098,
+          1.4456806069938466
+        ],
+        "median_change_pct": 3.4726342077799233,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short2",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.9979559360072017,
+        3.0048699359904276,
+        3.007507392001571,
+        2.26338995200058,
+        2.9975803270062897,
+        2.9960089399974095
+      ],
+      "candidate_reps": [
+        2.984375315994839,
+        2.9951201770018088,
+        3.053447322003194,
+        3.0250804430106655,
+        2.988193548997515,
+        3.0052516339928843
+      ],
+      "median_change_pct": 0.08065246825430528,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short2",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.9979559360072017,
+          3.0048699359904276,
+          3.007507392001571
+        ],
+        "candidate_reps": [
+          2.984375315994839,
+          2.9951201770018088,
+          3.053447322003194
+        ],
+        "median_change_pct": -0.3244652579415308,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short2",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.26338995200058,
+          2.9975803270062897,
+          2.9960089399974095
+        ],
+        "candidate_reps": [
+          3.0250804430106655,
+          2.988193548997515,
+          3.0052516339928843
+        ],
+        "median_change_pct": 0.3085002141376414,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short2",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.9954770839976845,
+        3.002450122992741,
+        3.0055627139954595,
+        2.260891237994656,
+        2.9956607510102913,
+        2.992961166994064
+      ],
+      "candidate_reps": [
+        2.9827946870063897,
+        2.9930585700058145,
+        3.0523846310097724,
+        3.0230047040095087,
+        2.9859880509902723,
+        3.0030815439968137
+      ],
+      "median_change_pct": 0.08349464045749322,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short2",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.9954770839976845,
+          3.002450122992741,
+          3.0055627139954595
+        ],
+        "candidate_reps": [
+          2.9827946870063897,
+          2.9930585700058145,
+          3.0523846310097724
+        ],
+        "median_change_pct": -0.3127963030927994,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short2",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.260891237994656,
+          2.9956607510102913,
+          2.992961166994064
+        ],
+        "candidate_reps": [
+          3.0230047040095087,
+          2.9859880509902723,
+          3.0030815439968137
+        ],
+        "median_change_pct": 0.3381392687067164,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short3",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.629963430998032,
+        1.646927201989456,
+        1.6482594609988155,
+        2.4916476500075078,
+        1.6425812030065572,
+        1.6360247370030265
+      ],
+      "candidate_reps": [
+        1.6140492420090595,
+        1.639106389004155,
+        1.6982532980036922,
+        1.668886746003409,
+        1.6367270040063886,
+        1.6436479669937398
+      ],
+      "median_change_pct": -0.20532092235607813,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short3",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.629963430998032,
+          1.646927201989456,
+          1.6482594609988155
+        ],
+        "candidate_reps": [
+          1.6140492420090595,
+          1.639106389004155,
+          1.6982532980036922
+        ],
+        "median_change_pct": -0.47487302267238407,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short3",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.4916476500075078,
+          1.6425812030065572,
+          1.6360247370030265
+        ],
+        "candidate_reps": [
+          1.668886746003409,
+          1.6367270040063886,
+          1.6436479669937398
+        ],
+        "median_change_pct": 0.06494436836548267,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short3",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.6279184040031396,
+        1.6458899669960374,
+        1.646299182990333,
+        2.4890295110089937,
+        1.6413627019937849,
+        1.6339287760056322
+      ],
+      "candidate_reps": [
+        1.6121972520049894,
+        1.6369135340064531,
+        1.6967791329952888,
+        1.6671283369942103,
+        1.6349048679985572,
+        1.6409833299985621
+      ],
+      "median_change_pct": -0.28460863605237474,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short3",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.6279184040031396,
+          1.6458899669960374,
+          1.646299182990333
+        ],
+        "candidate_reps": [
+          1.6121972520049894,
+          1.6369135340064531,
+          1.6967791329952888
+        ],
+        "median_change_pct": -0.5453847565501269,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short3",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.4890295110089937,
+          1.6413627019937849,
+          1.6339287760056322
+        ],
+        "candidate_reps": [
+          1.6671283369942103,
+          1.6349048679985572,
+          1.6409833299985621
+        ],
+        "median_change_pct": -0.023113233580973613,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short4",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.0432058229926042,
+        2.0641521670040675,
+        2.067125240006135,
+        2.7233369609894,
+        2.0500753819942474,
+        2.0588338610104984
+      ],
+      "candidate_reps": [
+        2.0254650809947634,
+        2.0535264649952296,
+        2.1793255649972707,
+        2.0899688499921467,
+        2.0496612950082636,
+        2.063347793999128
+      ],
+      "median_change_pct": -0.14823647178719979,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short4",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.0432058229926042,
+          2.0641521670040675,
+          2.067125240006135
+        ],
+        "candidate_reps": [
+          2.0254650809947634,
+          2.0535264649952296,
+          2.1793255649972707
+        ],
+        "median_change_pct": -0.5147731925335797,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short4",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.7233369609894,
+          2.0500753819942474,
+          2.0588338610104984
+        ],
+        "candidate_reps": [
+          2.0899688499921467,
+          2.0496612950082636,
+          2.063347793999128
+        ],
+        "median_change_pct": 0.2192470735066676,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short4",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.04128753200348,
+        2.062894900009269,
+        2.0665532870043535,
+        2.7214347289991565,
+        2.0480664139904547,
+        2.0564950680127367
+      ],
+      "candidate_reps": [
+        2.023358833990642,
+        2.051916987998993,
+        2.1776375109911896,
+        2.0872789319982985,
+        2.0474932360084495,
+        2.0616995620075613
+      ],
+      "median_change_pct": -0.14015225701545786,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short4",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.04128753200348,
+          2.062894900009269,
+          2.0665532870043535
+        ],
+        "candidate_reps": [
+          2.023358833990642,
+          2.051916987998993,
+          2.1776375109911896
+        ],
+        "median_change_pct": -0.5321605094969373,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short4",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.7214347289991565,
+          2.0480664139904547,
+          2.0564950680127367
+        ],
+        "candidate_reps": [
+          2.0872789319982985,
+          2.0474932360084495,
+          2.0616995620075613
+        ],
+        "median_change_pct": 0.25307592883525576,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short5",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.458368673993391,
+        2.487575071005267,
+        2.491586413991172,
+        1.3590242130012484,
+        2.472721414989792,
+        2.483193919993937
+      ],
+      "candidate_reps": [
+        2.434242927993182,
+        2.4753826619999018,
+        2.638631276000524,
+        2.5082835930079455,
+        2.4755850529909367,
+        2.4828744350088527
+      ],
+      "median_change_pct": 0.05133568360422558,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short5",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.458368673993391,
+          2.487575071005267,
+          2.491586413991172
+        ],
+        "candidate_reps": [
+          2.434242927993182,
+          2.4753826619999018,
+          2.638631276000524
+        ],
+        "median_change_pct": -0.4901323038439265,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short5",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.3590242130012484,
+          2.472721414989792,
+          2.483193919993937
+        ],
+        "candidate_reps": [
+          2.5082835930079455,
+          2.4755850529909367,
+          2.4828744350088527
+        ],
+        "median_change_pct": 0.41060104698866784,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short5",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.4562325899896678,
+        2.485530762001872,
+        2.4903216589882504,
+        1.3570955809991574,
+        2.4706138859910425,
+        2.4809185990015976
+      ],
+      "candidate_reps": [
+        2.431813160001184,
+        2.473666352001601,
+        2.636918149990379,
+        2.5056586190039525,
+        2.4726291979895905,
+        2.480594505002955
+      ],
+      "median_change_pct": 0.05510156744774619,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short5",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.4562325899896678,
+          2.485530762001872,
+          2.4903216589882504
+        ],
+        "candidate_reps": [
+          2.431813160001184,
+          2.473666352001601,
+          2.636918149990379
+        ],
+        "median_change_pct": -0.477339093188911,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short5",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.3570955809991574,
+          2.4706138859910425,
+          2.4809185990015976
+        ],
+        "candidate_reps": [
+          2.5056586190039525,
+          2.4726291979895905,
+          2.480594505002955
+        ],
+        "median_change_pct": 0.4039732419745867,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short6",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.8706832070020027,
+        2.9081932209955994,
+        2.9067104139976436,
+        1.5829540679987986,
+        2.8907224360009423,
+        2.889790625005844
+      ],
+      "candidate_reps": [
+        2.8410878099966794,
+        2.8960747119999724,
+        3.105123524001101,
+        2.929922538998653,
+        2.8992046370112803,
+        2.898550512007205
+      ],
+      "median_change_pct": 0.2982795442156849,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short6",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.8706832070020027,
+          2.9081932209955994,
+          2.9067104139976436
+        ],
+        "candidate_reps": [
+          2.8410878099966794,
+          2.8960747119999724,
+          3.105123524001101
+        ],
+        "median_change_pct": -0.36590167174733734,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short6",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.5829540679987986,
+          2.8907224360009423,
+          2.889790625005844
+        ],
+        "candidate_reps": [
+          2.929922538998653,
+          2.8992046370112803,
+          2.898550512007205
+        ],
+        "median_change_pct": 0.3257679613178688,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short6",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.868255250999937,
+        2.90569571199012,
+        2.904878536995966,
+        1.581285469001159,
+        2.8893400149972877,
+        2.887889833000372
+      ],
+      "candidate_reps": [
+        2.839533948994358,
+        2.894536275009159,
+        3.1027219320094446,
+        2.9280535860016244,
+        2.896428047999507,
+        2.8964554630074417
+      ],
+      "median_change_pct": 0.2709544785502116,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short6",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.868255250999937,
+          2.90569571199012,
+          2.904878536995966
+        ],
+        "candidate_reps": [
+          2.839533948994358,
+          2.894536275009159,
+          3.1027219320094446
+        ],
+        "median_change_pct": -0.35603078941477406,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short6",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.581285469001159,
+          2.8893400149972877,
+          2.887889833000372
+        ],
+        "candidate_reps": [
+          2.9280535860016244,
+          2.896428047999507,
+          2.8964554630074417
+        ],
+        "median_change_pct": 0.2966051512488077,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short7",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.5052571120031644,
+        1.5446514849900268,
+        1.5462234360020375,
+        1.8208327499887673,
+        1.5200778089929372,
+        1.524857954995241
+      ],
+      "candidate_reps": [
+        1.4742417570087127,
+        1.5311989379988518,
+        1.7533287100086454,
+        1.5744808059971547,
+        1.5381464140082244,
+        1.5433314609981608
+      ],
+      "median_change_pct": 0.38991360851377,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short7",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.5052571120031644,
+          1.5446514849900268,
+          1.5462234360020375
+        ],
+        "candidate_reps": [
+          1.4742417570087127,
+          1.5311989379988518,
+          1.7533287100086454
+        ],
+        "median_change_pct": -0.8709114723870481,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short7",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.8208327499887673,
+          1.5200778089929372,
+          1.524857954995241
+        ],
+        "candidate_reps": [
+          1.5744808059971547,
+          1.5381464140082244,
+          1.5433314609981608
+        ],
+        "median_change_pct": 1.2114902861871668,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short7",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.5038202129944693,
+        1.5434389389993157,
+        1.5448973199963802,
+        1.8193968079867773,
+        1.519095836993074,
+        1.5227467619988602
+      ],
+      "candidate_reps": [
+        1.4721864540042588,
+        1.5300389180047205,
+        1.7521498260030057,
+        1.573388464996242,
+        1.536520454013953,
+        1.5409188260091469
+      ],
+      "median_change_pct": 0.3670220959304693,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short7",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.5038202129944693,
+          1.5434389389993157,
+          1.5448973199963802
+        ],
+        "candidate_reps": [
+          1.4721864540042588,
+          1.5300389180047205,
+          1.7521498260030057
+        ],
+        "median_change_pct": -0.8681924924923257,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short7",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.8193968079867773,
+          1.519095836993074,
+          1.5227467619988602
+        ],
+        "candidate_reps": [
+          1.573388464996242,
+          1.536520454013953,
+          1.5409188260091469
+        ],
+        "median_change_pct": 1.1933740043835517,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short8",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.938623740003095,
+        1.9730358910019277,
+        1.978717049001716,
+        2.0633042030094657,
+        1.9480821210017893,
+        1.9547069800028112
+      ],
+      "candidate_reps": [
+        1.913685659004841,
+        1.9572542370005976,
+        2.222015269988333,
+        2.010107363006682,
+        1.9713052610022714,
+        1.9803209649981
+      ],
+      "median_change_pct": 0.608068190307054,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short8",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          1.938623740003095,
+          1.9730358910019277,
+          1.978717049001716
+        ],
+        "candidate_reps": [
+          1.913685659004841,
+          1.9572542370005976,
+          2.222015269988333
+        ],
+        "median_change_pct": -0.7998665444101993,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short8",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.0633042030094657,
+          1.9480821210017893,
+          1.9547069800028112
+        ],
+        "candidate_reps": [
+          2.010107363006682,
+          1.9713052610022714,
+          1.9803209649981
+        ],
+        "median_change_pct": 1.3103746626643709,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short8",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.93731583400222,
+        1.9717896320071304,
+        1.976309730001958,
+        2.06029364700953,
+        1.945900992010138,
+        1.9513223740068497
+      ],
+      "candidate_reps": [
+        1.9123704230005387,
+        1.9549467250035377,
+        2.2199886219896143,
+        2.0078810160048306,
+        1.968799776994274,
+        1.9785956450068625
+      ],
+      "median_change_pct": 0.6189834995771415,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short8",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.93731583400222,
+          1.9717896320071304,
+          1.976309730001958
+        ],
+        "candidate_reps": [
+          1.9123704230005387,
+          1.9549467250035377,
+          2.2199886219896143
+        ],
+        "median_change_pct": -0.8541939124838582,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short8",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.06029364700953,
+          1.945900992010138,
+          1.9513223740068497
+        ],
+        "candidate_reps": [
+          2.0078810160048306,
+          1.968799776994274,
+          1.9785956450068625
+        ],
+        "median_change_pct": 1.3976814576265983,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short9",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.376501136997831,
+        2.403551762996358,
+        2.3999320279981475,
+        2.307336398996995,
+        2.370738457000698,
+        2.3691080690041417
+      ],
+      "candidate_reps": [
+        2.3453403689927654,
+        2.3766286350000883,
+        2.6432979850069387,
+        2.4451089840003988,
+        2.394702347010025,
+        2.3991361590015003
+      ],
+      "median_change_pct": 0.9816001718536915,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short9",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.376501136997831,
+          2.403551762996358,
+          2.3999320279981475
+        ],
+        "candidate_reps": [
+          2.3453403689927654,
+          2.3766286350000883,
+          2.6432979850069387
+        ],
+        "median_change_pct": -0.9710022086541037,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short9",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          2.307336398996995,
+          2.370738457000698,
+          2.3691080690041417
+        ],
+        "candidate_reps": [
+          2.4451089840003988,
+          2.394702347010025,
+          2.3991361590015003
+        ],
+        "median_change_pct": 1.2674850248592051,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "short_arrivals",
+      "request": "short9",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.374615021995851,
+        2.402780800999608,
+        2.398417143995175,
+        2.3051950139924884,
+        2.368616847990779,
+        2.366559866000898
+      ],
+      "candidate_reps": [
+        2.3438327639887575,
+        2.374879333001445,
+        2.641917100001592,
+        2.4430260619992623,
+        2.392600561011932,
+        2.396568851007032
+      ],
+      "median_change_pct": 0.9684861143518964,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short9",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.374615021995851,
+          2.402780800999608,
+          2.398417143995175
+        ],
+        "candidate_reps": [
+          2.3438327639887575,
+          2.374879333001445,
+          2.641917100001592
+        ],
+        "median_change_pct": -0.9813893739319179,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "short_arrivals",
+        "request": "short9",
+        "metric": "ttft_s",
+        "reference_reps": [
+          2.3051950139924884,
+          2.368616847990779,
+          2.366559866000898
+        ],
+        "candidate_reps": [
+          2.4430260619992623,
+          2.392600561011932,
+          2.396568851007032
+        ],
+        "median_change_pct": 1.2680425049565347,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "0",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        79.54683028,
+        78.4578063210065,
+        77.99170872398827,
+        79.8973397660011,
+        77.95325389699428,
+        78.6041535139957
+      ],
+      "candidate_reps": [
+        79.27910558899748,
+        77.96958504100621,
+        79.06794056799845,
+        79.6632105220051,
+        79.87558065299527,
+        77.87396894000995
+      ],
+      "median_change_pct": 0.818203416883212,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "0",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          79.54683028,
+          78.4578063210065,
+          77.99170872398827
+        ],
+        "candidate_reps": [
+          79.27910558899748,
+          77.96958504100621,
+          79.06794056799845
+        ],
+        "median_change_pct": 0.7776590700173447,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "0",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          79.8973397660011,
+          77.95325389699428,
+          78.6041535139957
+        ],
+        "candidate_reps": [
+          79.6632105220051,
+          79.87558065299527,
+          77.87396894000995
+        ],
+        "median_change_pct": 1.3473295756830872,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "0",
+      "metric": "ttft_s",
+      "reference_reps": [
+        79.54477826099901,
+        78.45627503799915,
+        77.98979139099538,
+        79.8955565100041,
+        77.95081047900021,
+        78.60230637100176
+      ],
+      "candidate_reps": [
+        79.27726275099849,
+        77.9668303590006,
+        79.06559984000342,
+        79.65921877400251,
+        79.87214175600093,
+        77.87197614699835
+      ],
+      "median_change_pct": 0.8177083801976792,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "0",
+        "metric": "ttft_s",
+        "reference_reps": [
+          79.54477826099901,
+          78.45627503799915,
+          77.98979139099538
+        ],
+        "candidate_reps": [
+          79.27726275099849,
+          77.9668303590006,
+          79.06559984000342
+        ],
+        "median_change_pct": 0.7766425333208149,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "0",
+        "metric": "ttft_s",
+        "reference_reps": [
+          79.8955565100041,
+          77.95081047900021,
+          78.60230637100176
+        ],
+        "candidate_reps": [
+          79.65921877400251,
+          79.87214175600093,
+          77.87197614699835
+        ],
+        "median_change_pct": 1.3446328126965446,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        36.641709005009034,
+        32.120361991008394,
+        32.056731635995675,
+        32.404155967000406,
+        32.20850434999738,
+        31.679176548001124
+      ],
+      "candidate_reps": [
+        21.974854412008426,
+        21.411934981006198,
+        20.905029889006983,
+        20.757560817000922,
+        22.025722301987116,
+        20.497823324010824
+      ],
+      "median_change_pct": -34.217766802088555,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "1",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          36.641709005009034,
+          32.120361991008394,
+          32.056731635995675
+        ],
+        "candidate_reps": [
+          21.974854412008426,
+          21.411934981006198,
+          20.905029889006983
+        ],
+        "median_change_pct": -33.33843813154987,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "1",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          32.404155967000406,
+          32.20850434999738,
+          31.679176548001124
+        ],
+        "candidate_reps": [
+          20.757560817000922,
+          22.025722301987116,
+          20.497823324010824
+        ],
+        "median_change_pct": -35.55254664595251,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        36.639683194007375,
+        32.11874800300575,
+        32.055387328000506,
+        32.4028352410096,
+        32.206288132001646,
+        31.676503976996173
+      ],
+      "candidate_reps": [
+        20.819288264014176,
+        19.698661935006385,
+        19.52139843000623,
+        20.17701215299894,
+        20.49748475999513,
+        19.325065976998303
+      ],
+      "median_change_pct": -38.00909181875465,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "1",
+        "metric": "ttft_s",
+        "reference_reps": [
+          36.639683194007375,
+          32.11874800300575,
+          32.055387328000506
+        ],
+        "candidate_reps": [
+          20.819288264014176,
+          19.698661935006385,
+          19.52139843000623
+        ],
+        "median_change_pct": -38.66927212367388,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "1",
+        "metric": "ttft_s",
+        "reference_reps": [
+          32.4028352410096,
+          32.206288132001646,
+          31.676503976996173
+        ],
+        "candidate_reps": [
+          20.17701215299894,
+          20.49748475999513,
+          19.325065976998303
+        ],
+        "median_change_pct": -37.350705954374995,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "2",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        9.08257728299941,
+        8.658183331994223,
+        12.494119070004672,
+        11.678368483990198,
+        8.66657151299296,
+        8.63880264099862
+      ],
+      "candidate_reps": [
+        7.922993410989875,
+        5.235395601004711,
+        3.4791620479954872,
+        7.970000314002391,
+        5.79908984299982,
+        5.200850307999644
+      ],
+      "median_change_pct": -37.830903493828174,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "2",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          9.08257728299941,
+          8.658183331994223,
+          12.494119070004672
+        ],
+        "candidate_reps": [
+          7.922993410989875,
+          5.235395601004711,
+          3.4791620479954872
+        ],
+        "median_change_pct": -42.35781939555612,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "2",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          11.678368483990198,
+          8.66657151299296,
+          8.63880264099862
+        ],
+        "candidate_reps": [
+          7.970000314002391,
+          5.79908984299982,
+          5.200850307999644
+        ],
+        "median_change_pct": -33.08669022916616,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "2",
+      "metric": "ttft_s",
+      "reference_reps": [
+        9.081460336994496,
+        8.657689731000573,
+        12.491878423999879,
+        11.409525807001046,
+        8.664519919999293,
+        8.63783140500891
+      ],
+      "candidate_reps": [
+        7.9202946339937625,
+        5.23390823599766,
+        3.478000187998987,
+        7.965684227005113,
+        5.79708284100343,
+        5.1983231129997876
+      ],
+      "median_change_pct": -37.83949425586837,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "2",
+        "metric": "ttft_s",
+        "reference_reps": [
+          9.081460336994496,
+          8.657689731000573,
+          12.491878423999879
+        ],
+        "candidate_reps": [
+          7.9202946339937625,
+          5.23390823599766,
+          3.478000187998987
+        ],
+        "median_change_pct": -42.36710791240631,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "2",
+        "metric": "ttft_s",
+        "reference_reps": [
+          11.409525807001046,
+          8.664519919999293,
+          8.63783140500891
+        ],
+        "candidate_reps": [
+          7.965684227005113,
+          5.79708284100343,
+          5.1983231129997876
+        ],
+        "median_change_pct": -33.09400988711787,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "3",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        7.878797000987106,
+        3.456841577004525,
+        3.4367899369972292,
+        7.914018677009153,
+        3.450114826002391,
+        3.446996949001914
+      ],
+      "candidate_reps": [
+        7.924608647997957,
+        1.7292088299873285,
+        5.211317920009606,
+        7.965332832012791,
+        2.00494956500188,
+        1.7207289049983956
+      ],
+      "median_change_pct": 4.478254443156926,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "3",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          7.878797000987106,
+          3.456841577004525,
+          3.4367899369972292
+        ],
+        "candidate_reps": [
+          7.924608647997957,
+          1.7292088299873285,
+          5.211317920009606
+        ],
+        "median_change_pct": 50.753738750313126,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "3",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          7.914018677009153,
+          3.450114826002391,
+          3.446996949001914
+        ],
+        "candidate_reps": [
+          7.965332832012791,
+          2.00494956500188,
+          1.7207289049983956
+        ],
+        "median_change_pct": -41.88745400903099,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "3",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.7185254899959546,
+        3.4555802139948355,
+        3.4346105869917665,
+        1.7232553390058456,
+        3.447369757996057,
+        3.4443671940098284
+      ],
+      "candidate_reps": [
+        1.7139507839892758,
+        1.7264405969908694,
+        5.210075995011721,
+        1.7235221390001243,
+        2.0024447049945593,
+        1.718842351998319
+      ],
+      "median_change_pct": -49.84774125133645,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "3",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.7185254899959546,
+          3.4555802139948355,
+          3.4346105869917665
+        ],
+        "candidate_reps": [
+          1.7139507839892758,
+          1.7264405969908694,
+          5.210075995011721
+        ],
+        "median_change_pct": -49.73402214709333,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "3",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.7232553390058456,
+          3.447369757996057,
+          3.4443671940098284
+        ],
+        "candidate_reps": [
+          1.7235221390001243,
+          2.0024447049945593,
+          1.718842351998319
+        ],
+        "median_change_pct": -49.96113823179079,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "cohort",
+      "metric": "wall_s",
+      "reference_reps": [
+        79.55769808900368,
+        78.48343575499894,
+        78.01121000800049,
+        79.91961946000811,
+        77.96513933899405,
+        78.62122592200467
+      ],
+      "candidate_reps": [
+        79.29547458700836,
+        77.99026453500846,
+        79.086517912001,
+        79.68059619699488,
+        79.89099175200681,
+        77.8912678189954
+      ],
+      "median_change_pct": 0.8130445069999714,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "cohort",
+        "metric": "wall_s",
+        "reference_reps": [
+          79.55769808900368,
+          78.48343575499894,
+          78.01121000800049
+        ],
+        "candidate_reps": [
+          79.29547458700836,
+          77.99026453500846,
+          79.086517912001
+        ],
+        "median_change_pct": 0.7684196686861489,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "cohort",
+        "metric": "wall_s",
+        "reference_reps": [
+          79.91961946000811,
+          77.96513933899405,
+          78.62122592200467
+        ],
+        "candidate_reps": [
+          79.68059619699488,
+          79.89099175200681,
+          77.8912678189954
+        ],
+        "median_change_pct": 1.3474354572404534,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 131072,
+      "metric": "ttft_s",
+      "reference_reps": [
+        99.225849415001,
+        109.64272167500167,
+        104.99055055899953,
+        101.42697413200221,
+        108.12960358899727,
+        103.76691776800726
+      ],
+      "candidate_reps": [
+        99.76471270200273,
+        104.55804497899953,
+        105.2457664340036,
+        96.60439739200228,
+        102.23298478400102,
+        102.02852693499881
+      ],
+      "median_change_pct": -2.15367461774556,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 131072,
+        "metric": "ttft_s",
+        "reference_reps": [
+          99.225849415001,
+          109.64272167500167,
+          104.99055055899953
+        ],
+        "candidate_reps": [
+          99.76471270200273,
+          104.55804497899953,
+          105.2457664340036
+        ],
+        "median_change_pct": -0.4119471492407767,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 131072,
+        "metric": "ttft_s",
+        "reference_reps": [
+          101.42697413200221,
+          108.12960358899727,
+          103.76691776800726
+        ],
+        "candidate_reps": [
+          96.60439739200228,
+          102.23298478400102,
+          102.02852693499881
+        ],
+        "median_change_pct": -1.675284252824194,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 131072,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        115.2588946360047,
+        118.38669902300171,
+        113.3519293529971,
+        115.22837247401185,
+        121.23526412800129,
+        112.55995734300814
+      ],
+      "candidate_reps": [
+        113.18621836599777,
+        118.63020570500521,
+        115.88349729000765,
+        105.83741698099766,
+        116.56478402699577,
+        108.04571193100128
+      ],
+      "median_change_pct": -0.6150237589196195,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 131072,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          115.2588946360047,
+          118.38669902300171,
+          113.3519293529971
+        ],
+        "candidate_reps": [
+          113.18621836599777,
+          118.63020570500521,
+          115.88349729000765
+        ],
+        "median_change_pct": 0.5419127573411897,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 131072,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          115.22837247401185,
+          121.23526412800129,
+          112.55995734300814
+        ],
+        "candidate_reps": [
+          105.83741698099766,
+          116.56478402699577,
+          108.04571193100128
+        ],
+        "median_change_pct": -6.233413167950907,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 131072,
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.07005102399853058,
+        0.06982252201123629,
+        0.06705186300678179,
+        0.06905392999760807,
+        0.07007058500312269,
+        0.06994509100331925
+      ],
+      "candidate_reps": [
+        0.06920715000887867,
+        0.07007588401029352,
+        0.06918815498647746,
+        0.06908507300249767,
+        0.06833232899953146,
+        0.07170917199982796
+      ],
+      "median_change_pct": -0.9818497930965564,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 131072,
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.07005102399853058,
+          0.06982252201123629,
+          0.06705186300678179
+        ],
+        "candidate_reps": [
+          0.06920715000887867,
+          0.07007588401029352,
+          0.06918815498647746
+        ],
+        "median_change_pct": -0.8813374032215382,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 131072,
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.06905392999760807,
+          0.07007058500312269,
+          0.06994509100331925
+        ],
+        "candidate_reps": [
+          0.06908507300249767,
+          0.06833232899953146,
+          0.07170917199982796
+        ],
+        "median_change_pct": -1.2295616296800205,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 131072,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        0.1312543590029236,
+        0.07188892700651195,
+        0.07268597699294332,
+        0.13404584198724478,
+        0.07182392000686377,
+        0.13528795499587432
+      ],
+      "candidate_reps": [
+        0.19704113499028608,
+        0.07158094699843787,
+        0.19082690800132696,
+        0.13309873300022446,
+        0.07198268099455163,
+        0.07379258799483068
+      ],
+      "median_change_pct": 1.446984474541635,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 131072,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          0.1312543590029236,
+          0.07188892700651195,
+          0.07268597699294332
+        ],
+        "candidate_reps": [
+          0.19704113499028608,
+          0.07158094699843787,
+          0.19082690800132696
+        ],
+        "median_change_pct": 162.53607077449516,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 131072,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          0.13404584198724478,
+          0.07182392000686377,
+          0.13528795499587432
+        ],
+        "candidate_reps": [
+          0.13309873300022446,
+          0.07198268099455163,
+          0.07379258799483068
+        ],
+        "median_change_pct": -44.94973741755267,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 32768,
+      "metric": "ttft_s",
+      "reference_reps": [
+        41.686667800997384,
+        45.76544297899818,
+        44.23659182299161,
+        42.31083881700761,
+        45.562802204993204,
+        43.6449701370002
+      ],
+      "candidate_reps": [
+        42.733758203001344,
+        44.85398840099515,
+        44.63225383999816,
+        40.58294633599871,
+        40.91738663199067,
+        44.84355646700715
+      ],
+      "median_change_pct": -0.5866417317741957,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "ttft_s",
+        "reference_reps": [
+          41.686667800997384,
+          45.76544297899818,
+          44.23659182299161
+        ],
+        "candidate_reps": [
+          42.733758203001344,
+          44.85398840099515,
+          44.63225383999816
+        ],
+        "median_change_pct": 0.894422469501599,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "ttft_s",
+        "reference_reps": [
+          42.31083881700761,
+          45.562802204993204,
+          43.6449701370002
+        ],
+        "candidate_reps": [
+          40.58294633599871,
+          40.91738663199067,
+          44.84355646700715
+        ],
+        "median_change_pct": -6.249479599705843,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 32768,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        63.2350319679972,
+        72.99308155399922,
+        68.42717791898758,
+        69.49961799800803,
+        78.52621415999602,
+        70.82582337400527
+      ],
+      "candidate_reps": [
+        62.175596479995875,
+        71.55967559599958,
+        66.35228584399738,
+        59.899114483007,
+        65.9571034739929,
+        63.939462077003554
+      ],
+      "median_change_pct": -7.431920911168999,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          63.2350319679972,
+          72.99308155399922,
+          68.42717791898758
+        ],
+        "candidate_reps": [
+          62.175596479995875,
+          71.55967559599958,
+          66.35228584399738
+        ],
+        "median_change_pct": -3.0322631125409116,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          69.49961799800803,
+          78.52621415999602,
+          70.82582337400527
+        ],
+        "candidate_reps": [
+          59.899114483007,
+          65.9571034739929,
+          63.939462077003554
+        ],
+        "median_change_pct": -9.722952687238607,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 32768,
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.8037731570075266,
+        0.7663838430016767,
+        0.766768385990872,
+        0.9307001760025742,
+        0.930717014009133,
+        0.9330372469994472
+      ],
+      "candidate_reps": [
+        0.7414481839950895,
+        0.9409969999978784,
+        0.1256330589967547,
+        0.12255347600148525,
+        0.9367756510036997,
+        0.12090197901125066
+      ],
+      "median_change_pct": -50.008960847667595,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.8037731570075266,
+          0.7663838430016767,
+          0.766768385990872
+        ],
+        "candidate_reps": [
+          0.7414481839950895,
+          0.9409969999978784,
+          0.1256330589967547
+        ],
+        "median_change_pct": -3.3021969160950793,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.9307001760025742,
+          0.930717014009133,
+          0.9330372469994472
+        ],
+        "candidate_reps": [
+          0.12255347600148525,
+          0.9367756510036997,
+          0.12090197901125066
+        ],
+        "median_change_pct": -86.83235890643311,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 32768,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.1387871759943664,
+        1.1754173900117166,
+        1.1683097620116314,
+        0.9962492170016048,
+        0.9859685730043566,
+        0.9910583269956987
+      ],
+      "candidate_reps": [
+        1.175196470998344,
+        1.1793960210052319,
+        1.0022271880006883,
+        1.302440479004872,
+        0.9929431829950772,
+        1.1709277640038636
+      ],
+      "median_change_pct": 9.886849830696764,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          1.1387871759943664,
+          1.1754173900117166,
+          1.1683097620116314
+        ],
+        "candidate_reps": [
+          1.175196470998344,
+          1.1793960210052319,
+          1.0022271880006883
+        ],
+        "median_change_pct": 0.5894591666216087,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          0.9962492170016048,
+          0.9859685730043566,
+          0.9910583269956987
+        ],
+        "candidate_reps": [
+          1.302440479004872,
+          0.9929431829950772,
+          1.1709277640038636
+        ],
+        "median_change_pct": 18.149228164342478,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 8192,
+      "metric": "ttft_s",
+      "reference_reps": [
+        8.77515900299477,
+        11.403524301000289,
+        11.415426954990835,
+        8.751775254000677,
+        13.569104891008465,
+        11.495677852013614
+      ],
+      "candidate_reps": [
+        8.877625824010465,
+        12.905916384013835,
+        8.948977854000987,
+        8.91190882200317,
+        13.566647456987994,
+        12.63014547500643
+      ],
+      "median_change_pct": -5.4333256295386985,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "ttft_s",
+        "reference_reps": [
+          8.77515900299477,
+          11.403524301000289,
+          11.415426954990835
+        ],
+        "candidate_reps": [
+          8.877625824010465,
+          12.905916384013835,
+          8.948977854000987
+        ],
+        "median_change_pct": -21.52445491595958,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "ttft_s",
+        "reference_reps": [
+          8.751775254000677,
+          13.569104891008465,
+          11.495677852013614
+        ],
+        "candidate_reps": [
+          8.91190882200317,
+          13.566647456987994,
+          12.63014547500643
+        ],
+        "median_change_pct": 9.86864487329122,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 8192,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        52.27772923100565,
+        75.49051463099022,
+        65.49321925699769,
+        44.597239281007205,
+        57.94080770100118,
+        54.77546627400443
+      ],
+      "candidate_reps": [
+        52.931106834003,
+        60.853690281001036,
+        68.65101560000039,
+        50.551141701012966,
+        63.719026658000075,
+        64.13126517600904
+      ],
+      "median_change_pct": 10.518838625400818,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          52.27772923100565,
+          75.49051463099022,
+          65.49321925699769
+        ],
+        "candidate_reps": [
+          52.931106834003,
+          60.853690281001036,
+          68.65101560000039
+        ],
+        "median_change_pct": -7.0839836988177085,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          44.597239281007205,
+          57.94080770100118,
+          54.77546627400443
+        ],
+        "candidate_reps": [
+          50.551141701012966,
+          63.719026658000075,
+          64.13126517600904
+        ],
+        "median_change_pct": 16.32767549482297,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 8192,
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        1.1648577349988045,
+        1.134050541993929,
+        1.1350189189979574,
+        1.1279540809919126,
+        1.1306936900073197,
+        1.1344281139899977
+      ],
+      "candidate_reps": [
+        1.1351625609968323,
+        1.1346639289986342,
+        0.9704584610008169,
+        1.3057209520047763,
+        1.3051331040041987,
+        1.1364456469891593
+      ],
+      "median_change_pct": 0.13795818593265174,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          1.1648577349988045,
+          1.134050541993929,
+          1.1350189189979574
+        ],
+        "candidate_reps": [
+          1.1351625609968323,
+          1.1346639289986342,
+          0.9704584610008169
+        ],
+        "median_change_pct": -0.03127613058966361,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          1.1279540809919126,
+          1.1306936900073197,
+          1.1344281139899977
+        ],
+        "candidate_reps": [
+          1.3057209520047763,
+          1.3051331040041987,
+          1.1364456469891593
+        ],
+        "median_change_pct": 15.42764548334481,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 8192,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.9267532560043037,
+        1.3044522929994855,
+        1.6418031339999288,
+        2.718853525002487,
+        1.142219531990122,
+        1.268471919989679
+      ],
+      "candidate_reps": [
+        1.9750973600021098,
+        1.196399329986889,
+        1.9279787359992042,
+        1.9208925959974295,
+        1.4426412230095593,
+        1.2694714109966299
+      ],
+      "median_change_pct": 14.163008006150623,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          1.9267532560043037,
+          1.3044522929994855,
+          1.6418031339999288
+        ],
+        "candidate_reps": [
+          1.9750973600021098,
+          1.196399329986889,
+          1.9279787359992042
+        ],
+        "median_change_pct": 17.43056740926454,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          2.718853525002487,
+          1.142219531990122,
+          1.268471919989679
+        ],
+        "candidate_reps": [
+          1.9208925959974295,
+          1.4426412230095593,
+          1.2694714109966299
+        ],
+        "median_change_pct": 13.730639226235098,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 4096,
+      "metric": "ttft_s",
+      "reference_reps": [
+        3.439429646008648,
+        1.7245071210054448,
+        3.455568355988362,
+        3.436789333994966,
+        1.7219596869981615,
+        3.4549726210098015
+      ],
+      "candidate_reps": [
+        1.7290121379919583,
+        1.7273964619962499,
+        1.7397526360000484,
+        1.7424752960068872,
+        1.7420150710095186,
+        1.7316337160009425
+      ],
+      "median_change_pct": -49.51605872215596,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "ttft_s",
+        "reference_reps": [
+          3.439429646008648,
+          1.7245071210054448,
+          3.455568355988362
+        ],
+        "candidate_reps": [
+          1.7290121379919583,
+          1.7273964619962499,
+          1.7397526360000484
+        ],
+        "median_change_pct": -49.72968439699229,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "ttft_s",
+        "reference_reps": [
+          3.436789333994966,
+          1.7219596869981615,
+          3.4549726210098015
+        ],
+        "candidate_reps": [
+          1.7424752960068872,
+          1.7420150710095186,
+          1.7316337160009425
+        ],
+        "median_change_pct": -49.312718886246685,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 4096,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        49.1401367780054,
+        56.05990766201285,
+        55.78462036199926,
+        44.75473632699868,
+        52.93323435699858,
+        48.228706035006326
+      ],
+      "candidate_reps": [
+        45.50217247699038,
+        55.11775298698922,
+        54.617355921000126,
+        48.59395028599829,
+        54.75055231300939,
+        49.83046911400743
+      ],
+      "median_change_pct": 2.32622267061513,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          49.1401367780054,
+          56.05990766201285,
+          55.78462036199926
+        ],
+        "candidate_reps": [
+          45.50217247699038,
+          55.11775298698922,
+          54.617355921000126
+        ],
+        "median_change_pct": -2.0924484802880894,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          44.75473632699868,
+          52.93323435699858,
+          48.228706035006326
+        ],
+        "candidate_reps": [
+          48.59395028599829,
+          54.75055231300939,
+          49.83046911400743
+        ],
+        "median_change_pct": 3.3211819488552674,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 4096,
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        1.3014055710082175,
+        1.1350122639996698,
+        1.1368124690052355,
+        1.1298880809918046,
+        1.1309783370088553,
+        1.1368507239967585
+      ],
+      "candidate_reps": [
+        1.135830087994691,
+        1.1323621930059744,
+        0.9936116109893192,
+        1.308651692001149,
+        1.3051082879974274,
+        1.1357097430009162
+      ],
+      "median_change_pct": -0.012540668527771803,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          1.3014055710082175,
+          1.1350122639996698,
+          1.1368124690052355
+        ],
+        "candidate_reps": [
+          1.135830087994691,
+          1.1323621930059744,
+          0.9936116109893192
+        ],
+        "median_change_pct": -0.3914696680935692,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          1.1298880809918046,
+          1.1309783370088553,
+          1.1368507239967585
+        ],
+        "candidate_reps": [
+          1.308651692001149,
+          1.3051082879974274,
+          1.1357097430009162
+        ],
+        "median_change_pct": 15.396400204189643,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 4096,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.857643923998694,
+        1.480101941007888,
+        2.8484835800045403,
+        2.7186432370072,
+        1.4953507720056223,
+        2.871238681997056
+      ],
+      "candidate_reps": [
+        1.8473945669975365,
+        1.1797314479917986,
+        1.8688420810067328,
+        1.8547183149930788,
+        1.3146253659942886,
+        1.2294972270028666
+      ],
+      "median_change_pct": -30.904250066842497,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          1.857643923998694,
+          1.480101941007888,
+          2.8484835800045403
+        ],
+        "candidate_reps": [
+          1.8473945669975365,
+          1.1797314479917986,
+          1.8688420810067328
+        ],
+        "median_change_pct": -0.5517395916810108,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          2.7186432370072,
+          1.4953507720056223,
+          2.871238681997056
+        ],
+        "candidate_reps": [
+          1.8547183149930788,
+          1.3146253659942886,
+          1.2294972270028666
+        ],
+        "median_change_pct": -51.64406465331268,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "metric": "cohort_wall_s",
+      "reference_reps": [
+        115.2759318860044,
+        118.40071018699382,
+        113.36604091800109,
+        115.23938010899292,
+        121.24536646199704,
+        112.57559286800097
+      ],
+      "candidate_reps": [
+        113.19462426300743,
+        118.64535667900054,
+        115.90234208700713,
+        105.85238658300659,
+        116.57253991700418,
+        108.05387834900466
+      ],
+      "median_change_pct": -0.6152934625937356,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "metric": "cohort_wall_s",
+        "reference_reps": [
+          115.2759318860044,
+          118.40071018699382,
+          113.36604091800109
+        ],
+        "candidate_reps": [
+          113.19462426300743,
+          118.64535667900054,
+          115.90234208700713
+        ],
+        "median_change_pct": 0.5434006828261229,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "metric": "cohort_wall_s",
+        "reference_reps": [
+          115.23938010899292,
+          121.24536646199704,
+          112.57559286800097
+        ],
+        "candidate_reps": [
+          105.85238658300659,
+          116.57253991700418,
+          108.05387834900466
+        ],
+        "median_change_pct": -6.235283245356094,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "metric": "mean_acceptance_length",
+      "reference_reps": [
+        1.7491408934707904,
+        1.5518292682926829,
+        1.7166947723440136,
+        1.935361216730038,
+        1.6298076923076923,
+        2.068965517241379
+      ],
+      "candidate_reps": [
+        1.8970037453183521,
+        1.656910569105691,
+        1.615873015873016,
+        2.1961206896551726,
+        1.567901234567901,
+        2.149789029535865
+      ],
+      "median_change_pct": 2.5413394373541953,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "metric": "mean_acceptance_length",
+        "reference_reps": [
+          1.7491408934707904,
+          1.5518292682926829,
+          1.7166947723440136
+        ],
+        "candidate_reps": [
+          1.8970037453183521,
+          1.656910569105691,
+          1.615873015873016
+        ],
+        "median_change_pct": -3.48251792930504,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "metric": "mean_acceptance_length",
+        "reference_reps": [
+          1.935361216730038,
+          1.6298076923076923,
+          2.068965517241379
+        ],
+        "candidate_reps": [
+          2.1961206896551726,
+          1.567901234567901,
+          2.149789029535865
+        ],
+        "median_change_pct": 11.079472449495587,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "metric": "draft_acceptance_rate",
+      "reference_reps": [
+        0.2508630609896433,
+        0.18450560652395515,
+        0.2395715896279594,
+        0.31317632081476765,
+        0.2109500805152979,
+        0.35825968728755947
+      ],
+      "candidate_reps": [
+        0.30050188205771644,
+        0.22016348773841962,
+        0.2068230277185501,
+        0.40130151843817785,
+        0.18959299330242144,
+        0.38380281690140844
+      ],
+      "median_change_pct": 6.164066739669383,
+      "observation": "no_median_regression_over_2pct_observed",
+      "forward_pair": {
+        "workload": "long-output",
+        "metric": "draft_acceptance_rate",
+        "reference_reps": [
+          0.2508630609896433,
+          0.18450560652395515,
+          0.2395715896279594
+        ],
+        "candidate_reps": [
+          0.30050188205771644,
+          0.22016348773841962,
+          0.2068230277185501
+        ],
+        "median_change_pct": -8.101170059304375,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "metric": "draft_acceptance_rate",
+        "reference_reps": [
+          0.31317632081476765,
+          0.2109500805152979,
+          0.35825968728755947
+        ],
+        "candidate_reps": [
+          0.40130151843817785,
+          0.18959299330242144,
+          0.38380281690140844
+        ],
+        "median_change_pct": 22.551671819535102,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    }
+  ],
+  "requires_investigation": [
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.10015584299981128,
+        0.10055268999713007,
+        0.10169713399955072,
+        0.09929651299898978,
+        0.10122806899016723,
+        0.09960128199600149
+      ],
+      "candidate_reps": [
+        0.10286919599457178,
+        0.10457234400382731,
+        0.18316834799770731,
+        0.18470106000313535,
+        0.0994725149939768,
+        0.10151879300246947
+      ],
+      "median_change_pct": 3.35461920872111,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.10015584299981128,
+          0.10055268999713007,
+          0.10169713399955072
+        ],
+        "candidate_reps": [
+          0.10286919599457178,
+          0.10457234400382731,
+          0.18316834799770731
+        ],
+        "median_change_pct": 3.9975598930391376,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode0",
+        "metric": "delivery_gap_p95_s",
+        "reference_reps": [
+          0.09929651299898978,
+          0.10122806899016723,
+          0.09960128199600149
+        ],
+        "candidate_reps": [
+          0.18470106000313535,
+          0.0994725149939768,
+          0.10151879300246947
+        ],
+        "median_change_pct": 1.925187073942447,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "amortized_decode_tok_s",
+      "reference_reps": [
+        14.494368722738196,
+        14.429849685327094,
+        14.800552135572598,
+        14.180739066992093,
+        15.22958793435672,
+        14.766558500913307
+      ],
+      "candidate_reps": [
+        14.090015469354478,
+        13.677361688502192,
+        17.350800044367006,
+        13.969759954562866,
+        13.891186059965154,
+        15.983868922338017
+      ],
+      "median_change_pct": -4.104968344144854,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "amortized_decode_tok_s",
+        "reference_reps": [
+          14.494368722738196,
+          14.429849685327094,
+          14.800552135572598
+        ],
+        "candidate_reps": [
+          14.090015469354478,
+          13.677361688502192,
+          17.350800044367006
+        ],
+        "median_change_pct": -2.7897265560064333,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "amortized_decode_tok_s",
+        "reference_reps": [
+          14.180739066992093,
+          15.22958793435672,
+          14.766558500913307
+        ],
+        "candidate_reps": [
+          13.969759954562866,
+          13.891186059965154,
+          15.983868922338017
+        ],
+        "median_change_pct": -5.395966475879666,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "completion_tok_s",
+      "reference_reps": [
+        13.831120987568214,
+        14.119586297179714,
+        14.584097374464834,
+        13.641935501317153,
+        14.881915952832403,
+        14.552894320739655
+      ],
+      "candidate_reps": [
+        13.456754171073593,
+        13.402316115046773,
+        16.922593540734553,
+        13.332591106940367,
+        13.52049926157469,
+        15.62383061292561
+      ],
+      "median_change_pct": -5.912384100493995,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "completion_tok_s",
+        "reference_reps": [
+          13.831120987568214,
+          14.119586297179714,
+          14.584097374464834
+        ],
+        "candidate_reps": [
+          13.456754171073593,
+          13.402316115046773,
+          16.922593540734553
+        ],
+        "median_change_pct": -4.694416055508066,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "completion_tok_s",
+        "reference_reps": [
+          13.641935501317153,
+          14.881915952832403,
+          14.552894320739655
+        ],
+        "candidate_reps": [
+          13.332591106940367,
+          13.52049926157469,
+          15.62383061292561
+        ],
+        "median_change_pct": -7.094087515592529,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        37.017968424988794,
+        36.261685663004755,
+        35.10673213801056,
+        37.531331235994,
+        34.404172259994084,
+        35.18200494800112
+      ],
+      "candidate_reps": [
+        38.04780807399948,
+        38.20235216099536,
+        30.25540965500113,
+        38.40213773101277,
+        37.868424094005604,
+        32.770452565993764
+      ],
+      "median_change_pct": 6.2602330853134935,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          37.017968424988794,
+          36.261685663004755,
+          35.10673213801056
+        ],
+        "candidate_reps": [
+          38.04780807399948,
+          38.20235216099536,
+          30.25540965500113
+        ],
+        "median_change_pct": 4.925646390501304,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          37.531331235994,
+          34.404172259994084,
+          35.18200494800112
+        ],
+        "candidate_reps": [
+          38.40213773101277,
+          37.868424094005604,
+          32.770452565993764
+        ],
+        "median_change_pct": 7.635776158791963,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.7628973160026362,
+        0.8489813630003482,
+        0.5809931440016953,
+        1.496538014995167,
+        0.8510648349911207,
+        0.5767853249999462
+      ],
+      "candidate_reps": [
+        1.7809919650026131,
+        0.8413455840054667,
+        0.8043181379907764,
+        1.8231269490061095,
+        1.0825083490053657,
+        0.8007209269999294
+      ],
+      "median_change_pct": 13.164803126161084,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.7628973160026362,
+          0.8489813630003482,
+          0.5809931440016953
+        ],
+        "candidate_reps": [
+          1.7809919650026131,
+          0.8413455840054667,
+          0.8043181379907764
+        ],
+        "median_change_pct": -0.8994047840928165,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "decode_overlap",
+        "request": "decode1",
+        "metric": "ttft_s",
+        "reference_reps": [
+          1.496538014995167,
+          0.8510648349911207,
+          0.5767853249999462
+        ],
+        "candidate_reps": [
+          1.8231269490061095,
+          1.0825083490053657,
+          0.8007209269999294
+        ],
+        "median_change_pct": 27.194580776758293,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "mixed",
+      "case": "unequal_burst",
+      "request": "3",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        7.878797000987106,
+        3.456841577004525,
+        3.4367899369972292,
+        7.914018677009153,
+        3.450114826002391,
+        3.446996949001914
+      ],
+      "candidate_reps": [
+        7.924608647997957,
+        1.7292088299873285,
+        5.211317920009606,
+        7.965332832012791,
+        2.00494956500188,
+        1.7207289049983956
+      ],
+      "median_change_pct": 4.478254443156926,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "3",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          7.878797000987106,
+          3.456841577004525,
+          3.4367899369972292
+        ],
+        "candidate_reps": [
+          7.924608647997957,
+          1.7292088299873285,
+          5.211317920009606
+        ],
+        "median_change_pct": 50.753738750313126,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "mixed",
+        "case": "unequal_burst",
+        "request": "3",
+        "metric": "elapsed_s",
+        "reference_reps": [
+          7.914018677009153,
+          3.450114826002391,
+          3.446996949001914
+        ],
+        "candidate_reps": [
+          7.965332832012791,
+          2.00494956500188,
+          1.7207289049983956
+        ],
+        "median_change_pct": -41.88745400903099,
+        "observation": "no_median_regression_over_2pct_observed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 32768,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.1387871759943664,
+        1.1754173900117166,
+        1.1683097620116314,
+        0.9962492170016048,
+        0.9859685730043566,
+        0.9910583269956987
+      ],
+      "candidate_reps": [
+        1.175196470998344,
+        1.1793960210052319,
+        1.0022271880006883,
+        1.302440479004872,
+        0.9929431829950772,
+        1.1709277640038636
+      ],
+      "median_change_pct": 9.886849830696764,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          1.1387871759943664,
+          1.1754173900117166,
+          1.1683097620116314
+        ],
+        "candidate_reps": [
+          1.175196470998344,
+          1.1793960210052319,
+          1.0022271880006883
+        ],
+        "median_change_pct": 0.5894591666216087,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 32768,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          0.9962492170016048,
+          0.9859685730043566,
+          0.9910583269956987
+        ],
+        "candidate_reps": [
+          1.302440479004872,
+          0.9929431829950772,
+          1.1709277640038636
+        ],
+        "median_change_pct": 18.149228164342478,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 8192,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        52.27772923100565,
+        75.49051463099022,
+        65.49321925699769,
+        44.597239281007205,
+        57.94080770100118,
+        54.77546627400443
+      ],
+      "candidate_reps": [
+        52.931106834003,
+        60.853690281001036,
+        68.65101560000039,
+        50.551141701012966,
+        63.719026658000075,
+        64.13126517600904
+      ],
+      "median_change_pct": 10.518838625400818,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          52.27772923100565,
+          75.49051463099022,
+          65.49321925699769
+        ],
+        "candidate_reps": [
+          52.931106834003,
+          60.853690281001036,
+          68.65101560000039
+        ],
+        "median_change_pct": -7.0839836988177085,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          44.597239281007205,
+          57.94080770100118,
+          54.77546627400443
+        ],
+        "candidate_reps": [
+          50.551141701012966,
+          63.719026658000075,
+          64.13126517600904
+        ],
+        "median_change_pct": 16.32767549482297,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 8192,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.9267532560043037,
+        1.3044522929994855,
+        1.6418031339999288,
+        2.718853525002487,
+        1.142219531990122,
+        1.268471919989679
+      ],
+      "candidate_reps": [
+        1.9750973600021098,
+        1.196399329986889,
+        1.9279787359992042,
+        1.9208925959974295,
+        1.4426412230095593,
+        1.2694714109966299
+      ],
+      "median_change_pct": 14.163008006150623,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          1.9267532560043037,
+          1.3044522929994855,
+          1.6418031339999288
+        ],
+        "candidate_reps": [
+          1.9750973600021098,
+          1.196399329986889,
+          1.9279787359992042
+        ],
+        "median_change_pct": 17.43056740926454,
+        "observation": "median_regression_repeat_needed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 8192,
+        "metric": "delivery_gap_max_s",
+        "reference_reps": [
+          2.718853525002487,
+          1.142219531990122,
+          1.268471919989679
+        ],
+        "candidate_reps": [
+          1.9208925959974295,
+          1.4426412230095593,
+          1.2694714109966299
+        ],
+        "median_change_pct": 13.730639226235098,
+        "observation": "median_regression_repeat_needed"
+      }
+    },
+    {
+      "workload": "long-output",
+      "length": 4096,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        49.1401367780054,
+        56.05990766201285,
+        55.78462036199926,
+        44.75473632699868,
+        52.93323435699858,
+        48.228706035006326
+      ],
+      "candidate_reps": [
+        45.50217247699038,
+        55.11775298698922,
+        54.617355921000126,
+        48.59395028599829,
+        54.75055231300939,
+        49.83046911400743
+      ],
+      "median_change_pct": 2.32622267061513,
+      "observation": "median_regression_repeat_needed",
+      "forward_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          49.1401367780054,
+          56.05990766201285,
+          55.78462036199926
+        ],
+        "candidate_reps": [
+          45.50217247699038,
+          55.11775298698922,
+          54.617355921000126
+        ],
+        "median_change_pct": -2.0924484802880894,
+        "observation": "no_median_regression_over_2pct_observed"
+      },
+      "reverse_pair": {
+        "workload": "long-output",
+        "length": 4096,
+        "metric": "elapsed_s",
+        "reference_reps": [
+          44.75473632699868,
+          52.93323435699858,
+          48.228706035006326
+        ],
+        "candidate_reps": [
+          48.59395028599829,
+          54.75055231300939,
+          49.83046911400743
+        ],
+        "median_change_pct": 3.3211819488552674,
+        "observation": "median_regression_repeat_needed"
+      }
+    }
+  ],
+  "repeat_gate_passed": false,
+  "native_invocations": {
+    "head": [
+      "285512f403054b709d0d3968efe44652",
+      "e45cfc1ac59e40c1a529446fa2c659ef",
+      "fbf2a690b2884c9594b4cecb8d15a2be",
+      "ff7ffa4bae584bca970efd8f822a5577"
+    ],
+    "worker": [
+      "08ff6687cc4c42b1b606c74682e1ce04",
+      "0d2af81718bc4879ae5879bcd251e42d",
+      "a8bc628e48a44d6a955a4e2d9a14b575",
+      "c98678ce030147e4bcabcccf8b7b737d"
+    ]
+  },
+  "frozen_native_identity": {
+    "head": {
+      "rank": 0,
+      "manifest": "127424e92c1e5845697d85f3c34ce93fa632dd48bf3be491c868c50a9deb0243",
+      "binary_sha256": "b2eb310b9ec9009fa499086777d9ed90105b323db70da527242286dc0de026b9",
+      "trace": false,
+      "reserve_gib": 4,
+      "slots": 4,
+      "mtp_drafts": 3,
+      "core_primary_sha256": "2c47847a8fa28aa375af499973e5d8f8a7259136b0b3347a1fcf7b4fb711d0c6"
+    },
+    "worker": {
+      "rank": 1,
+      "manifest": "127424e92c1e5845697d85f3c34ce93fa632dd48bf3be491c868c50a9deb0243",
+      "binary_sha256": "b2eb310b9ec9009fa499086777d9ed90105b323db70da527242286dc0de026b9",
+      "trace": false,
+      "reserve_gib": 4,
+      "slots": 4,
+      "mtp_drafts": 3
+    }
+  },
+  "receipt_sha256": {
+    "0-balanced-mixed.jsonl": "e03ad7e5dfbf5c930f6c268e16d4e8e7079f15d27c72ae12f9af20ed84c75bb6",
+    "0-balanced-long-output.jsonl": "3a9e8387ede72e4f8a6365967bb57ffd0ad3b8a45ff16eee7c6414dc13c73d70",
+    "1-latency-mixed.jsonl": "3d9af855ed543bc62c7886628947ed8e5ad82827b0d794f1ae6118d63fd57fc8",
+    "1-latency-long-output.jsonl": "a1906d1ff8922001f82b8d7ee04064d17489b04f62da606816f97f3da782334a",
+    "2-latency-mixed.jsonl": "fe0f1b4eb8c8c09218d1b8e333130d6f6755d5acc3adeabe0fab58cff1f98974",
+    "2-latency-long-output.jsonl": "2474a7ff5c13fae90b11c502544aad7d45c50e225bdcdea1c7a3929bc8034cfa",
+    "3-balanced-mixed.jsonl": "b943aa13b6fd955cddae25c64b14c620e01933ef15c65f6bb2cf91fa2ba02a31",
+    "3-balanced-long-output.jsonl": "bec4652830a9b38fc8eb621dbcb53ddac23acd26b76e2411af1b5279b94e1fb1"
+  },
+  "limitations": [
+    "One counterbalanced block; six requests per role are not six independent starts.",
+    "Descriptive 2% gate, not a confidence interval or production-adoption decision.",
+    "All earlier failed and overlapping measurements remain retained.",
+    "Full speed/acceptance, numerical, context, capacity and recovery gates remain."
+  ]
+}

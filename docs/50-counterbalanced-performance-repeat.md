@@ -79,3 +79,48 @@ not turn overlapping ranges or a nonsignificant difference into equivalence.
 Any later statistical design needs a fixed replication plan, chosen effect
 threshold and uncertainty method before its measurements. The present80-point
 ABBA gate, its thresholds and all four required starts remain unchanged.
+
+Exa also checked the primary [scheduler lifecycle design](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/scheduling-runtime-design.md)
+against the pinned local scheduler and terminal-snapshot tests. Response completion
+waits for terminal snapshot/cache publication; terminal retirement competes with
+inference using its own value and age. Graph-cost discovery and stale-cost refresh
+are separate mechanisms. These explain why TTFT, last output and response completion
+must be retained separately. They do not identify the cause of any measured delay
+without a matching native trace. Changing retirement priority or decoupling response
+completion would require a separate lifecycle-qualified treatment, preserving fenced
+resource ownership and immediate-continuation cache semantics. No such change is
+included in this ABBA window.
+
+## Complete result — gate not passed
+
+All four starts completed by09:35 UTC:348 measured requests, four7/7 smokes,
+distinct native invocations and actual exit0 on both ranks without forced kill.
+All754 memory observations were healthy. Minimum free/available GiB were
+1.735/10.487 on the head and1.726/11.144 on the worker. Pools were2,335,232
+tokens for starts0–2 and2,331,392 for start3; reserve remained4GiB. The independent
+2,350,210-token capacity requirement remains unmet.
+
+The registered80-point comparator reports70 points without an adverse combined
+median over2%,10 unresolved adverse combined medians, and zero separated>2%
+regressions in either order-specific pair. `repeat_gate_passed=false`.
+
+| Workload / request | Metric | Combined median change |
+| --- | --- | ---: |
+| Decode overlap / decode0 | p95 delivery gap | +3.35% |
+| Decode overlap / decode1 | amortized decode rate | −4.10% |
+| Decode overlap / decode1 | completion rate | −5.91% |
+| Decode overlap / decode1 | elapsed | +6.26% |
+| Decode overlap / decode1 | TTFT | +13.16% |
+| Unequal burst / request3 | elapsed | +4.48% |
+| Long output /32k | maximum delivery gap | +9.89% |
+| Long output /8k | elapsed | +10.52% |
+| Long output /8k | maximum delivery gap | +14.16% |
+| Long output /4k | elapsed | +2.33% |
+
+Retain all observations; no favorable subset or overlapping range qualifies
+this candidate. Identical request bodies/seeds produced different output hashes
+across fresh runs, including within each policy. That is an observed source of
+workload variation, not proof of the cause or permission to discard timings.
+Matching native traces are still needed before any further scheduler change.
+Full84-row and capacity windows remain gated. Numerical qualification can proceed
+independently after verified B12X restoration. Receipts: `performance-abba-*`.
