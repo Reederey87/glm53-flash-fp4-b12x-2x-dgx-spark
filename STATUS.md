@@ -1,5 +1,9 @@
 # Status
 
+## 2026-11-16 UTC — Corrected MLA observation passes
+
+- All6 TP2 native-activation MLA cases passed in30.59s with zero skips/errors/failures and unchanged exact stage/state/selection/allocation assertions. Existing final outputs had already matched; exposing the actual attended return resolves the diagnostic placeholder defect. Seven memory samples passed and runtime ledgers/core/supervisor stayed unchanged. Fresh B12X restoration verification pending.
+
 ## 2026-11-16 UTC — MLA diagnostic return defect isolated
 
 - Initial six-case MLA gate failed only attended-stage comparisons; expanded/final outputs and other assertions passed. Exact pinned forward computes attention but leaves its diagnostic attended field at zero. Prepared a qualification-only binding of the actual tensor, with full-method AST identity after removing that single binding; all original numerical assertions remain. No serving source/core changed. Failed receipts retained; B12X restoration verified05:57:20 UTC with fresh5/5 smoke, original images and API/watchdog/tailnet; fallback disarmed. Corrected observation retry started under its separate60-minute fallback. See docs/38.

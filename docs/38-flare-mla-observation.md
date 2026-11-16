@@ -59,3 +59,8 @@ component gate; full-model equivalence remains unproven.
 Initial failed window restoration verified05:57:20 UTC with fresh5/5 smoke,
 original images, active API/watchdog/tailnet and no native PIDs; fallback disarmed.
 Corrected observation retry started after source SHA checks and its own timer.
+
+Corrected hardware result: all6 cases passed in30.59s, pytest exit0, no skips
+or relaxed bounds. All7 two-node memory samples passed; both ledgers, accepted
+core and supervisor hashes unchanged. The original failing control stays retained.
+B12X restoration is running; fallback remains armed until independent closure.
