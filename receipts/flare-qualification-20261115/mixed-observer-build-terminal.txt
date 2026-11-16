@@ -1,0 +1,7 @@
+MainPID=0
+ExecMainCode=1
+ExecMainStatus=0
+Id=b12x-flare-mixed-trace-build-20261116T034000Z.service
+ActiveState=active
+SubState=exited
+InvocationID=ffb7f77aaf484de79e337c6f662d54a9

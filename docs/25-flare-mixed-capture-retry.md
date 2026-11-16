@@ -89,3 +89,27 @@ health200, fresh5/5 smoke, active watchdog/tailnet and no native rank processes.
 Fallback disarmed03:35:14 UTC. The fresh corrected-call build started only after
 this closure and both-node idle memory gates passed (head115/114GiB, worker
 116/115GiB free/available).
+
+## Native build passed; serving transition rejected before startup
+
+Native dashboard/capture13, metrics4, scheduler-filter316 (2 manual benchmarks
+ignored), config2 and CLI1 tests passed. Release build completed with both locks
+unchanged and retained actual exit0. Manifest
+`de4c3f7cc9cefe0e8cf59c3844865be01caf2006e109bcbe8d4f45b9561f769d`, binary
+`7c27ae5e90e6b7cf7008717397313b52e8668375ec8c05f7c235b6d63d1001cb`, observer
+patch8ce9b2d7, kit commit50373ad. The latency policy patch is unchanged338bbeb0.
+
+The orchestrator then used `uv run --python /usr/bin/python3 -c` without the
+`python` command. uv rejected it before candidate startup and restoration began.
+[uv interpreter selection](https://docs.astral.sh/uv/concepts/python-versions/)
+was checked through Exa. Correct syntax is `uv run --python /usr/bin/python3
+python -c ...`; no native rebuild is needed. Both artifact files were staged
+atomically and their hashes verified independently on the head before another
+production stop. `flare --version` passed. The failed command log is retained.
+
+The serving-only retry is `mixed-trace-window-20261116T035000Z`, with the exact
+manifest/binary above pinned directly. Pre-arm60-minute restoration; no build
+step or dynamic artifact discovery occurs after production stop. Keep all prior
+controls, both cold arms, zero-loss/contiguity gates, memory enforcement and
+verified B12X restoration. Verify helpers/CLI syntax and both artifact hashes
+before entering the window. This is a diagnostic, never an adoption verdict.

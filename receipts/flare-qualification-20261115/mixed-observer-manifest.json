@@ -1,0 +1,16 @@
+{
+  "binary_sha256": "7c27ae5e90e6b7cf7008717397313b52e8668375ec8c05f7c235b6d63d1001cb",
+  "flare_revision": "5a4e867954593b2e05bba43bc2a6eeaddca402d7",
+  "kind": "prefill-latency",
+  "kit_commit": "50373ad3ba3e592664012d33e869411827389cee",
+  "lock_sha256": {
+    "flare-cli/Cargo.lock": "6fb76d91b8bf921a408465ab74651adf55b69225869f8dc4b0767e5304a977f1",
+    "helios/Cargo.lock": "aab8a66629f3a68f4148b09b67eece28c9cb13bba37f8fd747c0f1c9f77f1d15"
+  },
+  "patch_sha256": "338bbeb0722c80ce86e6fdb1928f09b369fe389c723d6dfde3627ce0201dd5cb",
+  "qualification": "CPU tests and release build passed; native trace and GPU performance unqualified",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+  "schema": 1,
+  "trace_patch_sha256": "8ce9b2d7148c186dc3fb356efa8648c62fb5bd4a142a9d961e608a3fd93b4dbc",
+  "trace_schema": 1
+}
