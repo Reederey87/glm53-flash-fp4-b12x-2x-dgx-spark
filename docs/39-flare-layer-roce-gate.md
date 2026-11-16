@@ -73,3 +73,11 @@ or failure, restore original B12X images and verify fresh5/5 smoke, healthy API,
 watchdog/tailnet and no native/test processes before disarming fallback. No
 production adoption follows this component gate. Helpers are under
 `qualification/windows/layer-roce-20261116/`; they are not staged yet.
+
+## Initial result and precision correction
+
+Both ranks passed three layer0 cases, then failed layer3 decode2 output at the
+original bounds; see docs/41. B12X restoration verified06:28:13 UTC, fallback
+disarmed06:28:14 UTC. Later source review found this fixture retained the loader's
+A4 default, unlike the deployed A16 owner. Docs/42 registers that correction;
+all original failed receipts remain and no complete-layer pass is claimed.
