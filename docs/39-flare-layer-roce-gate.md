@@ -1,7 +1,7 @@
 # Complete-layer replay on two Sparks — registered, unrun
 
 This extends component qualification to representative complete layers on the
-actual two-host fabric. It does not claim full42-layer or MTP/vocabulary acceptance.
+actual two-host fabric. It does not claim full45-target-layer or MTP/vocabulary acceptance.
 The original upstream decoder test assumes local CUDA ordinals and PCIe IPC;
 counting its hardware skips would provide no evidence for this cluster.
 

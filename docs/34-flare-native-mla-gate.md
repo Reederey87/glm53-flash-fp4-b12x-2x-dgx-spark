@@ -24,7 +24,7 @@ Require all six cases, zero skips/errors/failures and pytest exit0. Original
 exact persistent-state/stage comparisons, selector tie-only allowance, finite
 outputs, masked rows, graph concurrency and allocation stability remain intact.
 Three stateful replays per case cover page boundaries and inactive rows. This
-does not test two-host collectives, all42 layers or mathematical ground truth.
+does not test two-host collectives, all45 target layers or mathematical ground truth.
 
 Before stopping B12X: snapshot identities, verify no active requests, arm a
 60-minute restoration timer. Stop B12X through its unit, wait for both nodes'

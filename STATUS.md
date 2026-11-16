@@ -524,3 +524,7 @@
   on every start; both ranks' argv and the resolved `SpeculativeConfig` report
   `num_spec_tokens=3`. KV pool 2,350,210; watchdog timer re-armed.
 - Receipt: `receipts/prod-boot-20261109T005748Z.txt`.
+
+## 2026-11-16 UTC — Remaining complete-target fixture prepared
+
+- Metadata-only inspection confirms45 target layers (42 routed), vocabulary154880 and MXFP8 vocabulary-head geometry. Prepared docs/43 native TP2 RoCE target replay for65/4096-token prefill plus three decode steps with all original assertions. It remains unrun and requires docs/42 first. Corrected documentation distinguishes the42-routed-layer scale audit from full-target validation.
