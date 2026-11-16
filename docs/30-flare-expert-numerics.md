@@ -58,3 +58,13 @@ has a 50-minute runtime limit. Head-only tests leave the worker idle; the
 two-node memory monitor remains enforcing. Snapshot both runtime ledgers,
 supervisor/core acceptance hashes and rollback images, and require them unchanged
 after testing. Helpers are in `qualification/windows/expert-numerics-20261116/`.
+
+## Hardware result
+
+All 54 cases passed on GB10/SM121 with the installed4fd836dc dependency in
+166.71 seconds; no skips and no tolerance changes. Retained pytest exit0, XML,
+environment/source records and both-node memory observations. All before/after
+runtime supervisor, ledger and accepted-core hashes matched. This closes the
+selected component arithmetic/replay gate, not full-model equivalence.
+Restoration was queued automatically; independent B12X smoke/closure follows.
+Receipts: `expert-numerics-*` in `receipts/flare-qualification-20261115/`.

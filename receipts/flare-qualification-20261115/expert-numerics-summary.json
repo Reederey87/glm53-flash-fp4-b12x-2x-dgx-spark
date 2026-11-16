@@ -1,0 +1,12 @@
+{
+  "cases": 54,
+  "counts": {
+    "test_declared_csf_precision_replays_after_scale_scratch_poisoning": 8,
+    "test_a4_prefill_matches_float64_emulation": 21,
+    "test_native_expert_output_and_shared_scratch_poisoned_replay": 24,
+    "test_a16_expanded_scales_reuse_the_planned_launch_for_live_counts": 1
+  },
+  "bad_cases": [],
+  "passed": true,
+  "scope": "SM121 component arithmetic/replay; not full-model equivalence"
+}

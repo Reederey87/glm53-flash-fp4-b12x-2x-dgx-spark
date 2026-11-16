@@ -1,5 +1,10 @@
 # Status
 
+## 2026-11-16 UTC — Expert arithmetic and replay gate passes
+
+- All 54 pinned SM121 cases passed in166.71s: declared A16/A4 poisoned replay8, calibrated A4 float64 reference21, compressed/native expert replay24, planned live-count A16 replay1. No skips or relaxed bounds; pytest exit0 and XML retained. Supervisor, accepted-core and both runtime ledgers unchanged.
+- B12X restoration and fresh smoke are queued; fallback stays armed until independent closure. These are component results. Full-model/state/capacity and mixed performance remain open; next native diagnostic is registered in docs/33 with the same scheduler binary.
+
 ## 2026-11-16 UTC — Bounded mixed gate remains unresolved
 
 - Both arms completed 75 requests/9 cases. Of 61 points, 25 have adverse medians with overlapping repetition ranges; none is a separated regression. Small-prompt TTFT improves, but decoder0 p95 gap rises from 0.101s to 0.349s. Full matrix was not started; automatic B12X restoration began 05:16:26 UTC and was verified05:23:10 UTC with fresh5/5 smoke, original images and watchdog/tailnet; fallback then disarmed. See docs/32 and retained paired receipts.

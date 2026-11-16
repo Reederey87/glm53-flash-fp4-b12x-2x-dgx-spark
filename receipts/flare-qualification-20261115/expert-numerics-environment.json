@@ -1,0 +1,17 @@
+{
+  "flashinfer": {
+    "url": "https://github.com/local-inference-lab/flashinfer.git",
+    "vcs_info": {
+      "vcs": "git",
+      "commit_id": "4fd836dcda0998b875129aad76774ca073df10c8",
+      "requested_revision": "4fd836dcda0998b875129aad76774ca073df10c8"
+    }
+  },
+  "b12x": "/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/_api.py",
+  "gpu": "NVIDIA GB10",
+  "capability": [
+    12,
+    1
+  ],
+  "torch": "2.14.1+cu132"
+}
