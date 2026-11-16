@@ -83,3 +83,9 @@ The corrected-call retry uses fresh window/worktree suffix20261116T034000Z and
 the same registered controls, tests,90-minute guard and automatic restore on
 failure. The failed build/worktree remains intact. Freeze the corrected patch
 (commit50373ad) before staging; no scheduler formula changes are included.
+
+The compile-failure rollback was verified03:35:13 UTC: both original images,
+health200, fresh5/5 smoke, active watchdog/tailnet and no native rank processes.
+Fallback disarmed03:35:14 UTC. The fresh corrected-call build started only after
+this closure and both-node idle memory gates passed (head115/114GiB, worker
+116/115GiB free/available).
