@@ -78,3 +78,8 @@ its dispatch update. [Rust's call contract](https://doc.rust-lang.org/error_code
 was checked through Exa; all four call sites were then re-read. No runtime policy
 or numerical change is part of this correction. Keep the failed build receipt
 and rerun the native suite. Automatic B12X restoration started at03:29 UTC.
+
+The corrected-call retry uses fresh window/worktree suffix20261116T034000Z and
+the same registered controls, tests,90-minute guard and automatic restore on
+failure. The failed build/worktree remains intact. Freeze the corrected patch
+(commit50373ad) before staging; no scheduler formula changes are included.

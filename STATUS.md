@@ -3,7 +3,7 @@
 ## 2026-11-16 UTC — Mixed trace rejected on telemetry loss
 
 - Balanced diagnostic client completed25 requests/3 cases;37 memory samples and both native exits passed. Trace retained fences1..399 but reported one unclassified lost update, so its zero-loss gate failed and latency did not run. B12X restoration verified03:28 UTC: original images, health200, fresh smoke5/5 and watchdog/tailnet active; fallback disarmed03:28:03 UTC.
-- Exa/source reconciliation attributes loss to try-lock contention rather than capacity. Prepared5s bounded polling and separate completion-loss counter without relaxing the zero-loss gate; native tests/build and retry registered in docs/25. The new guarded worker build is running; scheduler policy is unchanged.
+- Exa/source reconciliation attributes loss to try-lock contention rather than capacity. Prepared5s bounded polling and separate completion-loss counter without relaxing the zero-loss gate; native tests/build and retry registered in docs/25. The first native test build failed on a missed test-call argument (exit101), before candidate startup. Fixed that call and registered a fresh retry; scheduler policy is unchanged.
 
 ## 2026-11-16 UTC — Latency candidate rejected; B12X restored
 
