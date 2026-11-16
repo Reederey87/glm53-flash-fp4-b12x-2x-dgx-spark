@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-11-16T04:33:55.809053+00:00",
+  "command": "systemd-analyze --user verify <review-directory>/*.service <review-directory>/*.timer",
+  "observed_exit_code": 0,
+  "diagnostics": "",
+  "installed_or_enabled": false,
+  "review_directory": "/home/nvidia/b12x-flare/local/production-unit-review-20261116T043300Z",
+  "files_sha256": {
+    "systemd/b12x-flare-production-rollback.service": "2bd0ed1cd0abf0a03de6527a634ed604bee471ae9c8ca186a210a05cbed4b6e5",
+    "systemd/b12x-flare-production-watchdog.service": "cb2e1d4741e52000b2240280213b513583261169d372308fed5aeb90633c749e",
+    "systemd/b12x-flare-production-watchdog.timer": "cb24b54242d2a3cd3952dafb664416e704db01b8f0bea02ca77412d7bffc64f7",
+    "systemd/b12x-flare-production.service": "185b3e8f26a762b5e926e52afd16ebe83606586fc4a017d59796cf2a6966daee",
+    "systemd/b12x-flare-tailscale.service": "921096eea5cda1363c2847356370a9713977e3530fd9849c5df9761ad6c6abe1"
+  }
+}
