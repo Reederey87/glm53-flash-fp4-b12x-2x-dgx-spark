@@ -1,5 +1,12 @@
 # Status
 
+## 2026-11-16 UTC — Native latency release built and staged inactive
+
+- Worker release build passed with retained exit0 and unchanged Cargo locks;
+  isolated artifact6626c785 is hash-verified on both nodes. Original CLI retained.
+- Build unit stopped with MainPID0. No serving configuration selected the new
+  binary; full scale audit continues and live performance remains unqualified.
+
 ## 2026-11-16 UTC — Additional Exa evidence for latency qualification
 
 - Compared primary aging, cross-GPU scheduling, Sarathi and current vLLM sources.

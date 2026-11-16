@@ -1,0 +1,11 @@
+MainPID=0
+Result=success
+ExecMainStartTimestamp=Sun 2026-11-15 20:19:11 EST
+ExecMainExitTimestamp=Sun 2026-11-15 20:23:03 EST
+ExecMainCode=1
+ExecMainStatus=0
+MemoryPeak=3021942784
+CPUUsageNSec=442267890000
+LoadState=loaded
+SubState=exited
+InvocationID=4e38304dd42247fd87a2dea36c98a7bd

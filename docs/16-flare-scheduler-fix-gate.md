@@ -97,6 +97,15 @@ nodes. Revert by appending `FLARE_NATIVE_ARM=upstream` and
 All45 local launcher/qualification tests pass, including tampered artifacts,
 unsafe ledger values, explicit rollback and unchanged export/core controls.
 
+The release build completed on the worker at2026-11-16 01:23:03 UTC in3m51s,
+retained code1/status0. Both Cargo locks are unchanged. The binary is staged
+inactive on both nodes under arm
+`6626c7854c256178335e664816e8a88e976c921c3e702241eed320ea76e3f397`;
+its SHA256 is `1fa254f58542219992b6f24c02610d07122fda34431bb943d94366b5053c8b9e`.
+The exact manifest and retained terminal state are public receipts. The build
+unit is stopped with MainPID0; no serving ledger has selected this binary yet.
+GPU latency and the remaining qualification gates are still pending.
+
 First establish the unchanged selector's service order. Exa's
 [upstream scheduling design](https://github.com/NVIDIA/spark-local-inference/blob/main/docs/scheduling-runtime-design.md)
 retains prompt-token fairness in both presets; changing to throughput alone is
