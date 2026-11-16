@@ -1,5 +1,9 @@
 # Status
 
+## 2026-11-16 UTC — Bounded native diagnostic completes
+
+- Both25-request captures are loss-free (414/405 native completions), with both native exits0/no forced kill and all memory samples passing. Decoder0 p95 is0.09946/0.10010s; the earlier jump did not recur. Maximum gaps1.310/1.408s include ordinary1536-token plus refresh256/512-token prefills. Short-arrival phase differs with initial3072 versus4096 chunks. See docs/36; performance remains unresolved. B12X restoration/fresh smoke pending; fallback remains armed.
+
 ## 2026-11-16 UTC — Fractional serving reserve prepared locally
 
 - Exa and pinned memory allocator review support decimal runtime reserves. Local launcher now permits a128MiB trial step while retaining the one-GiB minimum, both-rank symmetry and unchanged preparation. All79 local tests pass. Runtime remains on frozen wrapper41b65a5a/reserve4; capacity tuning and hardware gates remain pending. See docs/35.
