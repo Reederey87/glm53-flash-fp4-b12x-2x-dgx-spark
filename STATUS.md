@@ -1,5 +1,9 @@
 # Status
 
+## 2026-11-16 UTC — Fractional serving reserve prepared locally
+
+- Exa and pinned memory allocator review support decimal runtime reserves. Local launcher now permits a128MiB trial step while retaining the one-GiB minimum, both-rank symmetry and unchanged preparation. All79 local tests pass. Runtime remains on frozen wrapper41b65a5a/reserve4; capacity tuning and hardware gates remain pending. See docs/35.
+
 ## 2026-11-16 UTC — Bounded native diagnostic started
 
 - Registered docs/33 diagnostic is running with unchanged artifact127424e9/binaryb2eb310b, core and wrapper. Both policies trace identically on head; one repetition is diagnostic only. Both runtime snapshots retained and60-minute fallback armed before B12X stop. No production adoption or new engine change.

@@ -4,6 +4,7 @@
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import platform
 import re
@@ -14,6 +15,17 @@ import tomllib
 
 GIB = 1 << 30
 RECIPE = Path(__file__).resolve().parents[1] / "recipes/flare-glm53.json"
+
+
+def serving_reserve_gib(value):
+    """Finite decimal GiB, retaining the launcher's existing one-GiB minimum."""
+    if isinstance(value, str):
+        if re.fullmatch(r"[0-9]+(?:\.[0-9]+)?", value) is None:
+            raise ValueError("serving reserve must be finite decimal GiB, at least 1")
+        value = float(value)
+    if type(value) not in (int, float) or not math.isfinite(value) or value < 1:
+        raise ValueError("serving reserve must be finite decimal GiB, at least 1")
+    return int(value) if value == int(value) else value
 
 
 def load_recipe(path):
@@ -33,9 +45,7 @@ def render(recipe, rank, core=None):
     native = recipe.get("native_dense_activations", False)
     if type(native) is not bool:
         raise ValueError("native_dense_activations must be a boolean")
-    serving_reserve = recipe.get("serve_reserve_gib", recipe["reserve_gib"])
-    if type(serving_reserve) is not int or serving_reserve <= 0:
-        raise ValueError("serving reserve must be a positive integer GiB value")
+    serving_reserve = serving_reserve_gib(recipe.get("serve_reserve_gib", recipe["reserve_gib"]))
     root = Path(recipe["runtime_root"])
     source = root / "upstream/flare"
     config = root / "config.toml"

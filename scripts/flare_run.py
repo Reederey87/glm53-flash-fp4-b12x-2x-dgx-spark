@@ -12,7 +12,7 @@ import time
 import urllib.request
 import uuid
 
-from flare_candidate import RECIPE, blockers, inspect_host, load_recipe, render
+from flare_candidate import RECIPE, blockers, inspect_host, load_recipe, render, serving_reserve_gib
 from flare_provenance import export_receipt, verify_export_receipt
 
 
@@ -29,9 +29,7 @@ def serving_recipe(recipe):
                 values[name.strip()] = value.strip()
     for name, value in values.items():
         if name == "FLARE_SERVE_RESERVE_GIB":
-            if not value.isascii() or not value.isdecimal() or int(value) < 1:
-                raise ValueError("FLARE_SERVE_RESERVE_GIB must be a positive integer")
-            recipe["serve_reserve_gib"] = int(value)
+            recipe["serve_reserve_gib"] = serving_reserve_gib(value)
         elif name == "FLARE_SCHEDULER_POLICY":
             if value not in ("balanced", "throughput", "latency"):
                 raise ValueError("FLARE_SCHEDULER_POLICY must be balanced, throughput or latency")

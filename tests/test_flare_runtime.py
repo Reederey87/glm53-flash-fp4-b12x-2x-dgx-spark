@@ -128,10 +128,27 @@ class RuntimeContractTests(unittest.TestCase):
         self.assertEqual(reverted['serve'], original['serve'])
 
     def test_invalid_reserve_arm_is_not_evaluated(self):
-        for value in ('0', '-3', '3; false', '$(false)', '3.5'):
+        for value in ('0', '-3', '3; false', '$(false)', '0.875', 'NaN', 'inf', '3e0', '３'):
             (self.root/'.env').write_text('FLARE_SERVE_RESERVE_GIB='+value+'\n')
-            with self.assertRaisesRegex(ValueError, 'positive integer'):
+            with self.assertRaisesRegex(ValueError, 'finite decimal'):
                 serving_recipe(self.recipe)
+
+    def test_fractional_reserve_reaches_both_ranks_without_export_change(self):
+        from flare_candidate import render, serving_reserve_gib
+        original = render(self.recipe, 0)
+        (self.root/'.env').write_text('FLARE_SERVE_RESERVE_GIB=4\nFLARE_SERVE_RESERVE_GIB=3.875\n')
+        candidate = serving_recipe(self.recipe)
+        for rank in (0, 1):
+            argv = render(candidate, rank)['serve']
+            self.assertEqual(argv[argv.index('--memory-limit') + 1], '-3.875G')
+        self.assertEqual(render(candidate, 0)['prepare'], original['prepare'])
+        self.assertEqual(render(candidate, 0)['config_toml'], original['config_toml'])
+        with (self.root/'.env').open('a') as f:
+            f.write('FLARE_SERVE_RESERVE_GIB=4.0\n')
+        self.assertEqual(render(serving_recipe(self.recipe), 0)['serve'], original['serve'])
+        for invalid in (True, float('nan'), float('inf'), -1, .875):
+            with self.assertRaises(ValueError):
+                serving_reserve_gib(invalid)
 
     def test_effective_assignment_can_correct_an_invalid_historical_arm(self):
         (self.root/'.env').write_text('FLARE_SERVE_RESERVE_GIB=$(false)\n'
