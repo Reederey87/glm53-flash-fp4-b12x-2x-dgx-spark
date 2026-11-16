@@ -1,5 +1,17 @@
 # Status
 
+## 2026-11-16 UTC — Full scale audit passed; additional Exa qualification
+
+- All42 layers and19,025,362,944 scales pass the packed-boundary population
+  audit. Retained exit0, independent histogram validation and unchanged hashes
+  are recorded in docs/19; native arithmetic remains unqualified.
+- Exa review adds operator-preemption tradeoffs and identifies the missing
+  headless native trace. The latency release remains inactive; docs/17–18 retain
+  this prerequisite before hardware performance claims.
+- Targeted checkpoint cache advice restored head MemFree from88 to114GiB;
+  B12X restored at01:44 UTC: original images, health200, smoke5/5 and active
+  watchdog/tailnet; the fallback timer was disarmed after verification.
+
 ## 2026-11-16 UTC — Mixed-workload client and live scheduler gate prepared
 
 - Added exact-token unequal bursts, timed short arrivals and observed active

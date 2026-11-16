@@ -110,5 +110,7 @@ performance window. No precision or kernel change was made by this review.
 The subsequent [selected-layer CPU audit](14-flare-scale-audit.md) decoded every
 expert in layers 3, 24 and 44 for both TP2 ranks. All 1,358,954,496 scales are
 above the packed boundary; each full-layer maximum is 448 and factor is 1.
-This clears this condition for those three layers only. The other 39 target
-layers and actual A16/A4-prefill packing/replay remain separate requirements.
+The subsequent [full-layer audit](19-flare-full-scale-audit.md) completed all42
+target layers:19,025,362,944 scales, zero below the boundary, with independently
+validated populations and retained exit0. Actual A16/A4-prefill packing/replay
+and full-model arithmetic remain separate requirements.

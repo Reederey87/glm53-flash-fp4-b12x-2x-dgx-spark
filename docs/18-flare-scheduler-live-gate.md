@@ -5,6 +5,13 @@ validated and B12X restoration is verified. Production adoption is authorized
 after qualification; this window does not waive outstanding numerical, capacity,
 long-context or lifecycle requirements.
 
+Additional Exa/source review identified a missing prerequisite: the existing
+headless unit does not enable native completion tracing. Before this window,
+qualify the bounded diagnostic described in docs/17 and retain the actual
+four-prompt completion order. If instrumentation changes the release binary,
+freeze its new manifest and re-register both arms before restarting; the binary
+identity below must not silently describe different bytes.
+
 ## Frozen artifacts and treatment
 
 Use the same immutable release binary in both native arms:
