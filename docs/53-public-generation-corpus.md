@@ -48,3 +48,26 @@ memory enforcement and rollback; never overlap the ABBA performance measurement.
 State transfer, concurrent retrieval, capacity and full speed gates remain
 independent. Four focused tests pass for truncation, typed answers, malformed
 responses and incomplete/changed receipts. Hardware execution is pending.
+
+## Frozen serving controller
+
+`generation-window-20261117T060000Z` runs only after the successful docs/58 MTP
+gate and independent B12X recovery. Exa rechecked the NVIDIA model card and
+Flare core acceptance; the card validates vLLM, so Flare qualification remains
+separate. Its template supports Low/High/Max reasoning and defaults to Max.
+The existing fixtures and verdicts remain unchanged.
+
+Run all100 baseline requests on the original B12X image, then all100 candidate
+requests on native127424e9/coredf214696 with bounded latency/reserve4/trace-off.
+All request bodies/settings match; seeded cross-engine token equality is not
+asserted. Verify both native ranks, API7/7, full receipt comparison, both clean
+native exits and continuous candidate memory samples. Preserve both complete
+public-response sets even if a semantic verdict fails. This is a functional
+comparison, not an A/B speed experiment or a substitute for capacity qualification.
+
+Each client has an external60-minute timeout and30-second kill grace; controller
+130minutes, memory guard135minutes, fallback150minutes. The guard starts after
+baseline teardown and before candidate load; the original B12X service owns the
+baseline. Restoration always returns to B12X, independently verifies both images,
+API/watchdog/tailnet and fresh5/5, then closes fallback. Controller/manifests are
+prepared locally, unrun. No production ownership changes.
