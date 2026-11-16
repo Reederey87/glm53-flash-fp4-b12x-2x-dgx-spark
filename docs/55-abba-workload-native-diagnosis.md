@@ -68,3 +68,7 @@ The analyzer reproduces the retained loss-free414/405-completion traces and
 rejects injected loss and missing prompt histories. These are local validator
 checks; this new GPU window is unrun. Its diagnostic receipt cannot qualify
 production or unlock the full84-row/capacity gates by itself.
+
+The frozen trace window started after independent10:12:07 UTC B12X recovery.
+Controllerdde3853b1159467f94ba7ee25d12a3e8; notifying memory guard
+f0f471d37c144fd79443bdf1ef8789b8;90-minute fallback armed. Results pending.

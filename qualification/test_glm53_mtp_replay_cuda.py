@@ -38,7 +38,9 @@ def test_checkpoint_mtp_replay(mode, capacity, cache_only, record_property):
     from ignition.recipes.glm53.model import create_model_tree
     from ignition.recipes.glm53.mtp import DraftMetadata, MTPScratch, PreparedMTP
     from ignition.recipes.glm53.weights import GlmWeightLoader, TEXT_PREFIX
-    from layer_selection_reference import install_observer, matched_reference
+    from layer_selection_reference import matched_reference
+    from mtp_replay_forward import (InputObservation, MTPReplayForward,
+        OutputObservation, ProjectionObservation, SelectionObservation)
 
     root = Path(os.environ['FLARE_PINNED_SOURCE'])
     assert hashlib.sha256((root / 'ignition/recipes/glm53/mtp.py').read_bytes()).hexdigest() == (
@@ -100,35 +102,14 @@ def test_checkpoint_mtp_replay(mode, capacity, cache_only, record_property):
                 name='checkpoint.mtp', workspace=arena, runtime=runtime, vocabulary_runtime=runtime,
                 coordinator=coordinator, cache_only=cache_only, scratch=scratch)
             op.functional(session=session)
-            projection = op.projection
-            def project(source):
-                stages['joined'].copy_(source)
-                value = projection(source)
-                stages['feedback_projection'].copy_(value)
-                return value
-            op.projection = project
+            op.projection = ProjectionObservation(op.projection, stages)
             if not cache_only:
-                install_observer(op, scratch.attention.index)
-                attention_reduce, moe, mlp_reduce = op.attention_reduce, op.moe, op.mlp_reduce
-                def reduce_attention(source):
-                    value = attention_reduce(source)
-                    stages['attention'].copy_(value)
-                    return value
-                def run_moe(source):
-                    stages['moe_input'].copy_(source)
-                    return moe(source)
-                def reduce_moe(source):
-                    value = mlp_reduce(source)
-                    stages['moe_reduced'].copy_(value)
-                    return value
-                op.attention_reduce, op.moe, op.mlp_reduce = reduce_attention, run_moe, reduce_moe
-            def forward():
-                result = op(metadata)
-                if cache_only:
-                    output.copy_(metadata.hidden)
-                else:
-                    output.copy_(result[0])
-                    stages['logits'].copy_(result[1])
+                indexer = op.attention.indexer
+                indexer.forward = SelectionObservation(indexer.forward, scratch.attention.index)
+                op.attention_reduce = OutputObservation(op.attention_reduce, stages['attention'])
+                op.moe = InputObservation(op.moe, stages['moe_input'])
+                op.mlp_reduce = OutputObservation(op.mlp_reduce, stages['moe_reduced'])
+            forward = MTPReplayForward(op, metadata, cache_only, output, stages)
             session.tune()
             arena.release_preparation()
             stream = torch.cuda.Stream(device=device)

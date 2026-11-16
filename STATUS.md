@@ -1,3 +1,9 @@
+## 2026-11-16 UTC — Serialization repair verified; native diagnosis running
+
+- Production-AOT MTP fixture failed before numerical replay because compiler workers reject local closures. Both failures retained; original B12X recovery/fresh5/5 independently closed10:12:07 UTC.
+- Docs/58 replaces fixture-only closures with importable callable owners; fresh-process CPU serialization/alias/cycle checks pass on both Sparks without CUDA initialization. Numerical body unchanged; guarded retry prepared, unrun.
+- Frozen docs/55 native scheduling diagnosis is running after verified recovery, with continuous memory enforcement and90-minute fallback. No performance or adoption pass claimed.
+
 ## 2026-11-16 UTC — Production-capture MTP retry running
 
 - Failed FX-compile window independently restored original B12X images and fresh5/5 at10:04:42 UTC; both test wrappers stopped and fallback closed.

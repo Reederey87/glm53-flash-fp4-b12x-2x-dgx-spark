@@ -47,3 +47,8 @@ Both failed test wrappers are stopped; restore56f481148da64e1ba655c193f284946f a
 smoke042191196cb447dd859c021dd6a7a4c6 ended with actual exit0/PID0. Fallback closed.
 The frozen AOT retry started10:04 UTC, controller6cb980dd2d6d4b8aa6ece086d6bb4b23,
 with both-node source hashes checked and90-minute fallback armed. Results pending.
+
+Outcome: both first cases failed before replay because the fixture forward was
+a local closure rejected by the compiler-worker serializer. Failed evidence is
+retained; independent B12X recovery/fresh5/5 closed10:12:07 UTC. Docs/58 corrects
+the fixture ownership boundary with CPU-only serialization preflight.

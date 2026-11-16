@@ -1,0 +1,20 @@
+{
+  "ranks": [
+    0,
+    1
+  ],
+  "observed_process_exits": [
+    0,
+    0
+  ],
+  "fresh_process": true,
+  "all_observers_called": true,
+  "both_cache_paths": true,
+  "bound_method_cycle_and_aliases_preserved": true,
+  "cuda_initialized": false,
+  "scope": "synthetic CPU serialization preflight, not prepared model or numerical qualification",
+  "source_hashes": {
+    "qualification/mtp_replay_forward.py": "b2810d31ba1bcbe7dc3907a927645824c2bf4fc3c9853fa635acc0587a01d7d7",
+    "qualification/mtp_replay_metadata_preflight.py": "d0a42ce2d0c9a2b026732a33df1f692256509f4f447209e65f7f45f2b482814e"
+  }
+}

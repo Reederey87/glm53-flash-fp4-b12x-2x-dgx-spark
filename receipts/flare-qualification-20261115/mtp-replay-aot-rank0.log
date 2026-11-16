@@ -1,0 +1,418 @@
+Graph catalog: 1 graphs (before           
+compilation/capture)                      
+ Kind    Spec  B  W  P  D  Prefill  Count 
+ decode  -     1  1  -  -  -        1     
+B=batch  W=logical width/tokens  P=packed 
+rows  D=draft depth                       
+Compile model forwards started
+Compile model forwards: 1 compiler workers; per rank [1, 0]
+Compile model forwards complete in 3.91s
+F
+=================================== FAILURES ===================================
+__________________ test_checkpoint_mtp_replay[decode-1-False] __________________
+
+mode = 'decode', capacity = 1, cache_only = False
+record_property = <function record_property.<locals>.append_property at 0xed1ef05fd080>
+
+    @pytest.mark.parametrize('mode,capacity,cache_only', [
+        ('decode', 1, False), ('decode', 4, False),
+        ('decode', 16, True), ('prefill', 128, True), ('prefill', 4096, True),
+    ])
+    @torch.no_grad()
+    def test_checkpoint_mtp_replay(mode, capacity, cache_only, record_property):
+        from ignition.components.parallel import TensorParallelShard
+        from ignition.preparation.checkpoint import inspect_indexed_checkpoint
+        from ignition.preparation.collectives import CollectivePreparation, create_roce_runtime
+        from ignition.preparation.capture import capture_forwards
+        from ignition.preparation.execution import GraphSignature, PreparedExecution
+        from ignition.preparation.scratch import ScratchArena
+        from ignition.preparation.tuning import RecordedPreparationSession
+        from ignition.recipes.glm53.mla import MLAState
+        from ignition.recipes.glm53.model import create_model_tree
+        from ignition.recipes.glm53.mtp import DraftMetadata, MTPScratch, PreparedMTP
+        from ignition.recipes.glm53.weights import GlmWeightLoader, TEXT_PREFIX
+        from layer_selection_reference import install_observer, matched_reference
+    
+        root = Path(os.environ['FLARE_PINNED_SOURCE'])
+        assert hashlib.sha256((root / 'ignition/recipes/glm53/mtp.py').read_bytes()).hexdigest() == (
+            '810b4dd738752f80e246e36a740519e191f146c8bee45cadfae525c15bf7fd02')
+        rank = int(os.environ['FLARE_TEST_RANK']); assert rank in (0, 1)
+        from ignition.preparation.host_ranks import _use_interface
+        address = urlsplit(os.environ['FLARE_TEST_RENDEZVOUS'])
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as route:
+            route.connect((address.hostname, address.port))
+            _use_interface(route.getsockname()[0])
+        record_property('gloo_interface', os.environ['GLOO_SOCKET_IFNAME'])
+        assert torch.cuda.device_count() == 1 and torch.cuda.get_device_capability() == (12, 1)
+        torch.cuda.set_device(0)
+        device = torch.device('cuda:0')
+        shard = TensorParallelShard(rank, 2)
+        snapshot = Path(os.environ['FLARE_GLM53_SNAPSHOT'])
+        manifest = inspect_indexed_checkpoint(snapshot)
+        tree = create_model_tree(snapshot)
+        with GlmWeightLoader(manifest, device, shard=shard, expert_activation='a16',
+                prefixes=(f'{TEXT_PREFIX}.layers.45.', f'{TEXT_PREFIX}.embed_tokens.weight', 'lm_head.')) as loader:
+            embedding = loader.load_tensor(f'{TEXT_PREFIX}.embed_tokens.weight')
+            tree.model.language_model.embed_tokens.weight = torch.nn.Parameter(embedding, requires_grad=False)
+            head = loader.load_linear('lm_head', rows=shard.partition(154880, alignment=64))
+            mtp = loader.load_mtp(None)
+            assert loader._session.torch_copy_bytes == 0
+            assert mtp.mlp.experts.plan.activation.mode.value == 'a16'
+            assert not mtp.mlp.experts_a4_prefill and mtp.draft_head is None
+        weights = SimpleNamespace(tree=tree, shard=shard, head=head, mtp=mtp)
+        batch = 1 if mode == 'prefill' else min(capacity, 4)
+        width = capacity // batch
+        count = 65 if capacity == 128 else capacity
+        metadata = DraftMetadata(capacity, batch, 64, device)
+        state = MLAState.allocate(256, 6, device, ring=12)
+        persistent = {'latent_cache': state.cache, 'index_cache': state.index.cache, 'tail': state.index.tail}
+        scratch = MTPScratch.allocate(capacity, 2, 64, mode, device, moe=not cache_only)
+        # Immutable readbacks are separate from the forward's aliased scratch.
+        output = torch.zeros((capacity, 4096), dtype=torch.bfloat16, device=device)
+        stages = {name: torch.empty((capacity, size), dtype=torch.bfloat16, device=device)
+                  for name, size in [('joined', 8192), ('feedback_projection', 4096)]}
+        if not cache_only:
+            stages.update({name: torch.empty((capacity, size), dtype=torch.bfloat16, device=device)
+                           for name, size in [('attention', 4096), ('moe_input', 4096),
+                                              ('moe_reduced', 4096), ('logits', 154880)]})
+        dist.init_process_group('gloo', init_method=os.environ['FLARE_TEST_RENDEZVOUS'],
+                                rank=rank, world_size=2, timeout=timedelta(minutes=10))
+        group = dist.group.WORLD
+        coordinator = CollectivePreparation(group)
+        runtime = create_roce_runtime(group, device, max_tokens=min(capacity, 128),
+            pipe_tokens=capacity, hidden_size=4096, gather_bytes=capacity * 77440 * 2 if not cache_only else 4096)
+        worker = None
+        graph = torch.cuda.CUDAGraph()
+        try:
+            arena = ScratchArena(device)
+            with RecordedPreparationSession(device=device, checkpoint='GLM-5.3-Flash-FP4-Local',
+                    workload_schema='checkpoint-mtp-replay-v1', numerical_policy='default',
+                    coordinator=coordinator, native_dense_activations=True, compile_workers=2) as session:
+                session.register_scratch(arena)
+                op = PreparedMTP(weights, state, metadata, mode=mode, session=session,
+                    name='checkpoint.mtp', workspace=arena, runtime=runtime, vocabulary_runtime=runtime,
+                    coordinator=coordinator, cache_only=cache_only, scratch=scratch)
+                op.functional(session=session)
+                projection = op.projection
+                def project(source):
+                    stages['joined'].copy_(source)
+                    value = projection(source)
+                    stages['feedback_projection'].copy_(value)
+                    return value
+                op.projection = project
+                if not cache_only:
+                    install_observer(op, scratch.attention.index)
+                    attention_reduce, moe, mlp_reduce = op.attention_reduce, op.moe, op.mlp_reduce
+                    def reduce_attention(source):
+                        value = attention_reduce(source)
+                        stages['attention'].copy_(value)
+                        return value
+                    def run_moe(source):
+                        stages['moe_input'].copy_(source)
+                        return moe(source)
+                    def reduce_moe(source):
+                        value = mlp_reduce(source)
+                        stages['moe_reduced'].copy_(value)
+                        return value
+                    op.attention_reduce, op.moe, op.mlp_reduce = reduce_attention, run_moe, reduce_moe
+                def forward():
+                    result = op(metadata)
+                    if cache_only:
+                        output.copy_(metadata.hidden)
+                    else:
+                        output.copy_(result[0])
+                        stages['logits'].copy_(result[1])
+                session.tune()
+                arena.release_preparation()
+                stream = torch.cuda.Stream(device=device)
+                signature = (GraphSignature('prefill', 1, capacity) if mode == 'prefill' else
+                             GraphSignature('speculative', 4, 4) if capacity == 16 else
+                             GraphSignature('decode', capacity, 1))
+>               graphs, compiled = capture_forwards({'mtp': forward}, {'mtp': signature},
+                    session=session, device=device, stream=stream, pool=torch.cuda.graph_pool_handle(),
+                    collective=runtime, coordinator=coordinator, compile_decoder=True,
+                    retain_forwards=True, progress=lambda message: print(message, flush=True))
+
+../../qualification/test_glm53_mtp_replay_cuda.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../.local/share/uv/python/cpython-3.12.14-linux-aarch64-gnu/lib/python3.12/contextlib.py:81: in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+ignition/preparation/capture.py:92: in capture_forwards
+    compiled = cache.prepare_many(forwards, signatures, progress=progress,
+ignition/preparation/aot.py:813: in prepare_many
+    return self._prepare_many(functions, signatures, progress=progress,
+ignition/preparation/aot.py:824: in _prepare_many
+    return self._prepare_ranks(functions, signatures, coordinator, progress=progress,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ignition.preparation.aot.ForwardCache object at 0xed1cab07cf20>
+functions = {'mtp': <function test_checkpoint_mtp_replay.<locals>.forward at 0xed1cab1c28e0>}
+signatures = {'mtp': GraphSignature(kind='decode', batch_capacity=1, token_capacity=1, inputs=(), sampling_mode='general', speculation_enabled=None, prefill_capacity=0, packed_token_capacity=0, draft_tokens=None, confidence_width=0)}
+coordinator = <ignition.preparation.collectives.CollectivePreparation object at 0xed1cadf471a0>
+progress = <function test_checkpoint_mtp_replay.<locals>.<lambda> at 0xed1b212dfe20>
+materialize = None, warmup = <class 'contextlib.nullcontext'>, before_run = None
+
+    def _prepare_ranks(self, functions, signatures, coordinator, *, progress, materialize, warmup,
+                       before_run):
+        """Compile the catalog for a rank group, then bind and warm it on every rank.
+    
+        Compiled forwards serve every rank, so the catalog compiles once: each forward variant a
+        rank selects through `compilation_variant` compiles on a rank that selects it, from that
+        rank's own forward, unless an idle rank on the same host borrows it and compiles it from
+        the owner's traced forward metadata. Compiler pools are budgeted for the host's ranks.
+        Ranks on one host share its cache directory; a rank on another host receives the
+        artifacts it lacks from the ranks that compiled them. Every rank then binds the same
+        artifacts.
+        """
+        import torch.distributed as dist
+        from ignition.progress import phase
+        from .compile_pool import CompilePool, allocate_workers, compiler_resources
+        from .inductor_tuning import InductorSelections
+    
+        group, ranks = coordinator.group, coordinator.ranks
+        share = ranks.index(dist.get_rank())
+        selections = [None] * len(ranks)
+        dist.all_gather_object(selections, {name: getattr(forward, "compilation_variant", "shared")
+                                            for name, forward in functions.items()}, group=group)
+        if any(chosen.keys() != selections[0].keys() for chosen in selections):
+            raise RuntimeError("ranks prepared different forward catalogs")
+        compilers = _variant_compilers(selections)
+        work = [(name, variant, functions[name]) for (name, variant), compiler in compilers.items() if compiler == share]
+        selected, outcome, error, compiler, paths, lent, sent = {}, (None, None), None, None, {}, set(), []
+        loans = []
+        with ExitStack() as scope:
+            stage = scope.enter_context(phase(progress, "Compile model forwards", total=len(work)))
+            compiler_scope = scope.enter_context(ExitStack())
+            # Variants that only one rank selects, such as rank zero's sampling, can leave that rank most of
+            # the catalog. Ranks on one host share its cache, so a rank lends forwards it cannot restore, whether
+            # missing or bound differently by another launch, to ranks whose compilers would otherwise finish
+            # first; the borrower compiles the owner's metadata.
+            restored, missing = {}, []
+            try:
+                for index, (name, variant, forward) in enumerate(work):
+                    with _guard_code_cache(self.root / 'guards'):
+                        bound, path = self._restore(forward, name=f"{name}.{variant}", signature=signatures[name],
+                                                    deferred=materialize is not None,
+                                                    before_run=None if before_run is None else lambda name=name: before_run(name))
+                    if bound is None:
+                        missing.append(index)
+                    else:
+                        restored[index] = bound, path
+            except Exception as failure:
+                error = error or f"{type(failure).__name__}: {failure}"
+            resources = None
+            try:
+                release_unused()
+            except Exception as failure:
+                error = error or f"{type(failure).__name__}: {failure}"
+            # Include every rank's retained cache-restoration owners in host memory admission.
+            dist.barrier(group=group)
+            try:
+                resources = compiler_resources(self.device, headroom_bytes=self.headroom_bytes,
+                    options=self.options, compile_workers=self.compile_workers)
+            except Exception as failure:
+                error = error or f"{type(failure).__name__}: {failure}"
+            demand = [None] * len(ranks)
+            dist.all_gather_object(demand, (len(missing), resources, error), group=group)
+            try:
+                failures = [(rank, failure) for rank, (_, _, failure) in zip(ranks, demand) if failure is not None]
+                if failures:
+                    raise RuntimeError(f"forward compiler resource collection failed: {failures}")
+                counts = [count for count, _, _ in demand]
+                workers = allocate_workers([resources for _, resources, _ in demand], counts, coordinator.hosts)
+                stage.update(f"{sum(workers)} compiler workers; per rank {workers}")
+                assigned = [[] for _ in ranks]
+                for host in dict.fromkeys(coordinator.hosts):
+                    members = [index for index, name in enumerate(coordinator.hosts) if name == host]
+                    if not any(counts[index] for index in members):
+                        continue
+                    local = _balance_compilations([counts[index] for index in members],
+                                                  [workers[index] for index in members])
+                    for borrower, forwards in zip(members, local):
+                        assigned[borrower] = [(members[owner], index) for owner, index in forwards]
+                if workers[share]:
+                    compiler = compiler_scope.enter_context(CompilePool(
+                        self.device, options=self.options, workers=workers[share]))
+                loans = [(borrower, missing[index]) for borrower, forwards in enumerate(assigned)
+                         for owner, index in forwards if owner == share and borrower != share]
+                lent = {work[index][:2] for _, index in loans}
+                from .forward_metadata import dumps
+    
+                if loans:
+                    jobs = self.root / 'lent'
+                    jobs.mkdir(parents=True, exist_ok=True)
+                    for borrower, index in loans:
+                        name, variant, forward = work[index]
+                        path = self._path(forward, name=f"{name}.{variant}", signature=signatures[name])
+                        job = jobs / f"{path.stem}.forward"
+                        with tempfile.NamedTemporaryFile(dir=jobs, suffix='.tmp', delete=False) as file:
+                            temporary = Path(file.name)
+                            try:
+                                pickle.dump((dumps(forward), str(path)), file)
+                                file.close()
+                                os.replace(temporary, job)
+                            finally:
+                                temporary.unlink(missing_ok=True)
+                        sent.append((borrower, str(job)))
+                        # The borrower compiles it before every rank gathers the outcome below.
+                        paths[name, variant] = str(path), True
+            except Exception as failure:
+                error = error or f"{type(failure).__name__}: {failure}"
+            mailed = [None] * len(ranks)
+            dist.all_gather_object(mailed, sent, group=group)
+            borrowed = [job for jobs in mailed for borrower, job in jobs if borrower == share]
+            try:
+                if error is not None:
+                    raise RuntimeError(error)
+                pending = []
+    
+                def finish():
+                    name, variant, bound, path = _completed(pending)
+                    if bound.pending is not None:
+                        bound.pending.result()
+                    elif materialize is None:
+                        # Restored and bound to this rank's own forward already.
+                        selected[name] = bound
+                    if name is not None:
+                        # Each forward's path, and whether this launch compiled it rather than restoring it.
+                        paths[name, variant] = str(path), bound.pending is not None
+                        stage.update(advance=1)
+    
+                for index, (name, variant, forward) in enumerate(work):
+                    if (name, variant) in lent:
+                        continue
+                    if index in restored:
+                        bound, path = restored[index]
+                    else:
+                        path = self._path(forward, name=f"{name}.{variant}", signature=signatures[name])
+                        bound = BoundForward(None, forward, False, compiler.submit(forward, path))
+                    pending.append((name, variant, bound, path))
+                    if compiler is not None and len(pending) >= compiler.workers:
+                        finish()
+                for job in borrowed:
+                    with open(job, 'rb') as file:
+                        payload, path = pickle.load(file)
+                    os.unlink(job)
+                    future = compiler.submit_payload(payload, Path(path))
+                    pending.append((None, None, BoundForward(None, None, False, future), path))
+                    if len(pending) >= compiler.workers:
+                        finish()
+                while pending:
+                    finish()
+                outcome = paths, None
+            except Exception as failure:
+                outcome = None, f"{type(failure).__name__}: {failure}"
+            try:
+                compiler_scope.close()
+            except Exception as failure:
+                outcome = None, outcome[1] or f"{type(failure).__name__}: {failure}"
+            outcomes = [None] * len(ranks)
+            dist.all_gather_object(outcomes, outcome, group=group)
+            for _, job in sent:
+                Path(job).unlink(missing_ok=True)
+            # Forwards lent to other ranks are complete once every rank reports.
+            stage.update(advance=len(lent))
+        failures = [(index, failure) for index, (_, failure) in zip(ranks, outcomes) if failure is not None]
+        if failures:
+>           raise RuntimeError(f"forward compilation failed: {failures}")
+E           RuntimeError: forward compilation failed: [(0, 'SubprocException: An exception occurred in a subprocess:\n\nName=<unknown>\ntorch._dynamo.exc.ObservedRuntimeError: raised exception RuntimeError(\'forward tracing called process-local resource test_checkpoint_mtp_replay.<locals>.forward\')\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File "/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 758, in do_job\n    result = job()\n             ^^^^^\n  File "/home/nvidia/.local/share/uv/python/cpython-3.12.14-linux-aarch64-gnu/lib/python3.12/contextlib.py", line 81, in inner\n    return func(*args, **kwds)\n           ^^^^^^^^^^^^^^^^^^^\n  File "/home/nvidia/b12x-flare/upstream/flare/ignition/preparation/compile_pool.py", line 106, in _compile_forward\n    artifact = aot_forward(forward, options=options)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/nvidia/b12x-flare/upstream/flare/ignition/preparation/aot.py", line 486, in aot_forward\n    dynamic=False).aot_compile(((forward,), {}))\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1031, in aot_compile\n    return aot_compile_fullgraph(\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/torch/_dynamo/aot_compile.py", line 344, in aot_compile_fullgraph\n    capture_output = convert_frame.fullgraph_capture(model, args, kwargs)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/torch/_dynamo/convert_frame.py", line 1436, in fullgraph_capture\n    return _fullgraph_capture_frame(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/torch/_dynamo/convert_frame.py", line 1507, in _fullgraph_capture_frame\n    raise e.with_traceback(None) from e.__cause__  # User compiler error\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntorch._dynamo.exc.Unsupported: Observed exception\n  Explanation: Dynamo found no exception handler at the top-level compiled function when encountering an exception. Exception will propagate outside the compiled region.\n  Hint: Your code may result in an error when running in eager. Please double check that your code doesn\'t contain a similar error when actually running eager/uncompiled. You can do this by removing the `torch.compile` call, or by using `torch.compiler.set_stance("force_eager")`. \n  Hint: It may be possible to write Dynamo tracing rules for this code. Please report an issue to PyTorch if you encounter this graph break often and it is causing performance issues.\n\n  Developer debug context: raised exception RuntimeError(\'forward tracing called process-local resource test_checkpoint_mtp_replay.<locals>.forward\')\n\n For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0088.html\n\nfrom user code:\n   File "/home/nvidia/b12x-flare/upstream/flare/ignition/preparation/aot.py", line 477, in _execute\n    return forward()\n           ^^^^^^^^^\n  File "/home/nvidia/b12x-flare/upstream/flare/ignition/preparation/forward_metadata.py", line 29, in __call__\n    raise RuntimeError(f\'forward tracing called process-local resource {self.description}\')\n\nSet TORCHDYNAMO_VERBOSE=1 for the internal stack trace (please do this especially if you\'re reporting a bug to PyTorch). For even more developer context, set TORCH_LOGS="+dynamo"\n\n')]
+
+ignition/preparation/aot.py:1047: RuntimeError
+------------------------------ Captured log call -------------------------------
+DEBUG    torch.__trace:utils.py:2363 
+DEBUG    torch.__trace:utils.py:2363
+=============================== warnings summary ===============================
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  qualification/test_glm53_mtp_replay_cuda.py:24: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3504: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2893: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py: 24 warnings
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_kernel_builder.py:316: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator.capacity_in_bytes is deprecated; use cutlass.memory.SmemAllocator.capacity_in_bytes instead. It will be removed in a future release.
+    capacity = cutlass.utils.SmemAllocator.capacity_in_bytes() - cls.MBAR_RESERVE
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell_sm12x/_moe_utils/moe_epilogue.py:319: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    cutlass.utils.LayoutEnum.COL_MAJOR, out_dtype, tile[0]
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:103: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+  /home/nvidia/b12x-flare/upstream/flare/.venv/lib/python3.12/site-packages/flashinfer/experimental/b12x/gemm/bf16_gemv/_kernel.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ../../qualification/test_glm53_mtp_replay_cuda.py::test_checkpoint_mtp_replay[decode-1-False]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 52 warnings in 22.67s
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+AssertionError
