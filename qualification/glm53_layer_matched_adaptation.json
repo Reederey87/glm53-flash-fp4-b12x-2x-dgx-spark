@@ -1,0 +1,52 @@
+{
+  "upstream_commit": "5a4e867954593b2e05bba43bc2a6eeaddca402d7",
+  "source": "test_glm53_decoder_tp_cuda.py",
+  "source_sha256": "add9ca104dcd49892a0350f308c211a1ff0eb76c6b79d02324f53b692904214c",
+  "exact_substitutions": [
+    [
+      "        create_all_reduce_runtime,",
+      "        create_roce_runtime,\n        warmup_wait,"
+    ],
+    [
+      "    torch.cuda.set_device(rank)",
+      "    torch.cuda.set_device(0)"
+    ],
+    [
+      "    device = torch.device(\"cuda\", rank)",
+      "    device = torch.device(\"cuda:0\")"
+    ],
+    [
+      "    runtime = create_all_reduce_runtime(group, device, max_tokens=capacity, hidden_size=4096)",
+      "    assert coordinator.spans_hosts\n    runtime = create_roce_runtime(group, device, max_tokens=min(capacity, 128),\n        pipe_tokens=capacity, hidden_size=4096, gather_bytes=capacity * 4096 * 2)"
+    ],
+    [
+      "                                        coordinator=coordinator) as session:",
+      "                                        coordinator=coordinator, native_dense_activations=True, compile_workers=2) as session:"
+    ],
+    [
+      "\n            compiled()\n            torch.cuda.synchronize(device)",
+      "\n            with warmup_wait(runtime, coordinator):\n                compiled()\n            torch.cuda.synchronize(device)"
+    ],
+    [
+      "bundle = PreparedExecution(device=rank,",
+      "bundle = PreparedExecution(device=0,"
+    ],
+    [
+      "    with GlmWeightLoader(manifest, device, shard=TensorParallelShard(rank, world),",
+      "    os.environ[\"B12X_W4A16_A4_PREFILL\"] = \"1\"\n    with GlmWeightLoader(manifest, device, shard=TensorParallelShard(rank, world), expert_activation=\"a16\","
+    ],
+    [
+      "        assert loader._session.torch_copy_bytes == 0",
+      "        assert loader._session.torch_copy_bytes == 0\n        assert loader.expert_activation == \"a16\"\n        if layer_index >= 3:\n            assert mlp.experts.plan.activation.mode.value == \"a16\"\n            assert mlp.experts_a4_prefill and mlp.experts._impl.a4_prefill_scales\n            print(f\"rank{rank} layer{layer_index}: owner=a16 calibrated_a4_prefill=True mode={mode}\", flush=True)"
+    ],
+    [
+      "            session.tune()",
+      "            if is_mla:\n                from layer_selection_reference import install_observer\n                install_observer(layer, scratch.attention.index)\n            session.tune()"
+    ],
+    [
+      "                after = torch.cuda.memory_stats(device)",
+      "                after = torch.cuda.memory_stats(device)\n                if is_mla:\n                    from layer_selection_reference import matched_reference\n                    expected_output, expected_stages = matched_reference(layer, scratch.attention.index,\n                        metadata, forward, persistent, initial, output, stages, expected_output,\n                        expected_stages, repetitions, os.environ[\"FLARE_SELECTION_RECEIPT\"] +\n                        f\"-layer{layer_index}-{mode}-{capacity}.jsonl\")"
+    ]
+  ],
+  "case_count_per_rank": 9
+}
