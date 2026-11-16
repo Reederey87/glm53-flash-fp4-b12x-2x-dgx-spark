@@ -1,0 +1,24 @@
+Mon Nov 16 08:26:27 UTC 2026
+MainPID=0
+ExecMainCode=1
+ExecMainStatus=0
+Id=b12x-flare-vocabulary-verified-restore-20261116T210000Z.service
+ActiveState=active
+SubState=exited
+InvocationID=905ea964edbf492baeb34823eb8beb19
+
+MainPID=0
+ExecMainCode=1
+ExecMainStatus=0
+Id=b12x-flare-vocabulary-verified-restored-smoke-20261116T210000Z.service
+ActiveState=active
+SubState=exited
+InvocationID=d28fd3a8e6b047568b2e1f994a9875cc
+[b12x] smoke against http://127.0.0.1:8000
+  PASS  models             nvidia/GLM-5.3-Flash-FP4-Local @ 1000000
+  PASS  thinking           reasoning 154 chars
+  PASS  reasoning-default  reasoning contract ok: default=Max, explicit low/high/max honoured
+  PASS  tools              tool_calls=get_weather args={"city": "Reykjavik"}
+  PASS  prefix             cached_tokens=1124
+[b12x] smoke: 5/5 checks passed hard
+Verified original images and running B12X containers on both nodes; native PIDs absent; API200; watchdog and tailnet active.

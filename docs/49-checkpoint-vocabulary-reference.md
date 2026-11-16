@@ -81,3 +81,11 @@ repeats; maximum absolute logit difference0.00390625 remains within the original
 relative/absolute bound. Every output finite; byte preservation, exact local
 gather, native completion, unused padding and allocation assertions pass.
 Independent recovery for the passing window is still pending.
+
+Passing-window recovery independently closed08:26:27 UTC: both original images,
+API/watchdog/tailnet and fresh5/5 smoke. Restore invocation
+`905ea964edbf492baeb34823eb8beb19` and smoke invocation
+`d28fd3a8e6b047568b2e1f994a9875cc` both ended exit0/PID0; fallback disarmed.
+Both tests/wrappers passed on both ranks, with seven healthy memory samples.
+Receipts: `vocabulary-verified-*`. This closes checkpoint vocabulary arithmetic
+and native gather/indexed replay; it does not by itself close full MTP/state gates.

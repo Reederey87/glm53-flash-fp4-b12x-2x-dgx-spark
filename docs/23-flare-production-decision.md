@@ -26,9 +26,9 @@ case. Its equal-long-prompt diagnostic gains do not qualify it for production.
 | Requirement | Current evidence | Remaining decision evidence |
 | --- | --- | --- |
 | API and model identity | Seven checks passed on latest balanced startup; exact core/binary on both ranks | Selected final arm and production endpoint |
-| Prompt latency and decode | Bounded native tests/build passed; original age policy failed mixed service | Fresh paired75-request mixed comparison, then84-row full speed gate and long prompts with substantial outputs |
-| Numerical correctness | Native activation49/49; full scale audit19,025,362,944 values | A16/A4 arithmetic/replay and applicable full-model, sparse and speculative qualification |
-| Context and capacity | Actual fresh pool2,335,232 tokens at reserve4; varies with startup memory | At least2,350,210 plus long-context admission/retrieval and hybrid-state reuse |
+| Prompt latency and decode | Bounded native tests/build passed; original age policy failed mixed service | Fixed ABBA mixed/long-output repeat running (docs/50), then84-row full speed gate |
+| Numerical correctness | Native activation49/49,54 expert,6 MLA,9 layer and2 full-target cases/rank; checkpoint vocabulary reference2/rank; full scale audit19,025,362,944 values | Remaining full-model/reference, MTP and state/retrieval qualification |
+| Context and capacity | Latest observed pool2,343,168 tokens at reserve4; varies with startup memory | At least2,350,210 plus long-context admission/retrieval and hybrid-state reuse |
 | Memory | Enforcing two-node memory monitor active in fresh comparison | Selected arm's complete workload bounds |
 | Shutdown and peer loss | Loaded graceful9.75s: both native exits0; injected peer failure3.32s: head exit1; no forced kills; streams closed and locks released | Confirm final selected artifact remains covered; production watchdog recovery |
 | Production ownership | Local owner/watchdog/pin/fallback code; seven focused tests and static unit verifier passed | Install/qualify one startup owner, compatible endpoint, disabled conflicting startup |

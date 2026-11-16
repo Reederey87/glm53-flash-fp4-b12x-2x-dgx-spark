@@ -65,3 +65,7 @@ numerical/MTP, context/state and production recovery gates remain independent.
 Restore B12X at window completion regardless of the descriptive result. Require
 both original images, API/watchdog/tailnet, absent native processes and fresh5/5
 smoke before fallback disarm. No production boot ownership changes here.
+
+The frozen controller started08:26:28 UTC after docs/49 recovery closed, invocation
+`fb7139ba1ca54aec93e8ce59f6e0ee8c`. Both ledgers/hashes and original images were
+snapshotted; the120-minute fallback is armed. No performance result yet.

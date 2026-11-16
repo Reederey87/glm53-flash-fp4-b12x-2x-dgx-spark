@@ -1,3 +1,8 @@
+## 2026-11-16 UTC — Vocabulary gate closed; ABBA performance running
+
+- Independent B12X recovery/fresh5/5 closed08:26:27 UTC and numerical fallback disarmed. Both actual checkpoint vocabulary cases pass on both ranks with unchanged bounds.
+- Frozen four-start performance-abba-window-20261116T220000Z began after closure, with continuous notifying memory guard and120-minute rollback. No production ownership change or performance verdict yet.
+
 ## 2026-11-16 UTC — Checkpoint vocabulary reference passed
 
 - Direct/indexed1/4/16-row native replay passes both ranks with raw-checkpoint FP64/Gloo reference, unchanged bounds and maximum absolute logit difference0.00390625. Initial fixture failure and verified08:19:06 UTC rollback retained. Passing-window independent B12X recovery underway.
