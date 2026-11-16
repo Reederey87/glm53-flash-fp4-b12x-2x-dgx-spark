@@ -41,3 +41,15 @@ Helpers in `qualification/windows/long-output-eos-20261116` retain docs/37's
 Record live capacity; this workload cannot waive its adoption floor. Restore
 B12X after completion or failure; require independent5/5 smoke, both original
 images, API/watchdog/tailnet and absent native PIDs before disarming fallback.
+
+## Result
+
+Both arms completed12/12 requests with exactly256 output tokens and length
+finish reasons. Both actual native exits0 without forced kill;70 memory samples
+per policy pass. Local strict recomputation matches remote comparison. Of17
+points,13 show no median regression over2% and four require repetition with
+overlapping ranges; none is separated. Cohort median119.258→119.561s (+0.254%),
+128k TTFT104.135→105.584s (+1.39%). Unresolved:32k TTFT+7.31% and elapsed+2.97%,
+8k p95 delivery gap+2.36% and maximum gap+4.91%. This does not close the original
+mixed/full performance gate. Full observations and per-request sidecars are
+retained as `long-output-eos-*`. Recovery verification is pending separately.

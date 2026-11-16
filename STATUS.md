@@ -1,5 +1,9 @@
 # Status
 
+## 2026-11-16 UTC — Fixed-output comparison completes
+
+- Both policies completed12 cold requests with256 outputs, every finish reason length, both native exits0/no forced kill and70 passing memory samples per arm. Strict local revalidation matched the remote comparison.13/17 points show no adverse median over2%; four require repetition, none is a separated regression. Cohort median119.258→119.561s (+0.254%);32k TTFT41.232→44.244s (+7.31%, overlapping ranges). This is complete stress evidence, not a performance pass. B12X restoration and independent smoke are running.
+
 ## 2026-11-16 UTC — Layer fixture expert-mode mismatch isolated
 
 - Initial layer test inherited GlmWeightLoader A4 default; the pinned Spark bootstrap uses A16 owner with calibrated A4 prefill. Dense activation mode does not change that loader default. Prepared docs/42 retry explicitly matching the deployed owner, with additional identity assertions and every numerical bound preserved. The A4 failure remains retained; the A4 repeatability diagnostic is deferred. No serving source/core change.
