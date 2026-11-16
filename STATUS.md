@@ -1,5 +1,15 @@
 # Status
 
+## 2026-11-16 UTC — Latency qualification and production delivery target
+
+- Registered docs/22 and staged corrected lifecycle/client bytes atomically on
+  both nodes. Snapshot ledgers/identities retained; B12X was idle before stop.
+  Both idle-memory gates passed; unchanged artifact406f7d03/core df214696 started
+  with latency policy. Diagnostic probe is running with enforcing memory checks.
+- Automatic B12X restoration is armed for05:41:30 UTC. Production adoption,
+  boot/reboot checks and merge to main remain the explicit final target, recorded
+  in docs/23; no existing qualification requirement is waived.
+
 ## 2026-11-16 UTC — Native interleaving confirmed; stronger exit evidence
 
 - Balanced trace validates all four cold128k histories with zero lost records;
