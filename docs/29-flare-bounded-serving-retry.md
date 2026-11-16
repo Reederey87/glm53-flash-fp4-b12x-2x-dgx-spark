@@ -33,3 +33,8 @@ Independent variable remains balanced versus bounded-latency scheduling.
 Any unexpected failure/deadline queues B12X restoration. Fresh5/5 smoke, original
 images, API/watchdog/tailnet and inactive native processes are required before
 closing this window. Record results and keep unresolved tasks in spec/TODO.md.
+
+Record live KV page/token capacity on both fresh arms. The memory-sized pool
+can vary across startups despite the same reserve; do not substitute the original
+export observation for current capacity. This is additional measurement, with
+no pool-setting or adoption-threshold change. See docs/12.

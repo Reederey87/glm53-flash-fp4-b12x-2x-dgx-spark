@@ -470,3 +470,21 @@ stop the client, restore B12X, verify images/health/smoke/watchdog/tailnet, then
 disarm the timer. The [official systemd-run reference](https://freedesktop.org/software/systemd/man/latest/systemd-run.html)
 supports retained completion state; Exa and the unchanged pinned scale-decoder
 review above support this larger audit scope. No new GPU treatment is combined.
+
+## Later capacity observations — 2026-11-16
+
+The original 2,295,552-token observation is not a constant of the accepted core.
+Two later starts at the same 4 GiB reserve logged 2,323,456 and 2,335,232 tokens.
+Both remain below the unchanged 2,350,210-token adoption requirement. Capture
+live `flare_total_kv_pages`, `flare_kv_page_tokens` and `flare_total_kv_tokens`
+at every fresh comparison start, checking pages times page size equals capacity.
+These metrics describe the per-rank pool before checkpoint retention.
+
+Exa revisited [NVIDIA's GB10 memory discussion](https://github.com/NVIDIA/flare-local-inference/issues/73),
+then pinned runtime memory sizing, Selene MemAvailable accounting and the core
+loader. Sizing depends on observed available memory and measured allocations.
+The loader already releases core-file page cache before context/cache allocation;
+an additional live cache flusher is not proposed. The initial 2.33% shortfall
+remains historical evidence, not a precise prediction for a future reserve arm.
+Use the fresh capacity and full-workload physical-memory minima to register any
+fractional-reserve experiment. No reserve or kernel watermark changed here.

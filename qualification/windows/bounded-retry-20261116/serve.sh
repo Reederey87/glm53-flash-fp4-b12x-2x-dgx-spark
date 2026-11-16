@@ -42,6 +42,20 @@ ARM
  systemd-run --user --unit="b12x-flare-bounded-retry-memory-$policy-20261116T050000Z" --property=Type=exec --property=RuntimeMaxSec=10000 "$uv" run --offline --no-project --python /usr/bin/python3 "$r/scripts/flare_memory_watch.py" --out "$w/$policy-memory.jsonl" --seconds 10000 --restore-unit "$restore"
  "$uv" run --offline --no-project --python /usr/bin/python3 "$w/verify-native.py" 0 "$policy" "$arm" "$binary_sha" > "$w/$policy-head-identity.json"
  ssh -n nvidia@192.168.177.11 "$uv run --offline --no-project --python /usr/bin/python3 $w/verify-native.py 1 $policy $arm $binary_sha" > "$w/$policy-worker-identity.json"
+ curl --fail --silent --max-time 10 http://127.0.0.1:8001/metrics > "$w/$policy-start.metrics"
+ "$uv" run --offline --no-project --python /usr/bin/python3 python - "$w/$policy-start.metrics" <<'PYCAP'
+import json,sys
+from pathlib import Path
+raw=Path(sys.argv[1]).read_text()
+names=('flare_total_kv_pages','flare_kv_page_tokens','flare_total_kv_tokens')
+values={}
+for name in names:
+ rows=[r.split() for r in raw.splitlines() if r.startswith(name+' ')]
+ assert len(rows)==1 and len(rows[0])==2
+ values[name]=int(rows[0][1]);assert values[name]>0
+assert values[names[0]]*values[names[1]]==values[names[2]]
+print(json.dumps({'observed_startup_capacity':values,'capacity_adoption_gate_pending':True}),flush=True)
+PYCAP
  systemctl --user show b12x-flare@0.service -p InvocationID --value > "$w/$policy-head-invocation.txt"
  ssh -n nvidia@192.168.177.11 systemctl --user show b12x-flare@1.service -p InvocationID --value > "$w/$policy-worker-invocation.txt"
  "$uv" run --offline --no-project --python "$r/upstream/flare/.venv/bin/python" "$r/scripts/flare_smoke.py" --base http://127.0.0.1:8001 --snapshot "$snap" --out "$w/$policy-smoke.json"
