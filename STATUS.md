@@ -1,5 +1,12 @@
 # Status
 
+## 2026-11-16 UTC — Mixed-workload client and live scheduler gate prepared
+
+- Added exact-token unequal bursts, timed short arrivals and observed active
+  decode overlap, retaining delivery times and rejecting incomplete evidence.
+- 49 local tests pass. Registered balanced/latency comparison on one immutable
+  binary/core plus the full B12X matrix, unchanged memory/performance bounds.
+
 ## 2026-11-16 UTC — Native latency release built and staged inactive
 
 - Worker release build passed with retained exit0 and unchanged Cargo locks;
