@@ -198,6 +198,9 @@ matched three-repetition matrix validates 84 rows per engine: aggregate decode
 improves 7.4–13.9%, but concurrent prefill fails the per-request latency gate at
 14 of 20 points. Similar aggregate prefill throughput does not offset that
 regression. See the [measured result](docs/13-flare-native-serving-result.md).
+A [CPU scale audit](docs/14-flare-scale-audit.md) cleared the packed A16 boundary
+for all experts in three target layers; the remaining 39 layers and native
+packing/replay still require qualification.
 
 Flare is **not adopted**. Numerical, capacity and performance-preservation gates remain
 open; B12X remains the incumbent and is stopped only for bounded candidate

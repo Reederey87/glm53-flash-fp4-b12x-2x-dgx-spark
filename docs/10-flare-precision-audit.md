@@ -106,3 +106,9 @@ upstream native ModelOpt decoder's all-finite-scale test as a stronger alternati
 to investigate if the packed boundary affects real weights. Do not substitute
 a representation, change calibration or relax tolerances during the current
 performance window. No precision or kernel change was made by this review.
+
+The subsequent [selected-layer CPU audit](14-flare-scale-audit.md) decoded every
+expert in layers 3, 24 and 44 for both TP2 ranks. All 1,358,954,496 scales are
+above the packed boundary; each full-layer maximum is 448 and factor is 1.
+This clears this condition for those three layers only. The other 39 target
+layers and actual A16/A4-prefill packing/replay remain separate requirements.

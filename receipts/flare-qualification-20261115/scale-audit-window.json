@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "candidate_commit": "4c36fdf0633d0e3b12950fcc2008e0a051148267",
+  "audit_script_sha256": "62df5625b1a2ea9b6fff9d2b9c256f0d87c29d9821e4975c215a21c3f44c24e3",
+  "audit_receipt_sha256": "62dd4b9c924571bd2db8be2f04268c398da463ae2e144a16c10eb609ff71a7c4",
+  "invocation_id": "12f6c6a3b2ad4e9a86bd8ef5f0fc540e",
+  "started_utc": "2026-11-16T00:27:05.107362+00:00",
+  "resource_accounted_utc": "2026-11-16T00:31:01.090961+00:00",
+  "cpu_seconds": 232.434266,
+  "memory_peak_bytes": 2697785344,
+  "memory_swap_peak_bytes": 0,
+  "idle_memory_gate": "[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 115 GiB free / 114 GiB avail",
+  "selected_layers": [
+    3,
+    24,
+    44
+  ],
+  "layers_remaining": 39,
+  "scale_count": 1358954496,
+  "source_payload_bytes_read": 737998026,
+  "source_payload_sha256": "85d450f73b5949e53909d162230740410ad3db1623762438c9c4e2a5f605d545",
+  "scales_below_boundary": 0,
+  "cuda_initialized": false,
+  "runtime_hash_checks": "head and worker before manifests checked after the audit; all OK",
+  "exit_status": null,
+  "terminal_evidence_limit": "Transient unit was automatically collected. Later systemctl inactive/success/0 defaults do not independently preserve its exit code. The complete 14-row audit output, populations, histogram boundaries and durable invocation metadata were validated.",
+  "restoration": {
+    "verified_utc": "2026-11-16T00:38:07Z",
+    "health_http": 200,
+    "smoke": "5/5",
+    "smoke_exit_status": 0,
+    "smoke_exit_code": 1,
+    "smoke_load_state_at_capture": "loaded",
+    "original_image_verified_both_nodes": true,
+    "watchdog_active": true,
+    "tailnet_service_active": true,
+    "restoration_timer_disarmed": true,
+    "runtime_receipt_sha256": "f53039c04556379be4514701041bc21a4abf3601c0da0401a0a151a0aeada7fe"
+  }
+}

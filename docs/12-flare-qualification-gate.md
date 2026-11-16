@@ -423,3 +423,38 @@ The local vLLM fallback shares this boundary; it is not the incumbent B12X path.
 Flare's independent CPU decoder supplies checkpoint bytes, while TensorFold and
 exllamav3 reinforce the distinction between stored quantization and execution
 arithmetic. No numerical tolerance is introduced or relaxed by this audit.
+
+## All-target-layer scale audit — registered after the selected-layer result
+
+The selected layers 3, 24 and 44 completed in 236 seconds, with all 288 experts
+and both TP2 partitions, no scales below the boundary and a 2.51 GiB recorded
+memory peak. These results do not clear the remaining 39 target layers.
+
+Next scope: the same frozen `flare_scale_audit.py --layers all`, target layers
+3 through 44, every expert and both ranks' logical scale partitions. Freeze
+checkpoint, independent decoder revision, audit script hash, binary, accepted
+core, recipe and all runtime settings. No dependency or representation change.
+Require 168 unique population rows plus manifest and completion (170 lines),
+the expected full populations, payload/header hashes, and CUDA uninitialized.
+Any nonzero affected count requires native packing/output investigation before
+precision preservation can be claimed. Zero counts still do not prove native
+packing, A4-prefill arithmetic, MTP or full-model equivalence.
+
+Use a new separately snapshotted window only after the preceding B12X
+restoration is verified. Pre-arm a 90-minute restoration timer whose command
+stops the exact audit unit before invoking the existing restore helper. Disarm
+the watchdog, stop the incumbent through its unit and require both original
+idle-memory gates. Run with empty CUDA_VISIBLE_DEVICES, the existing pinned uv
+environment, RuntimeMaxSec=4200, TimeoutStopSec=30 and KillMode=control-group.
+The 70-minute execution bound includes margin above the roughly 55-minute
+linear estimate; an estimate is not permission to extend a live job.
+
+Retain this transient unit with `--remain-after-exit --service-type=exec`.
+Capture LoadState=loaded, SubState=exited, MainPID=0, Result=success and the
+actual main-process code/status before explicitly stopping it. Require the
+complete validated output as well. Do not read defaults from a collected unit
+as an independently retained exit code. On timeout/failure retain partial data,
+stop the client, restore B12X, verify images/health/smoke/watchdog/tailnet, then
+disarm the timer. The [official systemd-run reference](https://freedesktop.org/software/systemd/man/latest/systemd-run.html)
+supports retained completion state; Exa and the unchanged pinned scale-decoder
+review above support this larger audit scope. No new GPU treatment is combined.

@@ -1,5 +1,15 @@
 # Status
 
+## 2026-11-16 UTC — Selected-layer CPU scale audit completed
+
+- On the idle head, independently decoded every expert in layers 3, 24 and 44
+  for both TP2 partitions: 1,358,954,496 scales, none below the packed A16
+  boundary, no CUDA initialization. Runtime hashes remained unchanged.
+- Recorded the scope and evidence limits in docs/14. The remaining 39 target
+  layers and native packing/replay are still open; a separate all-layer window
+  is pre-registered. B12X was restored at 00:38 UTC with original images,
+  health200, smoke5/5 and watchdog/tailnet active; the timer is disarmed.
+
 ## 2026-11-16 UTC — Full native matrix completed; latency gate failed
 
 - Collected and validated all 84 matched rows per engine, 315 matching request
