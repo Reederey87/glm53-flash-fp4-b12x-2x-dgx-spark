@@ -3,7 +3,7 @@
 ## 2026-11-16 UTC — Loaded lifecycle correction passes
 
 - Corrected wrapper passed loaded graceful shutdown in9.75s: both actual native exits0, no forced kill, stream closed and operation locks released. Worker exited naturally about1s after head. Injected worker SIGKILL passed in3.32s: head native exit1, no forced kill, visible failure and released locks. Both fresh starts passed7/7 API smoke.
-- Automatic B12X restoration is running before the fresh scheduler comparison. Exact receipts are `peer-drain-*`; production boot/watchdog remains unenabled.
+- B12X restoration verified04:53 UTC with original images, fresh5/5 smoke and watchdog/tailnet; fallback disarmed04:53:34 UTC. Exact receipts are `peer-drain-*`; production boot/watchdog remains unenabled. Fresh scheduler comparison registered in docs/29.
 
 ## 2026-11-16 UTC — Bounded window stopped on native peer shutdown
 
