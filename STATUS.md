@@ -597,3 +597,7 @@
 ## 2026-11-16 UTC — Remaining complete-target fixture prepared
 
 - Metadata-only inspection confirms45 target layers (42 routed), vocabulary154880 and MXFP8 vocabulary-head geometry. Prepared docs/43 native TP2 RoCE target replay for65/4096-token prefill plus three decode steps with all original assertions. It remains unrun and requires docs/42 first. Corrected documentation distinguishes the42-routed-layer scale audit from full-target validation.
+
+## 2026-11-16 UTC — Checkpoint MTP feedback gate prepared
+
+- Added docs/51 and an isolated native-replay fixture for checkpoint embedding/norm/feedback projection at1/4/16/4096 rows on each rank. Original component bounds and unchanged arithmetic; GPU execution pending after the ABBA window. Runtime unchanged.
