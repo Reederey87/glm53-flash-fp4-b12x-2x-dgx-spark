@@ -22,8 +22,7 @@ ENV_FILE=/home/nvidia/b12x/.env "$r/scripts/wait_memory.sh" 600 </dev/null
 systemd-run --user --unit=b12x-flare-native-mla-memory-20261116T070000Z --property=Type=exec --property=RuntimeMaxSec=3400 \
   "$uv" run --offline --no-project --python /usr/bin/python3 "$r/scripts/flare_memory_watch.py" \
   --out "$w/memory.jsonl" --seconds 3400 --restore-unit "$restore"
-/bin/bash "$r/qualification/run_expert_numerics.sh" \
-  "$r/qualification/flashinfer-4fd836dcda0998b875129aad76774ca073df10c8" "$w/results"
+/bin/bash "$r/qualification/run_native_mla.sh" "$w/results"
 sha256sum --check "$w/head-before.sha256" > "$w/unchanged-runtime-after.txt"
 ssh -n nvidia@192.168.177.11 "sha256sum --check $w/worker-before.sha256" >> "$w/unchanged-runtime-after.txt"
 printf '%s All6 pinned native-activation MLA replay cases passed; full-model gates remain.\n' "$(date -u +%FT%TZ)" > "$w/mla-gate-passed.txt"
