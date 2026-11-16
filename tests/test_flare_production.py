@@ -6,10 +6,22 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from flare_watchdog import decision, WINDOW
-from flare_production import fingerprints, validate_pin, rollback_due, validate_capacity, capacity_floor
+from flare_production import fingerprints, validate_pin, rollback_due, validate_capacity, capacity_floor, startup_progress
 
 
 class ProductionSafetyTests(unittest.TestCase):
+    def test_worker_dispatch_wait_does_not_hide_rank_failure(self):
+        started = startup_progress(['active', 'inactive'], [False, False])
+        self.assertEqual(started, [True, False])
+        started = startup_progress(['active', 'activating'], started)
+        self.assertEqual(startup_progress(['active', 'active'], started), [True, True])
+        with self.assertRaises(RuntimeError):
+            startup_progress(['active', 'inactive'], started)
+        for states in (['inactive', 'inactive'], ['active', 'failed'],
+                       ['failed', 'active'], ['active', 'deactivating'], ['active', 'unknown']):
+            with self.assertRaises(RuntimeError):
+                startup_progress(states, [False, False])
+
     def test_provisional_release_requires_explicit_approval_and_retained_gaps(self):
         decision = {'status': 'approved-provisional', 'approved_by_user': True,
                     'minimum_kv_tokens': 2300000, 'open_gates': ['performance', 'capacity']}

@@ -1,6 +1,6 @@
 # Approved provisional production and research pause
 
-On2026-11-16 the user paused research, then explicitly selected the current
+On 2026-11-16 the user paused research, then explicitly selected the current
 Flare candidate for production after its seven API checks. This supersedes the
 earlier requirement to finish all research gates before adoption. It does not
 turn unfinished or failed tests into passes. The release decision is
@@ -20,7 +20,7 @@ is installed separately with exact recipe/core fingerprints and a hashed release
 decision. The fully qualified capacity floor remains2,350,210; this explicitly
 approved provisional release checks2,300,000 at every startup/recovery, preserving
 the current reserve and quantization. Historical starts measured2,331,392–2,343,168.
-The nine focused production/watchdog tests pass, including rejection of missing
+The ten focused production/watchdog tests pass, including rejection of missing
 approval, missing open gates, pin drift and an unauthorized capacity override.
 
 Exa rechecked the official systemd timer contract and NVIDIA capacity metrics;
@@ -67,3 +67,24 @@ immutable evidence, not resumable jobs.
 PR #2 carries all integration code and receipts. `spec/` and agent metadata stay
 git-ignored; the public resume record is this document. Research stays paused
 after operational delivery, documentation and GitHub synchronization.
+
+## Startup readiness correction
+
+The first activation at 11:30 UTC restored B12X automatically after the owner
+observed the worker as inactive before the head dispatched it. The native model
+was not changed. Exa confirmed that systemd `Type=exec` proves execution, not
+application readiness ([official service documentation](https://freedesktop.org/software/systemd/man/latest/systemd.service.html)).
+A full `Type=notify` conversion would require changes to the rank supervisor;
+the owner already performs bounded application-level readiness. It now allows
+only the worker's initial inactive state, within the existing 900-second deadline.
+A failed rank, a missing head, or a worker disappearing after startup still fails.
+Both active ranks, HTTP health, capacity and all seven API smoke checks remain required.
+
+Local review: Flare's head dispatch occurs after argument validation; vLLM waits
+on explicit worker READY messages; TensorFold distinguishes process exit from
+health; exllamav3's TP validation does not supply a systemd readiness contract.
+No engine/kernel technique is needed for this orchestration race. Ten focused
+production/watchdog tests pass, including delayed dispatch and subsequent failure.
+The first memory guard remained running during B12X recovery and stopped at a
+B12X startup memory-floor breach; its sample is retained, not counted as a
+healthy Flare production observation.

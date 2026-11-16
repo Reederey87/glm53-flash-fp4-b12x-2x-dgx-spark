@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Invoked only by the production owner; never enable until qualification passes.
+# Invoked only by the pinned production owner after qualification or explicit approval.
 set -euo pipefail
 ROOT=/home/nvidia/b12x-flare
 [[ $(hostname) == spark-a183 ]]

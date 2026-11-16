@@ -89,6 +89,18 @@ def rank_state(rank):
     return subprocess.check_output(command, text=True, timeout=15).strip()
 
 
+def startup_progress(states, started):
+    """Allow worker dispatch latency, but never a rank disappearing after start."""
+    if len(states) != 2 or len(started) != 2:
+        raise ValueError('expected two production ranks')
+    for rank, state in enumerate(states):
+        if state in ('active', 'activating'):
+            started[rank] = True
+        elif not (rank == 1 and state == 'inactive' and not started[rank]):
+            raise RuntimeError(f'native rank failed during startup: {states}')
+    return started
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('fingerprints', 'verify', 'ready', 'rollback-due'))
@@ -117,10 +129,10 @@ def main():
     if args.rank != 0:
         raise ValueError('only head owns cluster readiness')
     deadline = time.monotonic() + 900
+    started = [False, False]
     while time.monotonic() < deadline:
         states = [rank_state(rank) for rank in (0, 1)]
-        if any(s not in ('active', 'activating') for s in states):
-            raise RuntimeError(f'native rank failed during startup: {states}')
+        started = startup_progress(states, started)
         try:
             with urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=3) as response:
                 if response.status == 200 and states == ['active', 'active']:

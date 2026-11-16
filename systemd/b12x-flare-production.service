@@ -1,5 +1,5 @@
 [Unit]
-Description=Qualified Flare cluster startup owner
+Description=Approved Flare cluster startup owner
 ConditionPathExists=/home/nvidia/b12x-flare/local/production-pin.json
 
 [Service]
