@@ -24,7 +24,7 @@ is installed separately with exact recipe/core fingerprints and a hashed release
 decision. The fully qualified capacity floor remains2,350,210; this explicitly
 approved provisional release checks2,300,000 at every startup/recovery, preserving
 the current reserve and quantization. Historical starts measured2,331,392–2,343,168.
-The ten focused production/watchdog tests pass, including rejection of missing
+The twelve focused production/watchdog tests pass, including rejection of missing
 approval, missing open gates, pin drift and an unauthorized capacity override.
 
 Exa rechecked the official systemd timer contract and NVIDIA capacity metrics;
@@ -83,6 +83,8 @@ the owner already performs bounded application-level readiness. It now allows
 only the worker's initial inactive state, within the existing 900-second deadline.
 A failed rank, a missing head, or a worker disappearing after startup still fails.
 Both active ranks, HTTP health, capacity and all seven API smoke checks remain required.
+The later recovery correction below additionally dispatches the worker before
+starting the head; initial inactive tolerance alone did not cover retained failure.
 
 Local review: Flare's head dispatch occurs after argument validation; vLLM waits
 on explicit worker READY messages; TensorFold distinguishes process exit from
@@ -105,7 +107,7 @@ bounded polling. No proxy, model, numerical bound or serving knob is changed.
 
 ## Local delivery validation
 
-All98 local unit tests pass. The initial sandboxed run could not bind the Unix
+All 100 local unit tests pass. The initial sandboxed run could not bind the Unix
 notification socket used by one memory-watch test; the same complete suite
 passed with socket access. This is separate from hardware qualification.
 
@@ -143,4 +145,22 @@ reviewed the [systemctl contract](https://www.freedesktop.org/software/systemd/m
 local Flare rendezvous, vLLM's create-all-workers-before-readiness, exllamav3
 collective initialization and TensorFold launch ownership support this ordering.
 Two focused tests prove worker-before-head dispatch and that a worker dispatch
-failure prevents head launch. All100 local tests pass.
+failure prevents head launch. All 100 local tests pass.
+
+## Client-network probe retained separately
+
+The ordered-start owner passed API7/7 at11:57:04 UTC. Its subsequent exact
+identity and tailnet-listener generation verification passed. An added peer
+tailnet probe timed out and the operational controller automatically restored
+B12X before the planned watchdog injection. This was an invalid client-network
+precondition for that controller, not an observed model or owner failure.
+The head Tailscale backend reports Running/Online with no health warnings.
+The worker has no tailscale command on PATH; its route to the head's100.x address
+uses its ordinary LAN gateway. The Mac likewise lacks a tailnet route.
+
+Exa's [Tailscale connection prerequisites](https://tailscale.com/docs/how-to/connect-to-devices)
+require a connected client and policy permitting that route. No client install,
+ACL or network change is included in this release. Keep the failed probe receipt
+and verify a real remote client through an SSH tunnel to the same head listener.
+External tailnet-client validation remains a documented follow-up for a connected
+client; it is not silently reported as passed.
