@@ -1,0 +1,12 @@
+[Unit]
+Description=Bounded Flare production adoption rollback
+
+[Timer]
+OnCalendar=2026-11-16 13:28:52 UTC
+OnBootSec=2min
+Persistent=true
+AccuracySec=1s
+Unit=b12x-flare-production-rollback.service
+
+[Install]
+WantedBy=timers.target

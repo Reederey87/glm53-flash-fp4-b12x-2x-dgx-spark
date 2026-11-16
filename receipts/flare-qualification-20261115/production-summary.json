@@ -1,0 +1,66 @@
+{
+  "status": "approved-provisional",
+  "research": "paused",
+  "activation_verified": "2026-11-16T12:06:58Z",
+  "watchdog_recovery_verified": "2026-11-16T12:09:45Z",
+  "reboot_verified": "2026-11-16T12:14:04Z",
+  "adoption_closed": "2026-11-16T12:15:45Z",
+  "cache_tokens": {
+    "activation": 2331392,
+    "watchdog": 2339328,
+    "reboot": 2347264
+  },
+  "boot_ids": {
+    "head": {
+      "before": "de8eb78d-969e-4f6f-86f6-b7c71150f7b3",
+      "after": "db2cd8bf-2592-484e-818b-dd0e7fd47959"
+    },
+    "worker": {
+      "before": "34470ec3-fd23-40aa-a3e9-7737a3c9afdc",
+      "after": "cee3a443-e4f0-42c7-b28e-faee0a960a39"
+    }
+  },
+  "memory": {
+    "memory.jsonl": {
+      "samples": 59,
+      "start": "2026-11-16T12:05:08.788024+00:00",
+      "end": "2026-11-16T12:10:18.024926+00:00",
+      "minimum_gib": {
+        "head": {
+          "MemFree": 1.7318763732910156,
+          "MemAvailable": 10.79831314086914
+        },
+        "worker": {
+          "MemFree": 1.9472770690917969,
+          "MemAvailable": 11.838775634765625
+        }
+      }
+    },
+    "reboot-memory.jsonl": {
+      "samples": 30,
+      "start": "2026-11-16T12:13:08.463910+00:00",
+      "end": "2026-11-16T12:15:42.723239+00:00",
+      "minimum_gib": {
+        "head": {
+          "MemFree": 1.7975654602050781,
+          "MemAvailable": 10.826107025146484
+        },
+        "worker": {
+          "MemFree": 1.7401123046875,
+          "MemAvailable": 11.755538940429688
+        }
+      }
+    }
+  },
+  "watchdog_ledger": {
+    "schema": 1,
+    "pending": 0,
+    "attempts": [
+      1794829712.9427567,
+      1794830874.958063
+    ]
+  },
+  "direct_tailnet_client": "unverified; Mac and worker lack route",
+  "ssh_forwarded_remote_client": "passed before and after reboot",
+  "local_tests": 100
+}

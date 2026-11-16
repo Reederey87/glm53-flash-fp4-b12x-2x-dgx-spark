@@ -1,3 +1,6 @@
+2026-11-16 UTC: Adopted the explicitly approved provisional Flare release at `/home/nvidia/b12x-flare`; owner/watchdog/proxy enabled, B12X retained as disabled rollback. Controlled recovery and two-node reboot passed; post-boot API7/7, generation and 2,347,264-token pool verified; fallback closed12:15:45.
+Research paused; current operations, failed-attempt evidence and resume checkpoint are in docs/63, open tasks in spec/TODO.md and release history in CHANGELOG.md (PR #2).
+
 2026-11-16 UTC: Full-MTP independent original-image recovery/fresh5/5 closed11:10:46; API/watchdog/tailnet active. Paired50-prompt B12X/Flare generation window started with bounded clients and150-minute rollback (docs/53,62).
 
 2026-11-16 UTC: Full checkpoint MTP draft/absorption replay passed5/5 cases on both Sparks, original assertions unchanged;53 healthy memory observations. Recovery/fresh-smoke underway (docs/62). Warmup-only mechanism window frozen/staged, unrun (docs/61).

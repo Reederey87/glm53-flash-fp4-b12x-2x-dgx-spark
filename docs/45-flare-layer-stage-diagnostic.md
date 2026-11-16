@@ -1,5 +1,7 @@
 # Deployed-mode attention-stage mismatch
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The docs/44 protected retry completed five cases on each rank, then failed
 layer3/prefill4096 at the exact attention-stage assertion. Both ranks report
 5,954,429/16,777,216 differing elements (35.5%), maximum absolute difference

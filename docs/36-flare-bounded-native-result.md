@@ -1,5 +1,7 @@
 # Bounded scheduler native diagnosis
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The docs/33 diagnostic completed both arms on unchanged artifact127424e9,
 wrapper41b65a5a and coredf214696. Each has25 matching cold request bodies,
 26 complete prompt histories and360658 prompt tokens. Balanced414 and bounded405

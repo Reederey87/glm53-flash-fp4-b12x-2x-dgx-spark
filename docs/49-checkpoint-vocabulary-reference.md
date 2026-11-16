@@ -1,5 +1,7 @@
 # Checkpoint vocabulary reference gate
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The isolated complete45-layer target replay passed both capacities65/4096 on
 both ranks (docs/48). This checks finite target logits and replay invariants;
 the remaining vocabulary check compares actual checkpoint arithmetic with an

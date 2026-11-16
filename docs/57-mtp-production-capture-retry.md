@@ -1,5 +1,7 @@
 # Use the serving capture pipeline for MTP replay
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The interface-bound retry reached compilation on both ranks, then failed before
 native replay. Legacy `compile_forward` uses FX FakeTensor tracing, which enters
 the raw Triton `rms_norm_add_residual` and attempts to read a fake data pointer.

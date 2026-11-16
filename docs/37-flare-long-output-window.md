@@ -1,5 +1,7 @@
 # Long-output window registration
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Execute docs/31's matched three-repetition workload in
 `long-output-window-20261116T080000Z` only after docs/38's corrected six-case MLA observation gate
 passes and its B12X restoration and fallback closure are independently verified.

@@ -1,0 +1,16 @@
+/home/nvidia/b12x-flare/scripts/flare_production.py: OK
+/home/nvidia/b12x-flare/scripts/flare_production.sh: OK
+/home/nvidia/b12x-flare/scripts/flare_production_rollback.sh: OK
+/home/nvidia/b12x-flare/scripts/flare_watchdog.py: OK
+/home/nvidia/b12x-flare/scripts/tailscale_proxy.py: OK
+/home/nvidia/b12x-flare/scripts/flare_release_file_cache.py: OK
+{"rank": 0, "production_pin": "verified", "recipe_sha256": "abb619aa81b548a297942f5d610b9a44da9ff196446393a3ac799a9a7c10fcd6", "core_state_sha256": "cf34593a5cd310db137d744fc1749aff75a135b090a4c4b305a632f16bb8049f", "native_arm": "127424e92c1e5845697d85f3c34ce93fa632dd48bf3be491c868c50a9deb0243"}
+{"rank": 1, "production_pin": "verified", "recipe_sha256": "abb619aa81b548a297942f5d610b9a44da9ff196446393a3ac799a9a7c10fcd6", "core_state_sha256": "cf34593a5cd310db137d744fc1749aff75a135b090a4c4b305a632f16bb8049f", "native_arm": "127424e92c1e5845697d85f3c34ce93fa632dd48bf3be491c868c50a9deb0243"}
+Removed "/home/nvidia/.config/systemd/user/default.target.wants/vllm-b12x-tailscale.service".
+Removed "/home/nvidia/.config/systemd/user/default.target.wants/vllm-b12x.service".
+Removed "/home/nvidia/.config/systemd/user/timers.target.wants/vllm-b12x-watchdog.timer".
+[b12x] memory gate: head 115 GiB free / 114 GiB avail, worker 115 GiB free / 114 GiB avail
+Running as unit: b12x-flare-production-memory-20261116T115000Z.service; invocation ID: 178df94a224641daabff047fb9debb95
+Created symlink /home/nvidia/.config/systemd/user/default.target.wants/b12x-flare-production.service → /home/nvidia/.config/systemd/user/b12x-flare-production.service.
+Created symlink /home/nvidia/.config/systemd/user/timers.target.wants/b12x-flare-production-watchdog.timer → /home/nvidia/.config/systemd/user/b12x-flare-production-watchdog.timer.
+Created symlink /home/nvidia/.config/systemd/user/default.target.wants/b12x-flare-tailscale.service → /home/nvidia/.config/systemd/user/b12x-flare-tailscale.service.

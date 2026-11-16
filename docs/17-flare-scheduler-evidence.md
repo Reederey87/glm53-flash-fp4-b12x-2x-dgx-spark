@@ -1,5 +1,7 @@
 # Additional scheduler evidence — Exa review, 2026-11-16 UTC
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The proposed change targets waiting time before the first response. It does not
 claim faster kernels, less prompt work, or higher aggregate throughput. The native
 CPU selector reproduces the observed interleaving, and its opt-in treatment

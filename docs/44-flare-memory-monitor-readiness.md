@@ -1,5 +1,7 @@
 # Memory monitor readiness and failure propagation
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The initial docs/42 window was aborted: its restoration label contained `a16`,
 which the monitor's intentionally restricted service-name parser rejected.
 Type=exec reported successful process execution before that argument failure,

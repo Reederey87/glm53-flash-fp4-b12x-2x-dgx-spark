@@ -47,7 +47,7 @@ Run only inside a later guarded serving window, with frozen selected artifact,
 memory enforcement and rollback; never overlap the ABBA performance measurement.
 State transfer, concurrent retrieval, capacity and full speed gates remain
 independent. Four focused tests pass for truncation, typed answers, malformed
-responses and incomplete/changed receipts. Hardware execution is pending.
+responses and incomplete/changed receipts. Hardware execution was interrupted at the user’s research pause; see the outcome below.
 
 ## Frozen serving controller
 
@@ -70,4 +70,22 @@ Each client has an external60-minute timeout and30-second kill grace; controller
 baseline teardown and before candidate load; the original B12X service owns the
 baseline. Restoration always returns to B12X, independently verifies both images,
 API/watchdog/tailnet and fresh5/5, then closes fallback. Controller/manifests are
-prepared locally, unrun. No production ownership changes.
+were executed without production ownership changes; the user stopped research before the candidate client finished.
+
+## Paused outcome — 2026-11-16
+
+Research stopped at the user's request at 11:21:29 UTC. The baseline completed
+100/100 responses; the candidate completed 86/100. All completed responses passed
+the structural checks. Baseline semantic failures were chat-07, chat-11, chat-16
+and chat-17; the partial candidate failed chat-16. The first two baseline failures
+include extra text, chat-16 gives B instead of D, and chat-17 refuses the public
+copy task. These observations do not establish an engine-specific root cause.
+All ten baseline long cases passed, reaching 213,041 actual prompt tokens.
+
+The full paired gate is **incomplete**, not passed. No comparison of partial
+counts is a quality improvement claim. Complete public responses, hashes,
+individual verdicts, candidate API7/7, identities and memory samples survive as
+`receipts/flare-qualification-20261115/generation-paused-*`. B12X restoration
+independently passed fresh5/5 and closed at 11:28:11 UTC. Restart qualification
+in a new window after updating ownership/rollback for the production checkpoint
+in [docs/63](63-production-pause-checkpoint.md). Do not resume this controller.

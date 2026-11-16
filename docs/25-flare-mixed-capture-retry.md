@@ -1,5 +1,7 @@
 # Mixed native capture: retain failure and reduce reader contention
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The docs/24 balanced client completed25 requests/3 cases with37 passing memory
 samples and both invocation-bound native exits0/no forced kill. Its capture has
 399 consecutive completion fences1..399, but the old shared loss counter is1.

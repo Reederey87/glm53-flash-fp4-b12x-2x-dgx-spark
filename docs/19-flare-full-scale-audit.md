@@ -1,5 +1,7 @@
 # Full CSF scale audit — 2026-11-16 UTC
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The CPU audit completed all 42 routed-expert layers (3..44), all 288 experts,
 both TP2 partitions and both W13/W2 populations. Across 19,025,362,944 scales,
 none fall below the packed A16 boundary after the full-population lifting factor.

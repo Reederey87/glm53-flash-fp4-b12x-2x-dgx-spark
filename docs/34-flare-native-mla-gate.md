@@ -1,5 +1,7 @@
 # TP2 native-activation MLA replay gate
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 This is a component gate on the unchanged core's precision path, not a new
 serving arm or full-model numerical equivalence. Run only after the docs/33
 diagnostic closes with independently verified B12X restoration. Preserve both

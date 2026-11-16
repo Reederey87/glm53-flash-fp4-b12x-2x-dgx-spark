@@ -1,5 +1,7 @@
 # Prompt-latency correction — registered 2026-11-16 UTC
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The user explicitly authorized production adoption, boot enablement and a
 controlled reboot after qualification, and requested correction of the measured
 concurrent prompt latency. No further adoption approval is required. Numerical,

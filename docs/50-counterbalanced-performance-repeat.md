@@ -1,5 +1,7 @@
 # Counterbalanced performance repetition
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Docs/32 and40 retain adverse overlapping medians; docs/36's trace explains
 some arrival-phase effects without resolving the performance gate. The next
 experiment repeats both complete workloads with fresh balanced, latency,

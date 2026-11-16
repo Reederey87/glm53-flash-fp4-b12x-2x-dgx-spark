@@ -1,5 +1,7 @@
 # Bounded scheduler serving retry — conditional registration
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 This repeats docs/26's unchanged performance gates only after docs/28's loaded
 lifecycle gate passes and its B12X restoration is independently verified. It
 introduces no new scheduler, core, quantization, memory or native binary change.

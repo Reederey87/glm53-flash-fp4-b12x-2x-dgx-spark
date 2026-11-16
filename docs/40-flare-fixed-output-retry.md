@@ -1,5 +1,7 @@
 # Fixed-output stress retry
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The initial docs/37 balanced arm completed rep0 but rep1 failed the256-token
 completeness assertion. Latency never ran. Retain `long-output-initial-*` receipts:
 45 memory samples pass, both native exits0/no forced kill, B12X independently

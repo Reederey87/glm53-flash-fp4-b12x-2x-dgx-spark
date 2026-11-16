@@ -1,5 +1,7 @@
 # Bind the MTP qualification control group to the fabric
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The first docs/52 window failed before numerical replay. Gloo attempted a peer
 connection at127.0.0.1 and reported connection refused. Both hostnames resolve
 to127.0.0.1; the QSFP interface `enp1s0f1np1` instead holds192.168.177.10/.11.

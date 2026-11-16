@@ -1,5 +1,7 @@
 # MLA observation defect and registered retry
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The first docs/34 hardware run failed all six cases in63.22s, pytest exit1,
 with no skips. Only the `attended` stage was reported mismatched: maxima
 0.6875–1.75 across the cases. Every other checked stage, including expanded

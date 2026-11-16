@@ -1,5 +1,7 @@
 # Native completion observation and scheduler qualification
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The native headless service does not enable Flare's terminal telemetry. The
 candidate adds `--scheduler-trace PATH`, using the existing nonblocking completion
 buffer and a separate writer. It preserves slot/generation identities, submitted

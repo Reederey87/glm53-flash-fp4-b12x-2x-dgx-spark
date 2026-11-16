@@ -1,5 +1,7 @@
 # Latency treatment window — registered 2026-11-16 UTC
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Continue docs/18–21 after independently verified B12X restoration at02:37 UTC.
 Reuse the completed balanced native trace and untraced mixed control; do not
 rerun an unchanged control merely because the guarded transition closed its

@@ -1,5 +1,7 @@
 # Pre-registered Flare export and native-start gate
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The engine treatment and frozen controls remain those in `08-flare-build-window.md`.
 This gate is written before export or any native candidate measurement.
 

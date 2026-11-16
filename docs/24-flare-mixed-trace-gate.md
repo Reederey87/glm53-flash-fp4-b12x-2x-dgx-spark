@@ -1,5 +1,7 @@
 # Mixed-workload diagnosis after rejected latency policy
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The completed untraced mixed comparison in docs/22 rejects the age-aware policy.
 Keep the failure and original gate; do not proceed to adoption on equal-length
 prompt timings alone. B12X restoration was verified before this diagnostic.

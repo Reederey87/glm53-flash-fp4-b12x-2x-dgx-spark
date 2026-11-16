@@ -1,5 +1,7 @@
 # Diagnose the unresolved ABBA points
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Docs/50 did not pass its registered gate. Do not repeat until favorable, discard
 the adverse points or substitute traced timings for performance qualification.
 The next window observes the same workload bodies, budgets and three repetitions

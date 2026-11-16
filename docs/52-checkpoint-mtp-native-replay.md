@@ -1,5 +1,7 @@
 # Complete draft and absorption replay
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Docs/51 covers independent feedback arithmetic. This follow-up executes the
 unchanged complete `PreparedMTP` draft and cache-absorption paths using actual
 layer45, shared embedding and checkpoint vocabulary weights on both Spark ranks.

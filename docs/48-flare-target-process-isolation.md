@@ -1,5 +1,7 @@
 # Preserve full-target process isolation
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The first docs/43 window was stopped during first-case autotuning at07:43:07 UTC,
 before any completed target result. Its two-host fixture called both capacities
 inside one pytest process, whereas upstream spawns fresh GPU workers for each

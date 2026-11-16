@@ -1,5 +1,7 @@
 # Current bounded scheduler: native mixed diagnostic
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The untraced result in docs/32 is unresolved. Do not change the scheduler from
 those HTTP observations. The next diagnostic uses its exact artifact 127424e9 /
 binary b2eb310b with the existing observer, without a rebuild, different core,

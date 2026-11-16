@@ -1,5 +1,7 @@
 # Pinned GLM precision review
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 This is a source/header audit, not a numerical pass. Checkpoint revision
 `76348ddb2be2e35e39ecfc00e75dc07703f4f3d5`, Flare `5a4e867`, FlashInfer
 `4fd836d`. The header inventory is in `receipts/flare-checkpoint-metadata-20261115.json`.

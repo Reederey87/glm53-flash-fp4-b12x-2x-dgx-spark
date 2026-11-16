@@ -1,5 +1,7 @@
 # Complete checkpoint MTP replay passed
 
+> Full MTP replay is complete (docs/62). Further research is paused; warmup is staged but unrun. Current production and safe resume instructions: [docs/63](63-production-pause-checkpoint.md).
+
 The docs/58 retry passed all five cases on each Spark at11:04:18 UTC.
 Both rank wrappers and all ten fresh pytest processes exited0 with no skipped,
 failed or errored cases. Head invocationf2f704faa12e40cca92c072ce45c0eab;

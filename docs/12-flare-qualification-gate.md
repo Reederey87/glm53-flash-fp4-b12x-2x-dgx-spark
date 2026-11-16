@@ -1,5 +1,7 @@
 # Next Flare qualification gates — registered 2026-11-15
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Production remains B12X while its full reference client benchmark runs. The
 first Flare trial is recorded in `11-flare-trial-20261115.md`; its short timings
 are not an adoption comparison. These gates precede new GPU qualification or

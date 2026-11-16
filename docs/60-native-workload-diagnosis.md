@@ -1,5 +1,7 @@
 # Complete native workload diagnosis
 
+> Completed diagnostic evidence; further research is paused. Current production and resume instructions: [docs/63](63-production-pause-checkpoint.md).
+
 Docs/55 completed all four registered starts by10:50 UTC:174 measured requests,
 four warmups,178 complete native histories and5,394 contiguous completions.
 Every trace stops cleanly with zero loss/truncation; both ranks exit0 without

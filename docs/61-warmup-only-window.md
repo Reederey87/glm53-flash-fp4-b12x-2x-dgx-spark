@@ -1,5 +1,7 @@
 # Warmup-only startup experiment
 
+> Full MTP replay is complete (docs/62). Further research is paused; warmup is staged but unrun. Current production and safe resume instructions: [docs/63](63-production-pause-checkpoint.md).
+
 Prepared, unrun. This follows the completed docs/60 diagnosis and Exa review of
 NVIDIA's [native cost discovery and funded refresh](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/scheduling-runtime-design.md).
 Unknown graph costs win over known costs; refresh has an aggregate budget but

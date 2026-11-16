@@ -1,5 +1,7 @@
 # Flare candidate preparation tools
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 This lane prepares a reviewable alternative to the current vLLM B12X service.
 It pins NVIDIA Flare and its FlashInfer dependency, renders separate TP2
 preparation/serving commands, and inspects host readiness. Candidate-only systemd units build, prepare and

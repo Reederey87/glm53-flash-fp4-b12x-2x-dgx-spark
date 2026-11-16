@@ -1,5 +1,7 @@
 # Peer drain correction — registered loaded lifecycle gate
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 ## Retained failure and source evidence
 
 Window041500Z completed all75 balanced mixed requests/9 cases with7 API checks.

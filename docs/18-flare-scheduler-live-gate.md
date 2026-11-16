@@ -1,5 +1,7 @@
 # Native scheduler A/B window — registered 2026-11-16 UTC
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Do not start until the full CPU scale audit is terminal, its receipts are
 validated and B12X restoration is verified. Production adoption is authorized
 after qualification; this window does not waive outstanding numerical, capacity,

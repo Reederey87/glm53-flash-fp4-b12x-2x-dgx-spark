@@ -1,5 +1,7 @@
 # Serializable MTP qualification observations
 
+> Full MTP replay is complete (docs/62). Further research is paused; warmup is staged but unrun. Current production and safe resume instructions: [docs/63](63-production-pause-checkpoint.md).
+
 The production-capture attempt failed before numerical replay on both ranks:
 Flare replaces local closures with unavailable process-local resources in the
 compiler worker. Both first cases exited1 after approximately22.7seconds.

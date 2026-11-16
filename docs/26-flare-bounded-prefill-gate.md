@@ -1,5 +1,7 @@
 # Bounded prefill correction — native diagnosis and registered gate
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 ## Complete mixed native evidence
 
 Observer artifactde4c3f7c completed both arms with zero dropped updates,

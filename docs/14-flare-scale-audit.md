@@ -1,5 +1,7 @@
 # Selected-layer A16 scale audit — 2026-11-16 UTC
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 All 288 experts in target layers 3, 24 and 44 were decoded on the CPU and partitioned for both TP2 ranks. Across 1,358,954,496 block scales, none fall below the packed A16 boundary. Each W13/W2 population has maximum 448 and lifting factor 1. This clears this particular scale-discard condition for the scanned layers only; 39 target layers, MTP packing and native arithmetic/replay remain unqualified.
 
 | Layer | TP rank | Projection | Scale count | Minimum nonzero E4M3 byte | Below boundary |

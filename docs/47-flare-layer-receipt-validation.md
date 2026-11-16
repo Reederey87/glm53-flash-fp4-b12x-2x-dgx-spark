@@ -1,5 +1,7 @@
 # Layer receipt name correction
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The first docs/46 run passed all9 pytest cases on each rank with unchanged
 numerical assertions (95.37s/94.74s). Each actual pytest exit is0. The surrounding
 receipt validator nevertheless exited1 because its expected names still began

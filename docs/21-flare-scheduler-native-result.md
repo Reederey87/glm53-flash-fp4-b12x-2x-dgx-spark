@@ -1,5 +1,7 @@
 # Native scheduler evidence and additional Exa review
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 On 2026-11-16 UTC, the balanced policy completed the registered cold four-request
 131072-token diagnostic on both Sparks. The unchanged core and native binary
 6686043d were verified from the running processes. The client exited0 with its

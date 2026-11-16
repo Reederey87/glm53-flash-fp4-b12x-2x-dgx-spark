@@ -1,5 +1,7 @@
 # Complete target replay on two Sparks — registered gate
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The pinned checkpoint has45 target layers: three dense and42 routed expert
 layers. Its vocabulary is154880, hidden width4096, and the vocabulary head stores
 F8_E4M3 values [154880,4096] with U8 scales [154880,128]. The metadata-only receipt

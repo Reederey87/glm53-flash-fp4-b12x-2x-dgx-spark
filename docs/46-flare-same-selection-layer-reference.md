@@ -1,5 +1,7 @@
 # Complete-layer comparisons on matching sparse selections
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Docs/45 collected nine observations on each rank. All three paths—eager,
 Python graph and native graph—vary on repetition: attention max difference
 0.001953125, while attention-normalized inputs and persistent state repeat

@@ -1,5 +1,7 @@
 # Native scheduler CPU diagnostic — registered 2026-11-16 UTC
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The completed hardware matrix shows concurrent TTFT regression despite similar
 aggregate prompt throughput. Exa's [official scheduler design](https://github.com/NVIDIA/spark-local-inference/blob/main/docs/scheduling-runtime-design.md)
 describes token-service fairness; the throughput preset retains it. The pinned

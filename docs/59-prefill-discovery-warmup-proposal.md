@@ -1,5 +1,7 @@
 # Candidate startup warmup for graph-cost discovery
 
+> Full MTP replay is complete (docs/62). Further research is paused; warmup is staged but unrun. Current production and safe resume instructions: [docs/63](63-production-pause-checkpoint.md).
+
 The first completed docs/55 balanced trace has76 complete request histories,
 1,129 contiguous completions, zero drops/truncation and clean native exits.
 In its first unequal burst, native request(1,1) finishes4096-token prefill at

@@ -1,5 +1,7 @@
 # Bounded scheduler mixed result — unresolved
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Window `bounded-retry-window-20261116T050000Z` completed all 75 requests and
 nine cases in each arm. Both used artifact 127424e9 / binary b2eb310b, corrected
 supervisor 41b65a5a, core df214696, four slots, MTP3, prefill 4096, reserve 4,

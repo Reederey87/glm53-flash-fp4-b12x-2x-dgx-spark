@@ -1,5 +1,7 @@
 # First Flare build and deployment attempt
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 This prerequisite window is authorized by the user's `go forward` and subsequent
 request to try the candidate on the cluster. It cannot establish adoption.
 

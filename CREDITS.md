@@ -38,11 +38,11 @@ upstream code.
 | [GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash) | Z.ai / Zhipu AI | MIT | The base model the checkpoint quantizes. |
 | Model Optimizer (QAD) | NVIDIA | Apache-2.0 | Produced the checkpoint's quantization; cited in the model card, not run by this kit. |
 
-## Consulted for qualification (no code copied)
+## Native Flare integration
 
 | Work | Author | License | How this kit uses it |
 |---|---|---|---|
-| [NVIDIA Flare (`flare-local-inference`)](https://github.com/NVIDIA/flare-local-inference) | NVIDIA Corporation | Apache-2.0 | Its `glm53` recipe pins the same checkpoint revision, which is how this kit establishes that Flare now supports the checkpoint. Its published TP2 capacity and package-size figures are cited in `docs/01-qualification.md` as *Flare's* numbers, not measurements from this pair. No Flare code is copied or executed by the kit. |
+| [NVIDIA Flare (`flare-local-inference`)](https://github.com/NVIDIA/flare-local-inference) | NVIDIA Corporation | Apache-2.0 | Production uses a pinned Flare checkout and compiled native artifact on the Sparks. This kit supplies launch/supervision, source patches and numerical/performance qualification fixtures; upstream source trees and binaries are not vendored. The selected native manifest and exact source revision are recorded in the release decision and receipts. Published capacities remain separate from measured local pools. |
 
 ## Derived from the author's earlier kit
 
@@ -56,8 +56,8 @@ upstream code.
   procedure: cache-cold prefill at 8k/16k/32k/64k/128k, decode with speculative
   acceptance at concurrency 1/2/4/8.
 - The `2,350,210` KV-token figure and the `~2.3k tok/s` prefill band are this
-  pair's own receipts (`receipts/speed-*.json`). Flare's `~1.1M` figure is
-  credited to Flare and labelled as such wherever it appears.
+  pair's own receipts (`receipts/speed-*.json`). Historical published Flare capacities are credited separately; current local
+  pools and their provisional floor are recorded in docs/63.
 
 ## If you reuse this kit
 

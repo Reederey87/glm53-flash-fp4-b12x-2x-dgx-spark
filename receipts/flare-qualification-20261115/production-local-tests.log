@@ -1,0 +1,22 @@
+.................................................................................{"event": "peer_drain", "unit": "worker.service", "outcome": "inactive", "elapsed_s": 9.816700185183436e-05}
+.{"schema": 1, "event": "native_exit", "action": "serve", "rank": 1, "invocation_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "native_pid": 456, "native_returncode": -9, "shutdown_requested": true, "forced_kill": true, "time": "2026-11-16T11:51:17.149408+00:00"}
+.{"event": "peer_drain", "unit": "worker.service", "outcome": "deadline", "elapsed_s": 30.0}
+.{"action": "serve", "rank": 0, "argv": ["fake-native-server"]}
+{"schema": 1, "event": "native_exit", "action": "serve", "rank": 0, "invocation_id": "75cb40e48c6d4e02a7fb139e0b489db9", "native_pid": 123, "native_returncode": 7, "shutdown_requested": true, "forced_kill": false, "time": "2026-11-16T11:51:17.152579+00:00"}
+{"action": "serve", "rank": 0, "argv": ["fake-native-server"]}
+{"schema": 1, "event": "native_exit", "action": "serve", "rank": 0, "invocation_id": "cbd7890748ff4fed946c212dfb075f35", "native_pid": 123, "native_returncode": -15, "shutdown_requested": true, "forced_kill": false, "time": "2026-11-16T11:51:17.154042+00:00"}
+.{"action": "serve", "rank": 0, "argv": ["fake-native-server"]}
+{"schema": 1, "event": "native_exit", "action": "serve", "rank": 0, "invocation_id": "2113cf1e49d64f5fa6cc81c27569a5e9", "native_pid": 123, "native_returncode": 0, "shutdown_requested": true, "forced_kill": false, "time": "2026-11-16T11:51:17.156147+00:00"}
+{"event": "peer_drain", "unit": "b12x-flare@1.service", "outcome": "probe_failed", "elapsed_s": 2.6749999960884452e-05}
+{"action": "serve", "rank": 0, "argv": ["fake-native-server"]}
+{"schema": 1, "event": "native_exit", "action": "serve", "rank": 0, "invocation_id": "1e7abd302a844acebb6c8ccd749339f4", "native_pid": 123, "native_returncode": 0, "shutdown_requested": true, "forced_kill": false, "time": "2026-11-16T11:51:17.157652+00:00"}
+{"event": "peer_drain", "unit": "b12x-flare@1.service", "outcome": "probe_timeout", "elapsed_s": 3.0333001632243395e-05}
+.{"action": "serve", "rank": 0, "argv": ["fake-native-server"]}
+{"schema": 1, "event": "native_exit", "action": "serve", "rank": 0, "invocation_id": "21f5a0aebd554818a1dc5d66a6602e1b", "native_pid": 123, "native_returncode": 0, "shutdown_requested": false, "forced_kill": false, "time": "2026-11-16T11:51:17.160284+00:00"}
+{"action": "serve", "rank": 0, "argv": ["fake-native-server"]}
+{"schema": 1, "event": "native_exit", "action": "serve", "rank": 0, "invocation_id": "0c314d6aed0a4764980ed3ddaca27edf", "native_pid": 123, "native_returncode": 0, "shutdown_requested": false, "forced_kill": false, "time": "2026-11-16T11:51:17.161649+00:00"}
+..............
+----------------------------------------------------------------------
+Ran 100 tests in 0.427s
+
+OK

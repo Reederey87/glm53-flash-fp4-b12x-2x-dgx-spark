@@ -1,5 +1,7 @@
 # Complete-layer replay on two Sparks — registered, unrun
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 This extends component qualification to representative complete layers on the
 actual two-host fabric. It does not claim full45-target-layer or MTP/vocabulary acceptance.
 The original upstream decoder test assumes local CUDA ordinals and PCIe IPC;

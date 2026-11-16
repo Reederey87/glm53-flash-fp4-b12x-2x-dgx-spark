@@ -1,5 +1,7 @@
 # Layer replay with the deployed expert precision
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The failed docs/39 fixture called `GlmWeightLoader` without expert_activation.
 Its default is A4, independently of the session's native_dense_activations flag.
 The pinned serving preparation resolves expert_activation=auto to A16 on SM121

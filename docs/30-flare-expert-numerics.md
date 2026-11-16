@@ -1,5 +1,7 @@
 # Remaining expert arithmetic gate
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 This registers the remaining A16/A4 component check without changing the native
 binary, accepted core, checkpoint, source pins or numerical bounds. It does not
 complete the separate full-model and state/capacity gates.

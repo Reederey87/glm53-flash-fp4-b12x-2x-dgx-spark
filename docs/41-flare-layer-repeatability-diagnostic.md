@@ -1,5 +1,7 @@
 # Layer output mismatch: matched-state repeatability diagnostic
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The docs/39 gate failed on both ranks at layer3/decode2 after all three layer0
 cases passed. Each reports2192/32768 values outside rtol0.01/atol0.001,
 maximum absolute difference0.015625. State, cross-rank output equality, routing

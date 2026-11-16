@@ -1,5 +1,7 @@
 # Fractional reserve support — local, not applied
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The latest observed pools remain below the 2,350,210-token production floor.
 Flare's native CLI accepts fractional binary sizes, but this kit accepted only
 integer reserves. The local launcher now accepts finite decimal GiB values at

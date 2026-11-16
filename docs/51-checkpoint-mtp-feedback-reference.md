@@ -1,5 +1,7 @@
 # Checkpoint MTP feedback reference
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The complete target and vocabulary gates do not exercise the draft layer's
 embedding/hidden feedback arithmetic. This isolated gate covers the unchanged
 first nine statements of pinned `PreparedMTP.__call__`: embedding and position

@@ -1,5 +1,7 @@
 # Native-activation Flare serving result — 2026-11-16 UTC
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 The completed three-repetition matrix **fails the registered concurrent prefill latency gate**. Decode aggregate throughput improves 7.4–13.9%, but 14 of 20 prefill points have separated per-request regressions of 7.6–37.5%. Aggregate prefill throughput stays within −1.8% to +2.0% of B12X. Faster aggregate work does not cancel the TTFT failure. No adoption.
 
 Runtime arm: frozen launcher f6a8f3e; Flare `5a4e867`, FlashInfer `4fd836dc`, checkpoint `76348ddb`; native-activation core df214696. Both engines use TP2, four execution slots, fixed MTP-3, prefill 4096, temperature 1/top-p .95, identical request bodies and tokenizer. Flare retains CP-off and reserve 4. The candidate client produced all 84 rows; strict comparison validated 315 matching request hashes, 225 exact cold prefills and 90 decodes of 200 tokens per engine. All three repetitions remain in the raw receipts.

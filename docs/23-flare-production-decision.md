@@ -1,12 +1,17 @@
-# Production decision package — qualification in progress
+# Production decision — explicitly approved provisional release
 
-The requested final state is the best qualified Flare candidate serving the
-cluster, verified startup/watchdog/reboot recovery, and the completed integration
-merged into main and pushed to GitHub. Production adoption is already authorized
-after qualification. This document records readiness; it does not declare the
-current trial production-ready or waive any existing gate.
+On 2026-11-16 the user explicitly adopted the current Flare candidate after its
+seven API checks and paused further research. This supersedes the earlier
+pre-adoption research gate. It does not waive or pass the unresolved numerical,
+capacity, quality and performance qualification. The exact hashed decision is
+`recipes/flare-production-decision-20261116.json`; current operational evidence
+and the resume checkpoint are in [docs/63](63-production-pause-checkpoint.md).
 
-## Latest candidate — qualification in progress
+The matrix below records the earlier qualification checkpoint. MTP replay has
+since passed (docs/62), generation remains partial (docs/53), and warmup remains
+unrun (docs/61). The release is approved-provisional, not fully qualified.
+
+## Selected candidate — research paused
 
 - Native manifest: `127424e92c1e5845697d85f3c34ce93fa632dd48bf3be491c868c50a9deb0243`.
 - Native executable: `b2eb310b9ec9009fa499086777d9ed90105b323db70da527242286dc0de026b9`.

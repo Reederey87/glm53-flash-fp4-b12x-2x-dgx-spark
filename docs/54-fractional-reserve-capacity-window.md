@@ -1,5 +1,7 @@
 # Fractional reserve and concurrent million-token admission
 
+> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+
 Docs/35 prepares fractional reserve parsing. The current4GiB runtime starts
 below the required2,350,210-token pool. This next independent serving experiment
 will compare4 against3.875GiB, a128MiB reserve reduction, with the selected

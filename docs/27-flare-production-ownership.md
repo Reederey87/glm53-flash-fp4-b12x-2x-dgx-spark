@@ -1,9 +1,10 @@
-# Production ownership implementation — not enabled
+# Flare production ownership
 
-Production adoption remains conditional on docs/23 and docs/26. These local
-files prepare boot and recovery without selecting the current candidate or
-changing running services. No production pin, decision or pending marker exists
-as a result of adding this code.
+The user explicitly approved provisional production on 2026-11-16 and paused
+further research. The owner, watchdog, proxy, release decision and both-rank pins
+are installed. Operational receipts and current status are in
+[docs/63](63-production-pause-checkpoint.md). The implementation history below
+retains the original qualification target; it is not evidence of completed research.
 
 ## Source evaluation
 
@@ -40,8 +41,9 @@ TensorFold server or checkpoint persistence is introduced by these files.
   separate qualification decision and exact per-rank recipe/core-state hashes,
   checks the executable provenance, waits for the peer, rejects an active B12X,
   stops stale native ranks, releases only candidate file-cache pages, and passes
-  the original90GiB free/100GiB available gate. It then waits for both ranks and
-  HTTP health and runs all seven API smoke checks as warmup.
+  the original90GiB free/100GiB available gate. It then dispatches the worker synchronously before the head, waits for both
+  ranks and HTTP health, and runs all seven API smoke checks as warmup. This
+  avoids inspecting a previous worker failure before the new invocation starts.
 - `b12x-flare-production-watchdog.timer` checks both native unit states and HTTP
   health. Two failed observations permit `try-restart` of an active owner only.
   A manual stop, maintenance, disabled owner, or startup transition is left
@@ -60,11 +62,11 @@ TensorFold server or checkpoint persistence is introduced by these files.
   its original unit. Keep the pending marker until independent image/API/smoke
   verification. Never run both endpoint proxies or both GPU startup owners.
 
-Seven local tests exercise manual-stop behavior, healthy reset, persistent budgets,
+Twelve local tests exercise manual-stop behavior, healthy reset, persistent budgets,
 clock rollback, corrupt ledgers, pin drift and an unqualified decision. Shell
-syntax passes. Systemd validation, installed-path checks, real failure recovery,
-endpoint smoke and controlled reboot remain hardware gates. These files are
-not yet installed or enabled, and no successful reboot is claimed.
+syntax passes. Installed-path checks, real watchdog recovery, endpoint smoke
+and a controlled two-node reboot subsequently passed in the approved adoption
+window. Exact operational results and retained failures are recorded in docs/63.
 
 ## Startup capacity enforcement
 
@@ -73,7 +75,9 @@ least 2,350,210 tokens, with consistent positive page/token geometry. A pinned
 recipe alone cannot guarantee this because native allocation uses observed host
 memory. Missing, duplicate, malformed or below-floor metrics fail startup and
 invoke the owner's existing cleanup; the guarded fallback remains responsible
-for restoration. This check is local and not installed during the running test.
+for restoration. The approved provisional decision explicitly uses a 2,300,000-token startup
+floor, with 2,350,210 retained as the open full-qualification target. Missing
+approval or open gates cannot authorize this exception.
 
 Exa confirmed the [native metrics contract](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/api.md);
 pinned `helios/src/server/metrics.rs` defines total pages as the per-rank pool and
