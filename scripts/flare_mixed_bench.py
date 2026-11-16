@@ -101,6 +101,8 @@ def main():
     parser.add_argument('--tokenizer', required=True, type=Path)
     parser.add_argument('--run-id', required=True)
     parser.add_argument('--out', required=True, type=Path)
+    parser.add_argument('--reps', type=int, choices=(1, 3), default=3,
+                        help='1 is diagnostic only; performance qualification requires 3')
     args = parser.parse_args()
     base = args.base.rstrip('/')
     vocab = vocabulary(args.tokenizer)
@@ -112,7 +114,7 @@ def main():
             output.flush()
         emit({'manifest': {'schema': 1, 'policy': args.policy, 'run_id': args.run_id,
               'tokenizer_sha256': hashlib.sha256(args.tokenizer.read_bytes()).hexdigest(),
-              'reps': 3, 'slot_cap': 4, 'temperature': 1, 'top_p': .95,
+              'reps': args.reps, 'slot_cap': 4, 'temperature': 1, 'top_p': .95,
               'qualification': 'matched observations; delivery gaps are not per-token gaps'}})
         def make(rep, case, name, length, budget):
             identity = [args.run_id, rep, case, name]
@@ -121,7 +123,7 @@ def main():
                     'prompt': prompt_ids(vocab, length, identity), 'max_tokens': budget}
         warm = make(-1, 'warm', 'warm', 128, 8)
         stream(base, '/v1/completions', warm)
-        for rep in range(3):
+        for rep in range(args.reps):
             for case in ('unequal_burst', 'short_arrivals', 'decode_overlap'):
                 items = []
                 if case == 'unequal_burst':
@@ -185,7 +187,7 @@ def main():
                       'wall_s': time.monotonic()-epoch, 'request_count': len(rows),
                       'overlap': overlap, 'speculative_delta': delta})
                 print(f'{case} rep{rep}: {len(rows)} requests completed', flush=True)
-        emit({'complete': True, 'cases': 9, 'requests': 75})
+        emit({'complete': True, 'cases': 3*args.reps, 'requests': 25*args.reps})
 
 
 if __name__ == '__main__':

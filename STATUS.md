@@ -1,5 +1,14 @@
 # Status
 
+## 2026-11-16 UTC — Latency candidate rejected; B12X restored
+
+- Untraced mixed gate completed75 requests/9 cases but rejects latency policy:
+  decoder maximum delivery-gap median worsens57.55%; a late short arrival waits
+  about36s in two reps. Full speed/lifecycle gates were not run after failure.
+- Restored both original B12X images, health200, fresh smoke5/5 and active
+  watchdog/tailnet. Both native ranks inactive; fallback disarmed03:11:00 UTC.
+  Both runtime ledgers append rollback selection. See docs/22 and receipts.
+
 ## 2026-11-16 UTC — Latency qualification and production delivery target
 
 - Registered docs/22 and staged corrected lifecycle/client bytes atomically on

@@ -6,7 +6,7 @@ merged into main and pushed to GitHub. Production adoption is already authorized
 after qualification. This document records readiness; it does not declare the
 current trial production-ready or waive any existing gate.
 
-## Exact candidate under evaluation
+## Latest candidate — rejected for production
 
 - Native manifest: `406f7d0387b39d6e2c0945c297f82e771df7fba792725f38a46503c34f930a63`.
 - Native executable: `6686043d88badbdbb2d152d3d6174a3ca1405fddcc2e6dc34097a3d8667d50c4`.
@@ -22,7 +22,7 @@ current trial production-ready or waive any existing gate.
 | Requirement | Current evidence | Remaining decision evidence |
 | --- | --- | --- |
 | API and model identity | Balanced7/7 API checks; exact core/binary on both ranks | Same checks on selected final arm and production endpoint |
-| Prompt latency and decode speed | Balanced native trace confirms interleaving; complete balanced mixed control75 requests/9 cases | Latency trace and matched mixed/full speed gates; retain every failed or inconclusive point |
+| Prompt latency and decode speed | Balanced native trace confirms interleaving; complete balanced mixed control75 requests/9 cases | Latency trace improves completion order, but untraced mixed gate fails decode gaps and late short arrivals. Correct and requalify; full speed gate remains open |
 | Numerical correctness | Native activation component49/49; full scale population audit19,025,362,944 values | Full-model arithmetic, A16/A4, sparse-selection and speculative-state qualification |
 | Context and capacity | Candidate2,295,552 KV tokens versus incumbent2,350,210 | Resolve2.33% capacity shortfall and verify long-context admission/retrieval |
 | Memory | Completed controls passed sampled bounds | Selected arm passes full workload and lifecycle recovery bounds |

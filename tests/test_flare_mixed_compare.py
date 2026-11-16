@@ -39,6 +39,14 @@ def fixture(policy):
 
 
 class MixedComparisonTests(unittest.TestCase):
+    def test_diagnostic_repetition_cannot_pass_qualification(self):
+        rows = fixture('latency')
+        rows[0]['manifest']['reps'] = 1
+        rows = [r for r in rows if r.get('rep', 0) == 0]
+        rows[-1] = {'complete': True, 'cases': 3, 'requests': 25}
+        with self.assertRaises(ValueError):
+            self.read(rows, 'latency')
+
     def read(self, records, policy='balanced'):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)/'fixture.jsonl'

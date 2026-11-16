@@ -73,7 +73,21 @@ kill, with matching invocation identities; this was idle shutdown after the
 probe, not the loaded-shutdown gate. Receipts are `latency-*` under the existing
 qualification directory, including raw trace, client rows and comparison.
 
-The fresh trace-off restart verifies the same executable and latency argv on
-both ranks. API smoke passed7/7, and the matched75-request mixed client is live.
-The restoration deadline remains05:41:30 UTC. The full84-row performance gate,
-loaded lifecycle and broader production requirements remain open.
+## Mixed gate rejected; restoration complete
+
+The fresh trace-off restart verified the same executable and latency argv on
+both ranks; API smoke passed7/7. All75 requests/9 cases completed with actual
+client exit0 and matching hashes. The strict comparison rejects this policy:
+maximum decoder delivery gaps increased from0.958–0.969s to1.296–1.544s,
+about57.55% at the median for both streams, with separated distributions.
+The last short arrival waited36.16–36.20s in two repetitions versus1.27s in the
+third; balanced was1.37–1.47s. This overlapping median regression also requires
+investigation. Prompt completion gains do not override either failure.
+
+The full84-row matrix and loaded shutdown were not run after the failed gate.
+B12X restoration completed with actual exit0. At03:10:59 UTC both original
+images were verified, health200 and fresh smoke5/5 passed, watchdog/tailnet were
+active and both native ranks had no process. The fallback was disarmed at
+03:11:00 UTC. Both ledgers append upstream/balanced/trace-off rollback selection.
+Raw failed measurements, comparison, final memory observations and restoration
+receipts are retained as `latency-*` in the qualification directory.
