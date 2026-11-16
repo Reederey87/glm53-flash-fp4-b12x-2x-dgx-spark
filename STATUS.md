@@ -1,3 +1,7 @@
+## 2026-11-16 UTC — Same-selection layer arithmetic passes; receipt retry prepared
+
+- Both ranks pass all9 original-bound cases (95.37s/94.74s). The4096-token selector sets are identical but ordered differently; matching order makes every observed intermediate exact.21 memory samples pass. A stale expected test-name prefix makes the wrapper reject these pytest0 results; docs/47 freezes a full unchanged-fixture rerun with the corrected validator.
+
 ## 2026-11-16 UTC — Matched-state replay diagnosis
 
 - Docs/45 retained nine observations/rank: eager, Python graph and native graph all vary at attention by max0.001953125; normalized inputs/state repeat and all values are finite. Both original assertions fail;12 memory samples pass. Docs/46 prepares the pinned MLA same-selection reference contract for complete layers; no serving arithmetic or tolerance change.

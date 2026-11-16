@@ -34,7 +34,7 @@ replay coverage, not an independent mathematical-reference comparison, exported
 core equivalence, MTP generation or full state-reuse acceptance. Those gates
 remain separate; do not infer them from these two cases.
 
-Register `target-roce-window-20261116T130000Z` only after docs/42 passes9/9 on each
+Register `target-roce-window-20261116T130000Z` only after docs/46–47 same-selection layer qualification passes9/9 on each
 rank and closes with independently verified B12X restoration and fallback off.
 Use the existing private qualification extension, pinned checkpoint/source and
 installed FlashInfer; no serving artifact, package, driver or kernel change.

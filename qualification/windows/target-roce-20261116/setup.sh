@@ -2,7 +2,7 @@
 set -euo pipefail
 r=/home/nvidia/b12x-flare
 w=$r/local/target-roce-window-20261116T130000Z
-prior=$r/local/layer-native-window-20261116T150000Z
+prior=$r/local/layer-verified-window-20261116T180000Z
 [[ -f "$prior/restoration-verified.txt" && -f "$prior/fallback-disarmed.txt" && -f "$prior/layer-gate-passed.txt" ]]
 mkdir "$w"
 cp -n "$r/.env" "$w/head-env-before.private"

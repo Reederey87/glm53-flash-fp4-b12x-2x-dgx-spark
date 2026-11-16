@@ -42,7 +42,7 @@ uv run --offline --no-project --python /usr/bin/python3 python - "$out" "$rank" 
 import json,sys,xml.etree.ElementTree as ET
 from pathlib import Path
 p=Path(sys.argv[1]);cases=ET.parse(p/'layers.xml').findall('.//testcase')
-expected={f'test_two_host_layer_a16_replay[{l}-{m}-{c}]' for l in (0,3,4) for m,c in [('decode',2),('prefill',65),('prefill',4096)]}
+expected={f'test_two_host_layer_matched_replay[{l}-{m}-{c}]' for l in (0,3,4) for m,c in [('decode',2),('prefill',65),('prefill',4096)]}
 bad=[c.attrib['name'] for c in cases if any(c.find(t) is not None for t in ('failure','error','skipped'))]
 passed=len(cases)==9 and {c.attrib['name'] for c in cases}==expected and not bad and (p/'pytest-exit.txt').read_text().strip()=='0'
 result={'rank':int(sys.argv[2]),'cases':len(cases),'bad_cases':bad,'passed':passed,
