@@ -48,3 +48,14 @@ exit0 are required. Memory readiness/watchdog/OnFailure,90-minute fallback,
 Start only after independently verified docs/45 B12X closure. Confirm restoration,
 fresh5/5 smoke, both original images, API/watchdog/tailnet and no test/native
 processes before disarming fallback. Full-target replay remains subsequent work.
+
+## First hardware observation
+
+All9 pytest cases pass on both ranks. In both4096-token comparisons (one/four
+replays), selected pool sets match exactly while order differs. With the native
+order, every intermediate and final layer output is bit-exact on both ranks;
+uncorrected final-output maximum differences were0.3701171875/0.39892578125.
+No cutoff-tie substitution was needed for these observed sets. This identifies
+selection order as the discrepancy in this case. The wrapper-name rejection
+and clean rerun are retained separately in docs/47. It does not establish
+whole-model quality or eliminate every possible sparse-selection boundary case.

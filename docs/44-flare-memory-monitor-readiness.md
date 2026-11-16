@@ -23,7 +23,7 @@ memory violations keep the existing immediate restoration path. New GPU windows
 use Type=notify, NotifyAccess=all (Python can be uv's child),30-second startup
 and watchdog limits, LimitCORE=0 and OnFailure naming the pre-armed restoration
 service. A parser failure, crash or heartbeat stall therefore prevents launch
-or independently restores B12X. Normal intentional monitor stop is not failure.
+or independently restores B12X. The uv wrapper can report143 on an intentional stop, which systemd records as failure and may dispatch the already-running restoration service again. The restoration target is idempotent; the window does not treat this as a memory violation. Do not suppress unexpected monitor termination merely to hide this status.
 No memory threshold, serving source, precision or driver changes. Legacy use
 without NOTIFY_SOCKET retains its existing behavior.
 
@@ -49,4 +49,4 @@ CPU probes passed at06:58:19 UTC. Retained terminal evidence shows healthy exit0
 invalid startup exit2, stalled service Result=watchdog, and both receipt fallback
 services exit0. All probe timers/units were stopped. Aborted-window B12X recovery
 subsequently verified with fresh5/5 smoke and original images before closing its
-fallback. The protected layer-native retry is running; no numerical result yet.
+fallback. The protected layer-native retry subsequently failed its numerical assertion; its guard remained healthy. The retained failure and verified recovery are documented in docs/45.

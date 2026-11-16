@@ -1,3 +1,7 @@
+## 2026-11-16 UTC — Layer wrapper retry and verified recovery
+
+- Initial same-selection window independently restored both original B12X images and passed fresh5/5 smoke at07:29:37 UTC; fallback disarmed. The corrected-name wrapper now runs the identical nine-case fixture behind the tested memory guard; complete-target files are staged but remain gated.
+
 ## 2026-11-16 UTC — Same-selection layer arithmetic passes; receipt retry prepared
 
 - Both ranks pass all9 original-bound cases (95.37s/94.74s). The4096-token selector sets are identical but ordered differently; matching order makes every observed intermediate exact.21 memory samples pass. A stale expected test-name prefix makes the wrapper reject these pytest0 results; docs/47 freezes a full unchanged-fixture rerun with the corrected validator.
