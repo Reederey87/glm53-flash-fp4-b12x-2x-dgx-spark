@@ -1,0 +1,9 @@
+{
+  "rank": 1,
+  "cases": 5,
+  "bad_cases": [],
+  "passed": true,
+  "reference": "same-operator Python/Rust full draft and absorption replay",
+  "fresh_process_per_capacity": true,
+  "scope": "draft composition and absorption; independent component references and full-target gates separate"
+}

@@ -1,3 +1,5 @@
+2026-11-16 UTC: Full checkpoint MTP draft/absorption replay passed5/5 cases on both Sparks, original assertions unchanged;53 healthy memory observations. Recovery/fresh-smoke underway (docs/62). Warmup-only mechanism window frozen/staged, unrun (docs/61).
+
 2026-11-16 UTC: Completed native diagnostic restored original B12X on both nodes; independent5/5/API/watchdog/tailnet verified and fallback closed10:58:35. Guarded full-MTP replay retry now running after both-node CPU tracing/serialization passes (docs/58,60).
 
 ## 2026-11-16 UTC — Complete scheduling diagnosis retained
