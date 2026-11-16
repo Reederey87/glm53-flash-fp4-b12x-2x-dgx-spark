@@ -10,6 +10,9 @@
   qualification remains open; earlier service status is not native exit proof.
 - Both native ranks stopped after the diagnostic. The existing04:57 UTC fallback
   remains armed for the next registered scheduler arms; no production adoption.
+- The untraced balanced restart passed7 API checks; matched mixed workloads are
+  running with memory enforcement. Added the strict offline75-request comparator
+  after Exa measurement review;65 local tests pass.
 
 ## 2026-11-16 UTC — Bounded native completion capture prepared
 

@@ -72,3 +72,17 @@ native nonzero/signal/forced-kill outcomes and stale or incomplete receipts.
 Freeze and stage these supervisor/client bytes before the next start; both
 untraced policy arms use the corrected supervisor. Existing docs/18–20 gates,
 restoration deadline04:57 UTC and rollback remain unchanged.
+
+## Mixed comparison audit
+
+Exa rechecked the [official vLLM latency definitions](https://docs.vllm.ai/en/stable/benchmarking/cli/)
+against local `vllm/benchmarks/serve.py`: speculative streaming gaps and per-request
+TPOT have different denominators. `flare_mixed_compare.py` validates all75 matched
+request identities and9 completed cases per arm, including zero cache hits,
+arrival offsets, complete output budgets, recomputed gaps and observed decoder
+overlap. It preserves three repetitions for every request role and applies the
+previously registered separated/median2% rules. It reports end-to-end completion
+rate separately from inverse amortized TPOT `(tokens-1)/(elapsed-TTFT)`; neither
+invents token timestamps inside a burst. Four additional tests reject incomplete,
+corrupt or mismatched evidence and exercise both metric directions. All65 local
+tests pass. This offline tool does not alter the already frozen live client.
