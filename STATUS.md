@@ -1,8 +1,12 @@
 # Status
 
+## 2026-11-16 UTC — Long-output comparison running
+
+- Frozen docs/37 window started after verified MLA closure. Preflight caught an older comparator before B12X stop; staged the reviewed helper (only diagnostic-loader additions; distribution rule unchanged). Balanced7/7 API checks passed; pool2,343,168 remains below floor. First four cold prompts completed256 outputs each; all memory samples pass so far. Separate two-host complete-layer replay adaptation is prepared but unrun (docs/39).
+
 ## 2026-11-16 UTC — Corrected MLA observation passes
 
-- All6 TP2 native-activation MLA cases passed in30.59s with zero skips/errors/failures and unchanged exact stage/state/selection/allocation assertions. Existing final outputs had already matched; exposing the actual attended return resolves the diagnostic placeholder defect. Seven memory samples passed and runtime ledgers/core/supervisor stayed unchanged. Fresh B12X restoration verification pending.
+- All6 TP2 native-activation MLA cases passed in30.59s with zero skips/errors/failures and unchanged exact stage/state/selection/allocation assertions. Existing final outputs had already matched; exposing the actual attended return resolves the diagnostic placeholder defect. Seven memory samples passed and runtime ledgers/core/supervisor stayed unchanged. B12X restoration verified06:04:45 UTC with fresh5/5 smoke, original images and healthy API/watchdog/tailnet; fallback disarmed06:04:46 UTC.
 
 ## 2026-11-16 UTC — MLA diagnostic return defect isolated
 

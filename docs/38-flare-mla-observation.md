@@ -64,3 +64,6 @@ Corrected hardware result: all6 cases passed in30.59s, pytest exit0, no skips
 or relaxed bounds. All7 two-node memory samples passed; both ledgers, accepted
 core and supervisor hashes unchanged. The original failing control stays retained.
 B12X restoration is running; fallback remains armed until independent closure.
+
+Restoration independently verified06:04:45 UTC: original images, fresh5/5 smoke,
+API/watchdog/tailnet and absent native PIDs; fallback disarmed06:04:46 UTC.
