@@ -1,0 +1,11 @@
+[Unit]
+Description=Periodic Flare production health check
+
+[Timer]
+OnBootSec=3min
+OnUnitInactiveSec=30s
+AccuracySec=1s
+Unit=b12x-flare-production-watchdog.service
+
+[Install]
+WantedBy=timers.target

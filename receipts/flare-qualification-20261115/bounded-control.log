@@ -1,0 +1,400 @@
+   Compiling flare-selene v0.1.0 (/home/nvidia/b12x-flare/local/bounded-scheduler-20261116T041500Z-control/selene)
+   Compiling flare-eos v0.1.0 (/home/nvidia/b12x-flare/local/bounded-scheduler-20261116T041500Z-control/eos)
+   Compiling flare-helios v0.1.0 (/home/nvidia/b12x-flare/local/bounded-scheduler-20261116T041500Z-control/helios)
+   Compiling flare-selene-manager v0.1.0 (/home/nvidia/b12x-flare/local/bounded-scheduler-20261116T041500Z-control/selene-manager)
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+  --> src/frontend/images/conditioned.rs:58:14
+   |
+58 |             .fetch_update(Relaxed, Relaxed, |used| {
+   |              ^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+help: replace the use of the deprecated method
+   |
+58 -             .fetch_update(Relaxed, Relaxed, |used| {
+58 +             .try_update(Relaxed, Relaxed, |used| {
+   |
+
+warning: unused import: `ModelOutput`
+    --> src/grammar.rs:1135:27
+     |
+1135 |             Event, Input, ModelOutput, OutputConfig, OutputPipeline, Termination,
+     |                           ^^^^^^^^^^^
+     |
+     = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+   --> src/offload/transfer.rs:784:13
+    |
+784 |         let mut pool =
+    |             ----^^^^
+    |             |
+    |             help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `generation`
+    --> src/server/runtime/phase_tests.rs:2777:5
+     |
+2777 |     generation: u64,
+     |     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_generation`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `validate_chat_template` is never used
+  --> src/frontend/mod.rs:29:15
+   |
+29 | pub(crate) fn validate_chat_template(source: &str) -> Result<()> {
+   |               ^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:534:13
+    |
+534 |             worker.admit().unwrap();
+    |             ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(unused_must_use)]` (part of `#[warn(unused)]`) on by default
+help: use `let _ = ...` to ignore the resulting value
+    |
+534 |             let _ = worker.admit().unwrap();
+    |             +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:600:5
+    |
+600 |     worker.admit().unwrap();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+600 |     let _ = worker.admit().unwrap();
+    |     +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:608:5
+    |
+608 |     worker.admit().unwrap();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+608 |     let _ = worker.admit().unwrap();
+    |     +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:628:5
+    |
+628 |     worker.admit().unwrap();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+628 |     let _ = worker.admit().unwrap();
+    |     +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:670:5
+    |
+670 |     worker.admit().unwrap();
+    |     ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+670 |     let _ = worker.admit().unwrap();
+    |     +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:749:9
+    |
+749 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+749 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:771:9
+    |
+771 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+771 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:829:9
+    |
+829 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+829 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:832:9
+    |
+832 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+832 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:911:9
+    |
+911 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+911 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:932:9
+    |
+932 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+932 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:945:17
+    |
+945 |                 worker.admit().unwrap();
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+945 |                 let _ = worker.admit().unwrap();
+    |                 +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:950:17
+    |
+950 |                 worker.admit().unwrap();
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+950 |                 let _ = worker.admit().unwrap();
+    |                 +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:984:9
+    |
+984 |         worker.admit().unwrap();
+    |         ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+984 |         let _ = worker.admit().unwrap();
+    |         +++++++
+
+warning: unused `ControlFlow` that must be used
+   --> src/server/runtime/phase_tests.rs:998:13
+    |
+998 |             worker.admit().unwrap();
+    |             ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: use `let _ = ...` to ignore the resulting value
+    |
+998 |             let _ = worker.admit().unwrap();
+    |             +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:1010:13
+     |
+1010 |             worker.admit().unwrap();
+     |             ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+1010 |             let _ = worker.admit().unwrap();
+     |             +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:1034:9
+     |
+1034 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+1034 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:1037:9
+     |
+1037 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+1037 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:2332:5
+     |
+2332 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+2332 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:2937:9
+     |
+2937 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+2937 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:2967:5
+     |
+2967 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+2967 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:2983:5
+     |
+2983 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+2983 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3004:5
+     |
+3004 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3004 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3022:5
+     |
+3022 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3022 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3104:5
+     |
+3104 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3104 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3285:9
+     |
+3285 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3285 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3301:9
+     |
+3301 |         worker.admit().unwrap();
+     |         ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3301 |         let _ = worker.admit().unwrap();
+     |         +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3336:5
+     |
+3336 |     worker.admit().unwrap();
+     |     ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3336 |     let _ = worker.admit().unwrap();
+     |     +++++++
+
+warning: unused `ControlFlow` that must be used
+    --> src/server/runtime/phase_tests.rs:3682:13
+     |
+3682 |             worker.admit().unwrap();
+     |             ^^^^^^^^^^^^^^^^^^^^^^^
+     |
+help: use `let _ = ...` to ignore the resulting value
+     |
+3682 |             let _ = worker.admit().unwrap();
+     |             +++++++
+
+warning: `flare-helios` (lib test) generated 34 warnings (run `cargo fix --lib -p flare-helios --tests` to apply 3 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 41.61s
+     Running unittests src/lib.rs (/home/nvidia/b12x-flare/local/scheduler-lab-20261116T005600Z/target/debug/deps/flare_helios-27978a13a4472a43)
+
+running 7 tests
+test scheduler::policy_tests::prefill_latency_tests::active_decode_preserves_balanced_prefill_competition ... ok
+test scheduler::policy_tests::prefill_latency_tests::cancelled_favored_prompt_does_not_block_remaining_requests ... ok
+test scheduler::policy_tests::prefill_latency_tests::continuing_short_arrivals_do_not_starve_an_old_long_prompt ... ok
+test scheduler::policy_tests::prefill_latency_tests::equal_long_prompts_complete_earlier_without_extra_prompt_work ... PREFILL_LATENCY count=1 balanced_chunks=[8] latency_chunks=[8]
+PREFILL_LATENCY count=2 balanced_chunks=[15, 16] latency_chunks=[8, 16]
+PREFILL_LATENCY count=4 balanced_chunks=[29, 30, 31, 32] latency_chunks=[8, 16, 24, 32]
+ok
+test scheduler::policy_tests::prefill_latency_tests::late_short_arrival_does_not_wait_for_older_long_completion ... LATE_SHORT wait_ns=267300000 long_consumed=32768
+
+thread 'scheduler::policy_tests::prefill_latency_tests::late_short_arrival_does_not_wait_for_older_long_completion' (2468022) panicked at src/scheduler/prefill_latency_tests.rs:141:5:
+new short work waited for old long completion
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+test scheduler::policy_tests::prefill_latency_tests::unequal_prompts_favor_less_remaining_work ... ok
+test scheduler::policy_tests::prefill_latency_tests::unmeasured_prompt_shapes_retain_discovery_and_make_progress ... ok
+
+failures:
+
+failures:
+    scheduler::policy_tests::prefill_latency_tests::late_short_arrival_does_not_wait_for_older_long_completion
+
+test result: FAILED. 6 passed; 1 failed; 0 ignored; 0 measured; 1017 filtered out; finished in 4.14s
+
+error: test failed, to rerun pass `--lib`

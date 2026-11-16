@@ -1,5 +1,10 @@
 # Status
 
+## 2026-11-16 UTC — Bounded scheduler built; untraced mixed gate running
+
+- Original age-policy control reproduced the late-short assertion failure; its other6 tests passed. Bounded native scheduler320, dashboard13, metrics4, config2 and CLI1 checks passed (2 manual benchmarks ignored), then release build passed with unchanged locks. Artifact127424e9 / binaryb2eb310b is verified on both nodes. A mistyped commit suffix in the invocation was corrected in a new immutable manifest after checking frozen Git input hashes; original provenance retained.
+- Guarded041500Z window is comparing both policies with the same binary, trace off, fixed core and memory limits. Balanced passed7/7 API checks; performance remains pending. Local production owner/watchdog/pin/rollback files are prepared but not installed or enabled;72 Python tests pass. See docs/26–27.
+
 ## 2026-11-16 UTC — Mixed native diagnosis complete; bounded correction prepared
 
 - Both captures are complete and loss-free with matched25 requests/360658 prompt tokens. Latency selected measured3072-token prefill steps taking1.38–1.43s during decode, explaining native/client gaps near1.5s. Balanced used smaller steps. The earlier36s late-short delay did not recur and is not claimed reproduced.

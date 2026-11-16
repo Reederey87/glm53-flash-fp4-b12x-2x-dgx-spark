@@ -1,0 +1,18 @@
+[Unit]
+Description=Expose qualified Flare on the existing tailnet API port
+After=network-online.target b12x-flare-production.service
+Wants=network-online.target
+
+[Service]
+Type=exec
+Environment=HOME=/home/nvidia
+Environment=XDG_RUNTIME_DIR=%t
+Environment=PATH=/home/nvidia/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+ExecStart=/home/nvidia/.local/bin/uv run --offline --no-project --python /usr/bin/python3 /home/nvidia/b12x-flare/scripts/tailscale_proxy.py --target-port 8001
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=10
+KillMode=control-group
+
+[Install]
+WantedBy=default.target
