@@ -15,15 +15,15 @@ checkpoint A4/A8 arithmetic and exllamav3's shape/dtype-specific recurrent-state
 ownership. None is a substitute for hardware results on this recipe. Changing
 kernel precision or adopting another engine is a separate candidate.
 
-`qualification/run_expert_numerics.sh` selects54 unchanged upstream cases:
+`qualification/run_expert_numerics.sh` selects 54 unchanged upstream cases:
 
-- Eight declared-precision poisoned-scale replays,128/4096 tokens, both ID
-  dtypes and implicit/explicit declarations. A16 inline/expanded equality at128;
-  at4096, original max-absolute0.0625 and RMSE1.1e-4; A4 relative error<0.004.
+- Eight declared-precision poisoned-scale replays, 128/4096 tokens, both ID
+  dtypes and implicit/explicit declarations. A16 inline/expanded equality at 128;
+  at 4096, original max-absolute 0.0625 and RMSE 1.1e-4; A4 relative error <0.004.
 - Twenty-one A4 float64-emulation cases, retaining calibrated scales, SwiGLU
-  variants and original relative error<0.004.
+  variants and original relative error <0.004.
 - Twenty-four native expert compressed/plain comparisons with poisoned shared
-  scratch, A4/A16, live counts1/17/33 and four intermediate widths.
+  scratch, A4/A16, live counts 1/17/33 and four intermediate widths.
 - One planned A16 scale-expansion replay across live counts.
 
 Require every selected case to execute and pass, with zero skips and exact count.
@@ -42,9 +42,9 @@ URL revision and actual SM121 GPU before running. It never changes the serving
 extension or accepted core.
 
 Execution must wait until the active performance window closes. A separate
-60-minute B12X restoration timer, snapshots, idle containers/ranks,90GiB free
-and100GiB available on both nodes precede the test unit. The test timeout is40
+60-minute B12X restoration timer, snapshots, idle containers/ranks, 90 GiB free
+and 100 GiB available on both nodes precede the test unit. The test timeout is 40
 minutes. The fallback must stop the exact qualification unit before restoration.
-Afterward require original B12X images, fresh5/5 smoke, health, watchdog/tailnet
+Afterward require original B12X images, fresh 5/5 smoke, health, watchdog/tailnet
 and no native processes before disarming. Record concrete unit names and time
 before starting. This registration alone is not a test result.

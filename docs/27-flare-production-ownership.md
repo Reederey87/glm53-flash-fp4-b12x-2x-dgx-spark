@@ -65,10 +65,11 @@ clock rollback, corrupt ledgers, pin drift and an unqualified decision. Shell
 syntax passes. Systemd validation, installed-path checks, real failure recovery,
 endpoint smoke and controlled reboot remain hardware gates. These files are
 not yet installed or enabled, and no successful reboot is claimed.
-# Startup capacity enforcement
+
+## Startup capacity enforcement
 
 The production readiness check now requires fresh reported pool capacity of at
-least2,350,210 tokens, with consistent positive page/token geometry. A pinned
+least 2,350,210 tokens, with consistent positive page/token geometry. A pinned
 recipe alone cannot guarantee this because native allocation uses observed host
 memory. Missing, duplicate, malformed or below-floor metrics fail startup and
 invoke the owner's existing cleanup; the guarded fallback remains responsible
