@@ -53,3 +53,9 @@ overlapping ranges; none is separated. Cohort median119.258→119.561s (+0.254%)
 8k p95 delivery gap+2.36% and maximum gap+4.91%. This does not close the original
 mixed/full performance gate. Full observations and per-request sidecars are
 retained as `long-output-eos-*`. Recovery verification is pending separately.
+
+Recovery subsequently passed independent5/5 B12X smoke, original images on both
+nodes, healthy API/watchdog/tailnet and absence of native processes. Exact
+restore/smoke invocation IDs and terminal statuses are retained in
+`long-output-eos-restoration-verified.txt`; fallback disarm follows in its own
+receipt. This closes the window, not the unresolved performance points.

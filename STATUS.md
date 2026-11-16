@@ -1,5 +1,9 @@
 # Status
 
+## 2026-11-16 UTC — Stress recovery verified; deployed A16 layer gate running
+
+- Independent stress-window B12X recovery passed fresh5/5 smoke, original images on both nodes, API/watchdog/tailnet and absent native PIDs. Closure receipts retained and fallback disarmed. Frozen docs/42 nine-case A16/calibrated-A4 layer gate is now running on both nodes, with source hashes verified and its90-minute fallback armed. Full-target docs/43 remains gated on success and verified recovery.
+
 ## 2026-11-16 UTC — Fixed-output comparison completes
 
 - Both policies completed12 cold requests with256 outputs, every finish reason length, both native exits0/no forced kill and70 passing memory samples per arm. Strict local revalidation matched the remote comparison.13/17 points show no adverse median over2%; four require repetition, none is a separated regression. Cohort median119.258→119.561s (+0.254%);32k TTFT41.232→44.244s (+7.31%, overlapping ranges). This is complete stress evidence, not a performance pass. B12X restoration and independent smoke are running.
