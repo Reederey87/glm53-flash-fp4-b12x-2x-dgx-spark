@@ -41,3 +41,9 @@ API/watchdog/tailnet and fresh5/5 before closing fallback. Capacity still requir
 both a successful MTP gate and the unresolved ABBA performance gate.
 
 Local syntax and unchanged numerical-body checks pass. GPU retry is unrun.
+
+The failed compilation window independently restored B12X/fresh5/5 at10:04:42 UTC.
+Both failed test wrappers are stopped; restore56f481148da64e1ba655c193f284946f and
+smoke042191196cb447dd859c021dd6a7a4c6 ended with actual exit0/PID0. Fallback closed.
+The frozen AOT retry started10:04 UTC, controller6cb980dd2d6d4b8aa6ece086d6bb4b23,
+with both-node source hashes checked and90-minute fallback armed. Results pending.

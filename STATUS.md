@@ -1,3 +1,8 @@
+## 2026-11-16 UTC — Production-capture MTP retry running
+
+- Failed FX-compile window independently restored original B12X images and fresh5/5 at10:04:42 UTC; both test wrappers stopped and fallback closed.
+- Frozen AOT MTP retry now runs the unchanged five-case numerical assertions through the serving capture pipeline, with separate memory/fallback protection.
+
 ## 2026-11-16 UTC — MTP fixture aligned with production capture
 
 - Interface binding succeeds; both first cases then fail before replay in the legacy FX tracer at raw Triton residual RMSNorm. No numerical result; failed receipts retained and B12X restoration underway.
