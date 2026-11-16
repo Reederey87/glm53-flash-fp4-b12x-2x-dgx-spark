@@ -34,7 +34,7 @@ case "${1:-}" in
     "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_release_file_cache.py"
     "${peer[@]}" "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_release_file_cache.py"
     ENV_FILE=/home/nvidia/b12x/.env "$ROOT/scripts/wait_memory.sh" 600 </dev/null
-    systemctl --user start b12x-flare@0.service
+    "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_production.py" start-ranks
     "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_production.py" ready
     # Warm and verify the actual API, including default reasoning and recovery.
     snapshot=/home/nvidia/.cache/huggingface/hub/models--nvidia--GLM-5.3-Flash-FP4-Local/snapshots/76348ddb2be2e35e39ecfc00e75dc07703f4f3d5

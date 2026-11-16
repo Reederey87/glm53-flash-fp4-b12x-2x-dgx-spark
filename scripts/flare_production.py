@@ -101,9 +101,19 @@ def startup_progress(states, started):
     return started
 
 
+def start_ranks():
+    # Dispatch a fresh worker invocation before readiness can inspect a retained
+    # failed state. Type=exec waits only for supervisor exec, not rendezvous.
+    subprocess.run(['ssh', '-n', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=5',
+                    'nvidia@192.168.177.11', 'systemctl', '--user', 'start',
+                    'b12x-flare@1.service'], check=True, timeout=20)
+    subprocess.run(['systemctl', '--user', 'start', 'b12x-flare@0.service'],
+                   check=True, timeout=20)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('fingerprints', 'verify', 'ready', 'rollback-due'))
+    parser.add_argument('action', choices=('fingerprints', 'verify', 'ready', 'rollback-due', 'start-ranks'))
     parser.add_argument('--rank', type=int, choices=(0, 1), default=0)
     args = parser.parse_args()
     if socket.gethostname() != ('spark-a183', 'spark-7829')[args.rank]:
@@ -128,6 +138,9 @@ def main():
         return
     if args.rank != 0:
         raise ValueError('only head owns cluster readiness')
+    if args.action == 'start-ranks':
+        start_ranks()
+        return
     deadline = time.monotonic() + 900
     started = [False, False]
     while time.monotonic() < deadline:

@@ -15,7 +15,11 @@ FlashInfer4fd836dc, TP2/four slots/MTP3/chunk4096, latency policy, reserve4GiB,
 trace off, native dense activations and omitted reasoning=Max. No warmup
 experiment, fractional reserve, new kernel or scheduler change is adopted.
 
-The existing runtime launcher41b65a remains in place. Production supervision
+The existing runtime launcher41b65a remains in place, exactly
+`scripts/flare_run.py` from kit commit `3b0f6db`. Its companion candidate helper
+at that commit hashes `ec57f5a1…`. Do not bulk-sync newer fractional-reserve
+wrappers into production. The selected native build is reconstructed from its
+manifest and pinned patch, not from an unqualified working-tree default. Production supervision
 is installed separately with exact recipe/core fingerprints and a hashed release
 decision. The fully qualified capacity floor remains2,350,210; this explicitly
 approved provisional release checks2,300,000 at every startup/recovery, preserving
@@ -98,3 +102,45 @@ refusal with a 60-second retry budget and 5-second per-transfer timeout. Exa
 checked [curl's official retry contract](https://everything.curl.dev/usingcurl/downloads/retry.html).
 The proxy's asynchronous bind and vLLM/TensorFold startup health loops support
 bounded polling. No proxy, model, numerical bound or serving knob is changed.
+
+## Local delivery validation
+
+All98 local unit tests pass. The initial sandboxed run could not bind the Unix
+notification socket used by one memory-watch test; the same complete suite
+passed with socket access. This is separate from hardware qualification.
+
+## Activation observed
+
+The final activation completed at 11:47:00 UTC; its independent identity and
+external-generation verification completed at 11:47:22 UTC. Both native ranks
+match the approved binary/manifest; the head core SHA matches the accepted core.
+The startup reported 9,091 pages ×256 tokens = **2,327,296 tokens**, passing the
+explicit provisional floor while remaining below the original target. All seven
+checks passed, omitted reasoning still defaults to Max, and a public READY
+response passed through the tailnet listener. Owner, watchdog and proxy are
+enabled; conflicting B12X units are disabled and both containers are absent.
+
+A direct Mac-to-tailnet health check timed out: this Mac routes100.125.23.98
+through its ordinary10.0.0.1/en1 gateway, with no Tailscale CLI found in the
+standard installation paths. The head's tailnet listener health/generation
+checks passed. This is a client reachability limitation; no network configuration
+was changed. An actual peer tailnet check and post-reboot checks follow below.
+
+## Recovery ownership correction
+
+The first controlled worker-stop check consumed one persisted watchdog attempt
+and dispatched an owner restart. The worker retained its previous failed state
+until a new invocation was launched; readiness inspected that old failure before
+the head's delayed dispatch, failing at11:48:38 UTC and restoring B12X. This
+failed recovery is retained and must not be counted as a passed watchdog gate.
+
+The production owner now dispatches the worker's Type=exec unit synchronously
+before the head, after both-node cleanup and memory gates. Neither command waits
+for native rendezvous, avoiding a launch deadlock. The head supervisor's existing
+start of an already-running worker is idempotent. No reset-failed or watchdog
+budget clearing is added. Actual failed startup still fails readiness. Exa
+reviewed the [systemctl contract](https://www.freedesktop.org/software/systemd/man/latest/systemctl.html);
+local Flare rendezvous, vLLM's create-all-workers-before-readiness, exllamav3
+collective initialization and TensorFold launch ownership support this ordering.
+Two focused tests prove worker-before-head dispatch and that a worker dispatch
+failure prevents head launch. All100 local tests pass.

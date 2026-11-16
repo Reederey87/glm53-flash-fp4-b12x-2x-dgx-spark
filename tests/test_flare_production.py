@@ -3,13 +3,32 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
+import subprocess
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from flare_watchdog import decision, WINDOW
-from flare_production import fingerprints, validate_pin, rollback_due, validate_capacity, capacity_floor, startup_progress
+from flare_production import fingerprints, validate_pin, rollback_due, validate_capacity, capacity_floor, startup_progress, start_ranks
 
 
 class ProductionSafetyTests(unittest.TestCase):
+    def test_dispatches_worker_before_head_without_clearing_failure_budget(self):
+        with patch('flare_production.subprocess.run') as run:
+            start_ranks()
+        calls = [call.args[0] for call in run.call_args_list]
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(calls[0][-4:], ['systemctl', '--user', 'start', 'b12x-flare@1.service'])
+        self.assertEqual(calls[1], ['systemctl', '--user', 'start', 'b12x-flare@0.service'])
+        for call in run.call_args_list:
+            self.assertTrue(call.kwargs['check'])
+            self.assertEqual(call.kwargs['timeout'], 20)
+
+    def test_worker_dispatch_failure_prevents_head_start(self):
+        with patch('flare_production.subprocess.run', side_effect=subprocess.CalledProcessError(1, 'ssh')) as run:
+            with self.assertRaises(subprocess.CalledProcessError):
+                start_ranks()
+        self.assertEqual(run.call_count, 1)
+
     def test_worker_dispatch_wait_does_not_hide_rank_failure(self):
         started = startup_progress(['active', 'inactive'], [False, False])
         self.assertEqual(started, [True, False])
