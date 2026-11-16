@@ -154,7 +154,7 @@
 
 ## 2026-11-16 UTC — Full scale audit passed; additional Exa qualification
 
-- All42 layers and19,025,362,944 scales pass the packed-boundary population
+- All42 routed expert layers and19,025,362,944 scales pass the packed-boundary population
   audit. Retained exit0, independent histogram validation and unchanged hashes
   are recorded in docs/19; native arithmetic remains unqualified.
 - Exa review adds operator-preemption tradeoffs and identifies the missing
