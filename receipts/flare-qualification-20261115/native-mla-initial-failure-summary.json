@@ -1,0 +1,26 @@
+[
+  {
+    "case": "test_native_dense_mla_replay[decode-1-True]",
+    "failure": "AssertionError: step 0, attended: 16384 elements differ; maximum absolute error 0.9921875\nstep 1, attended: 16384 elements differ; maximum absolute error 0.6875"
+  },
+  {
+    "case": "test_native_dense_mla_replay[decode-2-True]",
+    "failure": "AssertionError: step 0, attended: 32768 elements differ; maximum absolute error 1.375\nstep 1, attended: 32767 elements differ; maximum absolute error 1.3984375\nstep 2, attended: 16384 elements differ; maximum absolute error 0.8203125"
+  },
+  {
+    "case": "test_native_dense_mla_replay[decode-1-False]",
+    "failure": "AssertionError: step 0, attended: 16384 elements differ; maximum absolute error 0.9921875\nstep 1, attended: 16384 elements differ; maximum absolute error 0.6875"
+  },
+  {
+    "case": "test_native_dense_mla_replay[decode-2-False]",
+    "failure": "AssertionError: step 0, attended: 32768 elements differ; maximum absolute error 1.375\nstep 1, attended: 32767 elements differ; maximum absolute error 1.3984375\nstep 2, attended: 16384 elements differ; maximum absolute error 0.8203125"
+  },
+  {
+    "case": "test_native_dense_mla_replay[prefill-65-True]",
+    "failure": "AssertionError: step 0, attended: 1064958 elements differ; maximum absolute error 1.75\nstep 1, attended: 1064960 elements differ; maximum absolute error 1.5625\nstep 2, attended: 1064960 elements differ; maximum absolute error 1.390625"
+  },
+  {
+    "case": "test_native_dense_mla_replay[prefill-4096-True]",
+    "failure": "AssertionError: step 0, attended: 67108862 elements differ; maximum absolute error 1.75\nstep 1, attended: 67108864 elements differ; maximum absolute error 0.91015625\nstep 2, attended: 67108864 elements differ; maximum absolute error 1.0234375"
+  }
+]

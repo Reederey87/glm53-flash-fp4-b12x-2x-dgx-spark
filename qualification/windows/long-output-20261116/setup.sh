@@ -1,7 +1,7 @@
 set -euo pipefail
 r=/home/nvidia/b12x-flare
 w=$r/local/long-output-window-20261116T080000Z
-prior=$r/local/native-mla-window-20261116T070000Z
+prior=$r/local/mla-observation-window-20261116T073000Z
 [[ -f "$prior/restoration-verified.txt" && -f "$prior/fallback-disarmed.txt" && -f "$prior/mla-gate-passed.txt" ]]
 mkdir "$w"
 cp -n "$r/.env" "$w/head-env-before.private"

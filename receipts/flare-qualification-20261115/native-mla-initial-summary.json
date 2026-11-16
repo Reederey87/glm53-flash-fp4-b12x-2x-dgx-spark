@@ -1,0 +1,13 @@
+{
+  "cases": 6,
+  "bad_cases": [
+    "test_native_dense_mla_replay[decode-1-True]",
+    "test_native_dense_mla_replay[decode-2-True]",
+    "test_native_dense_mla_replay[decode-1-False]",
+    "test_native_dense_mla_replay[decode-2-False]",
+    "test_native_dense_mla_replay[prefill-65-True]",
+    "test_native_dense_mla_replay[prefill-4096-True]"
+  ],
+  "passed": false,
+  "scope": "TP2 rank1 MLA replay with native dense activations; not full-model equivalence"
+}

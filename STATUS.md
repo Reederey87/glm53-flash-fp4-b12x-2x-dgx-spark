@@ -1,5 +1,9 @@
 # Status
 
+## 2026-11-16 UTC — MLA diagnostic return defect isolated
+
+- Initial six-case MLA gate failed only attended-stage comparisons; expanded/final outputs and other assertions passed. Exact pinned forward computes attention but leaves its diagnostic attended field at zero. Prepared a qualification-only binding of the actual tensor, with full-method AST identity after removing that single binding; all original numerical assertions remain. No serving source/core changed. Failed receipts retained; B12X restoration pending. See docs/38.
+
 ## 2026-11-16 UTC — Native MLA replay window started
 
 - Frozen docs/34 six-case TP2 native-activation MLA wrapper is staged in the private qualification path. Source hashes and60-minute fallback verified before B12X stop; no build, core or serving-wrapper change. This is per-rank replay evidence, not full-model equivalence.

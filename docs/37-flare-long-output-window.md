@@ -1,7 +1,7 @@
 # Long-output window registration
 
 Execute docs/31's matched three-repetition workload in
-`long-output-window-20261116T080000Z` only after docs/34's six-case MLA gate
+`long-output-window-20261116T080000Z` only after docs/38's corrected six-case MLA observation gate
 passes and its B12X restoration and fallback closure are independently verified.
 This is an independent required workload, not advancement to the full matrix
 or evidence that the unresolved mixed gate passed.
