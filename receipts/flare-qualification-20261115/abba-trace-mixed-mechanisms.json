@@ -1,0 +1,2365 @@
+{
+  "scope": "Matched diagnostic workloads; native histories are not HTTP identities; traced timing is not performance qualification",
+  "arms": {
+    "0-balanced": {
+      "footer": {
+        "event": "complete",
+        "at_ns": 564254091875,
+        "completions": 1129,
+        "dropped_updates": 0,
+        "truncated": false,
+        "dropped_completions": 0,
+        "dropped_other_updates": 0,
+        "reason": "stopped",
+        "complete": true
+      },
+      "history_count": 76,
+      "trace_sha256": "4c1796fe835bcb3440291694c151b3e268c137b9c7228b1c93b0f9a84c6ac1ff",
+      "four_k_prompt_snapshots": [
+        {
+          "native_request": [
+            1,
+            1
+          ],
+          "last_prefill_fence": 11,
+          "snapshot_fence": 21,
+          "interval_s": 7.331199472,
+          "intervening": [
+            {
+              "fence": 12,
+              "graph": "prefill3584",
+              "origin": "Discovery",
+              "gpu_ns": 1512204224
+            },
+            {
+              "fence": 13,
+              "graph": "init2",
+              "origin": "Discovery",
+              "gpu_ns": 956032
+            },
+            {
+              "fence": 14,
+              "graph": "prefill3072",
+              "origin": "Discovery",
+              "gpu_ns": 1357475342
+            },
+            {
+              "fence": 15,
+              "graph": "prefill2560",
+              "origin": "Discovery",
+              "gpu_ns": 1143678345
+            },
+            {
+              "fence": 16,
+              "graph": "prefill2048",
+              "origin": "Discovery",
+              "gpu_ns": 1018618958
+            },
+            {
+              "fence": 17,
+              "graph": "prefill1536",
+              "origin": "Discovery",
+              "gpu_ns": 840969910
+            },
+            {
+              "fence": 18,
+              "graph": "prefill1024",
+              "origin": "Discovery",
+              "gpu_ns": 663981812
+            },
+            {
+              "fence": 19,
+              "graph": "prefill512",
+              "origin": "Discovery",
+              "gpu_ns": 438496033
+            },
+            {
+              "fence": 20,
+              "graph": "prefill256",
+              "origin": "Discovery",
+              "gpu_ns": 342787231
+            }
+          ]
+        },
+        {
+          "native_request": [
+            2,
+            6
+          ],
+          "last_prefill_fence": 186,
+          "snapshot_fence": 188,
+          "interval_s": 0.089034466,
+          "intervening": [
+            {
+              "fence": 187,
+              "graph": "speculative2x4",
+              "origin": "Ordinary",
+              "gpu_ns": 86613182
+            }
+          ]
+        },
+        {
+          "native_request": [
+            1,
+            15
+          ],
+          "last_prefill_fence": 385,
+          "snapshot_fence": 386,
+          "interval_s": 0.001603015,
+          "intervening": []
+        },
+        {
+          "native_request": [
+            2,
+            12
+          ],
+          "last_prefill_fence": 561,
+          "snapshot_fence": 563,
+          "interval_s": 0.096213885,
+          "intervening": [
+            {
+              "fence": 562,
+              "graph": "speculative2x4",
+              "origin": "Ordinary",
+              "gpu_ns": 93119774
+            }
+          ]
+        },
+        {
+          "native_request": [
+            0,
+            8
+          ],
+          "last_prefill_fence": 759,
+          "snapshot_fence": 760,
+          "interval_s": 0.001951976,
+          "intervening": []
+        },
+        {
+          "native_request": [
+            2,
+            20
+          ],
+          "last_prefill_fence": 932,
+          "snapshot_fence": 934,
+          "interval_s": 0.096504589,
+          "intervening": [
+            {
+              "fence": 933,
+              "graph": "speculative2x4",
+              "origin": "Ordinary",
+              "gpu_ns": 93634270
+            }
+          ]
+        }
+      ],
+      "decode_intervals": [
+        {
+          "native_request": [
+            1,
+            14
+          ],
+          "prompt_tokens": 43,
+          "interval": [
+            155,
+            377
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill2048",
+              "origin": "Ordinary",
+              "count": 17
+            },
+            {
+              "graph": "prefill512",
+              "origin": "Refresh",
+              "count": 1
+            },
+            {
+              "graph": "prefill1536",
+              "origin": "Ordinary",
+              "count": 1
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1598996218,
+              "from_fence": 251,
+              "to_fence": 254,
+              "events": [
+                {
+                  "fence": 251,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 94486755
+                },
+                {
+                  "fence": 252,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1041770508
+                },
+                {
+                  "fence": 253,
+                  "graph": "prefill512",
+                  "origin": "Refresh",
+                  "gpu_ns": 456682739
+                },
+                {
+                  "fence": 254,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 98426720
+                }
+              ]
+            },
+            {
+              "gap_ns": 1141655230,
+              "from_fence": 263,
+              "to_fence": 265,
+              "events": [
+                {
+                  "fence": 263,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 92569214
+                },
+                {
+                  "fence": 264,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1044010254
+                },
+                {
+                  "fence": 265,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96232605
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            0,
+            4
+          ],
+          "prompt_tokens": 41,
+          "interval": [
+            154,
+            382
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill2048",
+              "origin": "Ordinary",
+              "count": 17
+            },
+            {
+              "graph": "prefill512",
+              "origin": "Refresh",
+              "count": 1
+            },
+            {
+              "graph": "prefill1536",
+              "origin": "Ordinary",
+              "count": 1
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1598996218,
+              "from_fence": 251,
+              "to_fence": 254,
+              "events": [
+                {
+                  "fence": 251,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 94486755
+                },
+                {
+                  "fence": 252,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1041770508
+                },
+                {
+                  "fence": 253,
+                  "graph": "prefill512",
+                  "origin": "Refresh",
+                  "gpu_ns": 456682739
+                },
+                {
+                  "fence": 254,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 98426720
+                }
+              ]
+            },
+            {
+              "gap_ns": 1141655230,
+              "from_fence": 263,
+              "to_fence": 265,
+              "events": [
+                {
+                  "fence": 263,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 92569214
+                },
+                {
+                  "fence": 264,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1044010254
+                },
+                {
+                  "fence": 265,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96232605
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            0,
+            7
+          ],
+          "prompt_tokens": 44,
+          "interval": [
+            520,
+            744
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 14
+            },
+            {
+              "graph": "prefill2048",
+              "origin": "Ordinary",
+              "count": 8
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1140241632,
+              "from_fence": 667,
+              "to_fence": 669,
+              "events": [
+                {
+                  "fence": 667,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 94940643
+                },
+                {
+                  "fence": 668,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1043330444
+                },
+                {
+                  "fence": 669,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96328064
+                }
+              ]
+            },
+            {
+              "gap_ns": 1139380428,
+              "from_fence": 715,
+              "to_fence": 717,
+              "events": [
+                {
+                  "fence": 715,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 95064575
+                },
+                {
+                  "fence": 716,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1043421021
+                },
+                {
+                  "fence": 717,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 93454430
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            1,
+            28
+          ],
+          "prompt_tokens": 42,
+          "interval": [
+            522,
+            753
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 3
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 14
+            },
+            {
+              "graph": "prefill2048",
+              "origin": "Ordinary",
+              "count": 9
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1140241632,
+              "from_fence": 667,
+              "to_fence": 669,
+              "events": [
+                {
+                  "fence": 667,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 94940643
+                },
+                {
+                  "fence": 668,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1043330444
+                },
+                {
+                  "fence": 669,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96328064
+                }
+              ]
+            },
+            {
+              "gap_ns": 1139380428,
+              "from_fence": 715,
+              "to_fence": 717,
+              "events": [
+                {
+                  "fence": 715,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 95064575
+                },
+                {
+                  "fence": 716,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1043421021
+                },
+                {
+                  "fence": 717,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 93454430
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            1,
+            40
+          ],
+          "prompt_tokens": 44,
+          "interval": [
+            893,
+            1116
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 15
+            },
+            {
+              "graph": "prefill2048",
+              "origin": "Ordinary",
+              "count": 7
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1143179730,
+              "from_fence": 1015,
+              "to_fence": 1017,
+              "events": [
+                {
+                  "fence": 1015,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 92583809
+                },
+                {
+                  "fence": 1016,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1041005493
+                },
+                {
+                  "fence": 1017,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 99614754
+                }
+              ]
+            },
+            {
+              "gap_ns": 1141342793,
+              "from_fence": 1111,
+              "to_fence": 1113,
+              "events": [
+                {
+                  "fence": 1111,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96779709
+                },
+                {
+                  "fence": 1112,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1044249390
+                },
+                {
+                  "fence": 1113,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 94960579
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            0,
+            10
+          ],
+          "prompt_tokens": 45,
+          "interval": [
+            892,
+            1126
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 15
+            },
+            {
+              "graph": "prefill2048",
+              "origin": "Ordinary",
+              "count": 8
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1143179730,
+              "from_fence": 1015,
+              "to_fence": 1017,
+              "events": [
+                {
+                  "fence": 1015,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 92583809
+                },
+                {
+                  "fence": 1016,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1041005493
+                },
+                {
+                  "fence": 1017,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 99614754
+                }
+              ]
+            },
+            {
+              "gap_ns": 1141342793,
+              "from_fence": 1111,
+              "to_fence": 1113,
+              "events": [
+                {
+                  "fence": 1111,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96779709
+                },
+                {
+                  "fence": 1112,
+                  "graph": "prefill2048",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1044249390
+                },
+                {
+                  "fence": 1113,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 94960579
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "1-latency": {
+      "footer": {
+        "event": "complete",
+        "at_ns": 568057131768,
+        "completions": 1141,
+        "dropped_updates": 0,
+        "truncated": false,
+        "dropped_completions": 0,
+        "dropped_other_updates": 0,
+        "reason": "stopped",
+        "complete": true
+      },
+      "history_count": 76,
+      "trace_sha256": "4ac16189561215bfaefbab071805293f6c1f477949c709eb670aa4c9d7006070",
+      "four_k_prompt_snapshots": [
+        {
+          "native_request": [
+            0,
+            2
+          ],
+          "last_prefill_fence": 11,
+          "snapshot_fence": 18,
+          "interval_s": 5.933076734,
+          "intervening": [
+            {
+              "fence": 12,
+              "graph": "prefill3584",
+              "origin": "Discovery",
+              "gpu_ns": 1514419800
+            },
+            {
+              "fence": 13,
+              "graph": "init2",
+              "origin": "Discovery",
+              "gpu_ns": 996352
+            },
+            {
+              "fence": 14,
+              "graph": "prefill3072",
+              "origin": "Discovery",
+              "gpu_ns": 1389685425
+            },
+            {
+              "fence": 15,
+              "graph": "prefill2560",
+              "origin": "Discovery",
+              "gpu_ns": 1146222412
+            },
+            {
+              "fence": 16,
+              "graph": "prefill1536",
+              "origin": "Discovery",
+              "gpu_ns": 850029846
+            },
+            {
+              "fence": 17,
+              "graph": "prefill2048",
+              "origin": "Discovery",
+              "gpu_ns": 1018882507
+            }
+          ]
+        },
+        {
+          "native_request": [
+            2,
+            8
+          ],
+          "last_prefill_fence": 198,
+          "snapshot_fence": 200,
+          "interval_s": 0.096784043,
+          "intervening": [
+            {
+              "fence": 199,
+              "graph": "speculative2x4",
+              "origin": "Ordinary",
+              "gpu_ns": 94473572
+            }
+          ]
+        },
+        {
+          "native_request": [
+            0,
+            5
+          ],
+          "last_prefill_fence": 397,
+          "snapshot_fence": 398,
+          "interval_s": 0.001964152,
+          "intervening": []
+        },
+        {
+          "native_request": [
+            2,
+            14
+          ],
+          "last_prefill_fence": 584,
+          "snapshot_fence": 586,
+          "interval_s": 0.098154496,
+          "intervening": [
+            {
+              "fence": 585,
+              "graph": "speculative2x4",
+              "origin": "Ordinary",
+              "gpu_ns": 95841919
+            }
+          ]
+        },
+        {
+          "native_request": [
+            0,
+            8
+          ],
+          "last_prefill_fence": 778,
+          "snapshot_fence": 779,
+          "interval_s": 0.002428123,
+          "intervening": []
+        },
+        {
+          "native_request": [
+            2,
+            22
+          ],
+          "last_prefill_fence": 948,
+          "snapshot_fence": 950,
+          "interval_s": 0.09606639,
+          "intervening": [
+            {
+              "fence": 949,
+              "graph": "speculative2x4",
+              "origin": "Ordinary",
+              "gpu_ns": 93972733
+            }
+          ]
+        }
+      ],
+      "decode_intervals": [
+        {
+          "native_request": [
+            1,
+            12
+          ],
+          "prompt_tokens": 43,
+          "interval": [
+            149,
+            374
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 9
+            },
+            {
+              "graph": "prefill1536",
+              "origin": "Ordinary",
+              "count": 13
+            },
+            {
+              "graph": "prefill512",
+              "origin": "Ordinary",
+              "count": 1
+            },
+            {
+              "graph": "prefill256",
+              "origin": "Refresh",
+              "count": 1
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1317443357,
+              "from_fence": 295,
+              "to_fence": 298,
+              "events": [
+                {
+                  "fence": 295,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 97377983
+                },
+                {
+                  "fence": 296,
+                  "graph": "prefill1536",
+                  "origin": "Ordinary",
+                  "gpu_ns": 858242493
+                },
+                {
+                  "fence": 297,
+                  "graph": "prefill256",
+                  "origin": "Refresh",
+                  "gpu_ns": 357111145
+                },
+                {
+                  "fence": 298,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 99528931
+                }
+              ]
+            },
+            {
+              "gap_ns": 966847243,
+              "from_fence": 283,
+              "to_fence": 285,
+              "events": [
+                {
+                  "fence": 283,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96065857
+                },
+                {
+                  "fence": 284,
+                  "graph": "prefill1536",
+                  "origin": "Ordinary",
+                  "gpu_ns": 866072815
+                },
+                {
+                  "fence": 285,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 99497726
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            0,
+            4
+          ],
+          "prompt_tokens": 41,
+          "interval": [
+            151,
+            389
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 3
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 9
+            },
+            {
+              "graph": "prefill1536",
+              "origin": "Ordinary",
+              "count": 15
+            },
+            {
+              "graph": "prefill512",
+              "origin": "Ordinary",
+              "count": 1
+            },
+            {
+              "graph": "prefill256",
+              "origin": "Refresh",
+              "count": 1
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1317443357,
+              "from_fence": 295,
+              "to_fence": 298,
+              "events": [
+                {
+                  "fence": 295,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 97377983
+                },
+                {
+                  "fence": 296,
+                  "graph": "prefill1536",
+                  "origin": "Ordinary",
+                  "gpu_ns": 858242493
+                },
+                {
+                  "fence": 297,
+                  "graph": "prefill256",
+                  "origin": "Refresh",
+                  "gpu_ns": 357111145
+                },
+                {
+                  "fence": 298,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 99528931
+                }
+              ]
+            },
+            {
+              "gap_ns": 966847243,
+              "from_fence": 283,
+              "to_fence": 285,
+              "events": [
+                {
+                  "fence": 283,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96065857
+                },
+                {
+                  "fence": 284,
+                  "graph": "prefill1536",
+                  "origin": "Ordinary",
+                  "gpu_ns": 866072815
+                },
+                {
+                  "fence": 285,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 99497726
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            0,
+            7
+          ],
+          "prompt_tokens": 42,
+          "interval": [
+            537,
+            773
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 23
+            },
+            {
+              "graph": "prefill2560",
+              "origin": "Refresh",
+              "count": 1
+            },
+            {
+              "graph": "prefill2560",
+              "origin": "Ordinary",
+              "count": 1
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1300453081,
+              "from_fence": 618,
+              "to_fence": 620,
+              "events": [
+                {
+                  "fence": 618,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 94877182
+                },
+                {
+                  "fence": 619,
+                  "graph": "prefill2560",
+                  "origin": "Refresh",
+                  "gpu_ns": 1207098511
+                },
+                {
+                  "fence": 620,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 92013054
+                }
+              ]
+            },
+            {
+              "gap_ns": 1291417889,
+              "from_fence": 767,
+              "to_fence": 769,
+              "events": [
+                {
+                  "fence": 767,
+                  "graph": "speculative1x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 69405853
+                },
+                {
+                  "fence": 768,
+                  "graph": "prefill2560",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1220539429
+                },
+                {
+                  "fence": 769,
+                  "graph": "speculative1x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 69323357
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            1,
+            26
+          ],
+          "prompt_tokens": 44,
+          "interval": [
+            538,
+            764
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 23
+            },
+            {
+              "graph": "prefill2560",
+              "origin": "Refresh",
+              "count": 1
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1300453081,
+              "from_fence": 618,
+              "to_fence": 620,
+              "events": [
+                {
+                  "fence": 618,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 94877182
+                },
+                {
+                  "fence": 619,
+                  "graph": "prefill2560",
+                  "origin": "Refresh",
+                  "gpu_ns": 1207098511
+                },
+                {
+                  "fence": 620,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 92013054
+                }
+              ]
+            },
+            {
+              "gap_ns": 777187886,
+              "from_fence": 737,
+              "to_fence": 739,
+              "events": [
+                {
+                  "fence": 737,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 91021667
+                },
+                {
+                  "fence": 738,
+                  "graph": "prefill1024",
+                  "origin": "Ordinary",
+                  "gpu_ns": 677795288
+                },
+                {
+                  "fence": 739,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 97442116
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            1,
+            38
+          ],
+          "prompt_tokens": 44,
+          "interval": [
+            912,
+            1119
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 10
+            },
+            {
+              "graph": "prefill2560",
+              "origin": "Ordinary",
+              "count": 9
+            },
+            {
+              "graph": "prefill512",
+              "origin": "Ordinary",
+              "count": 1
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1324048899,
+              "from_fence": 1097,
+              "to_fence": 1099,
+              "events": [
+                {
+                  "fence": 1097,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 99871452
+                },
+                {
+                  "fence": 1098,
+                  "graph": "prefill2560",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1225294800
+                },
+                {
+                  "fence": 1099,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96866493
+                }
+              ]
+            },
+            {
+              "gap_ns": 1321497656,
+              "from_fence": 1084,
+              "to_fence": 1086,
+              "events": [
+                {
+                  "fence": 1084,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 98274338
+                },
+                {
+                  "fence": 1085,
+                  "graph": "prefill2560",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1223035278
+                },
+                {
+                  "fence": 1086,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96325729
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "native_request": [
+            0,
+            10
+          ],
+          "prompt_tokens": 45,
+          "interval": [
+            911,
+            1141
+          ],
+          "prefill_graphs": [
+            {
+              "graph": "prefill128",
+              "origin": "Ordinary",
+              "count": 4
+            },
+            {
+              "graph": "prefill1024",
+              "origin": "Ordinary",
+              "count": 10
+            },
+            {
+              "graph": "prefill2560",
+              "origin": "Ordinary",
+              "count": 10
+            },
+            {
+              "graph": "prefill512",
+              "origin": "Ordinary",
+              "count": 2
+            }
+          ],
+          "largest_gaps": [
+            {
+              "gap_ns": 1324048899,
+              "from_fence": 1097,
+              "to_fence": 1099,
+              "events": [
+                {
+                  "fence": 1097,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 99871452
+                },
+                {
+                  "fence": 1098,
+                  "graph": "prefill2560",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1225294800
+                },
+                {
+                  "fence": 1099,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96866493
+                }
+              ]
+            },
+            {
+              "gap_ns": 1321497656,
+              "from_fence": 1084,
+              "to_fence": 1086,
+              "events": [
+                {
+                  "fence": 1084,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 98274338
+                },
+                {
+                  "fence": 1085,
+                  "graph": "prefill2560",
+                  "origin": "Ordinary",
+                  "gpu_ns": 1223035278
+                },
+                {
+                  "fence": 1086,
+                  "graph": "speculative2x4",
+                  "origin": "Ordinary",
+                  "gpu_ns": 96325729
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "diagnostic_http_points": [
+    {
+      "case": "decode_overlap",
+      "request": "cohort",
+      "metric": "wall_s",
+      "reference_reps": [
+        38.84123858300154,
+        39.69214833200385,
+        39.85828835199936
+      ],
+      "candidate_reps": [
+        42.123058269993635,
+        40.77468762900389,
+        38.235691606998444
+      ],
+      "median_change_pct": 2.727338636208776,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "amortized_decode_tok_s",
+      "reference_reps": [
+        13.848006064804085,
+        13.933043536615761,
+        13.968787183616849
+      ],
+      "candidate_reps": [
+        13.442866365487907,
+        14.089002167888816,
+        13.655650066555655
+      ],
+      "median_change_pct": -1.9909036337331654,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "completion_tok_s",
+      "reference_reps": [
+        13.183003818989562,
+        13.507147833385165,
+        13.690649593017367
+      ],
+      "candidate_reps": [
+        12.818615209031622,
+        13.76705471837348,
+        13.391719945435968
+      ],
+      "median_change_pct": -0.8545689243431354,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.5991228110069642,
+        1.1408493630005978,
+        1.1433443709975109
+      ],
+      "candidate_reps": [
+        1.3178435030131368,
+        1.3003076239983784,
+        1.3240122429997427
+      ],
+      "median_change_pct": 15.262167413601224,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.09846877900417894,
+        0.10075889599102084,
+        0.09957772099005524
+      ],
+      "candidate_reps": [
+        0.10228864300006535,
+        0.17957988200942054,
+        0.1007448110030964
+      ],
+      "median_change_pct": 2.7224182106767136,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        38.837886041001184,
+        37.905855944991345,
+        37.397787192006945
+      ],
+      "candidate_reps": [
+        39.94191194999439,
+        37.19023498299066,
+        38.23257968999678
+      ],
+      "median_change_pct": 0.8619347508721953,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode0",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.9372667309944518,
+        1.230451991999871,
+        0.8162290879990906
+      ],
+      "candidate_reps": [
+        1.9291856380004901,
+        0.9208105119905667,
+        0.8121714699955191
+      ],
+      "median_change_pct": -25.164856656133306,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "amortized_decode_tok_s",
+      "reference_reps": [
+        13.839616051653481,
+        14.410762849212151,
+        14.511507938974951
+      ],
+      "candidate_reps": [
+        14.283377426532358,
+        14.871409519437155,
+        14.691325948904073
+      ],
+      "median_change_pct": 1.9468997070287708,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "completion_tok_s",
+      "reference_reps": [
+        13.272757675330634,
+        14.066198792567434,
+        14.298962102150313
+      ],
+      "candidate_reps": [
+        13.683968290339713,
+        14.421155625024833,
+        14.474607014710132
+      ],
+      "median_change_pct": 2.523473737943749,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.599149692003266,
+        1.140445616998477,
+        1.1434041000029538
+      ],
+      "candidate_reps": [
+        1.3182629920047475,
+        1.3003826329950243,
+        1.3239739220007323
+      ],
+      "median_change_pct": 15.292834090881957,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.09847233099571895,
+        0.10086553799919784,
+        0.09989500300434884
+      ],
+      "candidate_reps": [
+        0.09955008700489998,
+        0.10038901699590497,
+        0.09971109399339184
+      ],
+      "median_change_pct": -0.18410231285441725,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        38.57525410500239,
+        36.39931495000201,
+        35.80679467099253
+      ],
+      "candidate_reps": [
+        37.41604694900161,
+        35.503396073996555,
+        35.37229020999803
+      ],
+      "median_change_pct": -2.4613619163879497,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "decode1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.652264471995295,
+        0.9397070620034356,
+        0.5933625350007787
+      ],
+      "candidate_reps": [
+        1.6401947299891617,
+        1.142160891002277,
+        0.589861328000552
+      ],
+      "median_change_pct": 21.544355383178026,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "long",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        34.02373870598967,
+        38.45259476499632,
+        39.0351008669968
+      ],
+      "candidate_reps": [
+        40.18591146101244,
+        39.624482945000636,
+        36.567513281988795
+      ],
+      "median_change_pct": 3.047617949234205,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "long",
+      "metric": "ttft_s",
+      "reference_reps": [
+        33.926653213988175,
+        38.45082949299831,
+        39.03352687599545
+      ],
+      "candidate_reps": [
+        40.184619856008794,
+        39.62248002400156,
+        36.564646597995306
+      ],
+      "median_change_pct": 3.047139805440624,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "short",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        5.542126394997467,
+        6.364258277011686,
+        6.389364389004186
+      ],
+      "candidate_reps": [
+        8.273050035000779,
+        7.851915703009581,
+        7.152012686987291
+      ],
+      "median_change_pct": 23.3751893975054,
+      "observation": "separated_regression_over_2pct"
+    },
+    {
+      "case": "decode_overlap",
+      "request": "short",
+      "metric": "ttft_s",
+      "reference_reps": [
+        5.45299632899696,
+        6.268070040008752,
+        6.292836344000534
+      ],
+      "candidate_reps": [
+        8.176138712005923,
+        7.753813782997895,
+        7.056199720987934
+      ],
+      "median_change_pct": 23.70336855691977,
+      "observation": "separated_regression_over_2pct"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "cohort",
+      "metric": "wall_s",
+      "reference_reps": [
+        69.48363478900865,
+        69.46652628100128,
+        68.39399170401157
+      ],
+      "candidate_reps": [
+        68.58766349499638,
+        69.55934150599933,
+        68.6570513919869
+      ],
+      "median_change_pct": -1.1652733083844624,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "long",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        69.465609862993,
+        69.44752746299491,
+        68.375579354004
+      ],
+      "candidate_reps": [
+        68.57569686901115,
+        69.54685175701161,
+        68.63751585400314
+      ],
+      "median_change_pct": -1.1663649356319916,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "long",
+      "metric": "ttft_s",
+      "reference_reps": [
+        69.46365230200172,
+        69.44535119799548,
+        68.37265922900406
+      ],
+      "candidate_reps": [
+        68.57484800100792,
+        69.54549919100828,
+        68.63570835800783
+      ],
+      "median_change_pct": -1.165870466518737,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short0",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.7875475189939607,
+        1.7995466349966591,
+        2.1733816560008563
+      ],
+      "candidate_reps": [
+        2.181904498997028,
+        1.7996743069961667,
+        2.2034752189938445
+      ],
+      "median_change_pct": 21.247455140337546,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short0",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.7856590309966123,
+        1.7969011509994743,
+        2.171459824006888
+      ],
+      "candidate_reps": [
+        2.1798129700036952,
+        1.797962603988708,
+        2.2011910009896383
+      ],
+      "median_change_pct": 21.30956501370358,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.000423099991167,
+        2.0198751999996603,
+        2.5771336239995435
+      ],
+      "candidate_reps": [
+        2.593111798996688,
+        2.0198032899934333,
+        2.615556724005728
+      ],
+      "median_change_pct": 28.379802821338874,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.9986603399884189,
+        2.018557834002422,
+        2.5747159169986844
+      ],
+      "candidate_reps": [
+        2.5906233249988873,
+        2.017837392995716,
+        2.612953545001801
+      ],
+      "median_change_pct": 28.340307191603543,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short10",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.4495135380129796,
+        2.4726101660053246,
+        2.767320351995295
+      ],
+      "candidate_reps": [
+        2.826778438000474,
+        2.4833471089950763,
+        2.8608855530037545
+      ],
+      "median_change_pct": 14.323659947064504,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short10",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.447701818004134,
+        2.4698392749996856,
+        2.7648715090035694
+      ],
+      "candidate_reps": [
+        2.824562573005096,
+        2.4823694410006283,
+        2.8587042480066884
+      ],
+      "median_change_pct": 14.362201686401455,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short11",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.688093820994254,
+        2.7063062919914955,
+        1.4147531249909662
+      ],
+      "candidate_reps": [
+        1.460909476998495,
+        2.720673427989823,
+        1.5030749239958823
+      ],
+      "median_change_pct": -44.0839857501724,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short11",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.6864525329874596,
+        2.7041008259984665,
+        1.413060797000071
+      ],
+      "candidate_reps": [
+        1.4596075029985514,
+        2.7193022379942704,
+        1.5014301969931694
+      ],
+      "median_change_pct": -44.11104687103816,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short12",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.3217038849979872,
+        1.3415619669976877,
+        1.8476194719987689
+      ],
+      "candidate_reps": [
+        1.886255109013291,
+        1.3575606059894199,
+        1.9452052440028638
+      ],
+      "median_change_pct": 40.60141502330934,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short12",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.3187386250065174,
+        1.3397995120030828,
+        1.8452027899911627
+      ],
+      "candidate_reps": [
+        1.8845122060010908,
+        1.3567923469963716,
+        1.9432001149980351
+      ],
+      "median_change_pct": 40.65628395278551,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short13",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.5740026290004607,
+        1.5660968210140709,
+        2.2715787409979384
+      ],
+      "candidate_reps": [
+        2.327811659008148,
+        1.5876834860100644,
+        2.383820539995213
+      ],
+      "median_change_pct": 47.891217976324405,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short13",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.5714644260006025,
+        1.5646532950049732,
+        2.269731373002287
+      ],
+      "candidate_reps": [
+        2.3261387560050935,
+        1.586686634007492,
+        2.381321217995719
+      ],
+      "median_change_pct": 48.02363435774024,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short14",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.834043564987951,
+        1.8046907919924706,
+        2.7166582130012102
+      ],
+      "candidate_reps": [
+        2.778808361006668,
+        1.8331166069983738,
+        2.839809047000017
+      ],
+      "median_change_pct": 51.51266927647511,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short14",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.8318780349945882,
+        1.8031521939992672,
+        2.7152367350063287
+      ],
+      "candidate_reps": [
+        2.7766088630014565,
+        1.8318457209970802,
+        2.8377442229975713
+      ],
+      "median_change_pct": 51.57171001341578,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short15",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.0822580340027343,
+        2.0517738869966706,
+        1.349269707003259
+      ],
+      "candidate_reps": [
+        1.4140844289941015,
+        2.0828886259987485,
+        1.4805971320020035
+      ],
+      "median_change_pct": -27.838192045164377,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short15",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.0807705390034243,
+        2.0485464649973437,
+        1.3471285780105973
+      ],
+      "candidate_reps": [
+        1.4123426299920538,
+        2.081811085998197,
+        1.478984613000648
+      ],
+      "median_change_pct": -27.803218610295676,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short2",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.2226310729893157,
+        2.2395328489947133,
+        2.976717974001076
+      ],
+      "candidate_reps": [
+        3.0070018639962655,
+        2.2474305590003496,
+        3.025620988002629
+      ],
+      "median_change_pct": 34.26915641563622,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short2",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.2206976729939925,
+        2.237281174995587,
+        2.974394395991112
+      ],
+      "candidate_reps": [
+        3.0054094250081107,
+        2.245392245997209,
+        3.0227937440067763
+      ],
+      "median_change_pct": 34.33311193055735,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short3",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.437017956006457,
+        2.4724916120030684,
+        1.612022164001246
+      ],
+      "candidate_reps": [
+        1.6409818770043785,
+        2.4832191429886734,
+        1.6597571239981335
+      ],
+      "median_change_pct": -31.89393127336745,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short3",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.4350216279999586,
+        2.470317762999912,
+        1.6104723169992212
+      ],
+      "candidate_reps": [
+        1.6390525570022874,
+        2.4818808009877102,
+        1.657047833010438
+      ],
+      "median_change_pct": -31.949358726169553,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short4",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.6533155990036903,
+        2.692333614002564,
+        2.0283447450055974
+      ],
+      "candidate_reps": [
+        2.0622593959997175,
+        2.7036903660045937,
+        2.081351614004234
+      ],
+      "median_change_pct": -21.556575675137424,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short4",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.6514146469999105,
+        2.6902005489973817,
+        2.026540834005573
+      ],
+      "candidate_reps": [
+        2.059850138000911,
+        2.7022586959938053,
+        2.0785578420036472
+      ],
+      "median_change_pct": -21.60570417171278,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short5",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.2913174690038431,
+        1.3242357999988599,
+        2.4493594740051776
+      ],
+      "candidate_reps": [
+        2.476147284003673,
+        1.3396865469985642,
+        2.5099012360005872
+      ],
+      "median_change_pct": 86.98688587076448,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short5",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.2889018270070665,
+        1.3227380019961856,
+        2.4471242489962606
+      ],
+      "candidate_reps": [
+        2.4739748110005166,
+        1.3384136620006757,
+        2.507087607998983
+      ],
+      "median_change_pct": 87.03437923965012,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short6",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.5079543140018359,
+        1.544627324998146,
+        2.857636981003452
+      ],
+      "candidate_reps": [
+        2.8882072450069245,
+        1.5622373949881876,
+        2.928636433003703
+      ],
+      "median_change_pct": 86.9840833620104,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short6",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.505718127998989,
+        1.5425475240044761,
+        2.8560087980004027
+      ],
+      "candidate_reps": [
+        2.88662458199542,
+        1.5610727179882815,
+        2.9265111120039364
+      ],
+      "median_change_pct": 87.13359148259498,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short7",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.7338596150075318,
+        1.7668943939934252,
+        1.4972290470032021
+      ],
+      "candidate_reps": [
+        1.5287680699984776,
+        1.7823584089928772,
+        1.569752373994561
+      ],
+      "median_change_pct": -9.46485168652239,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short7",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.732118984000408,
+        1.7644538079912309,
+        1.4950350210128818
+      ],
+      "candidate_reps": [
+        1.5278473629878135,
+        1.7813866449869238,
+        1.568038990997593
+      ],
+      "median_change_pct": -9.472789947943694,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short8",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        1.9729754540021531,
+        1.9986547510052333,
+        1.920107031997759
+      ],
+      "candidate_reps": [
+        1.9571823239966761,
+        2.0187210430012783,
+        2.0014273380074883
+      ],
+      "median_change_pct": 1.4420799786242,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short8",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.971068340993952,
+        1.9968340390041703,
+        1.9178937270044116
+      ],
+      "candidate_reps": [
+        1.95506113099691,
+        2.0171087960043224,
+        1.999579363007797
+      ],
+      "median_change_pct": 1.4464755696632858,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short9",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        2.2072786950011505,
+        2.2359131959965453,
+        2.3385515900008613
+      ],
+      "candidate_reps": [
+        2.3873234659986338,
+        2.2479648790031206,
+        2.4212855319929076
+      ],
+      "median_change_pct": 6.771741866955838,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "short_arrivals",
+      "request": "short9",
+      "metric": "ttft_s",
+      "reference_reps": [
+        2.2055515670072054,
+        2.2338959709886694,
+        2.3363464450085303
+      ],
+      "candidate_reps": [
+        2.3857600829942385,
+        2.2466004570014775,
+        2.4191399709961843
+      ],
+      "median_change_pct": 6.798172966772387,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "0",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        79.6894252570055,
+        77.38271660500322,
+        78.0237013619917
+      ],
+      "candidate_reps": [
+        80.05701171199325,
+        79.7789580969984,
+        77.95753032999346
+      ],
+      "median_change_pct": 2.2496455620109046,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "0",
+      "metric": "ttft_s",
+      "reference_reps": [
+        79.68695382200531,
+        77.3805744679994,
+        78.02191373798996
+      ],
+      "candidate_reps": [
+        80.0553904260014,
+        79.77716103299463,
+        77.95518612899468
+      ],
+      "median_change_pct": 2.249685006316393,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "1",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        36.5941198579967,
+        31.634245146007743,
+        31.93834977300139
+      ],
+      "candidate_reps": [
+        21.88091345099383,
+        21.952901975993882,
+        20.519744405988604
+      ],
+      "median_change_pct": -31.49015648425726,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "1",
+      "metric": "ttft_s",
+      "reference_reps": [
+        36.59195837599691,
+        31.63233606600261,
+        31.93608787500125
+      ],
+      "candidate_reps": [
+        20.730596744004288,
+        20.427471930990578,
+        19.34753942298994
+      ],
+      "median_change_pct": -36.036398663028855,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "2",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        11.821848731997306,
+        8.646368986999732,
+        8.616051678007352
+      ],
+      "candidate_reps": [
+        7.65266106800118,
+        5.7776514339930145,
+        5.205664171997341
+      ],
+      "median_change_pct": -33.17829203588217,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "2",
+      "metric": "ttft_s",
+      "reference_reps": [
+        11.819452130002901,
+        8.64495106099639,
+        8.614574488005019
+      ],
+      "candidate_reps": [
+        6.630271383997751,
+        5.774777806000202,
+        5.203813507992891
+      ],
+      "median_change_pct": -33.200572620307945,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "3",
+      "metric": "elapsed_s",
+      "reference_reps": [
+        9.04164824700274,
+        1.7360799410089385,
+        3.4229905620013596
+      ],
+      "candidate_reps": [
+        7.654182242011302,
+        1.9889295189932454,
+        1.7242743630049517
+      ],
+      "median_change_pct": -41.894975081954215,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "3",
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.7103260230069282,
+        1.734379244997399,
+        3.421049418000621
+      ],
+      "candidate_reps": [
+        1.7177675429993542,
+        1.9871830159972887,
+        1.7218983369966736
+      ],
+      "median_change_pct": -0.7196181594495532,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "case": "unequal_burst",
+      "request": "cohort",
+      "metric": "wall_s",
+      "reference_reps": [
+        79.70734975099913,
+        77.40116750099696,
+        78.04684549299418
+      ],
+      "candidate_reps": [
+        80.06800622399896,
+        79.80147838398989,
+        77.97676202800358
+      ],
+      "median_change_pct": 2.2481791287172648,
+      "observation": "median_regression_repeat_needed"
+    }
+  ]
+}

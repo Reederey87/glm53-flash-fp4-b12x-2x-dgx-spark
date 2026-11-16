@@ -1,3 +1,8 @@
+## 2026-11-16 UTC — Complete scheduling diagnosis retained
+
+- Docs/55 passes all four trace-integrity arms:178 histories/5,394 completions, zero drops, eight clean native exits and411 healthy memory samples. Independent B12X restoration is underway.
+- Docs/60 separates cold discovery, prefill/refresh interference and visible-only output gaps. No performance pass or gate waiver; warmup remains a local unrun proposal.
+
 ## 2026-11-16 UTC — Cold-discovery mechanism observed; warmup proposal prepared
 
 - First docs/55 arm validates76 histories/1,129 loss-free completions and clean exits. A completed4k prompt waits7.3312seconds through nine discovery operations before its terminal snapshot; paired diagnosis remains in progress.

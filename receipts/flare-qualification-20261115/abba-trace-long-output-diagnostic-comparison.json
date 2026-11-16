@@ -1,0 +1,280 @@
+{
+  "requests_per_arm": 12,
+  "points": [
+    {
+      "length": 131072,
+      "metric": "ttft_s",
+      "reference_reps": [
+        103.46885614198982,
+        101.90830590800033,
+        112.6205829679966
+      ],
+      "candidate_reps": [
+        106.00263212299615,
+        107.21570882300148,
+        108.63164856699586
+      ],
+      "median_change_pct": 3.621237172922709,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "length": 131072,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        114.16349865999655,
+        118.2684593580052,
+        127.12943769799313
+      ],
+      "candidate_reps": [
+        120.02934389600705,
+        116.72607654599415,
+        119.89018062599644
+      ],
+      "median_change_pct": 1.371220422413888,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 131072,
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.06900222800322808,
+        0.07062290399335325,
+        0.06927585399535019
+      ],
+      "candidate_reps": [
+        0.06925972999306396,
+        0.07040633501310367,
+        0.06961371400393546
+      ],
+      "median_change_pct": 0.48770240870352755,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 131072,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        0.07241870900907088,
+        0.07223180700384546,
+        0.07435910899948794
+      ],
+      "candidate_reps": [
+        0.13295661700249184,
+        0.11746234400197864,
+        0.20383623799716588
+      ],
+      "median_change_pct": 83.59429327280361,
+      "observation": "separated_regression_over_2pct"
+    },
+    {
+      "length": 32768,
+      "metric": "ttft_s",
+      "reference_reps": [
+        45.72976769799425,
+        40.99020154599566,
+        46.07074853499944
+      ],
+      "candidate_reps": [
+        45.66095429699635,
+        45.01672349499131,
+        46.139673662997666
+      ],
+      "median_change_pct": -0.15047835242101293,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 32768,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        70.88196560399956,
+        66.88441043999046,
+        88.79921557300258
+      ],
+      "candidate_reps": [
+        75.44994525700167,
+        72.44556084099167,
+        80.2773240069946
+      ],
+      "median_change_pct": 6.444487838447244,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "length": 32768,
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        0.9373727269994561,
+        0.935129675999633,
+        0.9461761810089229
+      ],
+      "candidate_reps": [
+        0.9382156380015658,
+        0.9596092969877645,
+        0.9435646670026472
+      ],
+      "median_change_pct": 0.6605632770020575,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 32768,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.3180043010070221,
+        1.297366377999424,
+        0.9908642240043264
+      ],
+      "candidate_reps": [
+        1.1278437419969123,
+        1.175333043007413,
+        1.2680056009994587
+      ],
+      "median_change_pct": -9.406235359682281,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 8192,
+      "metric": "ttft_s",
+      "reference_reps": [
+        11.683793516989681,
+        10.53682041198772,
+        11.721984955001972
+      ],
+      "candidate_reps": [
+        11.753606840007706,
+        11.65044159500394,
+        13.194117666003876
+      ],
+      "median_change_pct": 0.5975227387963189,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 8192,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        54.900249004000216,
+        53.43336673099839,
+        55.483678866003174
+      ],
+      "candidate_reps": [
+        50.381302819005214,
+        72.12218534600106,
+        56.35219029900327
+      ],
+      "median_change_pct": 2.644689817157775,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "length": 8192,
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        1.1440684760018485,
+        1.3042621269996744,
+        1.1340335499990033
+      ],
+      "candidate_reps": [
+        1.1428563489898806,
+        1.139496144009172,
+        1.1392714450048516
+      ],
+      "median_change_pct": -0.39965544795493857,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 8192,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        1.6695594990014797,
+        1.4447001920052571,
+        1.8093672800023342
+      ],
+      "candidate_reps": [
+        1.664041461001034,
+        1.6624359769921284,
+        1.803805667994311
+      ],
+      "median_change_pct": -0.330508616419245,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 4096,
+      "metric": "ttft_s",
+      "reference_reps": [
+        1.7199587310024071,
+        3.4665278180036694,
+        1.7253161469998304
+      ],
+      "candidate_reps": [
+        1.7231464800133836,
+        1.7396390700014308,
+        1.745016474989825
+      ],
+      "median_change_pct": 0.8301622300647127,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 4096,
+      "metric": "elapsed_s",
+      "reference_reps": [
+        49.15518920100294,
+        57.10728758999903,
+        48.68748228199547
+      ],
+      "candidate_reps": [
+        52.6769962360122,
+        52.52552442801243,
+        54.28929729400261
+      ],
+      "median_change_pct": 7.164669879731433,
+      "observation": "median_regression_repeat_needed"
+    },
+    {
+      "length": 4096,
+      "metric": "delivery_gap_p95_s",
+      "reference_reps": [
+        1.2902538489870494,
+        1.3046285580057884,
+        1.1357088130025659
+      ],
+      "candidate_reps": [
+        1.290567835996626,
+        1.14161402398895,
+        1.1388917489966843
+      ],
+      "median_change_pct": -11.520200084254217,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "length": 4096,
+      "metric": "delivery_gap_max_s",
+      "reference_reps": [
+        7.421826752994093,
+        2.3934705129940994,
+        1.6820922080078162
+      ],
+      "candidate_reps": [
+        7.429709589996492,
+        1.6107591829932062,
+        1.6702703830087557
+      ],
+      "median_change_pct": -30.21554374950959,
+      "observation": "no_median_regression_over_2pct_observed"
+    },
+    {
+      "metric": "cohort_wall_s",
+      "reference_reps": [
+        114.1780097999872,
+        118.2826746720093,
+        127.14036592499178
+      ],
+      "candidate_reps": [
+        120.03807992499787,
+        116.73983394299285,
+        119.90376178100996
+      ],
+      "median_change_pct": 1.370519489431432,
+      "observation": "no_median_regression_over_2pct_observed"
+    }
+  ],
+  "limitations": [
+    "Output delivery gaps are not individual-token gaps.",
+    "This is scheduler stress, not semantic accuracy or full-model numerical equivalence."
+  ]
+}

@@ -72,3 +72,8 @@ production or unlock the full84-row/capacity gates by itself.
 The frozen trace window started after independent10:12:07 UTC B12X recovery.
 Controllerdde3853b1159467f94ba7ee25d12a3e8; notifying memory guard
 f0f471d37c144fd79443bdf1ef8789b8;90-minute fallback armed. Results pending.
+
+All four diagnostic arms completed:178 histories/5,394 contiguous completions,
+zero trace loss/truncation, eight clean native exits and411 healthy memory samples.
+Detailed findings/limits are in docs/60. This passes diagnostic integrity only;
+performance remains unqualified. Independent B12X restoration is underway.
