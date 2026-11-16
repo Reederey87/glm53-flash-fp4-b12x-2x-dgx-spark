@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 import socket
 import subprocess
@@ -41,6 +42,25 @@ def rollback_due(pending, now):
             not math.isfinite(deadline) or deadline <= 0):
         raise ValueError('invalid production rollback deadline')
     return now >= deadline
+
+
+def validate_capacity(scrape):
+    """Enforce the registered pool floor on every production start/recovery."""
+    names = ('flare_total_kv_pages', 'flare_kv_page_tokens', 'flare_total_kv_tokens')
+    values = {}
+    for name in names:
+        rows = [row.split() for row in scrape.splitlines()
+                if row.split() and row.split()[0] == name]
+        if (len(rows) != 1 or len(rows[0]) != 2 or
+                re.fullmatch(r'[0-9]+', rows[0][1]) is None):
+            raise ValueError(f'missing or invalid production capacity metric: {name}')
+        values[name] = int(rows[0][1])
+    pages, page_tokens, tokens = (values[name] for name in names)
+    if pages <= 0 or page_tokens <= 0 or pages * page_tokens != tokens:
+        raise ValueError('inconsistent production cache geometry')
+    if tokens < 2350210:
+        raise ValueError(f'production cache capacity {tokens} is below the 2350210-token gate')
+    return values
 
 
 def rank_state(rank):
@@ -87,7 +107,9 @@ def main():
         try:
             with urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=3) as response:
                 if response.status == 200 and states == ['active', 'active']:
-                    print('Both native ranks active; health HTTP 200', flush=True)
+                    with urllib.request.urlopen('http://127.0.0.1:8001/metrics', timeout=5) as metrics:
+                        capacity = validate_capacity(metrics.read().decode())
+                    print(json.dumps({'ranks': states, 'health': 200, 'capacity': capacity}), flush=True)
                     return
         except OSError:
             pass

@@ -65,3 +65,19 @@ clock rollback, corrupt ledgers, pin drift and an unqualified decision. Shell
 syntax passes. Systemd validation, installed-path checks, real failure recovery,
 endpoint smoke and controlled reboot remain hardware gates. These files are
 not yet installed or enabled, and no successful reboot is claimed.
+# Startup capacity enforcement
+
+The production readiness check now requires fresh reported pool capacity of at
+least2,350,210 tokens, with consistent positive page/token geometry. A pinned
+recipe alone cannot guarantee this because native allocation uses observed host
+memory. Missing, duplicate, malformed or below-floor metrics fail startup and
+invoke the owner's existing cleanup; the guarded fallback remains responsible
+for restoration. This check is local and not installed during the running test.
+
+Exa confirmed the [native metrics contract](https://github.com/NVIDIA/flare-local-inference/blob/main/docs/api.md);
+pinned `helios/src/server/metrics.rs` defines total pages as the per-rank pool and
+total tokens as pages times page size. This capacity is before checkpoint
+retention, so admission/pressure tests remain necessary. Local vLLM activation/calibration handling,
+exllamav3 state ownership and TensorFold checkpoint arithmetic were reviewed; none justifies assuming a fixed pool across starts. The same
+guard runs after boot and watchdog recovery. One focused test rejects a one-page
+shortfall, the observed short pool and inconsistent/missing metric evidence.

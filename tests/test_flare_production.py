@@ -6,10 +6,23 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from flare_watchdog import decision, WINDOW
-from flare_production import fingerprints, validate_pin, rollback_due
+from flare_production import fingerprints, validate_pin, rollback_due, validate_capacity
 
 
 class ProductionSafetyTests(unittest.TestCase):
+    def test_production_start_requires_observed_cache_floor(self):
+        def scrape(pages, tokens):
+            return f'flare_total_kv_pages {pages}\nflare_kv_page_tokens 256\nflare_total_kv_tokens {tokens}\n'
+        # First whole page meeting the incumbent's logical-token floor.
+        good = scrape(9181, 2350336)
+        self.assertEqual(validate_capacity(good)['flare_total_kv_tokens'], 2350336)
+        for bad in (scrape(9180, 2350080), scrape(9122, 2335232),
+                    scrape(9181, 2350335), good + 'flare_total_kv_tokens 2350336\n',
+                    good.replace('2350336', 'NaN'), good.replace('256', '-256'),
+                    'flare_total_kv_tokens 2350336\n'):
+            with self.assertRaises(ValueError):
+                validate_capacity(bad)
+
     def test_boot_recheck_does_not_roll_back_before_calendar_deadline(self):
         pending = {'schema': 1, 'rollback_after': 1000}
         self.assertFalse(rollback_due(pending, 999))
