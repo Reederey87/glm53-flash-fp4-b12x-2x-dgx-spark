@@ -116,3 +116,21 @@ B12X images, health200, fresh5/5 smoke and watchdog/tailnet, append rollback
 selection and only then disarm fallback. No adoption/merge based on these
 partial results. Production adoption and main/GitHub delivery remain authorized
 once the best candidate satisfies the complete qualification requirements.
+
+## Build provenance correction and reproducible window
+
+The build invocation transcribed the source commit suffix incorrectly. The
+frozen source is `0c8f805fae82b768591fc908a936a7efec672234`; its policy patch
+SHA is `ef027822eb59345165212b43706a181154ba67e7a75079e7e51f1ef73c6177b4`.
+Reject the incorrectly attributed manifest before any serving. Preserve it,
+verify all four inputs against bytes read directly with `git show` from the
+frozen commit, verify the native build terminal status, dependency locks and
+binary digest, and publish a new immutable manifest recording the correction.
+This changes provenance only; no new compilation or claimed test result.
+[Official SLSA guidance](https://slsa.dev/spec/v1.2/build-requirements) informed
+this separation of output identity and source provenance; this local process
+is not claimed to be a SLSA-certified build platform.
+
+Exact window helpers are retained in `qualification/windows/bounded-20261116/`.
+They use the registered fallback and memory gates. The serving helper rejects
+any unresolved mixed comparison point before the full matrix is started.
