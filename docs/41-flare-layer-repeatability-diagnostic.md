@@ -45,3 +45,7 @@ one complete six-observation diagnostic and its actual pytest status (0 or1);
 controller completion means evidence collected, never numerical acceptance.
 On either error, restore; independently require both B12X original images,
 fresh5/5 smoke, API/watchdog/tailnet and no test/native processes before closure.
+
+Subsequent source review found this diagnostic inherits the original loader's
+A4 default, unlike deployed SM121 preparation. Do not run it as the deployed
+A16 qualification. It remains an unrun A4 control; docs/42 takes priority.

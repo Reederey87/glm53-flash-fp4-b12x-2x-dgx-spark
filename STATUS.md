@@ -1,5 +1,9 @@
 # Status
 
+## 2026-11-16 UTC — Layer fixture expert-mode mismatch isolated
+
+- Initial layer test inherited GlmWeightLoader A4 default; the pinned Spark bootstrap uses A16 owner with calibrated A4 prefill. Dense activation mode does not change that loader default. Prepared docs/42 retry explicitly matching the deployed owner, with additional identity assertions and every numerical bound preserved. The A4 failure remains retained; the A4 repeatability diagnostic is deferred. No serving source/core change.
+
 ## 2026-11-16 UTC — Layer-window recovery verified; fixed-output retry running
 
 - Both failed layer-test processes exited1 and no longer run. Independent B12X restoration passed5/5 smoke, both original images, API/watchdog/tailnet and absent native PIDs; closure receipts retained. The fixed-output retry is running under docs/40 with a separate60-minute fallback, supported ignore_eos and per-request failure journaling. Numerical layer failure remains an adoption blocker; docs/41 diagnostic is frozen for the next independent window.
