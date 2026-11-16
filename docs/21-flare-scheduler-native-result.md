@@ -16,6 +16,15 @@ suggested it. Native identities are slot/generation pairs, with no invented
 mapping to HTTP requests. Traced timings are diagnostic, not an untraced speed
 result or evidence that the latency treatment passes.
 
+The same trace also records a modest context-cost increase. For complete4096-token
+single-lane prefill chunks in the four validated histories, median observed GPU
+duration is1.773,1.804,1.840 and1.875s across successive32k start-position bins
+(28/30/32/28 observations). The last median is5.75% higher than the first.
+`scheduler-balanced-duration-bins.json` retains every duration and the raw trace
+hash. These are max-rank CUDA intervals, not GPU start timestamps or utilization.
+This supports checking cost calibration under long context; it does not justify
+tuning coefficients from one diagnostic or claiming that kernel work decreased.
+
 ## Additional primary-source evidence retrieved with Exa MCP
 
 - [Aging and remaining-work scheduling](https://arxiv.org/html/2606.09061)
