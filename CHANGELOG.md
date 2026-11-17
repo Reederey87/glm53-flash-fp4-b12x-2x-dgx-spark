@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-16 — Flare usage and performance documentation
+
+- Updated the README for the installed Flare engine, working SSH client URL, exact serving settings and operational checkpoint.
+- Recomputed the selected artifact's published scheduler medians from retained receipts; separated historical B12X/balanced-Flare results and preserved the failed overall gate.
+- Reworked “Why this kit” and the same-checkpoint comparison using Exa-reviewed primary sources, including the 1M vLLM playbook and current SparkGLM results. Removed unsupported ranking and exclusivity claims.
+- Documentation only; no cluster configuration, restart or benchmark. Research remains paused.
+
 ## 2026-11-16 — PR #2: approved Flare release and research checkpoint
 
 - Selected the exact native Flare artifact `127424e9…` / binary `b2eb310b…`

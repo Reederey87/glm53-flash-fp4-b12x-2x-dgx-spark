@@ -1,3 +1,5 @@
+2026-11-16 UTC: Updated README.md and docs/06-alternatives.md for selected Flare usage, retained performance evidence and an Exa-reviewed same-checkpoint survey. Documentation only; production settings and the research pause are unchanged.
+
 2026-11-16 UTC: Adopted the explicitly approved provisional Flare release at `/home/nvidia/b12x-flare`; owner/watchdog/proxy enabled, B12X retained as disabled rollback. Controlled recovery and two-node reboot passed; post-boot API7/7, generation and 2,347,264-token pool verified; fallback closed12:15:45.
 Research paused; current operations, failed-attempt evidence and resume checkpoint are in docs/63, open tasks in spec/TODO.md and release history in CHANGELOG.md (PR #2).
 
