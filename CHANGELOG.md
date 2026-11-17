@@ -1,6 +1,6 @@
 # Changelog
 
-## 2026-11-16 — Flare usage and performance documentation
+## 2026-11-16 — PR #3: Flare usage and performance documentation
 
 - Updated the README for the installed Flare engine, working SSH client URL, exact serving settings and operational checkpoint.
 - Recomputed the selected artifact's published scheduler medians from retained receipts; separated historical B12X/balanced-Flare results and preserved the failed overall gate.
