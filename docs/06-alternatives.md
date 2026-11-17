@@ -1,121 +1,145 @@
-# Alternatives — the same checkpoint on two Sparks
+# Same-checkpoint alternatives on two DGX Sparks
 
-> Historical architecture or qualification record. Current production, unresolved gates and the research pause: [docs/63](63-production-pause-checkpoint.md). Old window controllers must be adapted before reuse.
+Updated **2026-11-16** using Exa MCP searches and primary model cards, guides
+and repository READMEs. This survey covers deployments of
+`nvidia/GLM-5.3-Flash-FP4-Local` on two GB10 Sparks. Other NVFP4, EXL3 and
+low-bit checkpoints have different weight representations and are excluded.
+The same model family name alone is not sufficient for inclusion.
 
-Surveyed 2026-11-08 with the Exa MCP search and each project's own files. Scope:
-**only kits that serve `nvidia/GLM-5.3-Flash-FP4-Local` on two DGX Spark
-(GB10) nodes.** Kits for the NVFP4, EXL3 or 3-bit checkpoints are a different
-quant and are listed at the end; they are not part of the comparison.
+Current production is the selected native **Flare** artifact, not this kit's
+original vLLM B12X image. [README](../README.md) gives connection settings,
+serving parameters and the comparison table; [docs/63](63-production-pause-checkpoint.md)
+is the operational checkpoint. Research remains paused.
 
-## At a glance
+## Evidence and tradeoffs
 
-| Kit | Engine | Context / KV | Decode tok/s (their harness) | Seats / speculation | Operations | Licence |
-|---|---|---|---|---|---|---|
-| **this kit (`b12x`)** | vLLM B12X, pinned digest `3b5da79c` | **1M / 2.35M tok** | **40.2 c1 · 79.4 c8** (3-rep code bench, MTP-3); 45 interactive peak | 4 / MTP-3 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
-| [myllmbox recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM 0.32 + own `mbx` loader | 400k / 1.15M tok | **44.9 avg c1 · 214.2 peak c16** (300 s streams) | **16** / MTP 1–9 dynamic | `run.sh`, optional host tuning | MIT |
-| [Flare guide](https://github.com/gpdev-Pilcothink/flare-spark) | Flare native (Python prep → Rust serve) | 1M / **3.4–4.8M tok** | **37–42** (llama-benchy `tg128`/`tg1024`) | **12** / MTP-5 | shell launcher, >1 h first preparation | Apache-2.0 |
-| [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas (own engine) | 4 × 1M profile / ~2.66M | **37.0 prose · 67.9 code · 90.8 structured** (RigMark, low effort) | 4 / DFlash2 or native MTP | `start.sh`, clock-cap required, TP2/TP4 | **AGPL-3.0** + **CC BY-NC-ND** drafter |
-| [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker) | vLLM B12X, moving nightly | 500k / 8 GiB | **37.5** (llama-benchy `tg128`, c1) | 4 / MTP-5 | one-step launcher, no service | MIT |
-| [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe default | **33.94** (SPEED-Bench qualitative coding) | 4 / MTP-5 | manual two-rank launch or launcher | NVIDIA playbook |
-| [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 engine patches | 262k / 808k tok | **31.2** (512-token request incl. TTFT) · **58–60 decode-only** on long context | 4 / adaptive MTP | Python launcher, 8 GiB guard, **no boot persistence** | Apache-2.0 |
+### This kit: pinned Flare operations
 
-Decode denominators differ and are not interchangeable: this kit uses
-cache-cold 200-token requests at Max reasoning; myllmbox sustains 300 s streams
-kept busy and reports averages plus best-10 s peaks; Flare reports llama-benchy
-`tg128`/`tg1024`; SparkGLM uses RigMark at low effort; eugr's 37.5 is
-llama-benchy `tg128` measured on the same image and recipe in the NVIDIA forum
-thread; NVIDIA's figure is SPEED-Bench; DevelopingDad reports request wall time
-over 512 tokens including TTFT, plus a separate decode-only long-context rate.
+The installed release has TP2, four slots, fixed MTP-3, 4096-token prefill chunks,
+latency scheduling, 1,048,576 configured context and an observed post-boot
+2,347,264-token pool. It is text only. Exact native/core/wrapper identities,
+two-node startup, API7/7, watchdog recovery, reboot and retained B12X rollback
+have recorded evidence.
 
-## What each is better at
+The selected artifact's counterbalanced scheduler comparison includes 348
+measured requests. In the simultaneous 128k/32k/8k/4k one-output-token burst,
+latency-policy median TTFT is 79.171/19.938/5.515/1.725 seconds. Balanced-policy
+medians are 78.529/32.163/8.873/3.439 seconds. Whole-burst duration changes
+78.552→79.191 seconds. Shorter requests finish prefill earlier without a
+corresponding aggregate throughput gain.
 
-- **myllmbox** — the fastest published single-stream and multi-stream numbers on
-  this checkpoint: 45 tok/s average / 87 peak thinking-on at c=1, 214 tok/s peak
-  at 16 streams, 1,836 tok/s prefill at 128k, 16 seats. Costs: 400k context,
-  1.15M pool, a custom loader image and Marlin-based expert path.
-- **Flare** — the largest native KV cache here (16 GiB → **4.78M** tokens; 11.8
-  GiB → 3.44M), 12 seats, 1M prepared context, comparable decode (37–42 tok/s in
-  its guide), lower prefill (~1.5k tok/s). Costs: a first preparation that can
-  take over an hour and a prepared package on disk.
-- **eugr/spark-vllm-docker** — the reference the model card points to; newest
-  recipes and image tags, least code. A launcher, not a deployment: moving tags,
-  no unit, no watchdog, no receipts.
-- **NVIDIA DGX Spark playbook** — the official reproducibility write-up of the
-  same recipe, with a published SPEED-Bench decode figure of 33.94 tok/s.
-- **Enntity/SparkGLM** — the most engineered alternative: own engine, prefix
-  cache on disk, KV sharding, display-carveout memory, TP4 chain/ring, and the
-  only published TP2 RigMark numbers that beat this stack (prose 37.0, code 67.9,
-  structured 90.8 tok/s at low effort). Costs: different engine, `clock-cap`
-  prerequisite, AGPL-3.0 and a non-commercial DFlash2 drafter.
-- **DevelopingDad** — the best measured *relative* throughput gain on the same
-  image family: +23.43 % short/concurrent from four reviewable patches, MTP only,
-  Apache-2.0. Costs: 262k context and an 808k pool, plus a launcher that installs
-  no boot persistence.
+The full result retains **10 unresolved adverse medians out of 80 metrics**;
+the original 2% performance gate did not pass. A full matched 84-row B12X versus
+selected-Flare comparison is outstanding. Historical balanced-Flare decode and
+B12X MTP-3 numbers are labeled separately in the README and must not be presented
+as the current release's benchmark. [Complete ABBA result](50-counterbalanced-performance-repeat.md),
+[raw comparison](../receipts/flare-qualification-20261115/performance-abba-comparison.json).
 
-## Where this kit wins
+This kit offers a reproducible operational checkpoint and an explicit record
+of incomplete qualification. It does not claim exclusive systemd support,
+minimal preparation, the largest cache or the fastest serving performance.
 
-- **It is a service, not a launcher.** Only this kit ships a systemd unit, a
-  two-node 90 GiB MemFree / 100 GiB MemAvailable gate, a bounded watchdog, a
-  tailnet proxy, and a boot auto-start proven by a real two-node power cycle
-  (`receipts/boot-20261108-second.txt`). Every other entry starts a container
-  from a shell.
-- **Pinned and checked bytes** — image digest, checkpoint revision, launcher
-  commit and FlashInfer build are recorded and re-checked by `preflight` and
-  `qualify`.
-- **The largest pool among the vLLM recipes** — 2.35M tokens at 1M context,
-  against 500k/8 GiB (eugr, NVIDIA), 262k/808k (DevelopingDad) and 400k/1.15M
-  (myllmbox). Flare's native cache is larger; state that plainly.
-- **An asserted reasoning contract** — a request without `reasoning_effort`
-  renders `Reasoning Effort: Max`, and `smoke` fails if that drifts.
-- **Permissive licensing** — Apache-2.0, no AGPL engine, no non-commercial
-  drafter.
-- **Least machinery** — no custom loader, no patch tooling, no >1 h preparation,
-  no clock cap; stdlib-only scripts and one command to a healthy endpoint.
+### Public Flare guide: more request slots and cache
 
-## Where this kit is behind
+The [GLM53-Flash guide](https://github.com/gpdev-Pilcothink/flare-spark/blob/main/Guide/GLM53-Flash.md)
+uses the same source checkpoint with native Flare, 1,048,576 context, 12 slots,
+MTP-5 and 8192-token prefill chunks. Its illustrated 11.8 GiB cache allocation
+reports **3,439,616 pooled tokens**. Published llama-benchy decode is
+**38.21 ± 0.18 tok/s for tg128** and **37.46 ± 3.11 for tg1024**.
 
-- **Capacity and seats.** Flare holds 3.4–4.8M KV tokens and 12 seats; myllmbox
-  holds 16 seats. This kit has 2.35M and 4.
-- **Single-stream speed.** myllmbox publishes 45 tok/s average at c=1; this kit's
-  own 3-rep code bench measures 40.2 (different harness, but myllmbox is still
-  ahead and worth investigating).
-- **Features.** No DFlash2, no disk KV tier, no display-carveout memory, no TP4.
-- **Freshness.** The image was built 2026-11-03; upstream nightlies move, and its
-  FlashInfer is 140 commits behind the workspace clone (`91271757` vs `361e45fa`).
+This is a useful capacity/concurrency reference, not proof that changing this
+kit to 12 slots will preserve latency, state correctness or memory headroom.
+Native preparation, exported settings and runtime allocations must be compared;
+12 slots do not imply 12 simultaneous full-context conversations. The guide's
+allocation is an observation, not a guaranteed pool size for every startup.
 
-## Read the numbers carefully
+### myllmbox: sustained multi-stream workloads
 
-Every project measured on its own pair, with its own prompts, reasoning effort
-and output budget: this kit uses cache-cold unique prompts, a 200-token budget
-and the checkpoint's Max reasoning default; myllmbox sustains 300 s streams at
-16 seats; Flare reports llama-benchy tg128/tg1024; SparkGLM uses RigMark at low
-effort; DevelopingDad 512-token requests; NVIDIA SPEED-Bench. **Only numbers from
-the same harness are comparable.** Cross-kit figures choose what to test next;
-they do not rank the kits.
+The [cluster recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe)
+uses vLLM with its custom loader, 400k context, **1,145,238 pooled tokens**,
+16 streams and dynamic MTP up to nine drafts. It reports **44.9 tok/s average**
+for a thinking-on pasture request at c1 and **214.2 tok/s aggregate peak** at
+c16, using sustained-stream measurements. These are different statistics from
+different workload cells; the latter is neither a c1 rate nor a sustained mean.
+Its published 128k prefill rate is **1836 tok/s**.
 
-## Adjacent kits (different checkpoint, not compared)
+The relevant trade is a larger admitted stream count with a smaller configured
+context and pool. Its results motivate matched concurrency measurements; they
+do not establish a speed lead over this kit under the same workload.
 
-`barrydeen/glm53-flash-dgx-spark`, `himorishige/glm53-flash-2x-dgx-spark-recipe`,
-`tonyd2wild/GLM-5.3-Flash-NVFP4-DFlash2-2x-DGX-Spark`,
-`0rand/glm-5.3-flash-nvidia-nvfp4-dflash-2x-dgx-sparks`,
-`mazar/spark-glm53`, `LimeChain/glm-5.3-flash-2xdgx-spark`,
-`Plaaasma/glm53-flash-dual-dgx-spark`, `alexellis/glm-5.3-flash-2x-dgx-spark-switchless`
-(NVFP4, but the closest operational peer: systemd unit, health gates, cache
-persistence), `MiaAI-Lab/...-EXL3-...-TensorFold`,
-`strusty/GLM-5.3-Flash-NVFP4-3x-DGX-Sparks-kindling-DGXOS` (TP3). They target
-NVFP4 or EXL3 weights, so their speed and quality numbers do not transfer to
-this checkpoint, and this kit's do not transfer to them.
+### SparkGLM: separate engine and drafter
 
-## Sources
+[SparkGLM](https://github.com/Enntity/sparkglm) uses the Atlas engine and DFlash2.
+Its 2026-11-11 v0.3.3 RigMark result, at 4096 output tokens and low reasoning
+effort, reports **66.0 code / 38.1 prose / 89.0 structured tok/s**, with
+**2865 tok/s cold 16k prefill**. Use the two-node TP2 figures; TP4 chain/ring
+results require additional hardware and are outside this comparison.
 
-- Model card and 2× Spark command: <https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local>
-- Reference launcher: <https://github.com/eugr/spark-vllm-docker>
-- NVIDIA playbook: <https://github.com/NVIDIA/dgx-spark-playbooks> and
-  <https://build.nvidia.com/playbooks/vllm-cluster/advanced>
-- myllmbox: <https://github.com/myllmbox/glm53-flash-cluster-recipe>
-- Flare guide: <https://github.com/gpdev-Pilcothink/flare-spark> (GLM53-Flash
-  guide; 4,782,080 KV tokens at 16 GiB, 3,439,616 at 11.8 GiB)
-- SparkGLM: <https://github.com/Enntity/sparkglm> (AGPL-3.0; DFlash2
-  CC BY-NC-ND 4.0)
-- DevelopingDad: <https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized>
-- Flare: <https://github.com/NVIDIA/flare-local-inference>
+The engine and additional drafter change the execution path. Compare sampling,
+quality and actual output-token counts as well as speed, and inspect both engine
+and drafter licensing before adoption. These low-effort results cannot rank
+against this kit's Max-reasoning, different-output-budget measurements.
+
+### tsarihan: documented 1M context and repeated-prefix behavior
+
+The [1M playbook](https://github.com/tsarihan/glm-5.3-flash-fp4-local-1m-2x-dgx-spark-playbook)
+uses the vLLM B12X fork, 1,048,576 context, eight sequences, 8192-token chunks
+and adaptive MTP up to five drafts. It reports **~33 tok/s single-stream decode**
+and **1685–2140 tok/s prefill** on its long prompts. The multimodal profile
+reports **1,307,683 pooled tokens**; its separate text-only configuration reports
+**1,327,926**. Those allocations belong to different settings.
+
+A **990,010-token** prompt takes **587.5 s cold TTFT** and **7.7 s** on a repeated
+prefix; both needles were found on both passes. This is useful long-context and
+cache-reentry evidence for that deployment, not a full-context correctness
+result for Flare. It also exposes image/video capability absent from this kit's
+selected text-only export.
+
+### NVIDIA reference recipe
+
+The [official two-Spark FP4-Local recipe](https://nvidia.github.io/local-ai-inference-recipes/hardware/dgx-spark-2gpu/index.html?backend=vllm&memory=128&memoryConfig=128&model=z-ai%2Fglm-5.3-flash&os=linux&precision=fp4-local)
+reports **33.94 tok/s** on SPEED-Bench qualitative coding. Preserve that workload
+label when citing the figure; it is not a matched measurement against this kit.
+The [model card](https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local) reports
+vLLM validation on two Sparks with 2M FP8 KV tokens and links compatible serving
+instructions. [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker)
+is a reference launcher used by this ecosystem and credited in this kit.
+
+The checkpoint uses mixed precision and compressed quantization scales;
+checkpoint compatibility must be checked against the pinned runtime. NVIDIA's
+vLLM validation does not establish equivalence of another engine's exported core.
+
+### DevelopingDad: a bounded patch comparison
+
+The [optimized recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized)
+keeps NVIDIA's weights and supplies four vLLM patches plus a generation policy.
+It configures **262,144 context**, **808,020 logical KV tokens**, four slots
+and adaptive MTP. Its **+23.43% short/concurrent throughput** result is relative
+to its own matched original configuration. The primary cells use 512 output
+tokens, low effort and request wall time including TTFT; concurrent rates are
+aggregate. Separate long-context decode-only rates have a different denominator.
+
+That controlled patch comparison is useful evidence for that configuration;
+it is not a measured improvement over this Flare release or a guarantee at 1M
+context. The publisher also documents tight memory headroom and a required guard.
+
+## How to compare a future candidate
+
+A future experiment must first identify the same checkpoint revision and
+record exported precision, sampler defaults, reasoning effort, speculation and
+modalities. Keep prompt bodies, cold/warm cache treatment, output budgets,
+concurrency and hardware fixed. Record per-request TTFT, end-to-end time,
+decode-only and aggregate rates separately; retain delivery gaps and per-run
+speculative acceptance counters. Report advertised slots alongside actual
+admission and cache capacity under pressure.
+
+Compare independent starts with a preregistered decision rule. Keep adverse
+points, numerical/state checks and failed runs visible. Published peaks,
+short-output averages and long-running decode rates must not share a ranking
+column without their distinct methods. Pool arithmetic does not qualify
+concurrent full-context retrieval.
+
+The sources suggest future checks of larger slots, MTP depth, chunk size and
+prefix reuse. Those are already research items, not recommended production
+changes. Resume only from the current Flare checkpoint, with Exa research and
+local engine review before critical code changes; test one treatment at a time.

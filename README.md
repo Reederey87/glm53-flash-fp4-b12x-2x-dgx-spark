@@ -1,150 +1,192 @@
 # b12x — GLM-5.3-Flash-FP4-Local on 2× DGX Spark
 
-Deployment kit for **`nvidia/GLM-5.3-Flash-FP4-Local`** (320B MoE, 18B active,
-ModelOpt FP4 QAD) on two DGX Spark nodes (GB10, 121 GiB unified memory each)
-over their ConnectX-7 pair. The approved production engine is **native NVIDIA
-Flare**, with the original **vLLM/FlashInfer B12X** deployment retained for rollback.
-
-`b12x` is the SM120/SM121 kernel library that lives at
-[`flashinfer/experimental/b12x`](https://github.com/flashinfer-ai/flashinfer/tree/main/flashinfer/experimental/b12x)
-(and at [`local-inference-lab/flashinfer`](https://github.com/local-inference-lab/flashinfer)).
-Since 2026-10-07 it ships **inside FlashInfer**; the separate `b12x` wheel is
-superseded. This kit runs the image that vendors that copy and pins every byte
-it depends on.
+Deployment kit for **`nvidia/GLM-5.3-Flash-FP4-Local`** on two NVIDIA DGX Spark
+nodes (GB10, 121 GiB unified memory each). The installed production engine is
+**native NVIDIA Flare**, with the original **vLLM/FlashInfer B12X** deployment
+retained for rollback. The repository name reflects that original deployment;
+`launch.sh` still launches B12X, not Flare.
 
 ## Production status
 
-The user approved the pinned Flare release on **2026-11-16**, with further
-research paused. It is **provisional production**: seven API smoke checks pass,
-but the full performance, capacity and broader quality gates remain open.
-[The production checkpoint](docs/63-production-pause-checkpoint.md) records
-observed activation, recovery and boot results, exact bytes, remaining work and
-instructions for resuming research. [CHANGELOG.md](CHANGELOG.md) records delivery. Both-node reboot, controlled
-watchdog recovery and post-boot API7/7 are verified. The current pool is
-**2,347,264 tokens**; the original capacity target remains open.
+The pinned Flare release was approved and merged in [PR #2](https://github.com/Reederey87/glm53-flash-fp4-b12x-2x-dgx-spark/pull/2)
+on **2026-11-16**. Both ranks started automatically after a controlled two-node
+reboot; watchdog recovery, generation and all seven API smoke checks passed.
+Further research is paused. This is **provisional production**: the full
+performance, capacity and broader quality gates remain open.
 
 The runtime is `/home/nvidia/b12x-flare`, owned by `nvidia`, under
-`b12x-flare-production.service`. Its watchdog and tailnet proxy share that owner.
+`b12x-flare-production.service`. Its watchdog and tailnet proxy are enabled.
 B12X startup is disabled; `/home/nvidia/b12x` and its original image remain the
-rollback. Never start either engine directly from the Git checkout.
+rollback. [The production checkpoint](docs/63-production-pause-checkpoint.md)
+records exact bytes, activation/recovery/reboot receipts and remaining work.
 
-## Selected release
+## Connect a client
 
-| Piece | Value |
+For the existing Mac SSH tunnel, use these provider settings:
+
+| Setting | Value |
 |---|---|
-| Checkpoint | `nvidia/GLM-5.3-Flash-FP4-Local` @ `76348ddb2be2e35e39ecfc00e75dc07703f4f3d5` |
-| Engine | Flare `5a4e867954593b2e05bba43bc2a6eeaddca402d7`, native manifest `127424e9…`, executable `b2eb310b…` |
-| Core | Native dense activations; identity `df214696…`, primary SHA `2c47847a…` |
-| Serving | TP2, four slots, fixed MTP-3, prefill 4096, latency policy, trace off, reserve 4 GiB |
-| Context/cache | 1M configured context; provisional startup pool floor 2,300,000 tokens; original 2,350,210 target remains open |
-| Reasoning | omitted `reasoning_effort` defaults to Max; low/high/max checked at every owner startup |
-| API | native `127.0.0.1:8001`; existing tailnet `:8000` endpoint |
-| Rollback | B12X image `sha256:3b5da79c…`, original runtime and startup units retained |
+| Base URL | **`http://127.0.0.1:18899/v1`** |
+| API protocol | **OpenAI Chat Completions** |
+| Model ID | **`nvidia/GLM-5.3-Flash-FP4-Local`** |
+| API key | Leave blank; use `local` if the client requires a nonempty value |
+| Retry policy | Default / transient errors |
 
-Exact pins and explicit approval: [release decision](recipes/flare-production-decision-20261116.json).
-Use the [current runbook](docs/02-runbook.md) for start, stop and rollback.
-The comparisons below describe the original B12X recipe and published alternatives;
-they are historical context, not a measured advantage of this Flare release.
+Fetch the available models after changing the URL. On this Mac, the older
+`127.0.0.1:18000` tunnel forwards to head port 8000; native Flare listens on
+head loopback **8001**. The existing 18899 tunnel targets that working port.
+Health, model discovery and a chat completion through it were verified.
 
-## Why this kit — and why `nvidia/GLM-5.3-Flash-FP4-Local`
+On another client, create a tunnel with a free local port and keep it running
+while using the API. This example uses 18899; do not start a second tunnel if
+that port already has the working forward:
 
-Two Sparks hold **one** frontier-class model. On this pair the checkpoint
-decision matters more than any flag: a heavy re-quantization buys fit by
-degrading the dense path, while NVIDIA's FP4-Local keeps everything except the
-routed experts at high precision.
+```bash
+ssh -N -o ExitOnForwardFailure=yes \
+  -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
+  -L 127.0.0.1:18899:127.0.0.1:8001 nvidia@spark-a183.local
+```
 
-1. **It is NVIDIA's own quant, not a community re-quant.** NVIDIA produced this
-   checkpoint with Model Optimizer and quantization-aware distillation (QAD),
-   and validated it on *2 × DGX Spark 128 GB with 2M tokens of FP8 KV cache*.
-   Only the routed experts are NVFP4. Dense MLA, shared experts and the router
-   stay BF16/MXFP8, and NVIDIA ships `native-QB.safetensors` in BF16
-   specifically to keep `kv_b_proj` out of the FP4 path. Measured against the
-   real bytes, **94.9 % of stored bytes load exactly as NVIDIA shipped them**;
-   this kit never re-quantizes anything ([docs/01](docs/01-qualification.md)).
-2. **Heavy re-quants are a different trade, not a different deployment of this
-   checkpoint.** Packs around 2–3 bpw push the dense attention and MLP to 4-bit
-   trellis as well and dequantize in software on the SMs; published Spark
-   comparisons of that approach on this family measure roughly **+70 % cluster
-   GPU power, 10–16 °C hotter GPUs, and lower prefill**. The comparison below
-   deliberately covers **only deployments of `nvidia/GLM-5.3-Flash-FP4-Local`**;
-   other checkpoints are listed in [docs/06](docs/06-alternatives.md).
-3. **It uses the hardware you paid for.** `sm_121a` NVFP4/MXFP8 tensor cores via
-   FlashInfer `b12x`, RoCEnante one-shot RoCE collectives, MTP-3 speculation —
-   no software trellis, no dequant on the hot path.
-4. **Capacity that matches the model.** 1M-token context with a **2.35M-token**
-   FP8 KV pool: two full-context requests by pool arithmetic, four 500k requests.
-   NVIDIA's own validation on this hardware is 2M tokens.
-5. **Proven on this exact pair.** 2.2–2.3k tok/s cache-cold prefill and, after
-   the MTP-3 window, **40.2 tok/s c1 / 79.4 c8** on a 3-rep code bench
-   (+8.5 % / +8.3 % over MTP-5), draft accept rate 0.63, answers unchanged
-   ([gate](docs/gates/2026-11-08-mtp3.md)).
+The SSH host must resolve and accept your configured key. Then, in another terminal:
 
-### Same checkpoint, other kits
+```bash
+curl --fail http://127.0.0.1:18899/v1/models
+curl --fail http://127.0.0.1:18899/v1/chat/completions \
+  -H 'Content-Type: application/json' \
+  -d '{"model":"nvidia/GLM-5.3-Flash-FP4-Local","messages":[{"role":"user","content":"Explain tensor parallelism briefly."}],"reasoning_effort":"low","max_tokens":512,"temperature":1.0,"top_p":0.95}'
+```
 
-Seven public deployments serve **this exact checkpoint** on two Sparks. Context,
-pool, seat and decode figures are each project's own; the harness note below
-the table explains why they are not interchangeable.
+Omit `reasoning_effort` for the checkpoint's **Max** default; `low` and `high`
+are also supported. Allow enough output tokens for reasoning and the answer.
+Temperature zero is clamped to the native sampler's advertised range; it does
+**not** select greedy decoding. Inspect `/v1/models` for the sampling contract.
 
-| Deployment | Engine | Context / KV | Decode tok/s (their harness) | Seats / speculation | Operations | Licence |
-|---|---|---|---|---|---|---|
-| **this kit** | vLLM B12X, pinned digest | **1M / 2.35M tok** | **40.2 c1 · 79.4 c8** (3-rep code bench, MTP-3); 45 interactive peak | 4 / MTP-3 | systemd, boot-verified, watchdog, tailnet | Apache-2.0 |
-| [myllmbox recipe](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM 0.32 + `mbx` loader | 400k / 1.15M tok | **44.9 avg c1 · 214 peak c16** | **16** / MTP 1–9 dynamic | `run.sh`, optional host tuning | MIT |
-| [Flare guide](https://github.com/gpdev-Pilcothink/flare-spark) | Flare native | 1M / **3.4–4.8M tok** | **37–42** (llama-benchy tg) | **12** / MTP-5 | shell launcher, >1 h first preparation | Apache-2.0 |
-| [Enntity/SparkGLM](https://github.com/Enntity/sparkglm) | Atlas | 4 × 1M profile / ~2.66M | **37.0 prose · 67.9 code** (RigMark, low effort) | 4 / DFlash2 | `start.sh`, clock-cap required | **AGPL-3.0** + **CC BY-NC-ND** drafter |
-| [eugr/spark-vllm-docker](https://github.com/eugr/spark-vllm-docker) | vLLM B12X, moving nightly | 500k / 8 GiB | **37.5** (llama-benchy tg128, c1) | 4 / MTP-5 | launcher only | MIT |
-| [NVIDIA DGX Spark playbook](https://github.com/NVIDIA/dgx-spark-playbooks) | same image `nightly-20261015` | 500k / recipe | **33.94** (SPEED-Bench coding) | 4 / MTP-5 | manual or launcher | NVIDIA playbook |
-| [DevelopingDad recipe](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + 4 patches | 262k / 808k tok | **31.2** (512-token request) · 58–60 decode-only | 4 / adaptive MTP | Python launcher, no boot persistence | Apache-2.0 |
+On the head itself, use `http://127.0.0.1:8001/v1`. The installed tailnet proxy
+serves `http://100.125.23.98:8000/v1`; a client needs a working tailnet route.
+Direct access from a remote tailnet client remains an open verification item.
+There is no API-key authentication in this release: access is bounded by SSH
+or the tailnet, and entering `local` does not add authentication.
 
-Decode is not one measurement: this kit's 40.2/79.4 are a 3-rep code bench
-requests at Max reasoning; myllmbox sustains 300 s streams; Flare reports
-llama-benchy `tg128`/`tg1024`; SparkGLM uses RigMark at low effort; eugr's 37.5
-is llama-benchy `tg128` on the same image; NVIDIA's 33.94 is SPEED-Bench;
-DevelopingDad's 31.2 includes TTFT over a 512-token request, and 58–60 is
-decode-only on long context.
+## Selected release and serving parameters
 
-**What this kit does better than the others on this list**
+| Parameter | Installed value |
+|---|---|
+| Checkpoint revision | `76348ddb2be2e35e39ecfc00e75dc07703f4f3d5` |
+| Flare source | `5a4e867954593b2e05bba43bc2a6eeaddca402d7` |
+| Native artifact / executable | Manifest `127424e9…` / SHA `b2eb310b…` |
+| Exported core | Native dense activations; identity `df214696…`, primary SHA `2c47847a…` |
+| Parallelism / request slots | TP2 / **4** slots; context parallelism off |
+| Speculation | Fixed **MTP-3** |
+| Prefill / scheduler | **4096-token** chunks / selected latency policy |
+| Context limit | **1,048,576 tokens** per request, shared by prompt and output |
+| Observed post-boot KV pool | **2,347,264 tokens** shared across requests and retained prefixes |
+| Capacity gate | Provisional startup floor **2,300,000**; original **2,350,210** target still open |
+| Memory reserve / tracing | **4 GiB per rank** / native tracing off |
+| Sampling / reasoning defaults | Temperature **1.0**, top-p **0.95**, omitted effort = **Max** |
+| Modalities | **Text only** in this Flare export |
+| Rollback image | B12X `sha256:3b5da79c…`, retained on both nodes |
 
-- **It is a service, not a launcher.** The only deployment here with a systemd
-  unit, a two-node 90 GiB MemFree / 100 GiB MemAvailable gate, a bounded
-  watchdog and a boot auto-start proven by a real two-node power cycle
-  (`receipts/boot-20261108-second.txt`). The rest start a container and stop
-  when the shell does.
-- **Pinned and checked bytes.** Image digest, checkpoint revision, launcher
-  commit and FlashInfer build are recorded and re-checked on every start;
-  `preflight` fails closed on a mismatch.
-- **1M context with 2.35M pooled tokens** — the largest pool among the vLLM
-  recipes on this list (500k/8 GiB for eugr and the NVIDIA playbook, 262k/808k
-  for the patched recipe). Flare's native cache is larger (see below).
-- **The reasoning contract is asserted, not assumed.** A request without
-  `reasoning_effort` renders `Reasoning Effort: Max`; `smoke` fails if the
-  checkpoint default drifts.
-- **Permissive and unencumbered.** Apache-2.0 kit, no AGPL engine and no
-  non-commercial drafter (SparkGLM's DFlash2 is CC BY-NC-ND).
-- **Least machinery to a running endpoint.** No custom loader image, no patch
-  tooling, no >1 h preparation, no GPU clock cap; the scripts are stdlib-only
-  and the whole path is `preflight → launch → health`.
+Pool allocation varies with startup memory. Do not multiply pooled tokens by
+TP ranks or interpret four slots as four simultaneous full-context requests.
+Configured context and pool size do not establish long-context correctness.
+Exact pins, installed wrapper revisions and approval are in the
+[release decision](recipes/flare-production-decision-20261116.json) and
+[production checkpoint](docs/63-production-pause-checkpoint.md).
 
-**Where others lead**
+## Why this kit
 
-- **Flare** — 3.4–4.8M KV tokens and 12 seats on the same pair, with comparable
-  decode (37–42 tok/s in its guide), at the cost of a >1 h first preparation and
-  a package on disk.
-- **myllmbox** — 45 tok/s average / 214 tok/s peak at 16 streams on its own
-  harness, 16 seats and a 1,836 tok/s 128k prefill, at 400k context.
-- **SparkGLM** — DFlash2, TP4 chain/ring and disk/carveout KV tiering; AGPL and
-  a non-commercial drafter.
-- **DevelopingDad** — +23.4 % short/concurrent throughput on the same image,
-  but at 262k context.
-- **eugr / NVIDIA** — newer recipes and images; this kit pins instead of
-  tracking.
+- **A defined checkpoint and runtime.** NVIDIA's model card describes a 320B MoE
+  with 18B active parameters, quantized with Model Optimizer and
+  quantization-aware distillation. It uses approximately 166 GiB for weights
+  across the pair; NVIDIA reports vLLM validation on two Sparks with 2M FP8 KV
+  tokens. That vendor validation does not qualify this Flare export. The kit
+  pins the source checkpoint, prepared core, executable and deployed wrappers.
+  [Model card](https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local).
+- **Recorded two-node operations.** The owner checks identities and readiness,
+  waits for 90 GiB free / 100 GiB available on each idle node, starts both
+  ranks, and requires capacity and API checks. Controlled watchdog recovery
+  and boot startup have retained receipts; a pinned B12X rollback survives.
+- **An explicit client contract.** Seven smoke checks cover model/context
+  discovery, sampler behavior, reasoning defaults, tools, structured output,
+  prefix reuse and cancellation/recovery. These establish integration behavior,
+  not general answer quality.
+- **Reviewable performance evidence.** Prompt service, output delivery gaps,
+  acceptance and failures remain in the repository. Improvements and unresolved
+  regressions are reported together, with a checkpoint for resuming research.
 
-**When not to pick it:** you need more than ~2.35M KV tokens or more than four
-seats (Flare, myllmbox), you want the highest single-stream number on 400k
-context (myllmbox), or you cannot spare ~166 GiB of unified memory.
+The tradeoffs are real: preparing Flare requires a native build/export, this
+release offers four slots and a smaller observed pool than the public Flare
+guide below, and multimodal input is not enabled. Choose this kit for its pinned
+operational setup and retained evidence; it has no established speed lead over
+other deployments. Kit code is Apache-2.0; upstream components and model weights
+retain their own terms ([CREDITS](CREDITS.md), [NOTICE](NOTICE)).
 
-Sources: [model card](https://huggingface.co/nvidia/GLM-5.3-Flash-FP4-Local),
-[Flare-vs-NVFP4 Spark comparison](https://forums.developer.nvidia.com/t/spark-glm53-nvfp4-b12x-cuda-graph-dflash2-engine-for-glm-5-3-flash-on-2x-dgx-spark/386646),
-[`docs/06-alternatives.md`](docs/06-alternatives.md), and this kit's receipts.
+## Measured performance of the selected Flare artifact
+
+The strongest retained comparison uses the **same native artifact and core**,
+changing only balanced versus latency scheduling. Four fresh starts ran in
+balanced/latency/latency/balanced order, with three repetitions per start and
+**348 measured requests**. Both policies used TP2, four slots, MTP-3, chunk
+4096, reserve 4 GiB, tracing off and Max reasoning.
+
+For a simultaneous unequal burst, with a one-token output budget per request,
+the combined median time to first token (TTFT) was:
+
+| Cold prompt | Balanced policy | Selected latency policy | Change |
+|---|---:|---:|---:|
+| 128k (131,072 tokens) | 78.529 s | 79.171 s | +0.82% |
+| 32k (32,768 tokens) | 32.163 s | 19.938 s | −38.01% |
+| 8k (8,192 tokens) | 8.873 s | 5.515 s | −37.84% |
+| 4k (4,096 tokens) | 3.439 s | 1.725 s | −49.85% |
+| Whole burst completion | 78.552 s | 79.191 s | +0.81% |
+
+Earlier small-prompt responses improved substantially; total burst duration
+barely changed. In the separate concurrent fixed-256-output suite, median
+cohort duration was **115.258 → 114.549 s**, mean acceptance length
+**1.733 → 1.777**, and draft acceptance rate **24.52% → 26.03%**.
+These are workload-specific measurements, not a single-stream decode benchmark.
+
+The complete result remains **70/80 points without an adverse median over 2%,
+10 unresolved adverse medians, zero separated regressions over 2% in either
+order pair**. For example, one overlapping decoder's amortized rate fell
+**4.10%**, and the fixed-output 8k request's elapsed time rose **10.52%**.
+Overlapping ranges do not establish equivalence: **the registered gate did not
+pass**. Six observations per request role come from only two starts per policy.
+See the [complete result](docs/50-counterbalanced-performance-repeat.md) and
+[machine-readable comparison](receipts/flare-qualification-20261115/performance-abba-comparison.json).
+
+For historical context, an earlier **balanced Flare** build measured aggregate
+code rates of **37.32 tok/s at c1** and **73.31 at c4**, using 200-token outputs
+and including startup/queueing; its cold c1 128k TTFT was **58.34 s**.
+It failed concurrent-prefill gates. Those results and the original B12X
+**40.2 c1 / 79.4 c8** MTP-3 figures are **not measurements of the selected
+latency release**. The full matched 84-row comparison against B12X remains open.
+[Historical Flare result](docs/13-flare-native-serving-result.md),
+[B12X MTP-3 gate](docs/gates/2026-11-08-mtp3.md).
+
+## Same checkpoint on two Sparks
+
+Primary sources reviewed with Exa MCP on **2026-11-16**. Each row describes its
+publisher's configuration and test; these are **not a speed ranking**. NVFP4
+and EXL3 checkpoints with different weight quantization are outside this table.
+
+| Deployment | Engine / capacity / concurrency | Published performance and method |
+|---|---|---|
+| **This kit, selected release** | Flare; 1,048,576 context; observed 2,347,264 pooled tokens; 4 slots; MTP-3 | Selected-artifact scheduler comparison above; full cross-engine performance pass still open |
+| [Public Flare guide](https://github.com/gpdev-Pilcothink/flare-spark/blob/main/Guide/GLM53-Flash.md) | Flare; 1,048,576 context; observed 3,439,616 pooled tokens; 12 slots; MTP-5, chunk 8192 | llama-benchy: **38.21 ± 0.18 tok/s tg128**, **37.46 ± 3.11 tg1024** |
+| [myllmbox](https://github.com/myllmbox/glm53-flash-cluster-recipe) | vLLM + custom loader; 400k context; 1,145,238 pooled tokens; 16 streams; dynamic MTP up to 9 | Thinking-on pasture c1: **44.9 tok/s average**; **214.2 aggregate c16 peak**, a separate peak statistic; sustained-stream harness |
+| [SparkGLM](https://github.com/Enntity/sparkglm) | Atlas engine with DFlash2; use its TP2 profile | 2026-11-11 RigMark, 4096 output tokens, low effort: **66.0 code / 38.1 prose / 89.0 structured tok/s**; cold 16k prefill **2865 tok/s** |
+| [tsarihan 1M playbook](https://github.com/tsarihan/glm-5.3-flash-fp4-local-1m-2x-dgx-spark-playbook) | vLLM B12X; 1,048,576 context; 8 sequences; adaptive MTP up to 5; multimodal pool 1,307,683 tokens | **~33 tok/s c1**; 990,010-token prompt **587.5 s cold TTFT / 7.7 s repeated-prefix TTFT**, two needles found on both passes |
+| [NVIDIA recipe](https://nvidia.github.io/local-ai-inference-recipes/hardware/dgx-spark-2gpu/index.html?backend=vllm&memory=128&memoryConfig=128&model=z-ai%2Fglm-5.3-flash&os=linux&precision=fp4-local) | Official two-Spark vLLM FP4-Local recipe | **33.94 tok/s**, SPEED-Bench qualitative coding |
+| [DevelopingDad](https://huggingface.co/DevelopingDad/GLM-5.3-Flash-FP4-Local-DGX-Spark-Optimized) | vLLM + four patches; 262,144 context; 808,020 pooled tokens; 4 slots; adaptive MTP | **+23.43% short/concurrent throughput against its own baseline**; not a gain measured against this Flare release |
+
+Context limit, pooled cache capacity and request slots measure different things.
+Likewise, per-stream and aggregate rates, peaks and averages, cold and cached
+prefill, output budgets and reasoning settings are not interchangeable. Sharing
+checkpoint weights does not imply identical arithmetic, sampler behavior or
+speculative decoding. A fair comparison needs matched requests and quality/state
+checks. [The detailed survey](docs/06-alternatives.md) records tradeoffs and
+possible future experiments; none changes the installed release.
 
 ## Operate the installed release
 
@@ -158,77 +200,52 @@ journalctl --user -u b12x-flare-production.service -n 30
 ```
 
 Use [the current runbook](docs/02-runbook.md) for start/stop, maintenance and
-rollback. `launch.sh` remains the original B12X launcher; it does not select the
-Flare production owner. Do not enable all unit files together.
+rollback. A manual stop is respected by the watchdog. Never deploy from the Git
+checkout or enable B12X and Flare owners together. No driver or kernel upgrade
+is part of this release.
 
-For a fresh installation, keep the Git staging tree separate from the runtime.
-The [preparation workflow](docs/07-flare-candidate.md) explains building/exporting;
+For a fresh installation, keep staging separate from the runtime. The
+[preparation workflow](docs/07-flare-candidate.md) explains building/exporting;
 apply the exact artifact, wrapper revisions and production decision in
 [docs/63](docs/63-production-pause-checkpoint.md) before enabling ownership.
 Historical candidate defaults and experiment controllers are not a production
-installer. No build, export or new experiment is required to use the current
-installed release.
+installer. No build or export is required to use the installed release.
+
+## Research checkpoint
+
+Research is paused. Remaining work includes mixed/long-output performance,
+the original capacity target, independent full-model/exported-core equivalence,
+and long-context/state qualification. Component, expert, MLA, representative
+layer, 45-layer target, vocabulary and full MTP replay evidence is retained;
+it does not establish whole-model correctness. The public generation comparison
+stopped at 100 baseline and 86 candidate responses and is incomplete.
+
+Warmup and fractional-reserve experiments are proposals, not production settings.
+Before resuming, use [docs/63](docs/63-production-pause-checkpoint.md); old
+controllers assume B12X owns production and need adaptation to the Flare checkpoint.
 
 ## Layout
 
 ```
-recipes/flare-glm53.json            pinned checkpoint, engine and core settings
-recipes/flare-production-*.json    explicit selected release and open gates
-scripts/flare_production.*         pinned owner, readiness and capacity checks
+recipes/flare-production-*.json    selected release, pins and open gates
+scripts/flare_production.*         production owner and readiness checks
 scripts/flare_watchdog.py          bounded persistent recovery
-scripts/flare_run.*                native rank supervision; deployed revision pinned
-scripts/flare_smoke.py             seven API checks, including default reasoning
+scripts/flare_run.*                rank supervision; deployed revision pinned
+scripts/flare_smoke.py             seven API checks
 scripts/flare_*.py                 preparation and qualification tools
 qualification/                    native patches, fixtures and frozen windows
-systemd/b12x-flare-*               production owner, watchdog, proxy and rollback
-launch.sh                         retained original B12X deployment launcher
+systemd/b12x-flare-*               owner, watchdog, proxy and rollback
+launch.sh                         original B12X deployment launcher
 docs/                             current runbook and historical qualification
-receipts/                         retained measurements and operational evidence
+receipts/                         measurements and operational evidence
 CHANGELOG.md                      public release record
 spec/                             ignored canonical TODO and PR changelog
 ```
 
-## Flare qualification and research checkpoint
-
-The original interleaved scheduler delayed early concurrent prompt responses.
-The selected latency scheduler has native tracing evidence, but the final mixed
-ABBA still contains ten unresolved adverse median points out of eighty. No full
-84-row performance-preservation pass is claimed. See the [retained ABBA result](docs/50-counterbalanced-performance-repeat.md)
-and the definitive links in [docs/63](docs/63-production-pause-checkpoint.md).
-
-Completed numerical evidence includes component/state, expert, MLA, representative
-layer, 45-layer target, vocabulary and full MTP replay checks with original bounds.
-These do not establish independent full-model or exported-core equivalence.
-The public generation comparison stopped on the research pause at 100 baseline
-and 86 candidate responses; it is incomplete. Warmup and fractional-reserve
-experiments are staged/local proposals, not production settings.
-
-Historical trials, failures and receipts remain in `docs/` and
-`receipts/flare-qualification-20261115/`. Old controllers assume B12X owns
-production and must be adapted to this Flare rollback checkpoint before reuse.
-
 ## Credits and licenses
 
-This kit is Apache-2.0. It integrates work by NVIDIA (Flare, checkpoint, model card,
-chat template), the vLLM project, FlashInfer `b12x`, and Eugene Rakhmatulin's
-MIT-licensed `spark-vllm-docker`, and it derives its watchdog/proxy from the
-earlier `glm53-flash-exl3-2x-dgx-spark` kit. Per-component attribution, licenses
-and exactly how each is used: [CREDITS.md](CREDITS.md), [NOTICE](NOTICE).
-
-No weights, images, or full upstream source trees are redistributed here.
-
-## Operations
-
-As `nvidia` on spark1:
-
-```bash
-systemctl --user status b12x-flare-production.service
-systemctl --user stop b12x-flare-production.service
-systemctl --user start b12x-flare-production.service b12x-flare-tailscale.service
-```
-
-The owner tears down both ranks, verifies exact pins, waits for the peer and
-90GiB free / 100GiB available on both nodes, then requires health, capacity and
-seven API checks. A manual stop is respected by the watchdog. See the
-[runbook](docs/02-runbook.md) for maintenance, recovery and B12X rollback.
-No driver or kernel upgrade is part of this release.
+This kit integrates NVIDIA Flare, the checkpoint and chat template, vLLM,
+FlashInfer's experimental `b12x` kernels, and Eugene Rakhmatulin's
+`spark-vllm-docker`. Watchdog/proxy work derives from the earlier EXL3 kit.
+See [CREDITS.md](CREDITS.md) and [NOTICE](NOTICE) for component attribution and
+licenses. No weights, images or full upstream source trees are redistributed.
