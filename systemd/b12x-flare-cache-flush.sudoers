@@ -7,4 +7,8 @@
 # Install: sudo install -m 0755 scripts/b12x-drop-caches /usr/local/sbin/b12x-drop-caches
 #          sudo install -m 0440 systemd/b12x-flare-cache-flush.sudoers /etc/sudoers.d/b12x-flare-cache-flush
 #          sudo visudo -c
-nvidia ALL=(root) NOPASSWD: /usr/local/sbin/b12x-drop-caches
+#          sudo -u nvidia sudo -n -l /usr/local/sbin/b12x-drop-caches  # effective policy
+#          sudo -u nvidia sudo -n /usr/local/sbin/b12x-drop-caches      # non-interactive probe
+# The trailing "" pins the command to zero arguments, so the entry cannot
+# be used to pass options to the helper.
+nvidia ALL=(root) NOPASSWD: /usr/local/sbin/b12x-drop-caches ""

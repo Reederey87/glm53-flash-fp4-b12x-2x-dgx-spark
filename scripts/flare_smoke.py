@@ -12,6 +12,8 @@ from spec_metrics import SAMPLE
 # A startup smoke can collide with real client traffic. Wait this long for an
 # idle window before scoring the cancellation check; bounded so it cannot hang.
 DEFAULT_IDLE_WAIT = 120.0
+# A stalled SSE read must not consume the owner's whole smoke budget.
+STREAM_TIMEOUT = 120.0
 
 
 def runtime_metrics(base):
@@ -48,7 +50,7 @@ def cancel_during_decode(base, request, idle_wait=DEFAULT_IDLE_WAIT):
         time.sleep(.05)
     chunks, characters = 0, 0
     during = None
-    with urllib.request.urlopen(request, timeout=300) as response:
+    with urllib.request.urlopen(request, timeout=STREAM_TIMEOUT) as response:
         for raw in response:
             line = raw.decode().strip()
             if not line.startswith("data:"):
@@ -69,7 +71,8 @@ def cancel_during_decode(base, request, idle_wait=DEFAULT_IDLE_WAIT):
                 characters += len(piece)
             if chunks >= 8 and characters >= 128:
                 observed = runtime_metrics(base)
-                if observed[generated] - before[generated] >= 32 and observed["flare_active_requests"] > 0:
+                if (observed[generated] - before[generated] >= 32
+                        and observed["flare_active_requests"] == 1):
                     during = observed
                     break
     if during is None:
@@ -95,12 +98,19 @@ def post(base, body):
         return json.load(response)
 
 
+def idle_seconds(value):
+    seconds = float(value)
+    if not math.isfinite(seconds) or seconds < 0:
+        raise argparse.ArgumentTypeError("cancellation wait must be finite and non-negative")
+    return seconds
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base", default="http://127.0.0.1:8001")
     parser.add_argument("--snapshot", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
-    parser.add_argument("--cancel-wait", type=float, default=DEFAULT_IDLE_WAIT,
+    parser.add_argument("--cancel-wait", type=idle_seconds, default=DEFAULT_IDLE_WAIT,
                         help="seconds to wait for an idle server before the cancellation check")
     args = parser.parse_args()
     base = args.base.rstrip("/")

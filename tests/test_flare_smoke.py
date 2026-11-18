@@ -43,11 +43,31 @@ class CancellationTests(unittest.TestCase):
                 cancel_during_decode('http://test', object())
 
 
-if __name__ == '__main__':
-    unittest.main()
 
 
 class IdleWaitTests(unittest.TestCase):
+    def test_expiry_happens_at_the_supplied_limit_not_a_hardcoded_10s(self):
+        # At t=11 s a hardcoded 10 s deadline would already raise; with the
+        # supplied 300 s window the check must still be waiting.
+        observations = [metrics(active=1)] * 3 + [metrics()]
+        clock = iter([0.0] + [11.0, 20.0, 30.0, 40.0])
+        with patch('flare_smoke.runtime_metrics', side_effect=observations), \
+             patch('flare_smoke.time.monotonic', side_effect=lambda: next(clock)), \
+             patch('flare_smoke.time.sleep'), \
+             patch('flare_smoke.urllib.request.urlopen', return_value=io.BytesIO(b'')):
+            with self.assertRaises(ValueError) as ctx:
+                cancel_during_decode('http://test', object(), idle_wait=300)
+        self.assertIn('did not reach sustained active decode', str(ctx.exception))
+
+    def test_cli_rejects_non_finite_and_negative_waits(self):
+        from flare_smoke import idle_seconds
+        import argparse
+        for bad in ('nan', 'inf', '-1'):
+            with self.assertRaises(argparse.ArgumentTypeError):
+                idle_seconds(bad)
+        self.assertEqual(idle_seconds('0'), 0.0)
+        self.assertEqual(idle_seconds('180'), 180.0)
+
     """Startup must ride out client traffic instead of failing on contact."""
 
     def test_busy_server_waits_for_the_configured_window(self):
@@ -69,3 +89,7 @@ class IdleWaitTests(unittest.TestCase):
                 cancel_during_decode('http://test', object(), idle_wait=30)
         # Reached the streaming phase, so the wait itself did not fail.
         self.assertIn('did not reach sustained active decode', str(ctx.exception))
+
+
+if __name__ == '__main__':
+    unittest.main()

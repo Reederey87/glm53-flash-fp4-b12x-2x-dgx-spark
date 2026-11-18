@@ -88,28 +88,55 @@ def validate_capacity(scrape, minimum_tokens=2350210):
     return values
 
 
+MEMINFO_KEYS = ('MemTotal', 'MemFree', 'MemAvailable', 'Cached')
+
+
 def memory_state(meminfo=Path('/proc/meminfo'),
                  min_free=Path('/proc/sys/vm/min_free_kbytes')):
-    """Record the inputs that size the KV pool.
+    """Record the inputs that size the KV pool, in kB (KiB) as /proc reports them.
 
     Flare sizes KV from `MemAvailable` on GB10, and that figure includes
     reclaimable page cache, so an observed pool is only attributable if these
-    values are retained beside it. Never raises: a missing or malformed file
-    must not fail readiness.
+    values are retained beside it. Each field is parsed independently, and the
+    function never raises: a missing or malformed source must not fail readiness.
     """
     fields = {}
     try:
-        for line in meminfo.read_text().splitlines():
-            name, _, rest = line.partition(':')
-            if name in ('MemTotal', 'MemFree', 'MemAvailable', 'Cached'):
-                fields[name] = int(rest.split()[0])
-    except (OSError, ValueError, IndexError):
-        return {}
+        lines = meminfo.read_text().splitlines()
+    except OSError:
+        lines = []
+    for line in lines:
+        name, _, rest = line.partition(':')
+        if name not in MEMINFO_KEYS:
+            continue
+        try:
+            fields[name + '_kb'] = int(rest.split()[0])
+        except (ValueError, IndexError):
+            continue
     try:
         fields['min_free_kbytes'] = int(min_free.read_text().strip())
     except (OSError, ValueError):
         pass
     return fields
+
+
+def presizing_memory(directory=None):
+    """Per-rank samples the start script took before rank sizing.
+
+    The pool is negotiated as the smallest capacity any rank can back, so a low
+    draw is only explained by both ranks. Returns {} when the unit invocation is
+    unknown or the samples were not taken.
+    """
+    invocation = os.environ.get('INVOCATION_ID', '')
+    if re.fullmatch(r'[0-9a-f]{32}', invocation) is None:
+        return {}
+    directory = Path(directory) if directory else ROOT / 'local' / f'startup-memory-{invocation}'
+    state = {}
+    for rank in ('head', 'worker'):
+        info = directory / f'{rank}-meminfo.txt'
+        if info.exists():
+            state[rank] = memory_state(info, directory / f'{rank}-min-free-kbytes.txt')
+    return state
 
 
 def rank_state(rank):
@@ -185,6 +212,7 @@ def main():
                         capacity = validate_capacity(metrics.read().decode(), capacity_floor(decision))
                     print(json.dumps({'ranks': states, 'health': 200, 'capacity': capacity,
                                       'memory': memory_state(),
+                                      'memory_pre_sizing': presizing_memory(),
                                       'release_status': decision['status']}), flush=True)
                     return
         except OSError:
@@ -213,7 +241,8 @@ def run_main():
         try:
             return record_failure(ROOT / 'local/production-startup-retry',
                                   os.environ.get('INVOCATION_ID', ''),
-                                  error.tokens, error.minimum)
+                                  error.tokens, error.minimum,
+                                  memory=presizing_memory())
         except (OSError, ValueError):
             # Failure evidence that cannot be attributed to an invocation is
             # terminal: an unattributable shortfall must not consume retries.
