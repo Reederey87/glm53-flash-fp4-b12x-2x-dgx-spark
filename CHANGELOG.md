@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-17 — PR #4: bounded recovery of a failed Flare startup
+
+- A start that observes a cache pool below the approved gate now records the attempt and exits **75**, which `Restart=on-failure` retries after 60 s. Two retries per six hours are persisted in `local/production-startup-retry/state.json`; the next failure and every non-capacity failure exit **78**, made terminal by `RestartPreventExitStatus=78`, so a restart can only be authorised by that budget.
+- `RestartForceExitStatus=` is unusable here: systemd rejects it for `Type=oneshot` before v256 and this host runs 255.4, so the exit code carries the intent rather than a unit directive. Validated on the cluster — exit 75 retried (`NRestarts=5`), exit 78 stayed failed (`NRestarts=0`) — and the unit passes `systemd-analyze verify`.
+- 108 local tests pass, including five covering the exit-code contract. The watchdog policy is unchanged: it still never starts a failed owner.
+
 ## 2026-11-16 — PR #3: Flare usage and performance documentation
 
 - Updated the README for the installed Flare engine, working SSH client URL, exact serving settings and operational checkpoint.

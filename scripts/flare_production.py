@@ -3,17 +3,25 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import re
 from pathlib import Path
 import socket
 import subprocess
 import time
+import traceback
 import urllib.request
 
 from flare_candidate import RECIPE, load_recipe
 from flare_run import serving_command, serving_recipe
 
 ROOT = Path('/home/nvidia/b12x-flare')
+
+
+class CapacityShortfall(ValueError):
+    def __init__(self, tokens, minimum):
+        self.tokens, self.minimum = tokens, minimum
+        super().__init__(f'production cache capacity {tokens} is below the {minimum}-token gate')
 
 
 def digest(data):
@@ -76,7 +84,7 @@ def validate_capacity(scrape, minimum_tokens=2350210):
     if type(minimum_tokens) is not int or minimum_tokens not in (2300000, 2350210):
         raise ValueError('invalid production capacity floor')
     if tokens < minimum_tokens:
-        raise ValueError(f'production cache capacity {tokens} is below the {minimum_tokens}-token gate')
+        raise CapacityShortfall(tokens, minimum_tokens)
     return values
 
 
@@ -160,5 +168,36 @@ def main():
     raise RuntimeError('Flare production readiness deadline exceeded')
 
 
+RETRY_EXIT = 75
+TERMINAL_EXIT = 78
+
+
+def run_main():
+    """Map a startup outcome onto the unit's restart contract.
+
+    Type=oneshot only permits Restart=on-failure, which restarts on any non-zero
+    exit. Therefore every outcome except a validated, budgeted capacity shortfall
+    must terminate with TERMINAL_EXIT, so that a retry can only ever be authorised
+    by record_failure and a real fault is never masked by a restart.
+    """
+    try:
+        main()
+        return 0
+    except CapacityShortfall as error:
+        from flare_startup_retry import record_failure
+        try:
+            return record_failure(ROOT / 'local/production-startup-retry',
+                                  os.environ.get('INVOCATION_ID', ''),
+                                  error.tokens, error.minimum)
+        except (OSError, ValueError):
+            # Failure evidence that cannot be attributed to an invocation is
+            # terminal: an unattributable shortfall must not consume retries.
+            traceback.print_exc()
+            return TERMINAL_EXIT
+    except Exception:
+        traceback.print_exc()
+        return TERMINAL_EXIT
+
+
 if __name__ == '__main__':
-    raise SystemExit(main())
+    raise SystemExit(run_main())

@@ -41,8 +41,17 @@ requires starting the proxy, as shown above.
 The timer checks every 30seconds, requires two failed observations, and may
 restart an active owner at most three times per six hours. Attempts survive
 reboot in `local/production-watchdog/state.json`. It never resurrects a manually
-stopped, disabled, failed or currently starting owner. A failed startup needs
-operator diagnosis or the pre-armed rollback; do not clear the budget to loop.
+stopped, disabled, failed or currently starting owner.
+
+A **failed startup** is recovered by the unit itself, not by the watchdog. When a
+start fails only because the observed cache pool is below the approved gate,
+`flare_production.py` records the attempt and exits 75, and `Restart=on-failure`
+retries after 60 seconds. Two retries per six hours are persisted in
+`local/production-startup-retry/state.json`; the next failure exits 78, which
+`RestartPreventExitStatus=78` makes terminal, so the owner stays failed for
+operator diagnosis or the pre-armed rollback. Every other startup failure also
+exits 78 and is never retried: a restart may only ever be authorised by the
+persisted retry budget. Do not clear either budget to loop.
 
 For planned work, create `local/production-maintenance`, stop the watchdog timer,
 and stop the owner. Remove that marker before an intentional owner start and

@@ -49,10 +49,20 @@ TensorFold server or checkpoint persistence is introduced by these files.
   A manual stop, maintenance, disabled owner, or startup transition is left
   alone. Three attempts per six hours are persisted before dispatch, including
   failed dispatches; clock rollback cannot reset that budget. A failed owner
-  startup needs the guarded rollback or operator attention, not a restart loop.
+  startup is **not** started by this watchdog.
   This health probe is not proof of GPU progress under every possible hang.
   File data and the containing directory are flushed around atomic replacement,
   following Exa's [Linux fsync contract](https://man7.org/linux/man-pages/man2/fsync.2.html).
+- A failed **startup** is bounded-recovered by the owner unit itself. A start
+  that observes a cache pool below the approved gate records the attempt and
+  exits 75, which `Restart=on-failure` retries after `RestartSec=60`. Two
+  retries per six hours are persisted in
+  `local/production-startup-retry/state.json`; the next failure — and every
+  non-capacity failure — exits 78 and is terminal through
+  `RestartPreventExitStatus=78`. `Type=oneshot` rejects
+  `RestartForceExitStatus=` on systemd < 256, so the exit code, not a unit
+  directive, authorises a retry. `StartLimitBurst=8` leaves headroom over the
+  initial start plus two startup retries and three watchdog heals per window.
 - `b12x-flare-tailscale.service` exposes the existing external8000 port through
   the existing TCP proxy to native8001. Stop/disable the B12X proxy before enabling
   it; rollback restores the original proxy and startup ownership.

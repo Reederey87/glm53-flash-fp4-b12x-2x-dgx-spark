@@ -1,6 +1,10 @@
 [Unit]
 Description=Approved Flare cluster startup owner
 ConditionPathExists=/home/nvidia/b12x-flare/local/production-pin.json
+Wants=b12x-flare-tailscale.service
+# Headroom over the 3 watchdog heals + 2 startup retries + initial start per 6 h.
+StartLimitIntervalSec=6h
+StartLimitBurst=8
 
 [Service]
 Type=oneshot
@@ -11,7 +15,13 @@ ExecStart=/bin/bash /home/nvidia/b12x-flare/scripts/flare_production.sh start
 ExecStopPost=/bin/bash /home/nvidia/b12x-flare/scripts/flare_production.sh stop
 TimeoutStartSec=2400
 TimeoutStopSec=360
-Restart=no
+Restart=on-failure
+# Type=oneshot accepts Restart=on-failure but refuses RestartForceExitStatus=
+# (systemd < 256), so the service itself must discriminate: 75 only for a
+# validated capacity shortfall with retry budget, 78 for every other outcome.
+# 78 is terminal here, which keeps a real fault from being masked by a restart.
+RestartPreventExitStatus=78
+RestartSec=60
 StandardOutput=journal
 StandardError=journal
 
