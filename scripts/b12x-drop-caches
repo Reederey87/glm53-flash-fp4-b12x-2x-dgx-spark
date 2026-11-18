@@ -1,0 +1,49 @@
+#!/bin/sh
+# Root-only helper: flush reclaimable page cache before a Flare start.
+#
+# Flare sizes the KV pool from MemAvailable on GB10, and on an integrated device
+# that figure includes reclaimable page cache. A start that runs after a large
+# cache build therefore sees a smaller budget than one that runs after a clean
+# boot, which is why pools drawn from the same release span ~120k tokens.
+# Flushing first makes the input more repeatable, but it is not a guarantee:
+# MemAvailable already credits reclaimable cache, so treat this as variance
+# reduction and keep the per-rank samples the start path records.
+#
+# Install as /usr/local/sbin/b12x-drop-caches with mode 0755, plus the matching
+# NOPASSWD sudoers entry (systemd/b12x-flare-cache-flush.sudoers). The start path
+# calls it best-effort, so an absent helper only warns.
+set -eu
+
+uid=$(id -u) || { echo "b12x-drop-caches: cannot determine uid" >&2; exit 1; }
+if [ "$uid" -ne 0 ]; then
+    echo "b12x-drop-caches must run as root" >&2
+    exit 1
+fi
+
+# Emit a JSON number, or null when the field is absent. Units: kB (= KiB).
+sample() {
+    value=$(awk '/^MemAvailable:/{print $2}' /proc/meminfo 2>/dev/null) || value=
+    case "${value:-}" in
+        ''|*[!0-9]*) printf 'null' ;;
+        *) printf '%s' "$value" ;;
+    esac
+}
+
+before=$(sample)
+
+# Bound writeback: a large dirty set must not stall the start path, and a timed
+# out sync must not be retried without a bound. Skip the drop if writeback failed.
+flushed=true
+if command -v timeout >/dev/null 2>&1; then
+    timeout 60 sync || flushed=false
+else
+    sync || flushed=false
+fi
+if [ "$flushed" = true ]; then
+    echo 3 > /proc/sys/vm/drop_caches
+fi
+
+after=$(sample)
+
+printf '{"dropped_caches":%s,"mem_available_kb_before":%s,"mem_available_kb_after":%s}\n' \
+    "$flushed" "$before" "$after"

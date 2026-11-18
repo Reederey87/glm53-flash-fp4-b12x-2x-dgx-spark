@@ -37,7 +37,7 @@ def decide(state, now, invocation, tokens, minimum):
     }
 
 
-def record_failure(directory, invocation, tokens, minimum):
+def record_failure(directory, invocation, tokens, minimum, memory=None):
     directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
     with (directory / 'lock').open('a') as lock:
@@ -45,8 +45,15 @@ def record_failure(directory, invocation, tokens, minimum):
         path = directory / 'state.json'
         state = json.loads(path.read_text()) if path.exists() else {'schema': 1, 'attempts': []}
         code, updated = decide(state, time.time(), invocation, tokens, minimum)
+        if memory:
+            # Keep the sizing inputs with the failure that they explain.
+            updated['last_failure']['memory_pre_sizing'] = memory
         # Persist before returning the status that authorizes systemd to retry.
         save(path, updated)
+        # The owner's EXIT trap accepts exit 75 only when this receipt exists, so
+        # an unrelated failure cannot borrow the retry budget.
+        if code == RETRY_EXIT:
+            (directory / f'retry-{invocation}').write_text('')
     print(json.dumps({'startup_capacity_failure': updated['last_failure'],
                       'retries_in_window': len(updated['attempts'])}), flush=True)
     return code

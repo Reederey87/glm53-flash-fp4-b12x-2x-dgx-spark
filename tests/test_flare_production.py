@@ -142,5 +142,60 @@ class ProductionSafetyTests(unittest.TestCase):
             validate_pin(pin, data, actual, 0)
 
 
+
+
+class MemoryStateTests(unittest.TestCase):
+    """The pool is sized from MemAvailable; keep the inputs beside the draw."""
+
+    def test_records_pool_inputs(self):
+        import tempfile
+        from flare_production import memory_state
+        with tempfile.TemporaryDirectory() as d:
+            meminfo = Path(d) / 'meminfo'
+            meminfo.write_text('MemTotal:       133828484 kB\n'
+                               'MemFree:          2048 kB\n'
+                               'MemAvailable:  117725480 kB\n'
+                               'Cached:         12275560 kB\n')
+            minfree = Path(d) / 'min_free_kbytes'
+            minfree.write_text('1048576\n')
+            state = memory_state(meminfo, minfree)
+        self.assertEqual(state['MemAvailable_kb'], 117725480)
+        self.assertEqual(state['Cached_kb'], 12275560)
+        self.assertEqual(state['min_free_kbytes'], 1048576)
+
+    def test_one_malformed_row_keeps_the_other_samples(self):
+        import tempfile
+        from flare_production import memory_state
+        with tempfile.TemporaryDirectory() as d:
+            meminfo = Path(d) / 'meminfo'
+            meminfo.write_text('MemAvailable: 1000 kB\nCached: not-a-number kB\nMemFree: 20 kB\n')
+            state = memory_state(meminfo, Path(d) / 'absent')
+        self.assertEqual(state['MemAvailable_kb'], 1000)
+        self.assertEqual(state['MemFree_kb'], 20)
+        self.assertNotIn('Cached_kb', state)
+        self.assertNotIn('min_free_kbytes', state)
+
+    def test_presizing_samples_are_per_rank(self):
+        import tempfile
+        from flare_production import presizing_memory
+        with tempfile.TemporaryDirectory() as d:
+            for rank, value in (('head', 111), ('worker', 222)):
+                (Path(d) / f'{rank}-meminfo.txt').write_text(f'MemAvailable: {value} kB\n')
+            with patch.dict('os.environ', {'INVOCATION_ID': 'a' * 32}):
+                state = presizing_memory(Path(d))
+        self.assertEqual(state['head']['MemAvailable_kb'], 111)
+        self.assertEqual(state['worker']['MemAvailable_kb'], 222)
+
+    def test_presizing_without_a_unit_invocation_is_empty(self):
+        from flare_production import presizing_memory
+        with patch.dict('os.environ', {'INVOCATION_ID': ''}):
+            self.assertEqual(presizing_memory(Path('/nonexistent')), {})
+
+    def test_missing_inputs_degrade_instead_of_failing(self):
+        from flare_production import memory_state
+        self.assertEqual(memory_state(Path('/nonexistent/meminfo'), Path('/nonexistent/min')),
+                         {})
+
+
 if __name__ == '__main__':
     unittest.main()

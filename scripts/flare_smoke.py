@@ -9,11 +9,41 @@ import urllib.request
 
 from spec_metrics import SAMPLE
 
+# One wall-clock deadline covers every check. Per-call socket timeouts alone
+# cannot bound the smoke: eleven completions at 300 s each would outlast the
+# owner's wrapper, so each call is charged to this budget.
+_DEADLINE = None
+
+
+def _remaining():
+    return None if _DEADLINE is None else _DEADLINE - time.monotonic()
+
+
+def _charge():
+    left = _remaining()
+    if left is not None and left <= 0:
+        raise ValueError("smoke budget exhausted")
+
+
+def _timeout(default):
+    left = _remaining()
+    return default if left is None else max(0.001, min(default, left))
+
+# A startup smoke can collide with real client traffic. Wait this long for an
+# idle window before scoring the cancellation check; bounded so it cannot hang.
+DEFAULT_IDLE_WAIT = 120.0
+# Per-operation caps are not a total budget: a stream that keeps sending, or a
+# slow scrape, can outlive them. The smoke therefore carries one wall-clock
+# budget and charges every phase to it.
+STREAM_TIMEOUT = 120.0
+DEFAULT_BUDGET = 420.0
+
 
 def runtime_metrics(base):
     names = {"flare_generated_tokens_total", "flare_requests_cancelled_total",
              "flare_active_requests", "flare_http_inflight_requests", "flare_retiring_request_slots"}
-    with urllib.request.urlopen(base + "/metrics", timeout=10) as response:
+    _charge()
+    with urllib.request.urlopen(base + "/metrics", timeout=_timeout(10)) as response:
         text = response.read().decode()
     values = {}
     for line in text.splitlines():
@@ -28,20 +58,30 @@ def runtime_metrics(base):
     return values
 
 
-def cancel_during_decode(base, request):
+def cancel_during_decode(base, request, idle_wait=DEFAULT_IDLE_WAIT,
+                         stream_timeout=STREAM_TIMEOUT):
     gauges = ("flare_active_requests", "flare_http_inflight_requests", "flare_retiring_request_slots")
     generated, cancelled = "flare_generated_tokens_total", "flare_requests_cancelled_total"
-    deadline = time.monotonic() + 10
+    deadline = time.monotonic() + idle_wait
     while True:
+        # Check before scraping so a scrape that lands after the deadline
+        # cannot be treated as an idle window.
+        if time.monotonic() >= deadline:
+            raise ValueError(
+                f"cancellation qualification requires an idle server; still busy after {idle_wait}s")
         before = runtime_metrics(base)
         if all(before[name] == 0 for name in gauges):
             break
         if time.monotonic() >= deadline:
-            raise ValueError("cancellation qualification requires an idle server")
+            # Contention is not a server defect, but it must not be scored as a
+            # pass either. The wait is bounded so startup cannot hang forever.
+            raise ValueError(
+                f"cancellation qualification requires an idle server; still busy after {idle_wait}s")
         time.sleep(.05)
     chunks, characters = 0, 0
     during = None
-    with urllib.request.urlopen(request, timeout=300) as response:
+    _charge()
+    with urllib.request.urlopen(request, timeout=_timeout(stream_timeout)) as response:
         for raw in response:
             line = raw.decode().strip()
             if not line.startswith("data:"):
@@ -62,7 +102,8 @@ def cancel_during_decode(base, request):
                 characters += len(piece)
             if chunks >= 8 and characters >= 128:
                 observed = runtime_metrics(base)
-                if observed[generated] - before[generated] >= 32 and observed["flare_active_requests"] > 0:
+                if (observed[generated] - before[generated] >= 32
+                        and observed["flare_active_requests"] == 1):
                     during = observed
                     break
     if during is None:
@@ -81,11 +122,19 @@ def cancel_during_decode(base, request):
             "drained_gauges": {name: after[name] for name in gauges}}
 
 
-def post(base, body):
+def post(base, body, timeout=300):
     request = urllib.request.Request(base + "/v1/chat/completions", json.dumps(body).encode(),
                                      {"Content-Type": "application/json"})
-    with urllib.request.urlopen(request, timeout=300) as response:
+    _charge()
+    with urllib.request.urlopen(request, timeout=_timeout(timeout)) as response:
         return json.load(response)
+
+
+def idle_seconds(value):
+    seconds = float(value)
+    if not math.isfinite(seconds) or seconds < 0:
+        raise argparse.ArgumentTypeError("cancellation wait must be finite and non-negative")
+    return seconds
 
 
 def main():
@@ -93,8 +142,19 @@ def main():
     parser.add_argument("--base", default="http://127.0.0.1:8001")
     parser.add_argument("--snapshot", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--budget", type=idle_seconds, default=DEFAULT_BUDGET,
+                        help="total wall-clock budget for all checks")
+    parser.add_argument("--cancel-wait", type=idle_seconds, default=DEFAULT_IDLE_WAIT,
+                        help="seconds to wait for an idle server before the cancellation check")
     args = parser.parse_args()
+    global _DEADLINE
     base = args.base.rstrip("/")
+    _DEADLINE = time.monotonic() + args.budget
+    started = time.monotonic()
+
+    def remaining():
+        return max(0.0, args.budget - (time.monotonic() - started))
+
     model = "nvidia/GLM-5.3-Flash-FP4-Local"
     results = []
 
@@ -202,8 +262,16 @@ def main():
         request = urllib.request.Request(base + "/v1/chat/completions", json.dumps(body(
             [{"role": "user", "content": "Write a long Python sorting tutorial."}], stream=True, max_tokens=4096)).encode(),
             {"Content-Type": "application/json"})
-        detail = cancel_during_decode(base, request)
-        following = post(base, body([{"role": "user", "content": "Say ready."}], max_tokens=128))
+        wait = min(args.cancel_wait, remaining())
+        if wait <= 0:
+            raise ValueError("smoke budget exhausted before the cancellation check")
+        detail = cancel_during_decode(base, request, idle_wait=wait,
+                                      stream_timeout=min(STREAM_TIMEOUT, remaining()))
+        left = remaining()
+        if left <= 0:
+            raise ValueError("smoke budget exhausted before the recovery completion")
+        following = post(base, body([{"role": "user", "content": "Say ready."}], max_tokens=128),
+                         timeout=min(300.0, left))
         assert following["usage"]["completion_tokens"] > 0
         return {**detail, "stream_closed": True, "subsequent_generation": "passed"}
 

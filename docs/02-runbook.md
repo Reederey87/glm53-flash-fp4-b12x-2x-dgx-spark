@@ -59,6 +59,26 @@ restart the timer after health/smoke. Atomically stage scripts and append `.env`
 changes; never overwrite a script while it is executing. Preserve snapshots,
 exact fingerprints and a verified rollback for every future window.
 
+## Startup memory and client contention
+
+Flare sizes the KV pool from `MemAvailable`, and on an integrated GB10 that figure
+includes reclaimable page cache, so the pool a start obtains depends on cache state
+as much as on the release. Two consequences, both handled by the start path:
+
+- **Flush before sizing.** `scripts/flare_production.sh` calls
+  `sudo -n /usr/local/sbin/b12x-drop-caches` (from `scripts/b12x-drop-caches`) just
+  before the memory gate. Install it once per node with the matching
+  `systemd/b12x-flare-cache-flush.sudoers` entry; an absent helper only warns, so a
+  node without it still starts. The readiness line now records `MemAvailable`,
+  `Cached`, `MemFree` and `min_free_kbytes` beside the pool, so a low draw is
+  attributable instead of mysterious.
+- **The smoke tolerates traffic.** `cancel_and_recover` needs an idle server; it
+  waits up to `--cancel-wait` seconds (180 in the start path) instead of 10, so a
+  stray client request cannot fail a boot. Contention still fails the check rather
+  than passing silently — it just gets a realistic window first.
+
+Do not run load against the owner while it is `activating`.
+
 ## Controlled rollback to B12X
 
 Keep the original B12X image `sha256:3b5da79c42ed4204440cfb07c6de1eba46441d5cba6b57d5428d44e60c10d0ed`
