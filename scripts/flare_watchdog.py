@@ -17,6 +17,7 @@ import urllib.request
 
 ROOT = Path('/home/nvidia/b12x-flare')
 OWNER = 'b12x-flare-production.service'
+PROXY = 'b12x-flare-tailscale.service'
 WINDOW = 21600
 MAX_HEALS = 3
 
@@ -79,6 +80,27 @@ def save(path, value):
             os.close(directory_fd)
 
 
+def ensure_proxy(enabled):
+    """Keep the tailnet proxy up; a failed start job used to fail it permanently.
+
+    The proxy previously used Requires= on the owner, so a failed production start
+    failed the proxy too and nothing retried it. This is a plain start, not a
+    ledgered recovery: it is idempotent and costs nothing when already active.
+    """
+    if not enabled:
+        return 'disabled_owner'
+    try:
+        if subprocess.run(['systemctl', '--user', 'is-enabled', '--quiet', PROXY],
+                          timeout=10).returncode != 0:
+            return 'not_enabled'
+        if state(PROXY) == 'active':
+            return 'active'
+        command(['systemctl', '--user', 'start', '--no-block', PROXY])
+        return 'started'
+    except (OSError, subprocess.SubprocessError):
+        return 'error'
+
+
 def main():
     if socket.gethostname() != 'spark-a183':
         raise RuntimeError('production watchdog runs only on the head')
@@ -105,8 +127,10 @@ def main():
                                    healthy=healthy, maintenance=maintenance)
         # Persist the attempt before dispatch, including failed dispatches. A
         # crash or reboot must not erase an already consumed recovery attempt.
+        proxy = ensure_proxy(enabled and not maintenance)
         save(path, updated)
         print(json.dumps({'action': action, 'owner': owner, 'healthy': healthy,
+                          'proxy': proxy,
                           'attempts_in_window': len(updated['attempts'])}), flush=True)
         if action == 'try_restart':
             # Unlike restart/start, try-restart will not resurrect an owner
