@@ -45,3 +45,27 @@ class CancellationTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class IdleWaitTests(unittest.TestCase):
+    """Startup must ride out client traffic instead of failing on contact."""
+
+    def test_busy_server_waits_for_the_configured_window(self):
+        observations = [metrics(active=1), metrics(active=1), metrics()]
+        with patch('flare_smoke.runtime_metrics', side_effect=observations), \
+             patch('flare_smoke.time.monotonic', side_effect=[0.0, 0.0, 999.0]), \
+             patch('flare_smoke.time.sleep'), \
+             patch('flare_smoke.urllib.request.urlopen', return_value=io.BytesIO(b'')):
+            with self.assertRaises(ValueError) as ctx:
+                cancel_during_decode('http://test', object(), idle_wait=5)
+        self.assertIn('still busy after 5', str(ctx.exception))
+
+    def test_idle_window_is_used_rather_than_aborting(self):
+        observations = [metrics(active=1), metrics(), metrics(generated=1)]
+        with patch('flare_smoke.runtime_metrics', side_effect=observations), \
+             patch('flare_smoke.time.sleep'), \
+             patch('flare_smoke.urllib.request.urlopen', return_value=io.BytesIO(b'')):
+            with self.assertRaises(ValueError) as ctx:
+                cancel_during_decode('http://test', object(), idle_wait=30)
+        # Reached the streaming phase, so the wait itself did not fail.
+        self.assertIn('did not reach sustained active decode', str(ctx.exception))

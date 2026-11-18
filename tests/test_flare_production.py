@@ -144,3 +144,28 @@ class ProductionSafetyTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class MemoryStateTests(unittest.TestCase):
+    """The pool is sized from MemAvailable; keep the inputs beside the draw."""
+
+    def test_records_pool_inputs(self):
+        import tempfile
+        from flare_production import memory_state
+        with tempfile.TemporaryDirectory() as d:
+            meminfo = Path(d) / 'meminfo'
+            meminfo.write_text('MemTotal:       133828484 kB\n'
+                               'MemFree:          2048 kB\n'
+                               'MemAvailable:  117725480 kB\n'
+                               'Cached:         12275560 kB\n')
+            minfree = Path(d) / 'min_free_kbytes'
+            minfree.write_text('1048576\n')
+            state = memory_state(meminfo, minfree)
+        self.assertEqual(state['MemAvailable'], 117725480)
+        self.assertEqual(state['Cached'], 12275560)
+        self.assertEqual(state['min_free_kbytes'], 1048576)
+
+    def test_missing_inputs_degrade_instead_of_failing(self):
+        from flare_production import memory_state
+        self.assertEqual(memory_state(Path('/nonexistent/meminfo'), Path('/nonexistent/min')),
+                         {})

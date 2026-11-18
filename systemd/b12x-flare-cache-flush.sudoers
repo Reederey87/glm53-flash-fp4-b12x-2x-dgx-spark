@@ -1,0 +1,10 @@
+# Allow the cluster user to flush reclaimable page cache before a Flare start.
+#
+# Flare sizes the KV pool from MemAvailable, which includes reclaimable page
+# cache on GB10; flushing first makes the startup pool larger and repeatable.
+# The start path invokes this with `sudo -n`, so it must not prompt.
+#
+# Install: sudo install -m 0755 scripts/b12x-drop-caches /usr/local/sbin/b12x-drop-caches
+#          sudo install -m 0440 systemd/b12x-flare-cache-flush.sudoers /etc/sudoers.d/b12x-flare-cache-flush
+#          sudo visudo -c
+nvidia ALL=(root) NOPASSWD: /usr/local/sbin/b12x-drop-caches

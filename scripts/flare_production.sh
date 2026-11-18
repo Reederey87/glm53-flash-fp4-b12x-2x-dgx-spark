@@ -33,13 +33,19 @@ case "${1:-}" in
     /bin/bash "$ROOT/scripts/flare_production.sh" stop
     "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_release_file_cache.py"
     "${peer[@]}" "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_release_file_cache.py"
+    # Flare sizes KV from MemAvailable, which counts reclaimable page cache on
+    # GB10. Flush first so the pool is larger and repeatable; missing helper is
+    # a warning, never a failed start.
+    sudo -n /usr/local/sbin/b12x-drop-caches \
+        || echo '[b12x] cache flush helper unavailable; startup pool may be smaller' >&2
     ENV_FILE=/home/nvidia/b12x/.env "$ROOT/scripts/wait_memory.sh" 600 </dev/null
     "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_production.py" start-ranks
     "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_production.py" ready
     # Warm and verify the actual API, including default reasoning and recovery.
     snapshot=/home/nvidia/.cache/huggingface/hub/models--nvidia--GLM-5.3-Flash-FP4-Local/snapshots/76348ddb2be2e35e39ecfc00e75dc07703f4f3d5
-    timeout --signal=TERM --kill-after=15s 300 "$uv" run --offline --no-project --python "$ROOT/upstream/flare/.venv/bin/python" \
+    timeout --signal=TERM --kill-after=15s 420 "$uv" run --offline --no-project --python "$ROOT/upstream/flare/.venv/bin/python" \
         "$ROOT/scripts/flare_smoke.py" --base http://127.0.0.1:8001 --snapshot "$snapshot" \
+        --cancel-wait 180 \
         --out "$ROOT/local/production-smoke-${INVOCATION_ID:?}.json"
     ;;
  *) echo 'Expected start or stop' >&2; exit 2 ;;

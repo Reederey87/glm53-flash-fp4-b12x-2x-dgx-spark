@@ -88,6 +88,30 @@ def validate_capacity(scrape, minimum_tokens=2350210):
     return values
 
 
+def memory_state(meminfo=Path('/proc/meminfo'),
+                 min_free=Path('/proc/sys/vm/min_free_kbytes')):
+    """Record the inputs that size the KV pool.
+
+    Flare sizes KV from `MemAvailable` on GB10, and that figure includes
+    reclaimable page cache, so an observed pool is only attributable if these
+    values are retained beside it. Never raises: a missing or malformed file
+    must not fail readiness.
+    """
+    fields = {}
+    try:
+        for line in meminfo.read_text().splitlines():
+            name, _, rest = line.partition(':')
+            if name in ('MemTotal', 'MemFree', 'MemAvailable', 'Cached'):
+                fields[name] = int(rest.split()[0])
+    except (OSError, ValueError, IndexError):
+        return {}
+    try:
+        fields['min_free_kbytes'] = int(min_free.read_text().strip())
+    except (OSError, ValueError):
+        pass
+    return fields
+
+
 def rank_state(rank):
     command = ['systemctl', '--user', 'show', f'b12x-flare@{rank}.service',
                '-p', 'ActiveState', '--value']
@@ -160,6 +184,7 @@ def main():
                     with urllib.request.urlopen('http://127.0.0.1:8001/metrics', timeout=5) as metrics:
                         capacity = validate_capacity(metrics.read().decode(), capacity_floor(decision))
                     print(json.dumps({'ranks': states, 'health': 200, 'capacity': capacity,
+                                      'memory': memory_state(),
                                       'release_status': decision['status']}), flush=True)
                     return
         except OSError:

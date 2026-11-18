@@ -9,6 +9,10 @@ import urllib.request
 
 from spec_metrics import SAMPLE
 
+# A startup smoke can collide with real client traffic. Wait this long for an
+# idle window before scoring the cancellation check; bounded so it cannot hang.
+DEFAULT_IDLE_WAIT = 120.0
+
 
 def runtime_metrics(base):
     names = {"flare_generated_tokens_total", "flare_requests_cancelled_total",
@@ -28,16 +32,19 @@ def runtime_metrics(base):
     return values
 
 
-def cancel_during_decode(base, request):
+def cancel_during_decode(base, request, idle_wait=DEFAULT_IDLE_WAIT):
     gauges = ("flare_active_requests", "flare_http_inflight_requests", "flare_retiring_request_slots")
     generated, cancelled = "flare_generated_tokens_total", "flare_requests_cancelled_total"
-    deadline = time.monotonic() + 10
+    deadline = time.monotonic() + idle_wait
     while True:
         before = runtime_metrics(base)
         if all(before[name] == 0 for name in gauges):
             break
         if time.monotonic() >= deadline:
-            raise ValueError("cancellation qualification requires an idle server")
+            # Contention is not a server defect, but it must not be scored as a
+            # pass either. The wait is bounded so startup cannot hang forever.
+            raise ValueError(
+                f"cancellation qualification requires an idle server; still busy after {idle_wait}s")
         time.sleep(.05)
     chunks, characters = 0, 0
     during = None
@@ -93,6 +100,8 @@ def main():
     parser.add_argument("--base", default="http://127.0.0.1:8001")
     parser.add_argument("--snapshot", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--cancel-wait", type=float, default=DEFAULT_IDLE_WAIT,
+                        help="seconds to wait for an idle server before the cancellation check")
     args = parser.parse_args()
     base = args.base.rstrip("/")
     model = "nvidia/GLM-5.3-Flash-FP4-Local"
@@ -202,7 +211,7 @@ def main():
         request = urllib.request.Request(base + "/v1/chat/completions", json.dumps(body(
             [{"role": "user", "content": "Write a long Python sorting tutorial."}], stream=True, max_tokens=4096)).encode(),
             {"Content-Type": "application/json"})
-        detail = cancel_during_decode(base, request)
+        detail = cancel_during_decode(base, request, idle_wait=args.cancel_wait)
         following = post(base, body([{"role": "user", "content": "Say ready."}], max_tokens=128))
         assert following["usage"]["completion_tokens"] > 0
         return {**detail, "stream_closed": True, "subsequent_generation": "passed"}

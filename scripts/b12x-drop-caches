@@ -1,0 +1,26 @@
+#!/bin/sh
+# Root-only helper: flush reclaimable page cache before a Flare start.
+#
+# Flare sizes the KV pool from MemAvailable on GB10, and on an integrated device
+# that figure includes reclaimable page cache. A start that runs after a large
+# cache build therefore sees a smaller budget than one that runs after a clean
+# boot, which is why pools drawn from the same release span ~120k tokens.
+# Flushing first makes the input repeatable and slightly larger.
+#
+# Install as /usr/local/sbin/b12x-drop-caches with mode 0755, plus the matching
+# NOPASSWD sudoers entry for the cluster user (systemd/b12x-flare-cache-flush.sudoers).
+# The start path calls it best-effort, so an absent helper only warns.
+set -eu
+
+if [ "$(id -u)" -ne 0 ]; then
+    echo "b12x-drop-caches must run as root" >&2
+    exit 1
+fi
+
+before=$(awk '/^MemAvailable:/{print $2}' /proc/meminfo)
+sync
+echo 3 > /proc/sys/vm/drop_caches
+after=$(awk '/^MemAvailable:/{print $2}' /proc/meminfo)
+
+printf '{"dropped_caches":true,"mem_available_kb_before":%s,"mem_available_kb_after":%s}\n' \
+    "$before" "$after"
