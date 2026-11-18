@@ -50,6 +50,10 @@ def record_failure(directory, invocation, tokens, minimum, memory=None):
             updated['last_failure']['memory_pre_sizing'] = memory
         # Persist before returning the status that authorizes systemd to retry.
         save(path, updated)
+        # The owner's EXIT trap accepts exit 75 only when this receipt exists, so
+        # an unrelated failure cannot borrow the retry budget.
+        if code == RETRY_EXIT:
+            (directory / f'retry-{invocation}').write_text('')
     print(json.dumps({'startup_capacity_failure': updated['last_failure'],
                       'retries_in_window': len(updated['attempts'])}), flush=True)
     return code

@@ -9,6 +9,26 @@ import urllib.request
 
 from spec_metrics import SAMPLE
 
+# One wall-clock deadline covers every check. Per-call socket timeouts alone
+# cannot bound the smoke: eleven completions at 300 s each would outlast the
+# owner's wrapper, so each call is charged to this budget.
+_DEADLINE = None
+
+
+def _remaining():
+    return None if _DEADLINE is None else _DEADLINE - time.monotonic()
+
+
+def _charge():
+    left = _remaining()
+    if left is not None and left <= 0:
+        raise ValueError("smoke budget exhausted")
+
+
+def _timeout(default):
+    left = _remaining()
+    return default if left is None else max(0.001, min(default, left))
+
 # A startup smoke can collide with real client traffic. Wait this long for an
 # idle window before scoring the cancellation check; bounded so it cannot hang.
 DEFAULT_IDLE_WAIT = 120.0
@@ -22,7 +42,8 @@ DEFAULT_BUDGET = 420.0
 def runtime_metrics(base):
     names = {"flare_generated_tokens_total", "flare_requests_cancelled_total",
              "flare_active_requests", "flare_http_inflight_requests", "flare_retiring_request_slots"}
-    with urllib.request.urlopen(base + "/metrics", timeout=10) as response:
+    _charge()
+    with urllib.request.urlopen(base + "/metrics", timeout=_timeout(10)) as response:
         text = response.read().decode()
     values = {}
     for line in text.splitlines():
@@ -59,7 +80,8 @@ def cancel_during_decode(base, request, idle_wait=DEFAULT_IDLE_WAIT,
         time.sleep(.05)
     chunks, characters = 0, 0
     during = None
-    with urllib.request.urlopen(request, timeout=stream_timeout) as response:
+    _charge()
+    with urllib.request.urlopen(request, timeout=_timeout(stream_timeout)) as response:
         for raw in response:
             line = raw.decode().strip()
             if not line.startswith("data:"):
@@ -103,7 +125,8 @@ def cancel_during_decode(base, request, idle_wait=DEFAULT_IDLE_WAIT,
 def post(base, body, timeout=300):
     request = urllib.request.Request(base + "/v1/chat/completions", json.dumps(body).encode(),
                                      {"Content-Type": "application/json"})
-    with urllib.request.urlopen(request, timeout=timeout) as response:
+    _charge()
+    with urllib.request.urlopen(request, timeout=_timeout(timeout)) as response:
         return json.load(response)
 
 
@@ -124,7 +147,9 @@ def main():
     parser.add_argument("--cancel-wait", type=idle_seconds, default=DEFAULT_IDLE_WAIT,
                         help="seconds to wait for an idle server before the cancellation check")
     args = parser.parse_args()
+    global _DEADLINE
     base = args.base.rstrip("/")
+    _DEADLINE = time.monotonic() + args.budget
     started = time.monotonic()
 
     def remaining():

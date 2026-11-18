@@ -137,8 +137,12 @@ def presizing_memory(directory=None):
     state = {}
     for rank in ('head', 'worker'):
         info = directory / f'{rank}-meminfo.txt'
-        if info.exists():
-            state[rank] = memory_state(info, directory / f'{rank}-min-free-kbytes.txt')
+        try:
+            if not info.exists():
+                continue
+        except OSError:
+            continue
+        state[rank] = memory_state(info, directory / f'{rank}-min-free-kbytes.txt')
     return state
 
 

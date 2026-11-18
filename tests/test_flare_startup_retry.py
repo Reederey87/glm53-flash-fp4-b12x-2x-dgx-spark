@@ -83,3 +83,18 @@ class UnitRestartContractTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class RetryReceiptTests(unittest.TestCase):
+    """Exit 75 is only honoured with a matching receipt on disk."""
+
+    def test_retry_writes_a_receipt_and_exhausted_does_not(self):
+        with tempfile.TemporaryDirectory() as d:
+            with patch('flare_startup_retry.time.time', return_value=100):
+                self.assertEqual(record_failure(d, 'a' * 32, 2287616, 2300000), 75)
+            self.assertTrue((Path(d) / f'retry-{"a" * 32}').exists())
+            with patch('flare_startup_retry.time.time', return_value=200):
+                self.assertEqual(record_failure(d, 'b' * 32, 2287616, 2300000), 75)
+            with patch('flare_startup_retry.time.time', return_value=300):
+                self.assertEqual(record_failure(d, 'c' * 32, 2287616, 2300000), 78)
+            self.assertFalse((Path(d) / f'retry-{"c" * 32}').exists())
