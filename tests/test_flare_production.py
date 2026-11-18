@@ -199,3 +199,45 @@ class MemoryStateTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ProxySupervisionTests(unittest.TestCase):
+    """The proxy must not stay down after a failed owner start."""
+
+    def test_ensures_only_when_owner_is_enabled(self):
+        from flare_watchdog import ensure_proxy
+        with patch('flare_watchdog.subprocess.run') as run:
+            self.assertEqual(ensure_proxy(False), 'disabled_owner')
+        run.assert_not_called()
+
+    def test_starts_an_inactive_proxy(self):
+        from flare_watchdog import ensure_proxy
+        states = [0, 'inactive']
+        with patch('flare_watchdog.subprocess.run') as run, \
+             patch('flare_watchdog.state', side_effect=lambda unit: states.pop(0)), \
+             patch('flare_watchdog.command') as dispatch:
+            run.return_value.returncode = 0
+            self.assertEqual(ensure_proxy(True), 'started')
+        dispatch.assert_called_once()
+        argv = dispatch.call_args[0][0]
+        self.assertIn('start', argv)
+        self.assertIn('--no-block', argv)
+        self.assertEqual(argv[-1], 'b12x-flare-tailscale.service')
+
+    def test_leaves_an_active_proxy_alone(self):
+        from flare_watchdog import ensure_proxy
+        with patch('flare_watchdog.subprocess.run') as run, \
+             patch('flare_watchdog.state', return_value='active'), \
+             patch('flare_watchdog.command') as dispatch:
+            run.return_value.returncode = 0
+            self.assertEqual(ensure_proxy(True), 'active')
+        dispatch.assert_not_called()
+
+    def test_disabled_proxy_is_not_started(self):
+        from flare_watchdog import ensure_proxy
+        with patch('flare_watchdog.subprocess.run') as run, \
+             patch('flare_watchdog.state', return_value='inactive'), \
+             patch('flare_watchdog.command') as dispatch:
+            run.return_value.returncode = 1
+            self.assertEqual(ensure_proxy(True), 'not_enabled')
+        dispatch.assert_not_called()

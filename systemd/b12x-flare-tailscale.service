@@ -2,7 +2,11 @@
 Description=Expose approved Flare on the existing tailnet API port
 After=network-online.target b12x-flare-production.service
 Wants=network-online.target
-Requires=b12x-flare-production.service
+# Wants=, not Requires=: a failed production start job must not fail this job.
+# With Requires= the proxy's start fails with "dependency" and is never retried
+# (Restart= does not apply to a job that never ran), so one bad boot silently
+# removes the tailnet endpoint until a human notices.
+Wants=b12x-flare-production.service
 PartOf=b12x-flare-production.service
 
 [Service]
