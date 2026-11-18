@@ -692,3 +692,10 @@ Research paused; current operations, failed-attempt evidence and resume checkpoi
 ## 2026-11-16 UTC — Numerical fixtures staged, not executed
 
 - Staged docs/51–52 fixtures/controllers under`/home/nvidia/b12x-flare/qualification` on both Sparks and verified every manifest hash. Active ABBA runtime files remain unchanged. Both users have linger enabled; B12X remains boot owner and only the current ABBA restore timer is armed.
+
+## 2026-11-18 — Reliability fixes deployed; capacity lever measured and disproven
+
+- **PR #7 deployed to the runtime** (staged + `daemon-reload`, no bulk sync). Verified live: `Restart=on-failure`, `RestartPreventExitStatus=78`, `RestartSec=60`, `TimeoutStartSec=1h30`, `StartLimitBurst=8`; a real start ran **7 smoke checks with 0 failures**; per-rank `startup-memory-<invocation>/` samples written for head and worker. Boot protection is active, so a capacity shortfall now retries twice (bounded, receipt-gated) instead of parking the cluster.
+- **PR #8 (proxy) merged and deployed.** The proxy used `Requires=` on the owner, so a failed start job failed the proxy and nothing retried it — it had been down ~5.5 h on 2026-11-18 while the model was healthy. Now `Wants=` (verified: `Requires` lists only implicit targets) and the watchdog ensures and reports it (`"proxy": "active"`).
+- **Capacity lever measured and DISPROVEN.** Trimming `[memory] reserve` 4G → 3G moved the pool **2,371,072 → 2,363,136** — no gain, slightly lower — with 11 GiB still available on both ranks. Freeing 1 GiB bought nothing, so the pool is **extent-bound**: the deployed core is capped at ~2.36–2.38M tokens by its prepared virtual extent, not by the memory budget. Reverted to `reserve = "4G"`; production restored at pool **2,379,008**, `health=200`.
+- Consequence recorded in `spec/TODO.md`: no config or runtime knob can raise capacity past the exported extent (the runtime lever `--memory-limit` would also change the pinned serving command). Capacity work is a **re-export** task, and context-sharded KV (#328) is the only large step available.
