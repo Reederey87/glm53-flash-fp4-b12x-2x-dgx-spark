@@ -13,7 +13,7 @@ Environment=HOME=/home/nvidia
 WorkingDirectory=/home/nvidia/b12x-flare
 ExecStart=/bin/bash /home/nvidia/b12x-flare/scripts/flare_production.sh start
 ExecStopPost=/bin/bash /home/nvidia/b12x-flare/scripts/flare_production.sh stop
-TimeoutStartSec=3600
+TimeoutStartSec=5400
 TimeoutStopSec=360
 Restart=on-failure
 # Type=oneshot accepts Restart=on-failure but refuses RestartForceExitStatus=

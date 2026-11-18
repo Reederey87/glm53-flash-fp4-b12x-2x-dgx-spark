@@ -15,6 +15,11 @@ case "${1:-}" in
     exit "$status"
     ;;
  start)
+    # Only the readiness shortfall decides retryability, and it signals 75. Every
+    # other failure here is terminal (78), so a broken start cannot consume the
+    # unit's restart budget.
+    trap 'rc=$?; if [[ $rc -ne 0 && $rc -ne 75 ]]; then
+              echo "[b12x] start failed rc=$rc; not retrying" >&2; exit 78; fi' EXIT
     [[ ! -e "$ROOT/local/production-maintenance" ]]
     "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_production.py" verify
     ready=0
@@ -36,19 +41,25 @@ case "${1:-}" in
     # Flare sizes KV from MemAvailable (which counts reclaimable page cache on
     # GB10) and negotiates the smallest capacity any rank can back, so prepare
     # BOTH ranks. A missing helper only warns; it never fails a start.
-    sudo -n /usr/local/sbin/b12x-drop-caches \
-        || echo '[b12x] cache flush helper unavailable on head; pool may be smaller' >&2
-    "${peer[@]}" sudo -n /usr/local/sbin/b12x-drop-caches \
-        || echo '[b12x] cache flush helper unavailable on worker; pool may be smaller' >&2
-    # Sizing-time evidence per rank: the pool is chosen from these inputs, so a
-    # short draw must be attributable after the fact.
-    memdir="$ROOT/local/startup-memory-${INVOCATION_ID:?}"
-    mkdir -p "$memdir"
-    cp /proc/meminfo "$memdir/head-meminfo.txt" || true
-    cp /proc/sys/vm/min_free_kbytes "$memdir/head-min-free-kbytes.txt" || true
-    "${peer[@]}" cat /proc/meminfo > "$memdir/worker-meminfo.txt" || true
-    "${peer[@]}" cat /proc/sys/vm/min_free_kbytes > "$memdir/worker-min-free-kbytes.txt" || true
+    timeout 90 sudo -n /usr/local/sbin/b12x-drop-caches \
+        || echo '[b12x] cache flush unavailable or incomplete on head; pool may be smaller' >&2
+    timeout 90 "${peer[@]}" sudo -n /usr/local/sbin/b12x-drop-caches \
+        || echo '[b12x] cache flush unavailable or incomplete on worker; pool may be smaller' >&2
     ENV_FILE=/home/nvidia/b12x/.env "$ROOT/scripts/wait_memory.sh" 600 </dev/null
+    # Evidence for the pool draw, taken after the gate and immediately before
+    # dispatch, so it reflects the memory the ranks actually size from. Best
+    # effort: a storage or SSH failure must not fail an otherwise sound start.
+    if [[ ${INVOCATION_ID:-} =~ ^[0-9a-f]{32}$ ]]; then
+        memdir="$ROOT/local/startup-memory-$INVOCATION_ID"
+        if mkdir -p "$memdir"; then
+            cp /proc/meminfo "$memdir/head-meminfo.txt" 2>/dev/null || true
+            cp /proc/sys/vm/min_free_kbytes "$memdir/head-min-free-kbytes.txt" 2>/dev/null || true
+            timeout 30 "${peer[@]}" cat /proc/meminfo > "$memdir/worker-meminfo.txt" 2>/dev/null || true
+            timeout 30 "${peer[@]}" cat /proc/sys/vm/min_free_kbytes \
+                > "$memdir/worker-min-free-kbytes.txt" 2>/dev/null || true
+            [[ -s "$memdir/worker-meminfo.txt" ]] || rm -f "$memdir/worker-meminfo.txt"
+        fi
+    fi
     "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_production.py" start-ranks
     "$uv" run --offline --no-project --python /usr/bin/python3 "$ROOT/scripts/flare_production.py" ready
     # Warm and verify the actual API, including default reasoning and recovery.

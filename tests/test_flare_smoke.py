@@ -45,50 +45,67 @@ class CancellationTests(unittest.TestCase):
 
 
 
+class FakeClock:
+    """Deterministic clock: sleeping advances time so the wait loop terminates."""
+
+    def __init__(self, step=5.0):
+        self.now = 0.0
+        self.step = step
+
+    def monotonic(self):
+        return self.now
+
+    def sleep(self, seconds):
+        self.now += max(seconds, self.step)
+
+
 class IdleWaitTests(unittest.TestCase):
-    def test_expiry_happens_at_the_supplied_limit_not_a_hardcoded_10s(self):
-        # At t=11 s a hardcoded 10 s deadline would already raise; with the
-        # supplied 300 s window the check must still be waiting.
-        observations = [metrics(active=1)] * 3 + [metrics()]
-        clock = iter([0.0] + [11.0, 20.0, 30.0, 40.0])
+    """Startup must ride out client traffic instead of failing on contact."""
+
+    def _run(self, observations, idle_wait):
+        clock = FakeClock()
+        opened = []
+
+        def fake_urlopen(*args, **kwargs):
+            opened.append(args[0] if args else None)
+            return io.BytesIO(b'')
+
         with patch('flare_smoke.runtime_metrics', side_effect=observations), \
-             patch('flare_smoke.time.monotonic', side_effect=lambda: next(clock)), \
-             patch('flare_smoke.time.sleep'), \
-             patch('flare_smoke.urllib.request.urlopen', return_value=io.BytesIO(b'')):
-            with self.assertRaises(ValueError) as ctx:
-                cancel_during_decode('http://test', object(), idle_wait=300)
-        self.assertIn('did not reach sustained active decode', str(ctx.exception))
+             patch('flare_smoke.time.monotonic', side_effect=clock.monotonic), \
+             patch('flare_smoke.time.sleep', side_effect=clock.sleep), \
+             patch('flare_smoke.urllib.request.urlopen', side_effect=fake_urlopen):
+            try:
+                cancel_during_decode('http://test', object(), idle_wait=idle_wait)
+            except ValueError as error:
+                return str(error), opened, clock.now
+        return None, opened, clock.now
+
+    def test_expiry_at_the_supplied_limit_never_opens_the_stream(self):
+        message, opened, elapsed = self._run([metrics(active=1)] * 1000, idle_wait=30)
+        self.assertIn('still busy after 30', message)
+        self.assertEqual(opened, [])
+        self.assertGreaterEqual(elapsed, 30)
+
+    def test_a_second_limit_rules_out_a_hardcoded_120s(self):
+        message, opened, elapsed = self._run([metrics(active=1)] * 1000, idle_wait=300)
+        self.assertIn('still busy after 300', message)
+        self.assertEqual(opened, [])
+        self.assertGreaterEqual(elapsed, 300)
+
+    def test_an_idle_window_is_used_rather_than_aborting(self):
+        message, opened, _ = self._run(
+            [metrics(active=1), metrics(active=1), metrics()], idle_wait=30)
+        self.assertIn('did not reach sustained active decode', message)
+        self.assertEqual(len(opened), 1)
 
     def test_cli_rejects_non_finite_and_negative_waits(self):
-        from flare_smoke import idle_seconds
         import argparse
+        from flare_smoke import idle_seconds
         for bad in ('nan', 'inf', '-1'):
             with self.assertRaises(argparse.ArgumentTypeError):
                 idle_seconds(bad)
         self.assertEqual(idle_seconds('0'), 0.0)
         self.assertEqual(idle_seconds('180'), 180.0)
-
-    """Startup must ride out client traffic instead of failing on contact."""
-
-    def test_busy_server_waits_for_the_configured_window(self):
-        observations = [metrics(active=1), metrics(active=1), metrics()]
-        with patch('flare_smoke.runtime_metrics', side_effect=observations), \
-             patch('flare_smoke.time.monotonic', side_effect=[0.0, 0.0, 999.0]), \
-             patch('flare_smoke.time.sleep'), \
-             patch('flare_smoke.urllib.request.urlopen', return_value=io.BytesIO(b'')):
-            with self.assertRaises(ValueError) as ctx:
-                cancel_during_decode('http://test', object(), idle_wait=5)
-        self.assertIn('still busy after 5', str(ctx.exception))
-
-    def test_idle_window_is_used_rather_than_aborting(self):
-        observations = [metrics(active=1), metrics(), metrics(generated=1)]
-        with patch('flare_smoke.runtime_metrics', side_effect=observations), \
-             patch('flare_smoke.time.sleep'), \
-             patch('flare_smoke.urllib.request.urlopen', return_value=io.BytesIO(b'')):
-            with self.assertRaises(ValueError) as ctx:
-                cancel_during_decode('http://test', object(), idle_wait=30)
-        # Reached the streaming phase, so the wait itself did not fail.
-        self.assertIn('did not reach sustained active decode', str(ctx.exception))
 
 
 if __name__ == '__main__':

@@ -103,16 +103,19 @@ def memory_state(meminfo=Path('/proc/meminfo'),
     fields = {}
     try:
         lines = meminfo.read_text().splitlines()
-    except OSError:
+    except (OSError, UnicodeDecodeError):
         lines = []
     for line in lines:
         name, _, rest = line.partition(':')
         if name not in MEMINFO_KEYS:
             continue
         try:
-            fields[name + '_kb'] = int(rest.split()[0])
+            value = int(rest.split()[0])
         except (ValueError, IndexError):
             continue
+        if value < 0:  # a negative size is not a usable sample
+            continue
+        fields[name + '_kb'] = value
     try:
         fields['min_free_kbytes'] = int(min_free.read_text().strip())
     except (OSError, ValueError):
