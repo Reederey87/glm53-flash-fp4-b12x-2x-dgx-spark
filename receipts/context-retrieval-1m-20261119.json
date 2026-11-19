@@ -1,0 +1,83 @@
+{
+  "manifest": {
+    "haystack_sha256": "ec365cf0d6092d7e99d977fd89d0252f7e1c8e3dde022c4f64841a6862bf390f",
+    "chars": 4713926,
+    "target_tokens": 980000,
+    "depths": [
+      0.05,
+      0.5,
+      0.95
+    ],
+    "nonce": 20261119,
+    "max_tokens": 1024,
+    "chars_per_token": 4.81,
+    "reasoning_effort": "low",
+    "method": "one haystack, one planted code per depth, first query cold and the rest prefix-cached"
+  },
+  "results": [
+    {
+      "section": 1214,
+      "depth": 0.05,
+      "expected_sha256": "df3b6ee024e2e21a639fa2e0d0cbfde3d39e20eb49cbede06d12d6727eb0f3e4",
+      "found": true,
+      "truncated": false,
+      "finish_reason": "stop",
+      "cold": true,
+      "elapsed_s": 518.796,
+      "prompt_tokens": 979581,
+      "completion_tokens": 20,
+      "cached_tokens": 0,
+      "response_sha256": "262726e38d72133f580b0802770922665859ea409ac0fc091faf180f82da7810"
+    },
+    {
+      "section": 12149,
+      "depth": 0.5,
+      "expected_sha256": "f47731ae9e33059cb0b3f86b6dabddf3c8508fa81f23af40f188c5e05dc8e010",
+      "found": true,
+      "truncated": false,
+      "finish_reason": "stop",
+      "cold": false,
+      "elapsed_s": 529.737,
+      "prompt_tokens": 979581,
+      "completion_tokens": 197,
+      "cached_tokens": 0,
+      "response_sha256": "df40ff5d77c440311b4c7cc19afd316c7731a3b55081fe670e9605a0c95ad993"
+    },
+    {
+      "section": 23084,
+      "depth": 0.95,
+      "expected_sha256": "eca7c1571ea349e382a27b8c8955b512185371e04617aaaeebce6c5279174153",
+      "found": true,
+      "truncated": false,
+      "finish_reason": "stop",
+      "cold": false,
+      "elapsed_s": 524.947,
+      "prompt_tokens": 979581,
+      "completion_tokens": 287,
+      "cached_tokens": 9,
+      "response_sha256": "151f7471b7e10bc11c4a65d8c90b2a8a67534a1ead5ae32f0e99f9dd151b8525"
+    }
+  ],
+  "prompt_tokens_observed": 979581,
+  "decoys": 200,
+  "multi_query": {
+    "sections": [
+      1214,
+      12149,
+      23084
+    ],
+    "found": [
+      true,
+      true,
+      true
+    ],
+    "elapsed_s": 521.12,
+    "finish_reason": "stop",
+    "completion_tokens": 65,
+    "cached_tokens": 9,
+    "response_sha256": "c71c165cc179a852af5191eb199b8f10235e3ab77b9df39de6f3b7fc67cdd75d",
+    "passed": true
+  },
+  "truncated": 0,
+  "passed": true
+}
