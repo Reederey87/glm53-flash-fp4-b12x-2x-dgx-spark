@@ -32,3 +32,39 @@ class ContextRetrievalTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class AnswerExtractionTests(unittest.TestCase):
+    """An empty read must never masquerade as a retrieval failure."""
+
+    def test_reads_content_reasoning_and_reasoning_content(self):
+        from flare_context_retrieval import answer_text
+        for message, expected in (
+                ({'content': 'code 123'}, 'code 123'),
+                ({'content': None, 'reasoning': 'code 456'}, 'code 456'),
+                ({'content': None, 'reasoning_content': 'code 789'}, 'code 789'),
+                ({'content': None, 'reasoning': None}, '')):
+            data = {'choices': [{'message': message, 'finish_reason': 'stop'}]}
+            text, reason = answer_text(data)
+            self.assertEqual(text, expected)
+            self.assertEqual(reason, 'stop')
+
+    def test_reports_truncation(self):
+        from flare_context_retrieval import answer_text
+        data = {'choices': [{'message': {'content': None}, 'finish_reason': 'length'}]}
+        self.assertEqual(answer_text(data), ('', 'length'))
+
+
+class HardDistractorTests(unittest.TestCase):
+    def test_decoys_share_the_needle_form_without_colliding(self):
+        haystack, targets = build(6000, [0.2, 0.8], 3, decoys=40)
+        statements = re.findall(r'section (\d+) is (\d{12})', haystack)
+        target_codes = {t['code'] for t in targets}
+        self.assertGreater(len(statements), 2, 'decoys must be planted')
+        for target in targets:
+            self.assertIn(target['code'], target_codes)
+            self.assertIn(target['code'], haystack)
+
+    def test_zero_decoys_keeps_only_targets(self):
+        haystack, targets = build(6000, [0.3, 0.6], 4, decoys=0)
+        self.assertEqual(len(re.findall(r'section \d+ is \d{12}', haystack)), 2)
